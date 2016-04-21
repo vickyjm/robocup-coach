@@ -1,0 +1,47 @@
+You can edit the base formation (home positions) used by the agents by editing the .conf files in the formations directory. The different files represent formations for different play modes, however for the scope of this assignment you only need to worry about editing normal-formation.conf (all the other .conf files are currently place holders symlinked to normal-formation.conf and so editing normal-formation.conf controls all formations). Entrys in the .conf files are the following:
+PlayerNumber PlayerRole XPos YPos
+For this assignment you can just leave all roles as Sample but you should change the default X and Y positions.
+
+To edit the behavior of the agent go to the RoleSample::execute() method in role_sample.cc. This is where the default behavior of standing in place after a kickoff occurs. You'll want to edit this to have agents either go to their home positions or run to the ball and kick it.
+
+You don't need to do any parsing of messages as this is already handled by the agent with all information stored in a WorldModel. The different functions of the WorldModel can be found in /projects/cs344M.pstone/2d/librcsc-4.1.0/rcsc/player/world_model.*
+
+To get information about server parameters such as field dimensions check out /projects/cs344M.pstone/2d/librcsc-4.1.0/rcsc/common/server_param.h
+
+The following are some useful pieces of code for the assignment:
+
+// Get a pointer to the world model
+const WorldModel & wm = agent->world();
+
+// Agent's position in the world
+Vector2D myPos = wm.self().pos();
+
+// Position of the ball
+Vector2D myBall = wm.ball().pos();
+  
+// Check if ball is kickable (should always be done before attempting to kick)
+bool kickable = agent->world().self().isKickable();
+
+// Current target position of agent in formation
+const Vector2D formation_position = Strategy::i().getPosition( wm.self().unum() );
+
+// Move to a point on the field
+Body_GoToPoint( target_point, dist_thr, dash_power).execute( agent );
+
+// A way to kick the ball at Vector2D target
+Body_KickOneStep( target, ServerParam::i().ballSpeedMax() ).execute( agent );
+    
+// A list of teammates sorted in ascending order by their distance from the ball 
+agent->world().teammatesFromBall()
+      
+// Set neck to scan the field (you should always specify some neck turn)
+agent->setNeckAction( new Neck_ScanField() );
+You should look at the following files (and are encouraged to go through others files as well) to understand their functionality, but not necessarily every detail. 
+1. The world model where the agent gets lots of information about its surroundings:
+/projects/cs344M.pstone/2d/librcsc-4.1.0/rcsc/player/world_model.*
+2. Low to mid level action behaviors:
+/projects/cs344M.pstone/2d/librcsc-4.1.0/rcsc/action/*
+3. High level behaviors (although these are not necessary to complete this assignment):
+src/bhv_*
+4. Roles that an agent can assume that determine its behavior (for this assignment all agents use the Sample role):
+src/role_*

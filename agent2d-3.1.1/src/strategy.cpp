@@ -967,6 +967,23 @@ Strategy::get_ball_area( const WorldModel & wm )
 /*!
 
  */
+/* 
+/    Parameters : 
+/       Vector2D & ball_pos : Position of the ball.
+/    Description : 
+/       Given the ball position, this function will return the area
+/       in which the ball is currently located in the world. Possible return values are :
+/       BA_CrossBlock:    x > -35.5 and y > 17.0 or x <= 35.5 and y > 17.0.
+/       BA_Stopper:       x > -35.5 and y <= 17.0
+/       BA_Danger:        x <= -35.5 and y <= 17.0
+/       BA_DribbleBlock:  x > -30.0 and y > 17.0.
+/       BA_DefMidField:   x > -30.0 and y <= 17.0.
+/       BA_DribbleAttack: x > -1.0 and y > 17.0.
+/       BA_OffMidField:   x > -1.0 and y <= 17.0.
+/       BA_Cross:         x > 36.0 and y > 17.0.
+/       BA_ShootChance:   x > 36.0 and y <= 17.0.
+/       BA_None :         The ball position isn't in any of these ranges.
+*/
 Strategy::BallArea
 Strategy::get_ball_area( const Vector2D & ball_pos )
 {

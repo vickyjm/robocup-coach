@@ -1,0 +1,6 @@
+
+
+Thursday 21/04/16 @ 6:00pm :
+	- Created the ChangeLog.txt.
+	- Commented the functions RoleSample::execute, RoleSample::doKick and RoleSample::doMove in role_sample.cpp.
+	- Commented the function Strategy::get_ball_area in strategy.cpp.

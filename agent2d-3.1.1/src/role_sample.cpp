@@ -61,10 +61,21 @@ rcss::RegHolder role = SoccerRole::creators().autoReg( &RoleSample::create,
 /*!
 
 */
+
+/* 
+/    Parameters : 
+/       PlayerAgent * agent : Player agent that'll execute this code after kickoff.
+/    Description : 
+/       This is where the default behavior of standing in place after a kickoff occurs.
+*/
 bool
 RoleSample::execute( PlayerAgent * agent )
 {
+    // Bool indicating if the ball is kickable.
     bool kickable = agent->world().self().isKickable();
+
+    // Checks if there are other team mates closer to the ball. If there are, 
+    // switch kickable to false and let another agent do the kicking.
     if ( agent->world().existKickableTeammate()
          && agent->world().teammatesFromBall().front()->distFromBall()
          < agent->world().ball().distFromSelf() )
@@ -72,6 +83,8 @@ RoleSample::execute( PlayerAgent * agent )
         kickable = false;
     }
 
+    // If the agent is the closest to the ball, kick it. 
+    // Else, move the agent to it's home position.
     if ( kickable )
     {
         doKick( agent );
@@ -88,9 +101,20 @@ RoleSample::execute( PlayerAgent * agent )
 /*!
 
 */
+/* 
+/    Parameters : 
+/       PlayerAgent * agent : Player agent that'll execute this code.
+/    Description : 
+/       The agent will kick the ball depending on the current strategy. If there isn't one,
+/       the agent will run a default BasicOffensiveKick.
+/       (See bhv_basic_offensive_kick.cpp)
+*/
 void
 RoleSample::doKick( PlayerAgent * agent )
 {
+    // This will check in which area the ball is currently in and use the 
+    // appropriate strategy, or the default one in case there aren't any
+    // others.
     switch ( Strategy::get_ball_area( agent->world().ball().pos() ) ) {
     case Strategy::BA_CrossBlock:
     case Strategy::BA_Stopper:
@@ -111,9 +135,23 @@ RoleSample::doKick( PlayerAgent * agent )
 /*!
 
 */
+/* 
+/    Parameters : 
+/       PlayerAgent * agent : Player agent that'll execute this code.
+/    Description : 
+/       The agent will move depending on the current strategy. If there isn't one,
+/       the agent will run a BasicMove command.
+/       BA_(area) Indicates that the ball is currently in (area), where this area is
+/       defined by a certain range of positions in the X axis and Y axis. 
+/       (See bhv_basic_move.cpp)
+/       (See Strategy.cpp Strategy::BallArea)
+*/
 void
 RoleSample::doMove( PlayerAgent * agent )
 {
+    // This will check in which area the ball is currently in and use the 
+    // appropriate strategy, or the default one in case there aren't any
+    // others.
     switch ( Strategy::get_ball_area( agent->world() ) ) {
     case Strategy::BA_CrossBlock:
     case Strategy::BA_Stopper:
