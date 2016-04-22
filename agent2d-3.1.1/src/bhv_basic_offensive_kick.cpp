@@ -56,16 +56,20 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     dlog.addText( Logger::TEAM,
                   __FILE__": Bhv_BasicOffensiveKick" );
 
+    // Get a pointer to the world model.
     const WorldModel & wm = agent->world();
-
+    // Get opponents sorted by distance from self.
     const PlayerPtrCont & opps = wm.opponentsFromSelf();
+    // Nearest opponent to the player.
     const PlayerObject * nearest_opp
         = ( opps.empty()
             ? static_cast< PlayerObject * >( 0 )
             : opps.front() );
+    // Distance to the nearest opponent.
     const double nearest_opp_dist = ( nearest_opp
                                       ? nearest_opp->distFromSelf()
                                       : 1000.0 );
+    // X and Y coordinates of the nearest opponent in the map.
     const Vector2D nearest_opp_pos = ( nearest_opp
                                        ? nearest_opp->pos()
                                        : Vector2D( -1000.0, 0.0 ) );

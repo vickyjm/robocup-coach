@@ -55,6 +55,13 @@ using namespace rcsc;
 /*!
 
  */
+/* 
+/    Parameters : 
+/       PlayerAgent * agent : Player agent that'll execute this code.
+/    Description : 
+/      The agent will tackle, intercept or move to a target location 
+/      depending on certain conditions.
+*/
 bool
 Bhv_BasicMove::execute( PlayerAgent * agent )
 {
@@ -68,13 +75,21 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
         return true;
     }
 
+    // Get a pointer to the world model.
     const WorldModel & wm = agent->world();
     /*--------------------------------------------------------*/
     // chase ball
+    // Get minimal ball gettable cycle for self without stamina exhaust.
     const int self_min = wm.interceptTable()->selfReachCycle();
+    // Get minimal ball gettable cycle for teammate.
     const int mate_min = wm.interceptTable()->teammateReachCycle();
+    // Get minimal ball gettable cycle for opponent.
     const int opp_min = wm.interceptTable()->opponentReachCycle();
 
+    // Checks if there is another teammate that can kick the ball.
+    // If there isn't one and the minimal ball gettable cycle for this agent
+    // is less than 3 or lower than the teammates and the oponents, then execute
+    // an intercept.
     if ( ! wm.existKickableTeammate()
          && ( self_min <= 3
               || ( self_min <= mate_min
@@ -84,15 +99,21 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
     {
         dlog.addText( Logger::TEAM,
                       __FILE__": intercept" );
+        // Execute the intercept. (Ball chasing action including smart planning).
         Body_Intercept().execute( agent );
+        // Reserve turn neck action. 
+        // (See neck_offensive_intercept_neck.cpp)
         agent->setNeckAction( new Neck_OffensiveInterceptNeck() );
 
         return true;
     }
 
+    // X and Y coordinates of the position where the player will move.
     const Vector2D target_point = Strategy::i().getPosition( wm.self().unum() );
+    // Maximum dash power to use when moving.
     const double dash_power = Strategy::get_normal_dash_power( wm );
 
+    // Calculates the distance from the ball to the player.
     double dist_thr = wm.ball().distFromSelf() * 0.1;
     if ( dist_thr < 1.0 ) dist_thr = 1.0;
 
@@ -105,12 +126,18 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
     agent->debugClient().setTarget( target_point );
     agent->debugClient().addCircle( target_point, dist_thr );
 
+    // If its not possible to move to the target point, then turn the player's
+    // body to face the ball.
     if ( ! Body_GoToPoint( target_point, dist_thr, dash_power
                            ).execute( agent ) )
     {
         Body_TurnToBall().execute( agent );
     }
 
+    // If there is an oponent that can kick the ball and the distance from the ball
+    // to the player is < 18.0, turn the player's neck to face the ball.
+    // Else turn to the ball or scan the field. Check the ball or scan field with neck evenly. 
+    // if next ball position is NOT over view width ,scan field else face to ball
     if ( wm.existKickableOpponent()
          && wm.ball().distFromSelf() < 18.0 )
     {

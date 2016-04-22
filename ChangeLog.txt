@@ -1,6 +1,13 @@
 
 
-Thursday 21/04/16 @ 6:00pm :
-	- Created the ChangeLog.txt.
-	- Commented the functions RoleSample::execute, RoleSample::doKick and RoleSample::doMove in role_sample.cpp.
-	- Commented the function Strategy::get_ball_area in strategy.cpp.
+Thursday 21/04/16 :
+	@ 6:00pm : 
+		- Created the ChangeLog.txt.
+		- Commented the functions RoleSample::execute, RoleSample::doKick and RoleSample::doMove in role_sample.cpp.
+		- Commented the function Strategy::get_ball_area in strategy.cpp.
+
+Friday   22/04/16 :
+	@ 6:00pm :
+		- Commented the function Bhv_BasicMove::execute in bhv_basic_move.cpp.
+		- Commented part of the function Bhv_BasicOffensiveKick::execute in bhv_basic_offensive_kick.cpp.
+
