@@ -1,0 +1,55 @@
+This are the messages that an online coach can send to the players:
+
+(init TEAMNAME (version VERSION))
+	-TEAMNAME has to be specified to indicate wich team the coach belongs to.
+	-The coach must connect after at least one player from its team.
+	-The default port for the coach is 6002.
+
+(change_player_type UNUM PLAYER_TYPE)
+	-This command can be used to change the heterogeneous player type (digit between 0 and 6, 0 is the default type).
+	-This message is represented by SampleCoach::doSubstitute in agent2d-3.1.1/src/sample_coach.cpp
+
+(look)
+	-This command provides information about the positions of the left and right goals, the ball and the active players.
+
+(eye MODE)
+	-MODE must be one of on and off. If (eye on) is sent, the server starts sending information every 100ms. 
+	-Agent2D uses a variable "use_eye" for this in the agent2d-3.1.1/src/coach.conf file
+
+(team_names)
+	-This command makes the coach receive information about the names of both teams and which side they are playing on.
+
+(team_graphic (X Y "XPM line"..."XPM line"))
+	-The coach can send teams-graphics as 256x64 XPM to the server. Each team_graphic-command sends a 8x8 tile. X and Y are
+	 the coordinates of this tile,so they range from 0 to 31 and 0 to 7 respectively. Each XPM line is a line from the 8x8 XPM tile.
+	-This message is represented by SampleCoach::sendTeamGraphic in agent2d-3.1.1/src/sample_coach.cpp
+
+This are the messages that the coach can receive from the server:
+*If the client chooses to receive visual information in each cycle by sending (eye on) it will receive messages in the following format:
+(see global(OBJ1 OBJDESC1 )(OBJ2 OBJDESC2 ) . . .)
+	-The description (OBJDESC) has the following form:
+		->For goals: X Y
+		->For the ball: X Y DELTA_X DELTA_Y
+		->For players: X Y DELTA_X DELTA_Y BODYANGLE NECKANGLE [POINTING_DIRECTION]
+
+*If the client wants to receive auditory information and sent (ear on) to the server (this is also in coach.conf), it will 
+receive all auditory information, from both referees and all of the players. There are two kinds of hear messages:
+(hear TIME referee MESSAGE)
+	-For all referee messages, such as "play_on" and "free_kick_left".
+(hear TIME (p ”TEAMNAME” NUM) ”MESSAGE”)
+	-For all players messages.
+
+
+
+Communication with the players:
+-"Freeform" messages are alphanumeric (plus the symbols ().+*/?<>_) short messages (128 chars) that the coach can send when 
+ the play-mode is not "play_on" or every 600 cycles of "play_on" for 20 cycles.
+-The coach can send say_coach_cnt_max freeform messages per game. If the game continues into extended time, the coaches are 
+ given an additional say_coach_cnt_max messages to say every 6000 cycles.
+
+
+Changing player types:
+-Using the change_player_type-command the online coach can change player types unlimited times in "before_kick_off" play-mode.
+ After kick-off player types can be changed three times during play-modes that are not "play_on".
+-A player client will be informed about substitutions that occurred before the client connected by the message (change_player_type UNUM TYPE)
+ for substitutions in it own team and (change_player_type UNUM) for substitutions in the opponent team.

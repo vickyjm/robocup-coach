@@ -57,6 +57,7 @@
 using namespace rcsc;
 
 
+
 struct RealSpeedMaxCmp
     : public std::binary_function< const PlayerType *,
                                    const PlayerType *,
@@ -243,13 +244,17 @@ SampleCoach::handlePlayerType()
 
 /*-------------------------------------------------------------------*/
 /*!
-
+    Description: 
+      This method checks if the game has no started then the coach can make
+      unlimited substitutions. In case that the game has started but is not
+      in game mode "play_on" the coach makes the substitutions for the tired players.
 */
 void
 SampleCoach::doSubstitute()
 {
     static bool S_first_substituted = false;
 
+    //Before kick-off
     if ( ! S_first_substituted
          && world().time().cycle() == 0
          && world().time().stopped() > 10 )
@@ -260,6 +265,7 @@ SampleCoach::doSubstitute()
         return;
     }
 
+    //After kick-off, but game mode is not "play_on"
     if ( world().time().cycle() > 0
          && world().gameMode().type() != GameMode::PlayOn
          && ! world().gameMode().isPenaltyKickMode() )
@@ -428,6 +434,7 @@ SampleCoach::doFirstSubstitute()
 void
 SampleCoach::doSubstituteTiredPlayers()
 {
+    //Substitutions we have done
     int substitute_count = world().ourSubstituteCount();
 
     if ( substitute_count >= PlayerParam::i().subsMax() )
@@ -526,7 +533,12 @@ SampleCoach::doSubstituteTiredPlayers()
 
 /*-------------------------------------------------------------------*/
 /*!
-
+    Parameters: 
+      const int unum: Uniform number
+      cons int type: new player type (between 0 and 6)
+    Description:
+      This method change the player with uniform number unum to the
+      new type.
  */
 void
 SampleCoach::substituteTo( const int unum,
@@ -567,7 +579,11 @@ SampleCoach::substituteTo( const int unum,
 
 /*-------------------------------------------------------------------*/
 /*!
-
+    Parameters:
+      PlayerTypePtrCont & candidates
+    Description:
+      This method determine the fastest type of all the types that are
+      availables in candidates array.   
  */
 int
 SampleCoach::getFastestType( PlayerTypePtrCont & candidates )
@@ -634,7 +650,10 @@ SampleCoach::getFastestType( PlayerTypePtrCont & candidates )
 
 /*-------------------------------------------------------------------*/
 /*!
-
+    Description:
+      This method is used for the coach to send a freeform message to the
+      players that contains the player types of each player from the opponent
+      team.
 */
 void
 SampleCoach::sayPlayerTypes()
@@ -653,6 +672,8 @@ SampleCoach::sayPlayerTypes()
         return;
     }
 
+    //Verify if the play-mode is not "play_on" or if already passed the 600 cycles since
+    // the last message on the play-mode "play_on"
     if ( ! world().canSendFreeform() )
     {
         return;
@@ -695,6 +716,7 @@ SampleCoach::sayPlayerTypes()
 
     msg += ")";
 
+    //Send the message to the players
     doSayFreeform( msg );
 
     s_last_send_time = world().time();

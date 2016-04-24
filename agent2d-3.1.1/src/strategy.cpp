@@ -448,7 +448,11 @@ Strategy::update( const WorldModel & wm )
 
 /*-------------------------------------------------------------------*/
 /*!
-
+    Parameters:
+        const int unum0: uniform number 
+        const int unum1: uniform number
+    Description:
+        Exchange roles between two players.
  */
 void
 Strategy::exchangeRole( const int unum0,

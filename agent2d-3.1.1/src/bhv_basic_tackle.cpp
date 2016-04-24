@@ -55,9 +55,11 @@ bool
 Bhv_BasicTackle::execute( PlayerAgent * agent )
 {
     const ServerParam & SP = ServerParam::i();
+    //Get a pointer to the world model
     const WorldModel & wm = agent->world();
 
     bool use_foul = false;
+    //Success tackle probability
     double tackle_prob = wm.self().tackleProbability();
 
     if ( agent->config().version() >= 14.0

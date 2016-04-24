@@ -1,13 +1,17 @@
-
-
-Thursday 21/04/16 :
-	@ 6:00pm : 
-		- Created the ChangeLog.txt.
-		- Commented the functions RoleSample::execute, RoleSample::doKick and RoleSample::doMove in role_sample.cpp.
-		- Commented the function Strategy::get_ball_area in strategy.cpp.
+Saturday 23/04/16:
+	@ 11:00pm:
+		- Commented the function Strategy::exchangeRole in strategy.cpp
+		- Created coachManual.txt
+		- Commented the functions SampleCoach::doSubstitute, SampleCoach::substituteTo, SampleCoach::getFastestType,
+			SampleCoach::sayPlayerTypes in sample_coach.cpp
 
 Friday   22/04/16 :
 	@ 6:00pm :
 		- Commented the function Bhv_BasicMove::execute in bhv_basic_move.cpp.
 		- Commented part of the function Bhv_BasicOffensiveKick::execute in bhv_basic_offensive_kick.cpp.
 
+Thursday 21/04/16 :
+	@ 6:00pm : 
+		- Created the ChangeLog.txt.
+		- Commented the functions RoleSample::execute, RoleSample::doKick and RoleSample::doMove in role_sample.cpp.
+		- Commented the function Strategy::get_ball_area in strategy.cpp.
