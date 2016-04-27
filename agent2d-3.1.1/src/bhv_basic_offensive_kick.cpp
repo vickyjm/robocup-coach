@@ -74,12 +74,17 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                                        ? nearest_opp->pos()
                                        : Vector2D( -1000.0, 0.0 ) );
 
+    // X and Y coordinates of the point in the map where the ball will be passed.
     Vector2D pass_point;
+    // Calculates the best pass route. (True if the pass route is found).
     if ( Body_Pass::get_best_pass( wm, &pass_point, NULL, NULL ) )
     {
+        // If the X coordinate of the pass point is greater than
+        // the X coordinate of the player.
         if ( pass_point.x > wm.self().pos().x - 1.0 )
         {
             bool safety = true;
+            // Checks if there is any opponent close to the pass point.
             const PlayerPtrCont::const_iterator opps_end = opps.end();
             for ( PlayerPtrCont::const_iterator it = opps.begin();
                   it != opps_end;
@@ -91,11 +96,13 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                 }
             }
 
+            // If its still safe to make the pass
             if ( safety )
             {
                 dlog.addText( Logger::TEAM,
                               __FILE__": (execute) do best pass" );
                 agent->debugClient().addMessage( "OffKickPass(1)" );
+                // Execute a pass.
                 Body_Pass().execute( agent );
                 agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
                 return true;
@@ -103,8 +110,10 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
         }
     }
 
+    // If the distance to the nearest opponent is less than 7.0
     if ( nearest_opp_dist < 7.0 )
     {
+        // If the pass is executed.
         if ( Body_Pass().execute( agent ) )
         {
             dlog.addText( Logger::TEAM,
@@ -255,6 +264,7 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
         return true;
     }
 
+    // Hold the ball if the nearest opponent is between 2,5 and 3.0 distance.
     if ( nearest_opp_dist > 2.5 )
     {
         dlog.addText( Logger::TEAM,

@@ -245,8 +245,8 @@ SampleCoach::handlePlayerType()
 /*-------------------------------------------------------------------*/
 /*!
     Description: 
-      This method checks if the game has no started then the coach can make
-      unlimited substitutions. In case that the game has started but is not
+      This method checks if the game has not started then the coach can make
+      unlimited substitutions. In case the game has started but is not
       in game mode "play_on" the coach makes the substitutions for the tired players.
 */
 void
@@ -278,7 +278,9 @@ SampleCoach::doSubstitute()
 
 /*-------------------------------------------------------------------*/
 /*!
-
+    Description :
+      This will execute the first substitutions for the match. Assigning the type of each player.
+      This function will always be called before the first kick-off.
 */
 void
 SampleCoach::doFirstSubstitute()
@@ -295,6 +297,7 @@ SampleCoach::doFirstSubstitute()
                   //" effmax effmin"
                   "\n" );
 
+    // Iterates over the different types of players.
     for ( int id = 0; id < PlayerParam::i().playerTypes(); ++id )
     {
         const PlayerType * param = PlayerTypeSet::i().get( id );
@@ -315,6 +318,7 @@ SampleCoach::doFirstSubstitute()
             }
         }
 
+        // Iterate from 0 to the max number of same player types at the same time.
         for ( int i = 0; i < PlayerParam::i().ptMax(); ++i )
         {
             candidates.push_back( param );
@@ -344,6 +348,7 @@ SampleCoach::doFirstSubstitute()
                       );
     }
 
+    // Vector to store the players.
     std::vector< int > ordered_unum;
     ordered_unum.reserve( 11 );
 
@@ -380,7 +385,7 @@ SampleCoach::doFirstSubstitute()
     //
 
     if ( config().version() >= 14.0 )
-    {
+    {   // Make goalie the default type.
         substituteTo( 1, Hetero_Default ); // goalie
     }
     {
@@ -403,6 +408,7 @@ SampleCoach::doFirstSubstitute()
     // change field players
     //
 
+    // Iterate over the players.
     for ( std::vector< int >::iterator unum = ordered_unum.begin();
           unum != ordered_unum.end();
           ++unum )
@@ -419,7 +425,10 @@ SampleCoach::doFirstSubstitute()
             continue;
         }
 
+        // Obtain the fastest type among the cantidates.
         int type = getFastestType( candidates );
+        // If its not Hetero_Unkown, then change the type of the current player
+        // in the iterator.
         if ( type != Hetero_Unknown )
         {
             substituteTo( *unum, type );
@@ -582,7 +591,7 @@ SampleCoach::substituteTo( const int unum,
     Parameters:
       PlayerTypePtrCont & candidates
     Description:
-      This method determine the fastest type of all the types that are
+      This method will determine the fastest type of all the types that are
       availables in candidates array.   
  */
 int
