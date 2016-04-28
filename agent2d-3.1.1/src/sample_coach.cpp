@@ -194,6 +194,8 @@ SampleCoach::initImpl( CmdLineParser & cmd_parser )
 /*-------------------------------------------------------------------*/
 /*!
     Description : Main decision making method for the coach.
+    maybe this can be used here : (?).
+    http://rctools.osdn.jp/doc/librcsc-4.1.0/db/da9/classrcsc_1_1CoachAgent.html
 */
 void
 SampleCoach::actionImpl()
