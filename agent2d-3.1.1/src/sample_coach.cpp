@@ -144,7 +144,6 @@ SampleCoach::~SampleCoach()
 
 /*-------------------------------------------------------------------*/
 /*!
-
  */
 bool
 SampleCoach::initImpl( CmdLineParser & cmd_parser )
@@ -194,7 +193,7 @@ SampleCoach::initImpl( CmdLineParser & cmd_parser )
 
 /*-------------------------------------------------------------------*/
 /*!
-
+    Description : Main decision making method for the coach.
 */
 void
 SampleCoach::actionImpl()
@@ -438,7 +437,8 @@ SampleCoach::doFirstSubstitute()
 
 /*-------------------------------------------------------------------*/
 /*!
-
+Description :
+      This will substitute any tired players.
 */
 void
 SampleCoach::doSubstituteTiredPlayers()
@@ -446,6 +446,7 @@ SampleCoach::doSubstituteTiredPlayers()
     //Substitutions we have done
     int substitute_count = world().ourSubstituteCount();
 
+    // Check if the maximum amount of substitutions have already happened.
     if ( substitute_count >= PlayerParam::i().subsMax() )
     {
         // over the maximum substitution
@@ -476,18 +477,21 @@ SampleCoach::doSubstituteTiredPlayers()
     //
     std::vector< int > tired_teammate_unum;
 
+    // Iterate over the teammates.
     for ( std::vector< const GlobalPlayerObject * >::const_iterator
               t = world().teammates().begin(),
               end = world().teammates().end();
           t != end;
           ++t )
     {
+        // If there are tired teammates, add them to tired_teammate_unum.
         if ( (*t)->recovery() < ServerParam::i().recoverInit() - 0.002 )
         {
             tired_teammate_unum.push_back( (*t)->unum() );
         }
     }
 
+    // Check if there are any tired teammates.
     if ( tired_teammate_unum.empty() )
     {
         dlog.addText( Logger::TEAM,
@@ -500,12 +504,13 @@ SampleCoach::doSubstituteTiredPlayers()
     //
     PlayerTypePtrCont candidates;
 
+    // Iterate over the types of player.
     for ( std::vector< int >::const_iterator
               id = world().availablePlayerTypeId().begin(),
               end = world().availablePlayerTypeId().end();
           id != end;
           ++id )
-    {
+    {   
         const PlayerType * param = PlayerTypeSet::i().get( *id );
         if ( ! param )
         {
@@ -515,6 +520,7 @@ SampleCoach::doSubstituteTiredPlayers()
             continue;
         }
 
+        // Add them to candidates.
         candidates.push_back( param );
     }
 
@@ -522,7 +528,7 @@ SampleCoach::doSubstituteTiredPlayers()
     // try substitution
     //
 
-
+    // Iterate over tired players.
     for ( std::vector< int >::iterator unum = tired_teammate_unum.begin();
           unum != tired_teammate_unum.end();
           ++unum )
@@ -530,7 +536,9 @@ SampleCoach::doSubstituteTiredPlayers()
         int type = getFastestType( candidates );
         if ( type != Hetero_Unknown )
         {
+            // Substitute tired player for the fastest type in candidates.
             substituteTo( *unum, type );
+            // If subsMax is reached, stop doing substitutions.
             if ( ++substitute_count >= PlayerParam::i().subsMax() )
             {
                 // over the maximum substitution

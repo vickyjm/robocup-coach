@@ -1,6 +1,11 @@
+Thursday 28/04/16 :
+	@ 5:00pm :
+		- Commented the function SampleCoach::doSubstituteTiredPlayers in sample_coach.cpp.
+		- Commented part of the function main() in main_coach.cpp.
+
 Tuesday 26/04/16 :
 	@ 9:00pm :
-		- Finished commenting the function Bhv_BasicOffensiveKick:execute in bhv_basic_offensive_kick.cpp.
+		- Finished commenting the function Bhv_BasicOffensiveKick::execute in bhv_basic_offensive_kick.cpp.
 		- Commented the function SampleCoach::doFirstSubstitute in sample_coach.cpp.
 
 Saturday 23/04/16:

@@ -40,6 +40,7 @@
 
 namespace {
 
+// Create a SampleCoach with agent as name.
 SampleCoach agent;
 
 /*-------------------------------------------------------------------*/
@@ -74,8 +75,10 @@ main( int argc, char **argv )
         std::exit( EXIT_FAILURE );
     }
 
+    // Create a standard soccer client class.
     rcsc::BasicClient client;
 
+    // If the client can't be started, return.
     if ( ! agent.init( &client, argc, argv ) )
     {
         return EXIT_FAILURE;
@@ -102,6 +105,11 @@ main( int argc, char **argv )
               << "*****************************************************************\n"
               << std::flush;
 
+    // The method "run" stays in an infinite loop while client can estimate that the server is alive. 
+    // To handle a server message, select() is used. Timeout interval of select() 
+    // is specified by M_interval_msec member variable. When a server message is received, handleMessage() 
+    // is called. When timeout occurs, handleTimeout() is called. When server is not 
+    // alive, loop is end and handleExit() is called.
     client.run( &agent );
 
     return EXIT_SUCCESS;
