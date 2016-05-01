@@ -8,21 +8,26 @@ This are the messages that an online coach can send to the players:
 (change_player_type UNUM PLAYER_TYPE)
 	-This command can be used to change the heterogeneous player type (digit between 0 and 6, 0 is the default type).
 	-This message is represented by SampleCoach::doSubstitute in agent2d-3.1.1/src/sample_coach.cpp
+	-This is also implemented in CoachAgent::doChangePlayerType from librcsc coach_agent.cpp file.
 
 (look)
 	-This command provides information about the positions of the left and right goals, the ball and the active players.
+	-This message is represented by CoachAgent::doLook function in coach_agent.cpp.
 
 (eye MODE)
 	-MODE must be one of on and off. If (eye on) is sent, the server starts sending information every 100ms. 
 	-Agent2D uses a variable "use_eye" for this in the agent2d-3.1.1/src/coach.conf file
+	-This message is represented by CoachAgent::doEye function in coach_agent.cpp.
 
 (team_names)
 	-This command makes the coach receive information about the names of both teams and which side they are playing on.
+	-This message is represented in CoachAgent::doTeamNames in coach_agent.cpp.
 
 (team_graphic (X Y "XPM line"..."XPM line"))
 	-The coach can send teams-graphics as 256x64 XPM to the server. Each team_graphic-command sends a 8x8 tile. X and Y are
 	 the coordinates of this tile,so they range from 0 to 31 and 0 to 7 respectively. Each XPM line is a line from the 8x8 XPM tile.
 	-This message is represented by SampleCoach::sendTeamGraphic in agent2d-3.1.1/src/sample_coach.cpp
+	-This is also implemented by CoachAgent::doTeamGraphic in coach_agent.cpp 
 
 This are the messages that the coach can receive from the server:
 *If the client chooses to receive visual information in each cycle by sending (eye on) it will receive messages in the following format:
@@ -38,12 +43,14 @@ receive all auditory information, from both referees and all of the players. The
 	-For all referee messages, such as "play_on" and "free_kick_left".
 (hear TIME (p ”TEAMNAME” NUM) ”MESSAGE”)
 	-For all players messages.
+This messages are analyzed in CoachAgent::analyzeHear in coach_agent.cpp
 
 
 
 Communication with the players:
 -"Freeform" messages are alphanumeric (plus the symbols ().+*/?<>_) short messages (128 chars) that the coach can send when 
  the play-mode is not "play_on" or every 600 cycles of "play_on" for 20 cycles.
+ 	-> This messages are implemented in CoachAgent::doSayFreeform in coach_agent.cpp file.
 -The coach can send say_coach_cnt_max freeform messages per game. If the game continues into extended time, the coaches are 
  given an additional say_coach_cnt_max messages to say every 6000 cycles.
 
