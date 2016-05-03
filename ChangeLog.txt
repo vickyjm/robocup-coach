@@ -1,3 +1,11 @@
+Tuesday 03/05/16:
+	@ 5:00pm:
+		-Added info about the parsers.
+
+Saturday 30/04/16:
+	@ 9:00pm:
+		-Added other things to coachManual.txt
+
 Thursday 28/04/16 :
 	@ 5:00pm :
 		- Commented the function SampleCoach::doSubstituteTiredPlayers in sample_coach.cpp.

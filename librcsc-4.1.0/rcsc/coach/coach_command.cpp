@@ -160,8 +160,7 @@ CoachChangePlayerTypesCommand::CoachChangePlayerTypesCommand( const int unum,
 /*!
 
 */
-CoachChangePlayerTypesCommand::
-CoachChangePlayerTypesCommand( const std::vector< std::pair< int, int > > & types )
+CoachChangePlayerTypesCommand::CoachChangePlayerTypesCommand( const std::vector< std::pair< int, int > > & types )
 {
     M_types.reserve( types.size() );
 

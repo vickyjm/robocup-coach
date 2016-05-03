@@ -4,11 +4,13 @@ This are the messages that an online coach can send to the players:
 	-TEAMNAME has to be specified to indicate wich team the coach belongs to.
 	-The coach must connect after at least one player from its team.
 	-The default port for the coach is 6002.
+	-This command is implemented in CoachInitCommand::CoachInitCommand from librcsc coach_command.cpp file.
 
 (change_player_type UNUM PLAYER_TYPE)
 	-This command can be used to change the heterogeneous player type (digit between 0 and 6, 0 is the default type).
-	-This message is represented by SampleCoach::doSubstitute in agent2d-3.1.1/src/sample_coach.cpp
-	-This is also implemented in CoachAgent::doChangePlayerType from librcsc coach_agent.cpp file.
+	-This message is represented by SampleCoach::doSubstitute in agent2d-3.1.1/src/sample_coach.cpp. This function uses
+	 CoachAgent::doChangePlayerType from librcsc coach_agent.cpp file and CoachChangePlayerTypesCommand::CoachChangePlayerTypesCommand
+	 from librcsc coach_command.cpp file.
 
 (look)
 	-This command provides information about the positions of the left and right goals, the ball and the active players.
@@ -36,6 +38,7 @@ This are the messages that the coach can receive from the server:
 		->For goals: X Y
 		->For the ball: X Y DELTA_X DELTA_Y
 		->For players: X Y DELTA_X DELTA_Y BODYANGLE NECKANGLE [POINTING_DIRECTION]
+This messages are analyzed in CoachAgent::Impl::analyzeSeeGlobal in coach_agent.cpp
 
 *If the client wants to receive auditory information and sent (ear on) to the server (this is also in coach.conf), it will 
 receive all auditory information, from both referees and all of the players. There are two kinds of hear messages:
@@ -43,7 +46,7 @@ receive all auditory information, from both referees and all of the players. The
 	-For all referee messages, such as "play_on" and "free_kick_left".
 (hear TIME (p ”TEAMNAME” NUM) ”MESSAGE”)
 	-For all players messages.
-This messages are analyzed in CoachAgent::analyzeHear in coach_agent.cpp
+This messages are analyzed in CoachAgent::Impl::analyzeHear in coach_agent.cpp
 
 
 
@@ -51,6 +54,8 @@ Communication with the players:
 -"Freeform" messages are alphanumeric (plus the symbols ().+*/?<>_) short messages (128 chars) that the coach can send when 
  the play-mode is not "play_on" or every 600 cycles of "play_on" for 20 cycles.
  	-> This messages are implemented in CoachAgent::doSayFreeform in coach_agent.cpp file.
+ 	-> The parser for this command is in freeform_parser.cpp file from librcsc, but it is only used for setting in our model the player's type
+ 		of the opponent.
 -The coach can send say_coach_cnt_max freeform messages per game. If the game continues into extended time, the coaches are 
  given an additional say_coach_cnt_max messages to say every 6000 cycles.
 
