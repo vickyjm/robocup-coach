@@ -65,3 +65,12 @@ Changing player types:
  After kick-off player types can be changed three times during play-modes that are not "play_on".
 -A player client will be informed about substitutions that occurred before the client connected by the message (change_player_type UNUM TYPE)
  for substitutions in it own team and (change_player_type UNUM) for substitutions in the opponent team.
+
+* Extra stuff :
+- There is a rcsc::FreeformParser that according to the library is the "coach's freeform message parser", maybe it can be used to parse the messages?. Although it specifies that it's the coach's parser and not the players. http://rctools.osdn.jp/doc/librcsc-4.1.0/dd/d1f/classrcsc_1_1FreeformParser.html
+
+- There is also a rcsc::SayMessageParser that according to the library is the "Abstract player's say message parser" that might be
+useful too. But I think the SayMessage is different from the Freeform one. http://rctools.osdn.jp/doc/librcsc-4.1.0/df/ddc/classrcsc_1_1SayMessageParser.html.
+
+- In rcsc::BasicClient there is a method rcsc::BasicClient::recvMessage that receives a server message in the socket queue. Assuming the coach's freeform messages are sent to the server and from the server to the players, then this could be used
+to receive them. Not sure how it works though. http://rctools.osdn.jp/doc/librcsc-4.1.0/da/de7/classrcsc_1_1BasicClient.html.
