@@ -1,3 +1,7 @@
+Saturday 07/05/16:
+	@ 7:00pm:
+		- Added info in coachManual.txt about functions related to coach messages.
+
 Tuesday 03/05/16:
 	@ 5:00pm:
 		-Added info about the parsers.

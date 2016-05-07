@@ -67,6 +67,8 @@ Changing player types:
  for substitutions in it own team and (change_player_type UNUM) for substitutions in the opponent team.
 
 * Extra stuff :
+Saturday 30/04/16 :
+
 - There is a rcsc::FreeformParser that according to the library is the "coach's freeform message parser", maybe it can be used to parse the messages?. Although it specifies that it's the coach's parser and not the players. http://rctools.osdn.jp/doc/librcsc-4.1.0/dd/d1f/classrcsc_1_1FreeformParser.html
 
 - There is also a rcsc::SayMessageParser that according to the library is the "Abstract player's say message parser" that might be
@@ -74,3 +76,13 @@ useful too. But I think the SayMessage is different from the Freeform one. http:
 
 - In rcsc::BasicClient there is a method rcsc::BasicClient::recvMessage that receives a server message in the socket queue. Assuming the coach's freeform messages are sent to the server and from the server to the players, then this could be used
 to receive them. Not sure how it works though. http://rctools.osdn.jp/doc/librcsc-4.1.0/da/de7/classrcsc_1_1BasicClient.html.
+
+Saturday 07/05/16 :
+
+- In librcsc/player/freeform_parser.cpp in function FreeformParser::parse, it compares the first 14 characters of the message sent vs the string "(player_types", meaning that at the moment the parser is only usable to parse messages indicating the player type of each player in the opposing team. Writing a cout at the beginning of this function prints on screen when a message is being parsed.
+
+- In librcsc/player/audio_sensor.cpp there is a function parseCoachMessage that calls the parse function of the freeform Parser. There is also some stuff related to clang below that function call.
+
+- Following the above mentioned function, there is a functon in librcsc/player/player_agent.cpp called PlayerAgent::Impl::analyzeHearOurCoach that calls the function parseCoachMessage. Then in that same file there's a function called PlayerAgent::Impl::analyzeHear that calls for analyzeHearOurCoach, analyzeHear is then called in that same file by PlayerAgent::parse. 
+
+- In PlayerAgent::parse its indicated that, when calling this function, it'll compare the first few characters of the message being parsed in order to decide what to do. If the first 6 characters are "(hear ", then this function will call analyzeHear.
