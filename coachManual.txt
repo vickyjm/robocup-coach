@@ -86,3 +86,23 @@ Saturday 07/05/16 :
 - Following the above mentioned function, there is a functon in librcsc/player/player_agent.cpp called PlayerAgent::Impl::analyzeHearOurCoach that calls the function parseCoachMessage. Then in that same file there's a function called PlayerAgent::Impl::analyzeHear that calls for analyzeHearOurCoach, analyzeHear is then called in that same file by PlayerAgent::parse. 
 
 - In PlayerAgent::parse its indicated that, when calling this function, it'll compare the first few characters of the message being parsed in order to decide what to do. If the first 6 characters are "(hear ", then this function will call analyzeHear.
+
+
+Sunday 08/05/16:
+THIS IS HOW THE MESSAGE PROCESSING SERVER WORKS
+1.- [main_player.cpp|main_coach.cpp] Main program for the agents. Here is called the run() function from BasicClient.
+	2.- The method "run" stays in an infinite loop while client can estimate that the server is alive. 
+	3.- To handle a server message, select() is used. This is used for read the message using the socket.
+	4.- When the message is received handleMessage() is called.
+		If the agent is a Coach:
+			5.- The handleMessage() function is in coach_agent.cpp file from librcsc.
+			6.- This function calls parse() of the same file. 
+				7.- The parse() function calls the respective analyzer depending on the type of message received. (Here are used all the analyzerBLABLA that we found earlier).
+				8.- This function also executes something related to a (think) message. NOTE: Search this message in the manual. I don't remember what it does.
+		If the agent is a Player:
+			5.- The handleMessage() function is in player_agent.cpp file from librcsc.
+			6.- This function calls parse() of the same file.
+				7.-The parse() function calls the respective analyzer depending on the type of message received.
+				8.- This function also executes something related to a (think) message.
+		If the agent is a Trainer:
+			The same of the other two types of agents. The functions are in trainer_agent.cpp
