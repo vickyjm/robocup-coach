@@ -78,6 +78,8 @@ protected:
     void handlePlayerParam();
     virtual
     void handlePlayerType();
+    virtual
+    void handleHello();
 
     virtual
     FieldEvaluator::ConstPtr createFieldEvaluator() const;

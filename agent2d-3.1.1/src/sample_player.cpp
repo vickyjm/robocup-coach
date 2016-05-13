@@ -487,6 +487,11 @@ SamplePlayer::handlePlayerType()
 
 }
 
+void
+SamplePlayer::handleHello(){
+  
+}
+
 /*-------------------------------------------------------------------*/
 /*!
   communication decision.

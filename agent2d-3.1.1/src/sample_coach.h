@@ -101,6 +101,8 @@ private:
 
     void sayPlayerTypes();
 
+    void sayHello();
+
     void sendTeamGraphic();
 
 };

@@ -62,71 +62,81 @@ FreeformParser::FreeformParser( WorldModel & world )
 int
 FreeformParser::parse( const char * msg )
 {
+    int flag = 1; //Flag 1 = player_types, 2 = hello, can you hear me?
+    int total_read;
     if ( std::strncmp( msg, "(player_types ", 14 ) != 0 )
     {
+        if (std::strncmp( msg, "(hello. can you hear me?)", 25 ) != 0){
         // unsupported message type
-        return 0;
+          return 0;
+        }
+        flag = 2;
     }
 
-    int total_read = 14;
-    msg += 14;
+    if (flag==1){
+      total_read = 14;
+      msg += 14;
 
-    while ( *msg != '\0' )
-    {
-        if ( *msg == ')' )
-        {
-            total_read += 1;
-            ++msg;
-            break;
-        }
+      while ( *msg != '\0' )
+      {
+          if ( *msg == ')' )
+          {
+              total_read += 1;
+              ++msg;
+              break;
+          }
 
-        int unum = 0;
-        int type = -1;
-        int n_read = 0;
+          int unum = 0;
+          int type = -1;
+          int n_read = 0;
 
-        if ( std::sscanf( msg, " ( %d %d ) %n ",
-                          &unum, &type, &n_read ) != 2 )
-        {
-            std::cerr << "***ERROR*** FreeformParser::parse()"
-                  << " Illegal message [" << msg << "]"
-                  << std::endl;
-            dlog.addText( Logger::SENSOR,
-                          __FILE__" (parse) Illegal message [%s]",
-                          msg );
-            return total_read;
-        }
+          if ( std::sscanf( msg, " ( %d %d ) %n ",
+                            &unum, &type, &n_read ) != 2 )
+          {
+              std::cerr << "***ERROR*** FreeformParser::parse()"
+                    << " Illegal message [" << msg << "]"
+                    << std::endl;
+              dlog.addText( Logger::SENSOR,
+                            __FILE__" (parse) Illegal message [%s]",
+                            msg );
+              return total_read;
+          }
 
-        if ( unum < 1 || 11 < unum )
-        {
-            std::cerr << "***ERROR*** FreeformParser::parse()"
-                  << " Illegal uniform number [" << msg << "]"
-                  << std::endl;
-            dlog.addText( Logger::SENSOR,
-                          __FILE__" (parse) Illegal uniform number [%s]",
-                          msg );
-            return total_read;
-        }
+          if ( unum < 1 || 11 < unum )
+          {
+              std::cerr << "***ERROR*** FreeformParser::parse()"
+                    << " Illegal uniform number [" << msg << "]"
+                    << std::endl;
+              dlog.addText( Logger::SENSOR,
+                            __FILE__" (parse) Illegal uniform number [%s]",
+                            msg );
+              return total_read;
+          }
 
-        int id = type;
-        if ( id != Hetero_Unknown
-             && id < 0
-             && PlayerParam::i().playerTypes() <= id )
-        {
-            std::cerr << "***ERROR*** FreeformParser::parse()"
-                  << " Illegal player type [" << msg << "]"
-                  << std::endl;
-            dlog.addText( Logger::SENSOR,
-                          __FILE__" (parse) Illegal player type [%s]",
-                          msg );
-            return total_read;
-        }
+          int id = type;
+          if ( id != Hetero_Unknown
+               && id < 0
+               && PlayerParam::i().playerTypes() <= id )
+          {
+              std::cerr << "***ERROR*** FreeformParser::parse()"
+                    << " Illegal player type [" << msg << "]"
+                    << std::endl;
+              dlog.addText( Logger::SENSOR,
+                            __FILE__" (parse) Illegal player type [%s]",
+                            msg );
+              return total_read;
+          }
 
-        total_read += n_read;
-        msg += n_read;
+          total_read += n_read;
+          msg += n_read;
 
-        M_world.setTheirPlayerType( unum, id );
+          M_world.setTheirPlayerType( unum, id );
+      }
+
+    } else if(flag==2){
+      total_read = 25;
+
     }
-
     return total_read;
 }
 

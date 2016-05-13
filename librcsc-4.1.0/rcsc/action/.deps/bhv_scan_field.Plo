@@ -6,28 +6,29 @@ bhv_scan_field.lo: bhv_scan_field.cpp /usr/include/stdc-predef.h \
  /usr/include/boost/config/select_compiler_config.hpp \
  /usr/include/boost/config/compiler/gcc.hpp \
  /usr/include/boost/config/select_stdlib_config.hpp \
- /usr/include/c++/4.9/cstddef \
- /usr/include/x86_64-linux-gnu/c++/4.9/bits/c++config.h \
- /usr/include/x86_64-linux-gnu/c++/4.9/bits/os_defines.h \
+ /usr/include/c++/4.8/cstddef \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
- /usr/include/x86_64-linux-gnu/c++/4.9/bits/cpu_defines.h \
- /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
  /usr/include/boost/config/no_tr1/utility.hpp \
- /usr/include/c++/4.9/utility /usr/include/c++/4.9/bits/stl_relops.h \
- /usr/include/c++/4.9/bits/stl_pair.h /usr/include/c++/4.9/bits/move.h \
- /usr/include/c++/4.9/bits/concept_check.h \
+ /usr/include/c++/4.8/utility /usr/include/c++/4.8/bits/stl_relops.h \
+ /usr/include/c++/4.8/bits/stl_pair.h /usr/include/c++/4.8/bits/move.h \
+ /usr/include/c++/4.8/bits/concept_check.h \
  /usr/include/boost/config/stdlib/libstdcpp3.hpp /usr/include/unistd.h \
  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd.h \
  /usr/include/boost/config/select_platform_config.hpp \
  /usr/include/boost/config/platform/linux.hpp \
- /usr/include/c++/4.9/cstdlib /usr/include/stdlib.h \
+ /usr/include/c++/4.8/cstdlib /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/endian.h \
  /usr/include/x86_64-linux-gnu/bits/endian.h \
@@ -38,78 +39,79 @@ bhv_scan_field.lo: bhv_scan_field.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/select.h \
  /usr/include/x86_64-linux-gnu/bits/sigset.h \
  /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/bits/select2.h \
  /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/include/boost/config/posix_features.hpp \
  /usr/include/boost/config/suffix.hpp \
- /usr/include/boost/config/no_tr1/memory.hpp /usr/include/c++/4.9/memory \
- /usr/include/c++/4.9/bits/stl_algobase.h \
- /usr/include/c++/4.9/bits/functexcept.h \
- /usr/include/c++/4.9/bits/exception_defines.h \
- /usr/include/c++/4.9/bits/cpp_type_traits.h \
- /usr/include/c++/4.9/ext/type_traits.h \
- /usr/include/c++/4.9/ext/numeric_traits.h \
- /usr/include/c++/4.9/bits/stl_iterator_base_types.h \
- /usr/include/c++/4.9/bits/stl_iterator_base_funcs.h \
- /usr/include/c++/4.9/debug/debug.h \
- /usr/include/c++/4.9/bits/stl_iterator.h \
- /usr/include/c++/4.9/bits/ptr_traits.h \
- /usr/include/c++/4.9/bits/predefined_ops.h \
- /usr/include/c++/4.9/bits/allocator.h \
- /usr/include/x86_64-linux-gnu/c++/4.9/bits/c++allocator.h \
- /usr/include/c++/4.9/ext/new_allocator.h /usr/include/c++/4.9/new \
- /usr/include/c++/4.9/exception \
- /usr/include/c++/4.9/bits/atomic_lockfree_defines.h \
- /usr/include/c++/4.9/bits/memoryfwd.h \
- /usr/include/c++/4.9/bits/stl_construct.h \
- /usr/include/c++/4.9/ext/alloc_traits.h \
- /usr/include/c++/4.9/bits/stl_uninitialized.h \
- /usr/include/c++/4.9/bits/stl_tempbuf.h \
- /usr/include/c++/4.9/bits/stl_raw_storage_iter.h \
- /usr/include/c++/4.9/backward/auto_ptr.h /usr/include/boost/assert.hpp \
- /usr/include/assert.h /usr/include/c++/4.9/iostream \
- /usr/include/c++/4.9/ostream /usr/include/c++/4.9/ios \
- /usr/include/c++/4.9/iosfwd /usr/include/c++/4.9/bits/stringfwd.h \
- /usr/include/c++/4.9/bits/postypes.h /usr/include/c++/4.9/cwchar \
+ /usr/include/boost/config/no_tr1/memory.hpp /usr/include/c++/4.8/memory \
+ /usr/include/c++/4.8/bits/stl_algobase.h \
+ /usr/include/c++/4.8/bits/functexcept.h \
+ /usr/include/c++/4.8/bits/exception_defines.h \
+ /usr/include/c++/4.8/bits/cpp_type_traits.h \
+ /usr/include/c++/4.8/ext/type_traits.h \
+ /usr/include/c++/4.8/ext/numeric_traits.h \
+ /usr/include/c++/4.8/bits/stl_iterator_base_types.h \
+ /usr/include/c++/4.8/bits/stl_iterator_base_funcs.h \
+ /usr/include/c++/4.8/debug/debug.h \
+ /usr/include/c++/4.8/bits/stl_iterator.h \
+ /usr/include/c++/4.8/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+ /usr/include/c++/4.8/ext/new_allocator.h /usr/include/c++/4.8/new \
+ /usr/include/c++/4.8/exception \
+ /usr/include/c++/4.8/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/4.8/bits/memoryfwd.h \
+ /usr/include/c++/4.8/bits/stl_construct.h \
+ /usr/include/c++/4.8/ext/alloc_traits.h \
+ /usr/include/c++/4.8/bits/stl_uninitialized.h \
+ /usr/include/c++/4.8/bits/stl_tempbuf.h \
+ /usr/include/c++/4.8/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/4.8/backward/auto_ptr.h /usr/include/boost/assert.hpp \
+ /usr/include/assert.h /usr/include/c++/4.8/iostream \
+ /usr/include/c++/4.8/ostream /usr/include/c++/4.8/ios \
+ /usr/include/c++/4.8/iosfwd /usr/include/c++/4.8/bits/stringfwd.h \
+ /usr/include/c++/4.8/bits/postypes.h /usr/include/c++/4.8/cwchar \
  /usr/include/wchar.h /usr/include/stdio.h \
- /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdarg.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
- /usr/include/c++/4.9/bits/char_traits.h \
- /usr/include/c++/4.9/bits/localefwd.h \
- /usr/include/x86_64-linux-gnu/c++/4.9/bits/c++locale.h \
- /usr/include/c++/4.9/clocale /usr/include/locale.h \
- /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.9/cctype \
- /usr/include/ctype.h /usr/include/c++/4.9/bits/ios_base.h \
- /usr/include/c++/4.9/ext/atomicity.h \
- /usr/include/x86_64-linux-gnu/c++/4.9/bits/gthr.h \
- /usr/include/x86_64-linux-gnu/c++/4.9/bits/gthr-default.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar2.h \
+ /usr/include/c++/4.8/bits/char_traits.h \
+ /usr/include/c++/4.8/bits/localefwd.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h \
+ /usr/include/c++/4.8/clocale /usr/include/locale.h \
+ /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/4.8/cctype \
+ /usr/include/ctype.h /usr/include/c++/4.8/bits/ios_base.h \
+ /usr/include/c++/4.8/ext/atomicity.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h \
  /usr/include/pthread.h /usr/include/sched.h \
  /usr/include/x86_64-linux-gnu/bits/sched.h \
  /usr/include/x86_64-linux-gnu/bits/timex.h \
  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
- /usr/include/x86_64-linux-gnu/c++/4.9/bits/atomic_word.h \
- /usr/include/c++/4.9/bits/locale_classes.h /usr/include/c++/4.9/string \
- /usr/include/c++/4.9/bits/ostream_insert.h \
- /usr/include/c++/4.9/bits/cxxabi_forced.h \
- /usr/include/c++/4.9/bits/stl_function.h \
- /usr/include/c++/4.9/backward/binders.h \
- /usr/include/c++/4.9/bits/range_access.h \
- /usr/include/c++/4.9/bits/basic_string.h \
- /usr/include/c++/4.9/bits/basic_string.tcc \
- /usr/include/c++/4.9/bits/locale_classes.tcc \
- /usr/include/c++/4.9/streambuf /usr/include/c++/4.9/bits/streambuf.tcc \
- /usr/include/c++/4.9/bits/basic_ios.h \
- /usr/include/c++/4.9/bits/locale_facets.h /usr/include/c++/4.9/cwctype \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h \
+ /usr/include/c++/4.8/bits/locale_classes.h /usr/include/c++/4.8/string \
+ /usr/include/c++/4.8/bits/ostream_insert.h \
+ /usr/include/c++/4.8/bits/cxxabi_forced.h \
+ /usr/include/c++/4.8/bits/stl_function.h \
+ /usr/include/c++/4.8/backward/binders.h \
+ /usr/include/c++/4.8/bits/range_access.h \
+ /usr/include/c++/4.8/bits/basic_string.h \
+ /usr/include/c++/4.8/bits/basic_string.tcc \
+ /usr/include/c++/4.8/bits/locale_classes.tcc \
+ /usr/include/c++/4.8/streambuf /usr/include/c++/4.8/bits/streambuf.tcc \
+ /usr/include/c++/4.8/bits/basic_ios.h \
+ /usr/include/c++/4.8/bits/locale_facets.h /usr/include/c++/4.8/cwctype \
  /usr/include/wctype.h \
- /usr/include/x86_64-linux-gnu/c++/4.9/bits/ctype_base.h \
- /usr/include/c++/4.9/bits/streambuf_iterator.h \
- /usr/include/x86_64-linux-gnu/c++/4.9/bits/ctype_inline.h \
- /usr/include/c++/4.9/bits/locale_facets.tcc \
- /usr/include/c++/4.9/bits/basic_ios.tcc \
- /usr/include/c++/4.9/bits/ostream.tcc /usr/include/c++/4.9/istream \
- /usr/include/c++/4.9/bits/istream.tcc \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h \
+ /usr/include/c++/4.8/bits/streambuf_iterator.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h \
+ /usr/include/c++/4.8/bits/locale_facets.tcc \
+ /usr/include/c++/4.8/bits/basic_ios.tcc \
+ /usr/include/c++/4.8/bits/ostream.tcc /usr/include/c++/4.8/istream \
+ /usr/include/c++/4.8/bits/istream.tcc \
  /usr/include/boost/current_function.hpp \
  /usr/include/boost/checked_delete.hpp \
  /usr/include/boost/throw_exception.hpp \
@@ -121,23 +123,23 @@ bhv_scan_field.lo: bhv_scan_field.cpp /usr/include/stdc-predef.h \
  /usr/include/boost/smart_ptr/detail/sp_counted_base.hpp \
  /usr/include/boost/smart_ptr/detail/sp_has_sync.hpp \
  /usr/include/boost/smart_ptr/detail/sp_counted_base_gcc_x86.hpp \
- /usr/include/boost/detail/sp_typeinfo.hpp /usr/include/c++/4.9/typeinfo \
+ /usr/include/boost/detail/sp_typeinfo.hpp /usr/include/c++/4.8/typeinfo \
  /usr/include/boost/smart_ptr/detail/sp_counted_impl.hpp \
- /usr/include/c++/4.9/functional \
+ /usr/include/c++/4.8/functional \
  /usr/include/boost/smart_ptr/detail/sp_convertible.hpp \
  /usr/include/boost/smart_ptr/detail/sp_nullptr_t.hpp \
  /usr/include/boost/smart_ptr/detail/spinlock_pool.hpp \
  /usr/include/boost/smart_ptr/detail/spinlock.hpp \
  /usr/include/boost/smart_ptr/detail/spinlock_sync.hpp \
  /usr/include/boost/smart_ptr/detail/yield_k.hpp \
- /usr/include/boost/memory_order.hpp /usr/include/c++/4.9/algorithm \
- /usr/include/c++/4.9/bits/stl_algo.h \
- /usr/include/c++/4.9/bits/algorithmfwd.h \
- /usr/include/c++/4.9/bits/stl_heap.h \
+ /usr/include/boost/memory_order.hpp /usr/include/c++/4.8/algorithm \
+ /usr/include/c++/4.8/bits/stl_algo.h \
+ /usr/include/c++/4.8/bits/algorithmfwd.h \
+ /usr/include/c++/4.8/bits/stl_heap.h \
  /usr/include/boost/smart_ptr/detail/operator_bool.hpp basic_actions.h \
  ../../rcsc/action/arm_off.h ../../rcsc/action/arm_point_to_point.h \
  ../../rcsc/geom/vector_2d.h ../../rcsc/geom/angle_deg.h \
- /usr/include/c++/4.9/cmath /usr/include/math.h \
+ /usr/include/c++/4.8/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/huge_val.h \
  /usr/include/x86_64-linux-gnu/bits/huge_valf.h \
  /usr/include/x86_64-linux-gnu/bits/huge_vall.h \
@@ -155,10 +157,10 @@ bhv_scan_field.lo: bhv_scan_field.cpp /usr/include/stdc-predef.h \
  ../../rcsc/action/body_turn_to_ball.h \
  ../../rcsc/action/body_turn_to_point.h \
  ../../rcsc/action/neck_turn_to_ball.h \
- ../../rcsc/action/neck_turn_to_point.h /usr/include/c++/4.9/vector \
- /usr/include/c++/4.9/bits/stl_vector.h \
- /usr/include/c++/4.9/bits/stl_bvector.h \
- /usr/include/c++/4.9/bits/vector.tcc \
+ ../../rcsc/action/neck_turn_to_point.h /usr/include/c++/4.8/vector \
+ /usr/include/c++/4.8/bits/stl_vector.h \
+ /usr/include/c++/4.8/bits/stl_bvector.h \
+ /usr/include/c++/4.8/bits/vector.tcc \
  ../../rcsc/action/neck_turn_to_relative.h \
  ../../rcsc/action/view_change_width.h ../../rcsc/player/view_mode.h \
  ../../rcsc/action/view_wide.h ../../rcsc/action/view_normal.h \
@@ -167,18 +169,18 @@ bhv_scan_field.lo: bhv_scan_field.cpp /usr/include/stdc-predef.h \
  ../../rcsc/player/self_object.h \
  ../../rcsc/player/abstract_player_object.h \
  ../../rcsc/player/localization.h ../../rcsc/player/visual_sensor.h \
- ../../rcsc/types.h /usr/include/c++/4.9/map \
- /usr/include/c++/4.9/bits/stl_tree.h /usr/include/c++/4.9/bits/stl_map.h \
- /usr/include/c++/4.9/bits/stl_multimap.h /usr/include/c++/4.9/list \
- /usr/include/c++/4.9/bits/stl_list.h /usr/include/c++/4.9/bits/list.tcc \
+ ../../rcsc/types.h /usr/include/c++/4.8/map \
+ /usr/include/c++/4.8/bits/stl_tree.h /usr/include/c++/4.8/bits/stl_map.h \
+ /usr/include/c++/4.8/bits/stl_multimap.h /usr/include/c++/4.8/list \
+ /usr/include/c++/4.8/bits/stl_list.h /usr/include/c++/4.8/bits/list.tcc \
  ../../rcsc/common/player_type.h ../../rcsc/rcg/types.h \
  /usr/include/boost/cstdint.hpp \
- /usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
  ../../rcsc/soccer_math.h ../../rcsc/player/fullstate_sensor.h \
  ../../rcsc/common/stamina_model.h ../../rcsc/player/ball_object.h \
- ../../rcsc/math_util.h /usr/include/c++/4.9/deque \
- /usr/include/c++/4.9/bits/stl_deque.h \
- /usr/include/c++/4.9/bits/deque.tcc ../../rcsc/player/player_object.h \
+ ../../rcsc/math_util.h /usr/include/c++/4.8/deque \
+ /usr/include/c++/4.8/bits/stl_deque.h \
+ /usr/include/c++/4.8/bits/deque.tcc ../../rcsc/player/player_object.h \
  ../../rcsc/player/view_area.h ../../rcsc/player/view_grid_map.h \
  /usr/include/boost/scoped_ptr.hpp \
  /usr/include/boost/smart_ptr/scoped_ptr.hpp ../../rcsc/game_mode.h \
@@ -187,14 +189,15 @@ bhv_scan_field.lo: bhv_scan_field.cpp /usr/include/stdc-predef.h \
  ../../rcsc/geom/line_2d.h ../../rcsc/geom/triangle_2d.h \
  ../../rcsc/geom/region_2d.h ../../rcsc/geom/rect_2d.h \
  ../../rcsc/geom/size_2d.h ../../rcsc/geom/circle_2d.h \
- /usr/include/c++/4.9/fstream /usr/include/c++/4.9/bits/codecvt.h \
- /usr/include/c++/4.9/cstdio /usr/include/libio.h \
+ /usr/include/c++/4.8/fstream /usr/include/c++/4.8/bits/codecvt.h \
+ /usr/include/c++/4.8/cstdio /usr/include/libio.h \
  /usr/include/_G_config.h /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
  /usr/include/x86_64-linux-gnu/bits/stdio.h \
- /usr/include/x86_64-linux-gnu/c++/4.9/bits/basic_file.h \
- /usr/include/x86_64-linux-gnu/c++/4.9/bits/c++io.h \
- /usr/include/c++/4.9/bits/fstream.tcc ../../rcsc/player/player_config.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
+ /usr/include/c++/4.8/bits/fstream.tcc ../../rcsc/player/player_config.h \
  ../../rcsc/player/see_state.h ../../rcsc/common/soccer_agent.h \
  ../../rcsc/common/periodic_callback.h ../../rcsc/timer.h \
  ../../rcsc/time/timer.h /usr/include/boost/function.hpp \
@@ -215,19 +218,19 @@ bhv_scan_field.lo: bhv_scan_field.cpp /usr/include/stdc-predef.h \
  /usr/include/boost/preprocessor/slot/slot.hpp \
  /usr/include/boost/preprocessor/slot/detail/def.hpp \
  /usr/include/boost/function/detail/prologue.hpp \
- /usr/include/c++/4.9/cassert \
+ /usr/include/c++/4.8/cassert \
  /usr/include/boost/config/no_tr1/functional.hpp \
  /usr/include/boost/function/function_base.hpp \
- /usr/include/c++/4.9/stdexcept /usr/include/boost/integer.hpp \
- /usr/include/boost/integer_fwd.hpp /usr/include/c++/4.9/climits \
- /usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed/limits.h \
- /usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed/syslimits.h \
+ /usr/include/c++/4.8/stdexcept /usr/include/boost/integer.hpp \
+ /usr/include/boost/integer_fwd.hpp /usr/include/c++/4.8/climits \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
  /usr/include/linux/limits.h \
  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
- /usr/include/boost/limits.hpp /usr/include/c++/4.9/limits \
+ /usr/include/boost/limits.hpp /usr/include/c++/4.8/limits \
  /usr/include/boost/integer_traits.hpp \
  /usr/include/boost/static_assert.hpp \
  /usr/include/boost/type_traits/has_trivial_copy.hpp \
@@ -346,7 +349,8 @@ bhv_scan_field.lo: bhv_scan_field.cpp /usr/include/stdc-predef.h \
  /usr/include/boost/utility/enable_if.hpp \
  /usr/include/boost/function_equal.hpp \
  /usr/include/boost/function/function_fwd.hpp \
- /usr/include/c++/4.9/cstring /usr/include/string.h \
+ /usr/include/c++/4.8/cstring /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/string3.h \
  /usr/include/boost/mem_fn.hpp /usr/include/boost/bind/mem_fn.hpp \
  /usr/include/boost/get_pointer.hpp \
  /usr/include/boost/bind/mem_fn_template.hpp \
@@ -388,11 +392,11 @@ bhv_scan_field.h:
 
 /usr/include/boost/config/select_stdlib_config.hpp:
 
-/usr/include/c++/4.9/cstddef:
+/usr/include/c++/4.8/cstddef:
 
-/usr/include/x86_64-linux-gnu/c++/4.9/bits/c++config.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h:
 
-/usr/include/x86_64-linux-gnu/c++/4.9/bits/os_defines.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h:
 
 /usr/include/features.h:
 
@@ -404,21 +408,21 @@ bhv_scan_field.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
-/usr/include/x86_64-linux-gnu/c++/4.9/bits/cpu_defines.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/4.9/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h:
 
 /usr/include/boost/config/no_tr1/utility.hpp:
 
-/usr/include/c++/4.9/utility:
+/usr/include/c++/4.8/utility:
 
-/usr/include/c++/4.9/bits/stl_relops.h:
+/usr/include/c++/4.8/bits/stl_relops.h:
 
-/usr/include/c++/4.9/bits/stl_pair.h:
+/usr/include/c++/4.8/bits/stl_pair.h:
 
-/usr/include/c++/4.9/bits/move.h:
+/usr/include/c++/4.8/bits/move.h:
 
-/usr/include/c++/4.9/bits/concept_check.h:
+/usr/include/c++/4.8/bits/concept_check.h:
 
 /usr/include/boost/config/stdlib/libstdcpp3.hpp:
 
@@ -436,11 +440,13 @@ bhv_scan_field.h:
 
 /usr/include/getopt.h:
 
+/usr/include/x86_64-linux-gnu/bits/unistd.h:
+
 /usr/include/boost/config/select_platform_config.hpp:
 
 /usr/include/boost/config/platform/linux.hpp:
 
-/usr/include/c++/4.9/cstdlib:
+/usr/include/c++/4.8/cstdlib:
 
 /usr/include/stdlib.h:
 
@@ -470,6 +476,8 @@ bhv_scan_field.h:
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
+/usr/include/x86_64-linux-gnu/bits/select2.h:
+
 /usr/include/x86_64-linux-gnu/sys/sysmacros.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
@@ -480,113 +488,113 @@ bhv_scan_field.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
+/usr/include/x86_64-linux-gnu/bits/stdlib.h:
+
 /usr/include/boost/config/posix_features.hpp:
 
 /usr/include/boost/config/suffix.hpp:
 
 /usr/include/boost/config/no_tr1/memory.hpp:
 
-/usr/include/c++/4.9/memory:
+/usr/include/c++/4.8/memory:
 
-/usr/include/c++/4.9/bits/stl_algobase.h:
+/usr/include/c++/4.8/bits/stl_algobase.h:
 
-/usr/include/c++/4.9/bits/functexcept.h:
+/usr/include/c++/4.8/bits/functexcept.h:
 
-/usr/include/c++/4.9/bits/exception_defines.h:
+/usr/include/c++/4.8/bits/exception_defines.h:
 
-/usr/include/c++/4.9/bits/cpp_type_traits.h:
+/usr/include/c++/4.8/bits/cpp_type_traits.h:
 
-/usr/include/c++/4.9/ext/type_traits.h:
+/usr/include/c++/4.8/ext/type_traits.h:
 
-/usr/include/c++/4.9/ext/numeric_traits.h:
+/usr/include/c++/4.8/ext/numeric_traits.h:
 
-/usr/include/c++/4.9/bits/stl_iterator_base_types.h:
+/usr/include/c++/4.8/bits/stl_iterator_base_types.h:
 
-/usr/include/c++/4.9/bits/stl_iterator_base_funcs.h:
+/usr/include/c++/4.8/bits/stl_iterator_base_funcs.h:
 
-/usr/include/c++/4.9/debug/debug.h:
+/usr/include/c++/4.8/debug/debug.h:
 
-/usr/include/c++/4.9/bits/stl_iterator.h:
+/usr/include/c++/4.8/bits/stl_iterator.h:
 
-/usr/include/c++/4.9/bits/ptr_traits.h:
+/usr/include/c++/4.8/bits/allocator.h:
 
-/usr/include/c++/4.9/bits/predefined_ops.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h:
 
-/usr/include/c++/4.9/bits/allocator.h:
+/usr/include/c++/4.8/ext/new_allocator.h:
 
-/usr/include/x86_64-linux-gnu/c++/4.9/bits/c++allocator.h:
+/usr/include/c++/4.8/new:
 
-/usr/include/c++/4.9/ext/new_allocator.h:
+/usr/include/c++/4.8/exception:
 
-/usr/include/c++/4.9/new:
+/usr/include/c++/4.8/bits/atomic_lockfree_defines.h:
 
-/usr/include/c++/4.9/exception:
+/usr/include/c++/4.8/bits/memoryfwd.h:
 
-/usr/include/c++/4.9/bits/atomic_lockfree_defines.h:
+/usr/include/c++/4.8/bits/stl_construct.h:
 
-/usr/include/c++/4.9/bits/memoryfwd.h:
+/usr/include/c++/4.8/ext/alloc_traits.h:
 
-/usr/include/c++/4.9/bits/stl_construct.h:
+/usr/include/c++/4.8/bits/stl_uninitialized.h:
 
-/usr/include/c++/4.9/ext/alloc_traits.h:
+/usr/include/c++/4.8/bits/stl_tempbuf.h:
 
-/usr/include/c++/4.9/bits/stl_uninitialized.h:
+/usr/include/c++/4.8/bits/stl_raw_storage_iter.h:
 
-/usr/include/c++/4.9/bits/stl_tempbuf.h:
-
-/usr/include/c++/4.9/bits/stl_raw_storage_iter.h:
-
-/usr/include/c++/4.9/backward/auto_ptr.h:
+/usr/include/c++/4.8/backward/auto_ptr.h:
 
 /usr/include/boost/assert.hpp:
 
 /usr/include/assert.h:
 
-/usr/include/c++/4.9/iostream:
+/usr/include/c++/4.8/iostream:
 
-/usr/include/c++/4.9/ostream:
+/usr/include/c++/4.8/ostream:
 
-/usr/include/c++/4.9/ios:
+/usr/include/c++/4.8/ios:
 
-/usr/include/c++/4.9/iosfwd:
+/usr/include/c++/4.8/iosfwd:
 
-/usr/include/c++/4.9/bits/stringfwd.h:
+/usr/include/c++/4.8/bits/stringfwd.h:
 
-/usr/include/c++/4.9/bits/postypes.h:
+/usr/include/c++/4.8/bits/postypes.h:
 
-/usr/include/c++/4.9/cwchar:
+/usr/include/c++/4.8/cwchar:
 
 /usr/include/wchar.h:
 
 /usr/include/stdio.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdarg.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h:
 
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
 
-/usr/include/c++/4.9/bits/char_traits.h:
+/usr/include/x86_64-linux-gnu/bits/wchar2.h:
 
-/usr/include/c++/4.9/bits/localefwd.h:
+/usr/include/c++/4.8/bits/char_traits.h:
 
-/usr/include/x86_64-linux-gnu/c++/4.9/bits/c++locale.h:
+/usr/include/c++/4.8/bits/localefwd.h:
 
-/usr/include/c++/4.9/clocale:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++locale.h:
+
+/usr/include/c++/4.8/clocale:
 
 /usr/include/locale.h:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
 
-/usr/include/c++/4.9/cctype:
+/usr/include/c++/4.8/cctype:
 
 /usr/include/ctype.h:
 
-/usr/include/c++/4.9/bits/ios_base.h:
+/usr/include/c++/4.8/bits/ios_base.h:
 
-/usr/include/c++/4.9/ext/atomicity.h:
+/usr/include/c++/4.8/ext/atomicity.h:
 
-/usr/include/x86_64-linux-gnu/c++/4.9/bits/gthr.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr.h:
 
-/usr/include/x86_64-linux-gnu/c++/4.9/bits/gthr-default.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/gthr-default.h:
 
 /usr/include/pthread.h:
 
@@ -598,55 +606,55 @@ bhv_scan_field.h:
 
 /usr/include/x86_64-linux-gnu/bits/setjmp.h:
 
-/usr/include/x86_64-linux-gnu/c++/4.9/bits/atomic_word.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/atomic_word.h:
 
-/usr/include/c++/4.9/bits/locale_classes.h:
+/usr/include/c++/4.8/bits/locale_classes.h:
 
-/usr/include/c++/4.9/string:
+/usr/include/c++/4.8/string:
 
-/usr/include/c++/4.9/bits/ostream_insert.h:
+/usr/include/c++/4.8/bits/ostream_insert.h:
 
-/usr/include/c++/4.9/bits/cxxabi_forced.h:
+/usr/include/c++/4.8/bits/cxxabi_forced.h:
 
-/usr/include/c++/4.9/bits/stl_function.h:
+/usr/include/c++/4.8/bits/stl_function.h:
 
-/usr/include/c++/4.9/backward/binders.h:
+/usr/include/c++/4.8/backward/binders.h:
 
-/usr/include/c++/4.9/bits/range_access.h:
+/usr/include/c++/4.8/bits/range_access.h:
 
-/usr/include/c++/4.9/bits/basic_string.h:
+/usr/include/c++/4.8/bits/basic_string.h:
 
-/usr/include/c++/4.9/bits/basic_string.tcc:
+/usr/include/c++/4.8/bits/basic_string.tcc:
 
-/usr/include/c++/4.9/bits/locale_classes.tcc:
+/usr/include/c++/4.8/bits/locale_classes.tcc:
 
-/usr/include/c++/4.9/streambuf:
+/usr/include/c++/4.8/streambuf:
 
-/usr/include/c++/4.9/bits/streambuf.tcc:
+/usr/include/c++/4.8/bits/streambuf.tcc:
 
-/usr/include/c++/4.9/bits/basic_ios.h:
+/usr/include/c++/4.8/bits/basic_ios.h:
 
-/usr/include/c++/4.9/bits/locale_facets.h:
+/usr/include/c++/4.8/bits/locale_facets.h:
 
-/usr/include/c++/4.9/cwctype:
+/usr/include/c++/4.8/cwctype:
 
 /usr/include/wctype.h:
 
-/usr/include/x86_64-linux-gnu/c++/4.9/bits/ctype_base.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_base.h:
 
-/usr/include/c++/4.9/bits/streambuf_iterator.h:
+/usr/include/c++/4.8/bits/streambuf_iterator.h:
 
-/usr/include/x86_64-linux-gnu/c++/4.9/bits/ctype_inline.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/ctype_inline.h:
 
-/usr/include/c++/4.9/bits/locale_facets.tcc:
+/usr/include/c++/4.8/bits/locale_facets.tcc:
 
-/usr/include/c++/4.9/bits/basic_ios.tcc:
+/usr/include/c++/4.8/bits/basic_ios.tcc:
 
-/usr/include/c++/4.9/bits/ostream.tcc:
+/usr/include/c++/4.8/bits/ostream.tcc:
 
-/usr/include/c++/4.9/istream:
+/usr/include/c++/4.8/istream:
 
-/usr/include/c++/4.9/bits/istream.tcc:
+/usr/include/c++/4.8/bits/istream.tcc:
 
 /usr/include/boost/current_function.hpp:
 
@@ -672,11 +680,11 @@ bhv_scan_field.h:
 
 /usr/include/boost/detail/sp_typeinfo.hpp:
 
-/usr/include/c++/4.9/typeinfo:
+/usr/include/c++/4.8/typeinfo:
 
 /usr/include/boost/smart_ptr/detail/sp_counted_impl.hpp:
 
-/usr/include/c++/4.9/functional:
+/usr/include/c++/4.8/functional:
 
 /usr/include/boost/smart_ptr/detail/sp_convertible.hpp:
 
@@ -692,13 +700,13 @@ bhv_scan_field.h:
 
 /usr/include/boost/memory_order.hpp:
 
-/usr/include/c++/4.9/algorithm:
+/usr/include/c++/4.8/algorithm:
 
-/usr/include/c++/4.9/bits/stl_algo.h:
+/usr/include/c++/4.8/bits/stl_algo.h:
 
-/usr/include/c++/4.9/bits/algorithmfwd.h:
+/usr/include/c++/4.8/bits/algorithmfwd.h:
 
-/usr/include/c++/4.9/bits/stl_heap.h:
+/usr/include/c++/4.8/bits/stl_heap.h:
 
 /usr/include/boost/smart_ptr/detail/operator_bool.hpp:
 
@@ -712,7 +720,7 @@ basic_actions.h:
 
 ../../rcsc/geom/angle_deg.h:
 
-/usr/include/c++/4.9/cmath:
+/usr/include/c++/4.8/cmath:
 
 /usr/include/math.h:
 
@@ -752,13 +760,13 @@ basic_actions.h:
 
 ../../rcsc/action/neck_turn_to_point.h:
 
-/usr/include/c++/4.9/vector:
+/usr/include/c++/4.8/vector:
 
-/usr/include/c++/4.9/bits/stl_vector.h:
+/usr/include/c++/4.8/bits/stl_vector.h:
 
-/usr/include/c++/4.9/bits/stl_bvector.h:
+/usr/include/c++/4.8/bits/stl_bvector.h:
 
-/usr/include/c++/4.9/bits/vector.tcc:
+/usr/include/c++/4.8/bits/vector.tcc:
 
 ../../rcsc/action/neck_turn_to_relative.h:
 
@@ -788,19 +796,19 @@ neck_scan_field.h:
 
 ../../rcsc/types.h:
 
-/usr/include/c++/4.9/map:
+/usr/include/c++/4.8/map:
 
-/usr/include/c++/4.9/bits/stl_tree.h:
+/usr/include/c++/4.8/bits/stl_tree.h:
 
-/usr/include/c++/4.9/bits/stl_map.h:
+/usr/include/c++/4.8/bits/stl_map.h:
 
-/usr/include/c++/4.9/bits/stl_multimap.h:
+/usr/include/c++/4.8/bits/stl_multimap.h:
 
-/usr/include/c++/4.9/list:
+/usr/include/c++/4.8/list:
 
-/usr/include/c++/4.9/bits/stl_list.h:
+/usr/include/c++/4.8/bits/stl_list.h:
 
-/usr/include/c++/4.9/bits/list.tcc:
+/usr/include/c++/4.8/bits/list.tcc:
 
 ../../rcsc/common/player_type.h:
 
@@ -808,7 +816,7 @@ neck_scan_field.h:
 
 /usr/include/boost/cstdint.hpp:
 
-/usr/lib/gcc/x86_64-linux-gnu/4.9/include/stdint.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
 
 /usr/include/stdint.h:
 
@@ -822,11 +830,11 @@ neck_scan_field.h:
 
 ../../rcsc/math_util.h:
 
-/usr/include/c++/4.9/deque:
+/usr/include/c++/4.8/deque:
 
-/usr/include/c++/4.9/bits/stl_deque.h:
+/usr/include/c++/4.8/bits/stl_deque.h:
 
-/usr/include/c++/4.9/bits/deque.tcc:
+/usr/include/c++/4.8/bits/deque.tcc:
 
 ../../rcsc/player/player_object.h:
 
@@ -860,11 +868,11 @@ neck_scan_field.h:
 
 ../../rcsc/geom/circle_2d.h:
 
-/usr/include/c++/4.9/fstream:
+/usr/include/c++/4.8/fstream:
 
-/usr/include/c++/4.9/bits/codecvt.h:
+/usr/include/c++/4.8/bits/codecvt.h:
 
-/usr/include/c++/4.9/cstdio:
+/usr/include/c++/4.8/cstdio:
 
 /usr/include/libio.h:
 
@@ -876,11 +884,13 @@ neck_scan_field.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdio.h:
 
-/usr/include/x86_64-linux-gnu/c++/4.9/bits/basic_file.h:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:
 
-/usr/include/x86_64-linux-gnu/c++/4.9/bits/c++io.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h:
 
-/usr/include/c++/4.9/bits/fstream.tcc:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h:
+
+/usr/include/c++/4.8/bits/fstream.tcc:
 
 ../../rcsc/player/player_config.h:
 
@@ -930,23 +940,23 @@ neck_scan_field.h:
 
 /usr/include/boost/function/detail/prologue.hpp:
 
-/usr/include/c++/4.9/cassert:
+/usr/include/c++/4.8/cassert:
 
 /usr/include/boost/config/no_tr1/functional.hpp:
 
 /usr/include/boost/function/function_base.hpp:
 
-/usr/include/c++/4.9/stdexcept:
+/usr/include/c++/4.8/stdexcept:
 
 /usr/include/boost/integer.hpp:
 
 /usr/include/boost/integer_fwd.hpp:
 
-/usr/include/c++/4.9/climits:
+/usr/include/c++/4.8/climits:
 
-/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed/syslimits.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h:
 
 /usr/include/limits.h:
 
@@ -962,7 +972,7 @@ neck_scan_field.h:
 
 /usr/include/boost/limits.hpp:
 
-/usr/include/c++/4.9/limits:
+/usr/include/c++/4.8/limits:
 
 /usr/include/boost/integer_traits.hpp:
 
@@ -1212,9 +1222,11 @@ neck_scan_field.h:
 
 /usr/include/boost/function/function_fwd.hpp:
 
-/usr/include/c++/4.9/cstring:
+/usr/include/c++/4.8/cstring:
 
 /usr/include/string.h:
+
+/usr/include/x86_64-linux-gnu/bits/string3.h:
 
 /usr/include/boost/mem_fn.hpp:
 

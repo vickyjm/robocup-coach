@@ -1,3 +1,11 @@
+Thursday 12/05/16:
+	@ 8:00pm:
+		- Created a coach message. (hello. can you hear me?)
+		- Added the function SampleCoach::sayHello() to the sample_coach.cpp agent2d file.
+		- Added the function PlayerAgent::Impl::analyzeHello() to the player_agent.cpp librcsc file.
+		- Modified the function PlayerAgent::parse() in player_agent.cpp.
+		- Modified the FreeformParser::parse() in freeform_parser.cpp.
+
 Sunday 08/05/16:
 	@ 8:00pm:
 		- Added info in coachManual.txt about how the message processing works.

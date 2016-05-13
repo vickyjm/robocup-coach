@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-LIBPATH=../librcsc-4.1.0/libs/lib
+LIBPATH=/usr/local/lib
 if [ x"$LIBPATH" != x ]; then
   if [ x"$LD_LIBRARY_PATH" = x ]; then
     LD_LIBRARY_PATH=$LIBPATH

@@ -267,6 +267,12 @@ struct PlayerAgent::Impl {
     void analyzePlayerType( const char * msg );
 
     /*!
+      \brief analyze hello message
+      \param msg raw server message
+    */
+    void analyzeHello(const char * msg);
+
+    /*!
       \brief analyze player_param message
       \param msg raw server message
     */
@@ -1411,6 +1417,10 @@ PlayerAgent::parse( const char * msg )
     {
         M_impl->analyzeChangePlayerType( msg );
     }
+    else if ( ! std::strncmp( msg, "(hello. can you hear me?)", 25) ){
+        printf("Holis, ya lo leí :(\n");
+        M_impl->analyzeHello(msg);
+    }
     else if ( ! std::strncmp( msg, "(player_type ", 13 ) )  // hetero param
     {
         M_impl->analyzePlayerType( msg );
@@ -1937,6 +1947,22 @@ PlayerAgent::Impl::analyzePlayerType( const char * msg )
     PlayerTypeSet::instance().insert( player_type );
 
     agent_.handlePlayerType();
+}
+
+/*-------------------------------------------------------------------*/
+/*!
+
+*/
+void
+PlayerAgent::Impl::analyzeHello( const char * msg ){
+
+    dlog.addText( Logger::SENSOR,
+                  "===receive hello");
+    std::cout <<  "A player"
+                << " receive freeform " << msg
+                << std::endl;  
+
+    agent_.handleHello();
 }
 
 /*-------------------------------------------------------------------*/
