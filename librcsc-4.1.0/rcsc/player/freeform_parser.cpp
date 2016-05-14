@@ -135,6 +135,7 @@ FreeformParser::parse( const char * msg )
 
     } else if(flag==2){
       total_read = 25;
+      printf("Hello from the other side\n");
 
     }
     return total_read;

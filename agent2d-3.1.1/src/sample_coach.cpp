@@ -541,7 +541,6 @@ SampleCoach::doSubstituteTiredPlayers()
         {
             // Substitute tired player for the fastest type in candidates.
             substituteTo( *unum, type );
-            printf("Cambiando el jugador %d\n",*unum);
             // If subsMax is reached, stop doing substitutions.
             if ( ++substitute_count >= PlayerParam::i().subsMax() )
             {
@@ -755,33 +754,35 @@ SampleCoach::sayHello(){
     -> (say (freeform "(hello, can you hear me?)"))
   */
     
-      static GameTime s_last_send_time( 0, 0 );
+      if ((world().time().cycle() > 300) && (world().time().cycle() < 600)){
+        static GameTime s_last_send_time( 0, 0 );
 
-      if ( ! config().useFreeform() )
-      {
-          return;
+        if ( ! config().useFreeform() )
+        {
+            return;
+        }
+
+        //Verify if the play-mode is not "play_on" or if already passed the 600 cycles since
+        // the last message on the play-mode "play_on"
+        if ( ! world().canSendFreeform() )
+        {
+            return;
+        }
+        
+        std::string msg;
+        msg.reserve( 128 );
+
+        msg = "(hello. can you hear me?)";
+        doSayFreeform( msg );
+
+        s_last_send_time = world().time();
+
+        std::cout << config().teamName()
+                  << " coach: "
+                  << world().time()
+                  << " sent freeform " << msg
+                  << std::endl;  
       }
-
-      //Verify if the play-mode is not "play_on" or if already passed the 600 cycles since
-      // the last message on the play-mode "play_on"
-      if ( ! world().canSendFreeform() )
-      {
-          return;
-      }
-      std::string msg;
-      msg.reserve( 128 );
-
-      msg = "(hello. can you hear me?)";
-      doSayFreeform( msg );
-
-      s_last_send_time = world().time();
-
-      std::cout << config().teamName()
-                << " coach: "
-                << world().time()
-                << " sent freeform " << msg
-                << std::endl;  
-    
     
 }
 

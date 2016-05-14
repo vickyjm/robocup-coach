@@ -513,9 +513,6 @@ protected:
     void handlePlayerType()
       { }
 
-    virtual
-    void handleHello(){}
-
     //
     //
     //
