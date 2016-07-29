@@ -60,6 +60,7 @@ def extractTypeInfo(side, unum, line):
 		if ((line[i] == side) and (line[i+1] == unum)):
 			i = i + 2 		# Move to the first value of the selected player
 			break
+		i = i+1
 
 	return int(line[i])
 
@@ -136,9 +137,38 @@ def ownerPlayer(ball_posX, ball_posY, left_pPosX, left_pPosY, right_pPosX, right
 		return owner
 	return ""
 
+##------------------------------------------------------------##
+#	This function determines if a pass has ocurred			   #
+#															   #
+#	Param:													   #
+#		ball_velXNew,ball_velYNew: ball's velocity on the X    #
+#								   and Y axes for the          #
+#								   current cycle.		   	   #
+#		ball_velXOld,ball_velYOld: ball's velocity on the X    #
+#								   and Y axes for the          #
+#								   last cycle.		   	       #
+#		ownerNew: current owner of the ball.                   #
+#		OwnerOld: owner of the ball for the last cycle.        #
+##------------------------------------------------------------##
+def isPass(ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld):
+	if ((ball_velXNew != ball_velXOld) or (ball_velYNew != ball_velYOld)) :
+		if (ownerNew != ownerOld) and (ownerNew != "") and (ownerOld != "") :
+			if (ownerNew[0] == ownerOld[0]) :
+				return "PASS"
+			elif (ownerNew[0] != ownerOld[0]) :
+				return "INTERCEPT"
+	
+	return ""
 
 ##---- Main function ----##
 if __name__ == "__main__":
+
+	ball_velXOld = 0;
+	ball_velYOld = 0;
+	ball_velXNew = 0;
+	ball_velYNew = 0;
+	ownerOld = "";
+	ownerNew = "";
 
 	with open(sys.argv[1]) as file:
 		for line in file:
@@ -169,6 +199,23 @@ if __name__ == "__main__":
 				print("Team L-Y", left_pPosY)
 				print("Team R-X", right_pPosX)
 				print("Team R-Y", right_pPosY)
+
+				##---- Obtaining the current owner of the ball ----##
+				owner = ownerPlayer(ball_posX,ball_posY,left_pPosX,left_pPosY,right_pPosX,right_pPosY,line)
+				if not(owner == "") :
+					##---- If there is an owner, store it in ownerNew ----##
+					ownerNew = owner
+
+				##---- Extract the current ball velocity ----##
+				ball_velXNew = extractBallInfo("ballvel.x",line)
+				ball_velYNew = extractBallInfo("ballvel.y",line)
+
+				print(isPass(ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld))
+
+				##---- Assign the Old Ball Velocity and Owner ----##
+				ballvelXOld = ball_velXNew
+				ballvelYOld = ball_velYNew
+				ownerOld = ownerNew
 
 			
 
