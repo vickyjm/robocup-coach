@@ -150,9 +150,10 @@ def ownerPlayer(ball_posX, ball_posY, left_pPosX, left_pPosY, right_pPosX, right
 #								   and Y axes for the          #
 #								   last cycle.		   	       #
 #		ownerNew: current owner of the ball.                   #
-#		OwnerOld: owner of the ball for the last cycle.        #
+#		ownerOld: owner of the ball for the last cycle.        #
+#		owner: Real owner according to our function.           #
 ##------------------------------------------------------------##
-def isPass(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld):
+def isPass(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,owner):
 	if ((ball_velXNew != ball_velXOld) or (ball_velYNew != ball_velYOld)) :
 		if (ownerNew != ownerOld) and (ownerNew != "") and (ownerOld != "") :
 			if (ownerNew[0] == ownerOld[0]) :
@@ -160,7 +161,8 @@ def isPass(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velY
 			elif (ownerNew[0] != ownerOld[0]) :
 				return "INTERCEPT"
 		if (ownerNew == ownerOld) and (ownerNew != "") and (ownerOld != "") :
-			return "DRIBBLE"
+			if (owner != "") :
+				return "DRIBBLE"
 	
 	return ""
 
@@ -214,7 +216,7 @@ if __name__ == "__main__":
 				ball_velXNew = extractBallInfo("ballvel.x",line)
 				ball_velYNew = extractBallInfo("ballvel.y",line)
 
-				print(isPass(ball_posX,ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld))
+				print(isPass(ball_posX,ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,owner))
 
 				##---- Assign the Old Ball Velocity and Owner ----##
 				ballvelXOld = ball_velXNew
