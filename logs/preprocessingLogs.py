@@ -28,7 +28,7 @@ def extractBallInfo(info, line):
 
 	##---- Move through the line until the 'b' char is found ----##
 	while (i < len(line)):
-		if (line[i]=="b"):
+		if (line[i]=="((b)"):
 			break
 		i = i + 1
 
@@ -40,7 +40,8 @@ def extractBallInfo(info, line):
 	elif (info == "ballvel.x"):
 		return float(line[i+3])
 	elif (info == "ballvel.y"):
-		return float(line[i+4])
+		tmp = re.sub(r'[()]', '', line[i+4]) # Remove ")"
+		return float(tmp)
 
 ##------------------------------------------------------------##
 #	Function used to extract the type of a certain player from #
@@ -56,11 +57,11 @@ def extractTypeInfo(side, unum, line):
 	i = 0
 
 	##---- Move through the line until the player is found ----##
-	while (i < len(line) - 1):
-		if ((line[i] == side) and (line[i+1] == unum)):
+	while (i < len(line) - 2):
+		if ((line[i] == "((" + side) and (line[i+1] == unum + ")")):
 			i = i + 2 		# Move to the first value of the selected player
 			break
-		i = i+1
+		i = i + 1
 
 	return int(line[i])
 
@@ -81,7 +82,7 @@ def extractPosInfo(side, unum, info, line):
 
 	##---- Move through the line until the player is found ----##
 	while (i < len(line) - 1):
-		if ((line[i] == side) and (line[i+1] == unum)):
+		if ((line[i] == "((" + side) and (line[i+1] == unum + ")")):
 			i = i + 4  		# Move to the first value of the selected player
 			break
 		i = i + 1
@@ -99,6 +100,29 @@ def extractPosInfo(side, unum, info, line):
 	elif (info == "neck"):
 		return float(line[i+5])
 
+
+##------------------------------------------------------------##
+#	Function used to extract the kick_rand value of a certain  #
+#	type of player from the logfile. 						   #
+#															   #
+#	Param:													   #
+#		line: (show) line from the logfile. 				   #
+##------------------------------------------------------------##
+def extractKickTypeInfo(line):
+	i = 0
+	newLine = []
+
+	##---- Remove parenthesis and separates	fields ----##
+	for elem in line:
+		tmp = re.sub(r'[()]', ' ', elem) 
+		newLine += tmp.split()
+
+	##---- Move through the line until the kick_rand is found ----##
+	while (i < len(newLine) - 1):
+		if (newLine[i] == "kick_rand"):
+			return float(newLine[i+1])
+		i = i + 1
+
 ##------------------------------------------------------------##
 #	This function determines the ball owner. 				   #
 #															   #
@@ -108,33 +132,34 @@ def extractPosInfo(side, unum, info, line):
 #		left_pPosX, left_pPosY: positions of the left team.    #
 #		right_pPosX, right_pPosY: positions of the right team. #
 #		line: (show) line from the logfile. 				   #
+#		kick_rand: random value given for the server.		   #
 ##------------------------------------------------------------##
-def ownerPlayer(ball_posX, ball_posY, left_pPosX, left_pPosY, right_pPosX, right_pPosY, line):
+def ownerPlayer(ball_posX, ball_posY, left_pPosX, left_pPosY, right_pPosX, right_pPosY, line, kick_rand):
 	radious = 0.05
 	owner = ""
 	minDist = 1000
 	ownerX = 0
 	ownerY = 0
 
-	kick_rand = [0.1, 0.14159, 0.15104, 0.124436, 0.0157965, 0.099886, 0.0898878, 0.0535193, 0.0588939,
-			0.0174025 , 0.0173421, 0.127044, 0.021123, 0.0793426, 0.167264, 0.117909, 0.0292589, 0.017753]
-
 	for i in range(11):
 		if (pow(ball_posX - left_pPosX[i], 2) + pow(ball_posY - left_pPosY[i], 2) < minDist):
 			ownerX = left_pPosX[i]
 			ownerY = left_pPosY[i]
-			owner = "l" + str(i+1)
+			owner = "l " + str(i+1)
 			minDist = pow(ball_posX - left_pPosX[i], 2) + pow(ball_posY - left_pPosY[i], 2)
 
 		if (pow(ball_posX - right_pPosX[i], 2) + pow(ball_posY - right_pPosY[i], 2) < minDist):
 			ownerX = right_pPosX[i]
 			ownerY = right_pPosY[i]
-			owner = "r" + str(i+1)
+			owner = "r " + str(i+1)
 			minDist = pow(ball_posX - right_pPosX[i], 2) + pow(ball_posY - right_pPosY[i], 2)
 
-	typePlayer = extractTypeInfo(owner[0], owner[1], line)
-	if (isOwner(ball_posX, ball_posY, ownerX, ownerY, radious + kick_rand[typePlayer])):
-		return owner
+	auxOwner = owner.split() 	# Convert into a list for extracting info
+	print("TEAM: ",owner)
+	if (owner != ""):
+		typePlayer = extractTypeInfo(auxOwner[0], auxOwner[1], line)
+		if (isOwner(ball_posX, ball_posY, ownerX, ownerY, radious + kick_rand[typePlayer])):
+			return owner
 	return ""
 
 ##------------------------------------------------------------##
@@ -175,20 +200,20 @@ if __name__ == "__main__":
 	ball_velYNew = 0;
 	ownerOld = "";
 	ownerNew = "";
+	kick_rand = []
 
 	with open(sys.argv[1]) as file:
 		for line in file:
 			left_pPosX, left_pPosY = [], []
 			right_pPosX, right_pPosY = [], []
-			if ((line[1] == "s") and (line[2] == "h")):	# Is a (show) line
-				line = re.sub(r'[()]', '', line) 		# Remove parenthesis
-				line = line.split()						# Split into a list
+			line = line.split()						# Split into a list
+			if ((line[0] == "(show")):	# Is a (show) line
 
 				##---- Extract ball info ----##
 				ball_posX = extractBallInfo("ballpos.x", line)
 				ball_posY = extractBallInfo("ballpos.y", line)
-				print("Ball_X: ", ball_posX)
-				print("Ball_Y: ", ball_posY)
+				#print("Ball_X: ", ball_posX)
+				#print("Ball_Y: ", ball_posY)
 
 				for i in range(11):
 					unum = str(i+1) 				# Uniform number
@@ -197,17 +222,18 @@ if __name__ == "__main__":
 					left_pPosX.append(extractPosInfo("l", unum, "pos.x", line))
 					left_pPosY.append(extractPosInfo("l", unum, "pos.y", line))
 
+
 					##---- Extract player's position (Right Team) ----##
 					right_pPosX.append(extractPosInfo("r", unum, "pos.x", line))
 					right_pPosY.append(extractPosInfo("r", unum, "pos.y", line))
 
-				print("Team L-X", left_pPosX)
-				print("Team L-Y", left_pPosY)
-				print("Team R-X", right_pPosX)
-				print("Team R-Y", right_pPosY)
+				# print("Team L-X", left_pPosX)
+				# print("Team L-Y", left_pPosY)
+				# print("Team R-X", right_pPosX)
+				# print("Team R-Y", right_pPosY)
 
-				##---- Obtaining the current owner of the ball ----##
-				owner = ownerPlayer(ball_posX,ball_posY,left_pPosX,left_pPosY,right_pPosX,right_pPosY,line)
+				#---- Obtaining the current owner of the ball ----##
+				owner = ownerPlayer(ball_posX,ball_posY,left_pPosX,left_pPosY,right_pPosX,right_pPosY,line,kick_rand)
 				if not(owner == "") :
 					##---- If there is an owner, store it in ownerNew ----##
 					ownerNew = owner
@@ -222,6 +248,11 @@ if __name__ == "__main__":
 				ballvelXOld = ball_velXNew
 				ballvelYOld = ball_velYNew
 				ownerOld = ownerNew
+
+			elif (line[0] == "(player_type"):
+				kick_rand.append(extractKickTypeInfo(line))
+
+
 
 			
 
