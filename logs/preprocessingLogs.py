@@ -211,7 +211,7 @@ def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld
 					if (ball_posX <= -42.5) and (ball_posY > -10) and (ball_posY < 10) :
 						return "UNSUCCESSFUL SHOT"
 				distance = sqrt(pow(ball_posX - oldOwner_X, 2) + pow(ball_posY - oldOwner_Y, 2))/10
-				if (distance < 10) : 							# If the ball was lost near the old owner
+				if (distance < 5) : 							# If the ball was lost near the old owner
 					return "UNSUCCESSFUL DRIBBLE"
 				else :
 					return "UNSUCCESSFUL PASS"
