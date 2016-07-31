@@ -155,7 +155,6 @@ def ownerPlayer(ball_posX, ball_posY, left_pPosX, left_pPosY, right_pPosX, right
 			minDist = pow(ball_posX - right_pPosX[i], 2) + pow(ball_posY - right_pPosY[i], 2)
 
 	auxOwner = owner.split() 	# Convert into a list for extracting info
-	print("TEAM: ",owner)
 	if (owner != ""):
 		typePlayer = extractTypeInfo(auxOwner[0], auxOwner[1], line)
 		if (isOwner(ball_posX, ball_posY, ownerX, ownerY, radious + kick_rand[typePlayer])):
@@ -163,7 +162,8 @@ def ownerPlayer(ball_posX, ball_posY, left_pPosX, left_pPosY, right_pPosX, right
 	return ""
 
 ##------------------------------------------------------------##
-#	This function determines if a pass has ocurred			   #
+#	This function classifies the actions that have occurred    #
+#   during the match.                            			   #
 #															   #
 #	Param:													   #
 #		ball_posX, ball_posY: ball's position on the X and     #
@@ -176,18 +176,45 @@ def ownerPlayer(ball_posX, ball_posY, left_pPosX, left_pPosY, right_pPosX, right
 #								   last cycle.		   	       #
 #		ownerNew: current owner of the ball.                   #
 #		ownerOld: owner of the ball for the last cycle.        #
+#       oldOwner_X, oldOwner_Y: Position of the old owner in   #
+#                               the X and Y axes.              #
 #		owner: Real owner according to our function.           #
 ##------------------------------------------------------------##
-def isPass(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,owner):
+def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,oldOwner_X,oldOwner_Y,owner):
+	# -- Checking how many digits the owner's ids have -- #
+	ownerO = ""
+	ownerN = ""
+	if (len(ownerOld) == 4) :
+		ownerO = ownerOld[2]+ownerOld[3]
+	elif (len(ownerOld) == 3) :
+		ownerO = ownerOld[2]
+
+	if (len(ownerNew) == 4) :
+		ownerN = ownerNew[2]+ownerNew[3]
+	elif (len(ownerNew) == 3) :
+		ownerN = ownerNew[2]
+
+	# If the ball velocity has changed it means it has moved
 	if ((ball_velXNew != ball_velXOld) or (ball_velYNew != ball_velYOld)) :
 		if (ownerNew != ownerOld) and (ownerNew != "") and (ownerOld != "") :
-			if (ownerNew[0] == ownerOld[0]) :
-				return "PASS"
-			elif (ownerNew[0] != ownerOld[0]) :
-				return "INTERCEPT"
-		if (ownerNew == ownerOld) and (ownerNew != "") and (ownerOld != "") :
-			if (owner != "") :
-				return "DRIBBLE"
+			if (ownerNew[0] == ownerOld[0]) : 					# If the ball stayed in the same team
+				if (ownerN != ownerO) : 						# If the ball changed owners
+					return "PASS"
+				else : 											# If it stayed with the same owner
+					if (owner != "") : 							# If the real owner exists (The ball isn't floating around)
+						return "DRIBBLE"
+			elif (ownerNew[0] != ownerOld[0]) :				    # If the ball changed teams
+				if (ownerOld[0] == "l") :						# Check for unsuccessful shots to the goal
+					if (ball_posX >= 42.5) and (ball_posY > -10) and (ball_posY < 10) :
+						return "UNSUCCESSFUL SHOT"
+				elif (ownerOld[0] == "r") :
+					if (ball_posX <= -42.5) and (ball_posY > -10) and (ball_posY < 10) :
+						return "UNSUCCESSFUL SHOT"
+				distance = sqrt(pow(ball_posX - oldOwner_X, 2) + pow(ball_posY - oldOwner_Y, 2))/10
+				if (distance < 10) : 							# If the ball was lost near the old owner
+					return "UNSUCCESSFUL DRIBBLE"
+				else :
+					return "UNSUCCESSFUL PASS"
 	
 	return ""
 
@@ -202,6 +229,7 @@ if __name__ == "__main__":
 	ownerNew = "";
 	kick_rand = []
 
+	cycle = 1
 	with open(sys.argv[1]) as file:
 		for line in file:
 			left_pPosX, left_pPosY = [], []
@@ -234,7 +262,8 @@ if __name__ == "__main__":
 
 				#---- Obtaining the current owner of the ball ----##
 				owner = ownerPlayer(ball_posX,ball_posY,left_pPosX,left_pPosY,right_pPosX,right_pPosY,line,kick_rand)
-				if not(owner == "") :
+				print("Cycle "+str(cycle)+" : "+owner)
+				if (owner != "") :
 					##---- If there is an owner, store it in ownerNew ----##
 					ownerNew = owner
 
@@ -242,12 +271,28 @@ if __name__ == "__main__":
 				ball_velXNew = extractBallInfo("ballvel.x",line)
 				ball_velYNew = extractBallInfo("ballvel.y",line)
 
-				print(isPass(ball_posX,ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,owner))
+				##---- Extract the old owner's position ----##
+				oldOwner_X = None;
+				oldOwner_Y = None;
+				if (ownerOld != "") :
+					if (len(ownerOld) == 4) :
+						ownerONum = ownerOld[2]+ownerOld[3]
+					else :
+						ownerONum = ownerOld[2]
+
+					oldOwner_X = extractPosInfo(ownerOld[0], ownerONum, "pos.x", line)
+					oldOwner_Y = extractPosInfo(ownerOld[0], ownerONum, "pos.y", line)
+
+				action = actionClassifier(ball_posX,ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,oldOwner_X,oldOwner_Y,owner)
+				# if (action != "") :
+				# 	print(action)
 
 				##---- Assign the Old Ball Velocity and Owner ----##
 				ballvelXOld = ball_velXNew
 				ballvelYOld = ball_velYNew
 				ownerOld = ownerNew
+
+				cycle = cycle+1
 
 			elif (line[0] == "(player_type"):
 				kick_rand.append(extractKickTypeInfo(line))
