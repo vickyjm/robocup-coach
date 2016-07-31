@@ -205,10 +205,10 @@ def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld
 						return "DRIBBLE"
 			elif (ownerNew[0] != ownerOld[0]) :				    # If the ball changed teams
 				if (ownerOld[0] == "l") :						# Check for unsuccessful shots to the goal
-					if (ball_posX >= 42.5) and (ball_posY > -10) and (ball_posY < 10) :
+					if (ball_posX >= 42.5) and (ball_posY > -10) and (ball_posY < 10) and (ball_velXOld > 0):
 						return "UNSUCCESSFUL SHOT"
 				elif (ownerOld[0] == "r") :
-					if (ball_posX <= -42.5) and (ball_posY > -10) and (ball_posY < 10) :
+					if (ball_posX <= -42.5) and (ball_posY > -10) and (ball_posY < 10) and (ball_velXOld < 0):
 						return "UNSUCCESSFUL SHOT"
 				distance = sqrt(pow(ball_posX - oldOwner_X, 2) + pow(ball_posY - oldOwner_Y, 2))/10
 				if (distance < 5) : 							# If the ball was lost near the old owner
