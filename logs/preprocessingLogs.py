@@ -296,6 +296,8 @@ if __name__ == "__main__":
 
 			elif (line[0] == "(player_type"):
 				kick_rand.append(extractKickTypeInfo(line))
+			elif (line[0] == "(play_mode" and line[4] == "goal") : # Check if a goal happened
+				print("GOAL")
 
 
 
