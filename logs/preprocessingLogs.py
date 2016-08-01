@@ -284,8 +284,8 @@ if __name__ == "__main__":
 					oldOwner_Y = extractPosInfo(ownerOld[0], ownerONum, "pos.y", line)
 
 				action = actionClassifier(ball_posX,ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,oldOwner_X,oldOwner_Y,owner)
-				# if (action != "") :
-				# 	print(action)
+				if (action != "") :
+				 	print(action)
 
 				##---- Assign the Old Ball Velocity and Owner ----##
 				ballvelXOld = ball_velXNew
@@ -296,7 +296,7 @@ if __name__ == "__main__":
 
 			elif (line[0] == "(player_type"):
 				kick_rand.append(extractKickTypeInfo(line))
-			elif (line[0] == "(play_mode" and line[4] == "goal") : # Check if a goal happened
+			elif (line[0] == "(playmode" and (line[2] == "goal_l)" or line[2]=="goal_r)")) : # Check if a goal happened
 				print("GOAL")
 
 
