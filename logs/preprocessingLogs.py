@@ -200,9 +200,6 @@ def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld
 			if (ownerNew[0] == ownerOld[0]) : 					# If the ball stayed in the same team
 				if (ownerN != ownerO) : 						# If the ball changed owners
 					return "PASS"
-				else : 											# If it stayed with the same owner
-					if (owner != "") : 							# If the real owner exists (The ball isn't floating around)
-						return "DRIBBLE"
 			elif (ownerNew[0] != ownerOld[0]) :				    # If the ball changed teams
 				if (ownerOld[0] == "l") :						# Check for unsuccessful shots to the goal
 					if (ball_posX >= 42.5) and (ball_posY > -10) and (ball_posY < 10) and (ball_velXOld > 0):
@@ -215,6 +212,8 @@ def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld
 					return "UNSUCCESSFUL DRIBBLE"
 				else :
 					return "UNSUCCESSFUL PASS"
+		elif (ownerNew == ownerOld) and (ownerNew != "") and (ownerOld != "") :
+			return "DRIBBLE"
 	
 	return ""
 
