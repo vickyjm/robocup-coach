@@ -216,6 +216,52 @@ def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld
 	
 	return ""
 
+def chooseTeammates(owner, team_posX, team_posY, old_bx, old_by):
+	auxOwner = owner.split()
+	ownerX = team_posX[auxOwner[1]]
+	ownerY = team_posY[auxOwner[1]]
+
+	teammates = [[ownerX, ownerY]] # Add the info about the owner
+
+	##---- The second teammate correspond to the player who is closer to the owner ----##
+	minDist = sqrt(pow(ownerX - team_posX[0]) + pow(ownerY - team_posY[0]))
+	auxPlayer = 0
+
+	for i in range(1,11):
+		if (str(i) != auxOwner[1]): 	# Discard the owner
+			actualDist = sqrt(pow(ownerX - team_posX[i]) + pow(ownerY - team_posY[i]))
+			if (minDist > actualDist):
+				minDist = actualDist
+				auxPlayer = i
+
+	teammates.append([team_posX[auxPlayer], team_posY[auxPlayer]]) # Add the info about the second teammate
+
+	##---- The third teammate correspond to the player who is closer to the ball's trajectory ----##
+	minDist = sqrt(pow(old_bx - team_posX[0]) + pow(old_by - team_posY[0]))
+	auxPlayer = 0
+
+	return teammates
+
+def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by):
+	opponents = []
+
+	minDist = sqrt(pow(ownerX - team_posX[0]) + pow(ownerY - team_posY[0]))
+	auxPlayer = 0
+
+	##---- The first opponent correspond to the player who is closer to the owner ----##
+	for i in range(1,11):
+		actualDist = minDist = sqrt(pow(ownerX - team_posX[i]) + pow(ownerY - team_posY[i]))
+		if (minDist > actualDist):
+			minDist = actualDist
+			auxPlayer = i
+
+	##---- The second opponent correspond to the player who is closer to last position of the ball ----##
+
+	return opponents
+
+
+
+
 ##---- Main function ----##
 if __name__ == "__main__":
 
@@ -226,6 +272,7 @@ if __name__ == "__main__":
 	ownerOld = "";
 	ownerNew = "";
 	kick_rand = []
+	file = open("logActions.dat","w") # Output file
 
 	cycle = 1
 	with open(sys.argv[1]) as file:
@@ -260,7 +307,7 @@ if __name__ == "__main__":
 
 				#---- Obtaining the current owner of the ball ----##
 				owner = ownerPlayer(ball_posX,ball_posY,left_pPosX,left_pPosY,right_pPosX,right_pPosY,line,kick_rand)
-				print("Cycle "+str(cycle)+" : "+owner)
+				#print("Cycle "+str(cycle)+" : "+owner)
 				if (owner != "") :
 					##---- If there is an owner, store it in ownerNew ----##
 					ownerNew = owner
@@ -282,7 +329,24 @@ if __name__ == "__main__":
 					oldOwner_Y = extractPosInfo(ownerOld[0], ownerONum, "pos.y", line)
 
 				action = actionClassifier(ball_posX,ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,oldOwner_X,oldOwner_Y)
-				 	print(action)
+				
+				if (action != ""):
+					print(action)
+					##---- Add the action and the values to the output file ----#
+					# auxOwner = ownerNew.split()
+					# if (auxOwner[0] == "l"):
+					# 	teammates = chooseTeammates(ownerNew, left_pPosX, left_pPosY)
+					# 	opponents = chooseOpponents(ownerNew, right_pPosX, right_pPosY)
+					# else:
+					# 	teammates = chooseTeammates(ownerNew, right_pPosX, right_pPosY)
+					# 	opponents = chooseOpponents(ownerNew, left_pPosX, left_pPosY)
+
+					# file.write(str(ball_posX) + " " + str(ball_posY) + " ") # Ball position
+					# for player in teammates:
+					# 	file.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
+					# for player in opponents:
+					# 	file.write(str(player[0]) + " " + str(player[1]) + " ")
+					# file.write(action + "\n")
 
 				##---- Assign the Old Ball Velocity and Owner ----##
 				ballvelXOld = ball_velXNew
