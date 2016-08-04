@@ -178,8 +178,10 @@ def ownerPlayer(ball_posX, ball_posY, left_pPosX, left_pPosY, right_pPosX, right
 #		ownerOld: owner of the ball for the last cycle.        #
 #       oldOwner_X, oldOwner_Y: Position of the old owner in   #
 #                               the X and Y axes.              #
+# 		owner : 				Real owner of the ball in      #
+#								the current cycle.             #
 ##------------------------------------------------------------##
-def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,oldOwner_X,oldOwner_Y):
+def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,oldOwner_X,oldOwner_Y,owner):
 	# -- Checking how many digits the owner's ids have -- #
 	ownerO = ""
 	ownerN = ""
@@ -211,7 +213,7 @@ def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld
 					return "UNSUCCESSFUL DRIBBLE"
 				else :
 					return "UNSUCCESSFUL PASS"
-		elif (ownerNew == ownerOld) and (ownerNew != "") and (ownerOld != "") :
+		elif (ownerNew == ownerOld) and (ownerNew != "") and (ownerOld != "") and (owner != "") :
 			return "DRIBBLE"
 	
 	return ""
@@ -328,7 +330,7 @@ if __name__ == "__main__":
 					oldOwner_X = extractPosInfo(ownerOld[0], ownerONum, "pos.x", line)
 					oldOwner_Y = extractPosInfo(ownerOld[0], ownerONum, "pos.y", line)
 
-				action = actionClassifier(ball_posX,ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,oldOwner_X,oldOwner_Y)
+				action = actionClassifier(ball_posX,ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,oldOwner_X,oldOwner_Y,owner)
 				
 				if (action != ""):
 					print(action)
