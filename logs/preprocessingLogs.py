@@ -218,46 +218,81 @@ def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld
 	
 	return ""
 
-def chooseTeammates(owner, team_posX, team_posY, old_bx, old_by):
+def chooseTeammates(owner, team_posX, team_posY, bx, by):
 	auxOwner = owner.split()
-	ownerX = team_posX[auxOwner[1]]
-	ownerY = team_posY[auxOwner[1]]
+	ownerX = team_posX[int(auxOwner[1]) - 1]
+	ownerY = team_posY[int(auxOwner[1]) - 1]
 
 	teammates = [[ownerX, ownerY]] # Add the info about the owner
 
 	##---- The second teammate correspond to the player who is closer to the owner ----##
-	minDist = sqrt(pow(ownerX - team_posX[0]) + pow(ownerY - team_posY[0]))
-	auxPlayer = 0
-
-	for i in range(1,11):
-		if (str(i) != auxOwner[1]): 	# Discard the owner
-			actualDist = sqrt(pow(ownerX - team_posX[i]) + pow(ownerY - team_posY[i]))
-			if (minDist > actualDist):
-				minDist = actualDist
-				auxPlayer = i
-
-	teammates.append([team_posX[auxPlayer], team_posY[auxPlayer]]) # Add the info about the second teammate
+	minDistSecond = sqrt(pow(ownerX - team_posX[0], 2) + pow(ownerY - team_posY[0], 2))
+	auxSecondP = 0
 
 	##---- The third teammate correspond to the player who is closer to the ball's trajectory ----##
-	minDist = sqrt(pow(old_bx - team_posX[0]) + pow(old_by - team_posY[0]))
-	auxPlayer = 0
+	minDistThird = sqrt(pow(bx - team_posX[0], 2) + pow(by - team_posY[0], 2))
+	auxThirdP = 0
+
+	for i in range(1,11):
+		if (str(i + 1) != auxOwner[1]): 	# Discard the owner
+			actualSecondDist = sqrt(pow(ownerX - team_posX[i], 2) + pow(ownerY - team_posY[i], 2))
+			if (minDistSecond > actualSecondDist):
+				minDistSecond = actualSecondDist
+				auxSecondP = i
+
+			actualThirdDist = sqrt(pow(bx - team_posX[i], 2) + pow(by - team_posY[i], 2))
+			if (minDistThird > actualThirdDist):
+				minDistThird = actualThirdDist
+				auxThirdP = i
+
+	teammates.append([team_posX[auxSecondP], team_posY[auxSecondP]]) 	# Add the info about the second teammate
+	teammates.append([team_posX[auxThirdP], team_posY[auxThirdP]]) 		# Add the info about the third teammate
 
 	return teammates
 
-def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by):
+def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by, old_bx, old_by):
 	opponents = []
 
-	minDist = sqrt(pow(ownerX - team_posX[0]) + pow(ownerY - team_posY[0]))
+	##---- The first opponent correspond to the player who is closer to the owner ----##
+	minDist = sqrt(pow(ownerX - team_posX[0], 2) + pow(ownerY - team_posY[0], 2))
 	auxPlayer = 0
 
-	##---- The first opponent correspond to the player who is closer to the owner ----##
+	##---- The second opponent correspond to the player who is closer to last position of the ball ----##
+	minDistSecond = sqrt(pow(bx - team_posX[0], 2) + pow(by - team_posY[0], 2))
+	auxSecondP = 0
+	
 	for i in range(1,11):
-		actualDist = minDist = sqrt(pow(ownerX - team_posX[i]) + pow(ownerY - team_posY[i]))
+		actualDist = sqrt(pow(ownerX - team_posX[i], 2) + pow(ownerY - team_posY[i], 2))
 		if (minDist > actualDist):
 			minDist = actualDist
 			auxPlayer = i
 
-	##---- The second opponent correspond to the player who is closer to last position of the ball ----##
+		actualDistSecond = sqrt(pow(bx - team_posX[i], 2) + pow(by - team_posY[i], 2))
+		if (minDistSecond > actualDistSecond):
+			minDistSecond = actualDistSecond
+			auxSecondP = i
+
+	opponents.append([team_posX[auxPlayer], team_posY[auxPlayer]]) 		# Add the info about the first opponent
+	opponents.append([team_posX[auxSecondP], team_posY[auxSecondP]])	# Add the info about the second opponent
+
+	##---- The third and the fourth opponents corresponds to the players near to the center of action path ----##
+	auxPlayer = 0
+	auxSecondP = 1
+	middlePoint = [(bx + old_bx)/2, (by + old_by)/2]
+	minDist = sqrt(pow(middlePoint[0] - team_posX[0], 2) + pow(middlePoint[1] - team_posY[0], 2))
+	minDistSecond = sqrt(pow(middlePoint[0] - team_posX[1], 2) + pow(middlePoint[1] - team_posY[1], 2))
+	
+	for i in range(2,11):
+		actualDist = sqrt(pow(middlePoint[0] - team_posX[i], 2) + pow(middlePoint[1] - team_posY[i], 2))
+		if (minDist > actualDist):
+			minDist = actualDist
+			auxPlayer = i
+		elif (minDistSecond > actualDist):
+			minDistSecond = actualDist
+			auxSecondP = i
+
+	opponents.append([team_posX[auxPlayer], team_posY[auxPlayer]]) 		# Add the info about the third player
+	opponents.append([team_posX[auxSecondP], team_posY[auxSecondP]])	# Add the info about the fourth player
 
 	return opponents
 
@@ -267,14 +302,16 @@ def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by):
 ##---- Main function ----##
 if __name__ == "__main__":
 
-	ball_velXOld = 0;
-	ball_velYOld = 0;
-	ball_velXNew = 0;
-	ball_velYNew = 0;
-	ownerOld = "";
-	ownerNew = "";
+	ball_velXOld = 0
+	ball_velYOld = 0
+	ball_velXNew = 0
+	ball_velYNew = 0
+	ball_posXOld = None
+	ball_posYOld = None
+	ownerOld = ""
+	ownerNew = ""
 	kick_rand = []
-	file = open("logActions.dat","w") # Output file
+	outputFile = open("logActions.dat","w") # Output file
 
 	cycle = 1
 	with open(sys.argv[1]) as file:
@@ -287,8 +324,10 @@ if __name__ == "__main__":
 				##---- Extract ball info ----##
 				ball_posX = extractBallInfo("ballpos.x", line)
 				ball_posY = extractBallInfo("ballpos.y", line)
-				#print("Ball_X: ", ball_posX)
-				#print("Ball_Y: ", ball_posY)
+
+				if (ball_posXOld == None): 			# First line of the action
+					ball_posXOld = ball_posX
+					ball_posYOld = ball_posY
 
 				for i in range(11):
 					unum = str(i+1) 				# Uniform number
@@ -333,22 +372,33 @@ if __name__ == "__main__":
 				action = actionClassifier(ball_posX,ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,oldOwner_X,oldOwner_Y,owner)
 				
 				if (action != ""):
+					print("Ball_X_Y: ", ball_posX, ball_posY, owner)
+					print("Team L-X", left_pPosX)
+					print("Team L-Y", left_pPosY)
+					print("Team R-X", right_pPosX)
+					print("Team R-Y", right_pPosY)
 					print(action)
-					##---- Add the action and the values to the output file ----#
-					# auxOwner = ownerNew.split()
-					# if (auxOwner[0] == "l"):
-					# 	teammates = chooseTeammates(ownerNew, left_pPosX, left_pPosY)
-					# 	opponents = chooseOpponents(ownerNew, right_pPosX, right_pPosY)
-					# else:
-					# 	teammates = chooseTeammates(ownerNew, right_pPosX, right_pPosY)
-					# 	opponents = chooseOpponents(ownerNew, left_pPosX, left_pPosY)
+					##---- Add the action and the values to the output file ----##
+					auxOwner = ownerNew.split()
+					ownerX = extractPosInfo(auxOwner[0], auxOwner[1], "pos.x", line)	# Extract actual owner position
+					ownerY = extractPosInfo(auxOwner[0], auxOwner[1], "pos.y", line)
 
-					# file.write(str(ball_posX) + " " + str(ball_posY) + " ") # Ball position
-					# for player in teammates:
-					# 	file.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
-					# for player in opponents:
-					# 	file.write(str(player[0]) + " " + str(player[1]) + " ")
-					# file.write(action + "\n")
+					if (auxOwner[0] == "l"):
+						teammates = chooseTeammates(ownerNew, left_pPosX, left_pPosY, ball_posX, ball_posY)
+						opponents = chooseOpponents(ownerX, ownerY, right_pPosX, right_pPosY, ball_posX, ball_posY, ball_posXOld, ball_posYOld)
+					else:
+						teammates = chooseTeammates(ownerNew, right_pPosX, right_pPosY, ball_posX, ball_posY)
+						opponents = chooseOpponents(ownerX, ownerY, left_pPosX, left_pPosY, ball_posX, ball_posY, ball_posXOld, ball_posYOld)
+
+					outputFile.write(str(ball_posX) + " " + str(ball_posY) + " ") # Ball position
+					for player in teammates:
+						outputFile.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
+					for player in opponents:
+						outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
+					outputFile.write(action + "\n")
+
+					ball_posXOld = None		# Restart the init values of the next action
+					ball_posYOld = None
 
 				##---- Assign the Old Ball Velocity and Owner ----##
 				ballvelXOld = ball_velXNew
