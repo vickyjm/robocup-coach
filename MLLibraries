@@ -1,0 +1,23 @@
+Waffles (C++) :
+	- Installing :
+		> git clone https://github.com/mikegashler/waffles.git waffles
+		> cd waffles/src
+		> sudo make install
+
+	- Running : (in waffles/src and make sure the .arffFile is in waffles/src too)
+		> waffles_learn train (.arffFile) decisiontree > (outputFile1) # For creading the tree
+		> waffles_plot printdecisiontree (outputFile1) (.arffFile) > (outputFile2) # Shows the tree in a readable format
+
+Weka (Java) :
+	- Installing :
+		http://www.cs.waikato.ac.nz/ml/weka/downloading.html (weka-3-8-0.zip) and unzip.
+
+	- Running :
+		> java -jar weka.jar
+		> Click on SimpleCLI
+		> In the new terminal type java weka.classifiers.trees.J48 -t ./data/iris.arff > outputFile
+
+Other libraries : 
+http://www.mlpack.org/
+http://dlib.net/
+
