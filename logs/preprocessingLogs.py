@@ -218,6 +218,16 @@ def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld
 	
 	return ""
 
+
+##------------------------------------------------------------##
+#	This function returns the teammates involved in the action.#
+#															   #
+#	Param:													   #
+#		owner: the owner of the ball.		   				   #
+#		team_posX, team_posY: positions of the team that owns  #
+#							  the ball.   					   #
+#		bx, by: ball position. 								   #
+##------------------------------------------------------------##
 def chooseTeammates(owner, team_posX, team_posY, bx, by):
 	auxOwner = owner.split()
 	ownerX = team_posX[int(auxOwner[1]) - 1]
@@ -250,6 +260,16 @@ def chooseTeammates(owner, team_posX, team_posY, bx, by):
 
 	return teammates
 
+##------------------------------------------------------------##
+#	This function returns the opponents involved in the action.#
+#															   #
+#	Param:													   #
+#		ownerX, ownerY: owner's position.	   				   #
+#		team_posX, team_posY: positions of the opponent team.  #
+#		bx, by: ball position. 								   #
+#		old_bx, old_by: position of the ball at the start of   #
+#						the action.							   #
+##------------------------------------------------------------##
 def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by, old_bx, old_by):
 	opponents = []
 
@@ -298,7 +318,6 @@ def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by, old_bx, old_by
 
 
 
-
 ##---- Main function ----##
 if __name__ == "__main__":
 
@@ -316,10 +335,10 @@ if __name__ == "__main__":
 	cycle = 1
 	with open(sys.argv[1]) as file:
 		for line in file:
-			left_pPosX, left_pPosY = [], []
-			right_pPosX, right_pPosY = [], []
 			line = line.split()						# Split into a list
 			if ((line[0] == "(show")):	# Is a (show) line
+				left_pPosX, left_pPosY = [], []
+				right_pPosX, right_pPosY = [], []
 
 				##---- Extract ball info ----##
 				ball_posX = extractBallInfo("ballpos.x", line)
@@ -372,21 +391,17 @@ if __name__ == "__main__":
 				action = actionClassifier(ball_posX,ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,oldOwner_X,oldOwner_Y,owner)
 				
 				if (action != ""):
-					print("Ball_X_Y: ", ball_posX, ball_posY, owner)
-					print("Team L-X", left_pPosX)
-					print("Team L-Y", left_pPosY)
-					print("Team R-X", right_pPosX)
-					print("Team R-Y", right_pPosY)
-					print(action)
 					##---- Add the action and the values to the output file ----##
 					auxOwner = ownerNew.split()
-					ownerX = extractPosInfo(auxOwner[0], auxOwner[1], "pos.x", line)	# Extract actual owner position
-					ownerY = extractPosInfo(auxOwner[0], auxOwner[1], "pos.y", line)
 
 					if (auxOwner[0] == "l"):
+						ownerX = left_pPosX[int(auxOwner[1]) - 1]
+						ownerY = left_pPosY[int(auxOwner[1]) - 1]
 						teammates = chooseTeammates(ownerNew, left_pPosX, left_pPosY, ball_posX, ball_posY)
 						opponents = chooseOpponents(ownerX, ownerY, right_pPosX, right_pPosY, ball_posX, ball_posY, ball_posXOld, ball_posYOld)
 					else:
+						ownerX = right_pPosX[int(auxOwner[1]) - 1]
+						ownerY = right_pPosY[int(auxOwner[1]) - 1]
 						teammates = chooseTeammates(ownerNew, right_pPosX, right_pPosY, ball_posX, ball_posY)
 						opponents = chooseOpponents(ownerX, ownerY, left_pPosX, left_pPosY, ball_posX, ball_posY, ball_posXOld, ball_posYOld)
 
@@ -410,8 +425,31 @@ if __name__ == "__main__":
 			elif (line[0] == "(player_type"):
 				kick_rand.append(extractKickTypeInfo(line))
 			elif (line[0] == "(playmode" and (line[2] == "goal_l)" or line[2]=="goal_r)")) : # Check if a goal happened
-				print("GOAL")
+				##---- Add the action and the values to the output file ----##
+				auxOwner = ownerNew.split()
 
+				if (auxOwner[0] == "l"):
+					ownerX = left_pPosX[int(auxOwner[1]) - 1]
+					ownerY = left_pPosY[int(auxOwner[1]) - 1]
+					teammates = chooseTeammates(ownerNew, left_pPosX, left_pPosY, ball_posX, ball_posY)
+					opponents = chooseOpponents(ownerX, ownerY, right_pPosX, right_pPosY, ball_posX, ball_posY, ball_posXOld, ball_posYOld)
+				else:
+					ownerX = right_pPosX[int(auxOwner[1]) - 1]
+					ownerY = right_pPosY[int(auxOwner[1]) - 1]
+					teammates = chooseTeammates(ownerNew, right_pPosX, right_pPosY, ball_posX, ball_posY)
+					opponents = chooseOpponents(ownerX, ownerY, left_pPosX, left_pPosY, ball_posX, ball_posY, ball_posXOld, ball_posYOld)
+
+				outputFile.write(str(ball_posX) + " " + str(ball_posY) + " ") # Ball position
+				for player in teammates:
+					outputFile.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
+				for player in opponents:
+					outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
+				outputFile.write("GOAL" + "\n")
+
+				ball_posXOld = None		# Restart the init values of the next action
+				ball_posYOld = None
+
+	outputFile.close()
 
 
 			
