@@ -208,13 +208,15 @@ def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld
 				elif (ownerOld[0] == "r") :
 					if (ball_posX <= -42.5) and (ball_posY > -10) and (ball_posY < 10) and (ball_velXOld < 0):
 						return "UNSUCCESSFUL SHOT"
-				distance = sqrt(pow(ball_posX - oldOwner_X, 2) + pow(ball_posY - oldOwner_Y, 2))/10
+				distance = sqrt(pow(ball_posX - oldOwner_X, 2) + pow(ball_posY - oldOwner_Y, 2))
 				if (distance < 5) : 							# If the ball was lost near the old owner
 					return "UNSUCCESSFUL DRIBBLE"
 				else :
 					return "UNSUCCESSFUL PASS"
 		elif (ownerNew == ownerOld) and (ownerNew != "") and (ownerOld != "") and (owner != "") :
-			return "DRIBBLE"
+			distance = sqrt(pow(ball_posX - oldOwner_X, 2) + pow(ball_posY - oldOwner_Y, 2))
+			if (distance > 0.5) : # If the ball and the owner have moved
+				return "DRIBBLE"
 	
 	return ""
 
@@ -410,6 +412,7 @@ if __name__ == "__main__":
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
 					for player in opponents:
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
+					# outputFile.write(action + " " + line[1] + "\n")
 					outputFile.write(action + "\n")
 
 					ball_posXOld = None		# Restart the init values of the next action
