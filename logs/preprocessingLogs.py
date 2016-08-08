@@ -338,6 +338,7 @@ if __name__ == "__main__":
 	with open(sys.argv[1]) as file:
 		for line in file:
 			line = line.split()						# Split into a list
+	
 			if ((line[0] == "(show")):	# Is a (show) line
 				left_pPosX, left_pPosY = [], []
 				right_pPosX, right_pPosY = [], []
@@ -357,19 +358,13 @@ if __name__ == "__main__":
 					left_pPosX.append(extractPosInfo("l", unum, "pos.x", line))
 					left_pPosY.append(extractPosInfo("l", unum, "pos.y", line))
 
-
 					##---- Extract player's position (Right Team) ----##
 					right_pPosX.append(extractPosInfo("r", unum, "pos.x", line))
 					right_pPosY.append(extractPosInfo("r", unum, "pos.y", line))
 
-				# print("Team L-X", left_pPosX)
-				# print("Team L-Y", left_pPosY)
-				# print("Team R-X", right_pPosX)
-				# print("Team R-Y", right_pPosY)
-
 				#---- Obtaining the current owner of the ball ----##
 				owner = ownerPlayer(ball_posX,ball_posY,left_pPosX,left_pPosY,right_pPosX,right_pPosY,line,kick_rand)
-				#print("Cycle "+str(cycle)+" : "+owner)
+				
 				if (owner != "") :
 					##---- If there is an owner, store it in ownerNew ----##
 					ownerNew = owner
@@ -391,7 +386,7 @@ if __name__ == "__main__":
 					oldOwner_Y = extractPosInfo(ownerOld[0], ownerONum, "pos.y", line)
 
 				action = actionClassifier(ball_posX,ball_posY,ball_velXNew,ball_velYNew,ball_velXOld,ball_velYOld,ownerNew,ownerOld,oldOwner_X,oldOwner_Y,owner)
-				
+	
 				if (action != ""):
 					##---- Add the action and the values to the output file ----##
 					auxOwner = ownerNew.split()
@@ -412,7 +407,6 @@ if __name__ == "__main__":
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
 					for player in opponents:
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
-					# outputFile.write(action + " " + line[1] + "\n")
 					outputFile.write(action + "\n")
 
 					ball_posXOld = None		# Restart the init values of the next action
