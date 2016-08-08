@@ -3,7 +3,6 @@ import sys
 
 
 def nearestTeammate(px, py, teammates):
-	print(teammates, px, py)
 	minDist = sqrt(pow(px - teammates[0][0], 2) + pow(py - teammates[0][1], 2))
 	for i in range(1,3):
 		dist = sqrt(pow(px - teammates[i][0], 2) + pow(py - teammates[i][1], 2))

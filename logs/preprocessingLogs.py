@@ -204,15 +204,15 @@ def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld
 			elif (ownerNew[0] != ownerOld[0]) :				    # If the ball changed teams
 				if (ownerOld[0] == "l") :						# Check for unsuccessful shots to the goal
 					if (ball_posX >= 42.5) and (ball_posY > -10) and (ball_posY < 10) and (ball_velXOld > 0):
-						return "UNSUCCESSFUL SHOT"
+						return "UNSUCCESSFULSHOOT"
 				elif (ownerOld[0] == "r") :
 					if (ball_posX <= -42.5) and (ball_posY > -10) and (ball_posY < 10) and (ball_velXOld < 0):
-						return "UNSUCCESSFUL SHOT"
+						return "UNSUCCESSFULSHOOT"
 				distance = sqrt(pow(ball_posX - oldOwner_X, 2) + pow(ball_posY - oldOwner_Y, 2))
 				if (distance < 5) : 							# If the ball was lost near the old owner
-					return "UNSUCCESSFUL DRIBBLE"
+					return "UNSUCCESSFULDRIBBLE"
 				else :
-					return "UNSUCCESSFUL PASS"
+					return "UNSUCCESSFULPASS"
 		elif (ownerNew == ownerOld) and (ownerNew != "") and (ownerOld != "") and (owner != "") :
 			distance = sqrt(pow(ball_posX - oldOwner_X, 2) + pow(ball_posY - oldOwner_Y, 2))
 			if (distance > 0.5) : # If the ball and the owner have moved
@@ -234,31 +234,33 @@ def chooseTeammates(owner, team_posX, team_posY, bx, by):
 	auxOwner = owner.split()
 	ownerX = team_posX[int(auxOwner[1]) - 1]
 	ownerY = team_posY[int(auxOwner[1]) - 1]
+	selected = [int(auxOwner[1]) - 1] # List with the players that are already selected
 
 	teammates = [[ownerX, ownerY]] # Add the info about the owner
 
 	##---- The second teammate correspond to the player who is closer to the owner ----##
-	minDistSecond = sqrt(pow(ownerX - team_posX[0], 2) + pow(ownerY - team_posY[0], 2))
-	auxSecondP = 0
+	minDist = 10000
 
+	for i in range(0,11):
+		if not(i in selected): 	#Discard the selected players
+			actualDist = sqrt(pow(ownerX - team_posX[i], 2) + pow(ownerY - team_posY[i], 2))
+			if (minDist > actualDist):
+				minDist = actualDist
+				minPlayer = i
+	selected.append(minPlayer)
+	teammates.append([team_posX[minPlayer], team_posY[minPlayer]]) 	# Add the info about the second teammate
+	
 	##---- The third teammate correspond to the player who is closer to the ball's trajectory ----##
-	minDistThird = sqrt(pow(bx - team_posX[0], 2) + pow(by - team_posY[0], 2))
-	auxThirdP = 0
+	minDist = 10000
 
-	for i in range(1,11):
-		if (str(i + 1) != auxOwner[1]): 	# Discard the owner
-			actualSecondDist = sqrt(pow(ownerX - team_posX[i], 2) + pow(ownerY - team_posY[i], 2))
-			if (minDistSecond > actualSecondDist):
-				minDistSecond = actualSecondDist
-				auxSecondP = i
+	for i in range(0,11):
+		if not(i in selected): 	#Discard the selected players
+			actualDist = sqrt(pow(bx - team_posX[i], 2) + pow(by - team_posY[i], 2))
+			if (minDist > actualDist):
+				minDist = actualDist
+				minPlayer = i
 
-			actualThirdDist = sqrt(pow(bx - team_posX[i], 2) + pow(by - team_posY[i], 2))
-			if (minDistThird > actualThirdDist):
-				minDistThird = actualThirdDist
-				auxThirdP = i
-
-	teammates.append([team_posX[auxSecondP], team_posY[auxSecondP]]) 	# Add the info about the second teammate
-	teammates.append([team_posX[auxThirdP], team_posY[auxThirdP]]) 		# Add the info about the third teammate
+	teammates.append([team_posX[minPlayer], team_posY[minPlayer]]) 		# Add the info about the third teammate
 
 	return teammates
 
@@ -274,47 +276,45 @@ def chooseTeammates(owner, team_posX, team_posY, bx, by):
 ##------------------------------------------------------------##
 def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by, old_bx, old_by):
 	opponents = []
+	selected = [] # List with the players that are already selected
 
 	##---- The first opponent correspond to the player who is closer to the owner ----##
 	minDist = sqrt(pow(ownerX - team_posX[0], 2) + pow(ownerY - team_posY[0], 2))
-	auxPlayer = 0
+	minPlayer = 0
 
-	##---- The second opponent correspond to the player who is closer to last position of the ball ----##
-	minDistSecond = sqrt(pow(bx - team_posX[0], 2) + pow(by - team_posY[0], 2))
-	auxSecondP = 0
-	
 	for i in range(1,11):
 		actualDist = sqrt(pow(ownerX - team_posX[i], 2) + pow(ownerY - team_posY[i], 2))
 		if (minDist > actualDist):
 			minDist = actualDist
-			auxPlayer = i
+			minPlayer = i
+	selected.append(minPlayer)
+	opponents.append([team_posX[minPlayer], team_posY[minPlayer]]) 		# Add the info about the first opponent
 
-		actualDistSecond = sqrt(pow(bx - team_posX[i], 2) + pow(by - team_posY[i], 2))
-		if (minDistSecond > actualDistSecond):
-			minDistSecond = actualDistSecond
-			auxSecondP = i
-
-	opponents.append([team_posX[auxPlayer], team_posY[auxPlayer]]) 		# Add the info about the first opponent
-	opponents.append([team_posX[auxSecondP], team_posY[auxSecondP]])	# Add the info about the second opponent
+	##---- The second opponent correspond to the player who is closer to last position of the ball ----##
+	minDist = 10000
+	
+	for i in range(0,11):
+		if not(i in selected): 	#Discard the selected players
+			actualDist = sqrt(pow(bx - team_posX[i], 2) + pow(by - team_posY[i], 2))
+			if (minDist > actualDist):
+				minDist = actualDist
+				minPlayer = i
+	selected.append(minPlayer)
+	opponents.append([team_posX[minPlayer], team_posY[minPlayer]])	# Add the info about the second opponent
 
 	##---- The third and the fourth opponents corresponds to the players near to the center of action path ----##
-	auxPlayer = 0
-	auxSecondP = 1
 	middlePoint = [(bx + old_bx)/2, (by + old_by)/2]
-	minDist = sqrt(pow(middlePoint[0] - team_posX[0], 2) + pow(middlePoint[1] - team_posY[0], 2))
-	minDistSecond = sqrt(pow(middlePoint[0] - team_posX[1], 2) + pow(middlePoint[1] - team_posY[1], 2))
 	
-	for i in range(2,11):
-		actualDist = sqrt(pow(middlePoint[0] - team_posX[i], 2) + pow(middlePoint[1] - team_posY[i], 2))
-		if (minDist > actualDist):
-			minDist = actualDist
-			auxPlayer = i
-		elif (minDistSecond > actualDist):
-			minDistSecond = actualDist
-			auxSecondP = i
-
-	opponents.append([team_posX[auxPlayer], team_posY[auxPlayer]]) 		# Add the info about the third player
-	opponents.append([team_posX[auxSecondP], team_posY[auxSecondP]])	# Add the info about the fourth player
+	for j in range(0,2):
+		minDist = 10000
+		for i in range(0,11):
+			if not(i in selected):
+				actualDist = sqrt(pow(middlePoint[0] - team_posX[i], 2) + pow(middlePoint[1] - team_posY[i], 2))
+				if (minDist > actualDist):
+					minDist = actualDist
+					minPlayer = i
+		selected.append(minPlayer)
+		opponents.append([team_posX[minPlayer], team_posY[minPlayer]])
 
 	return opponents
 
