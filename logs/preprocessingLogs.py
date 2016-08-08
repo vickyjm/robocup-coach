@@ -327,8 +327,9 @@ if __name__ == "__main__":
 	ball_velYOld = 0
 	ball_velXNew = 0
 	ball_velYNew = 0
-	ball_posXOld = None
-	ball_posYOld = None
+	ball_posXOld = 0
+	ball_posYOld = 0
+	isInitialPos = True
 	ownerOld = ""
 	ownerNew = ""
 	kick_rand = []
@@ -347,9 +348,10 @@ if __name__ == "__main__":
 				ball_posX = extractBallInfo("ballpos.x", line)
 				ball_posY = extractBallInfo("ballpos.y", line)
 
-				if (ball_posXOld == None): 			# First line of the action
+				if (isInitialPos): 			# First line of the action
 					ball_posXOld = ball_posX
 					ball_posYOld = ball_posY
+					isInitialPos = False
 
 				for i in range(11):
 					unum = str(i+1) 				# Uniform number
@@ -409,8 +411,8 @@ if __name__ == "__main__":
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
 					outputFile.write(action + "\n")
 
-					ball_posXOld = None		# Restart the init values of the next action
-					ball_posYOld = None
+					isInitialPos = True		# Restart the init values of the next action
+					
 
 				##---- Assign the Old Ball Velocity and Owner ----##
 				ballvelXOld = ball_velXNew
@@ -443,8 +445,8 @@ if __name__ == "__main__":
 					outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
 				outputFile.write("GOAL" + "\n")
 
-				ball_posXOld = None		# Restart the init values of the next action
-				ball_posYOld = None
+				isInitialPos = True		# Restart the init values of the next action
+			
 
 	outputFile.close()
 
