@@ -409,14 +409,14 @@ if __name__ == "__main__":
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
 					for player in opponents:
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
-					outputFile.write(action + "\n")
+					outputFile.write(action + " " + line[1] + "\n")
 
 					isInitialPos = True		# Restart the init values of the next action
 					
 
 				##---- Assign the Old Ball Velocity and Owner ----##
-				ballvelXOld = ball_velXNew
-				ballvelYOld = ball_velYNew
+				ball_velXOld = ball_velXNew
+				ball_velYOld = ball_velYNew
 				ownerOld = ownerNew
 
 				cycle = cycle+1
