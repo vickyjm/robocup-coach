@@ -8,6 +8,9 @@ Waffles (C++) :
 		> waffles_learn train (.arffFile) decisiontree > (outputFile1) # For creading the tree
 		> waffles_plot printdecisiontree (outputFile1) (.arffFile) > (outputFile2) # Shows the tree in a readable format
 
+	- Class Reference: 
+		http://uaf46365.ddns.uark.edu/waffles/apidoc/html/class_g_classes_1_1_g_decision_tree.html#a261f02b06147d7d2bfe5e6ed7b7ca3c8
+
 Weka (Java) :
 	- Installing :
 		http://www.cs.waikato.ac.nz/ml/weka/downloading.html (weka-3-8-0.zip) and unzip.
