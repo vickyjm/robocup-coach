@@ -20,6 +20,16 @@ Weka (Java) :
 		> Click on SimpleCLI
 		> In the new terminal type java weka.classifiers.trees.J48 -t ./data/iris.arff > outputFile
 
+Shogun (C++):
+	- Installing:
+		> sudo apt-get install libshogun-dev (Only c++ library for debian/ubuntu)
+
+Run python script from C++ code:
+	- Using "Python/Python.h":
+		https://docs.python.org/3/extending/embedding.html
+	- Using "boost":
+		http://members.gamedev.net/sicrane/articles/EmbeddingPythonPart1.html
+
 Other libraries : 
 http://www.mlpack.org/
 http://dlib.net/
