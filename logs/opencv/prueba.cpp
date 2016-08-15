@@ -55,9 +55,11 @@ int main() {
     //1. Declare a structure to keep the data
     CvMLData cvml;
     //2. Read the file
-    cvml.read_csv ("opponentFile.dat");
+    cvml.read_csv("../opponentFile.dat");
     //3. Indicate which column is the response
-    cvml.set_response_idx (9);
+    cvml.set_response_idx(9);
+
+    cvml.change_var_type(9, CV_VAR_CATEGORICAL);
 
     // std::cout << cv::Mat(cvml.get_values()) << '\n';
 
