@@ -409,7 +409,7 @@ if __name__ == "__main__":
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
 					for player in opponents:
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
-					outputFile.write(action + " " + line[1] + "\n")
+					outputFile.write(action + "\n")
 
 					isInitialPos = True		# Restart the init values of the next action
 					

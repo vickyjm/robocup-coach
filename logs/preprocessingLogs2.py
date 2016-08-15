@@ -47,69 +47,69 @@ if __name__ == "__main__":
 
 			##---- Actions ----##
 			if (line[i] == "GOAL"):
-				shotFile.write(str(bx) + " " + str(by) + " ")
-				opponentFile.write(str(bx) + " " + str(by) + " ")
+				shotFile.write(str(bx) + "," + str(by) + ",")
+				opponentFile.write(str(bx) + "," + str(by) + ",")
 				for j in range(0,3):
-					shotFile.write(str(teammates[j]) + " ")
-					opponentFile.write(str(teammates[j]) + " ")
+					shotFile.write(str(teammates[j]) + ",")
+					opponentFile.write(str(teammates[j]) + ",")
 				for j in range(0,4):
-					shotFile.write(str(opponents[j]) + " ")
-					opponentFile.write(str(opponents[j]) + " ")
+					shotFile.write(str(opponents[j]) + ",")
+					opponentFile.write(str(opponents[j]) + ",")
 				shotFile.write(line[i] + "\n")
 				opponentFile.write("SHOOT\n")
 			elif (line[i] == "PASS"):
-				passFile.write(str(bx) + " " + str(by) + " ")
-				opponentFile.write(str(bx) + " " + str(by) + " ")
+				passFile.write(str(bx) + "," + str(by) + ",")
+				opponentFile.write(str(bx) + "," + str(by) + ",")
 				for j in range(0,3):
-					passFile.write(str(teammates[j]) + " ")
-					opponentFile.write(str(teammates[j]) + " ")
+					passFile.write(str(teammates[j]) + ",")
+					opponentFile.write(str(teammates[j]) + ",")
 				for j in range(0,4):
-					passFile.write(str(opponents[j]) + " ")
-					opponentFile.write(str(opponents[j]) + " ")
+					passFile.write(str(opponents[j]) + ",")
+					opponentFile.write(str(opponents[j]) + ",")
 				passFile.write(line[i] + "\n")
 				opponentFile.write(line[i] + "\n")
 			elif (line[i] == "DRIBBLE"):
-				dribbleFile.write(str(bx) + " " + str(by) + " ")
-				opponentFile.write(str(bx) + " " + str(by) + " ")
+				dribbleFile.write(str(bx) + "," + str(by) + ",")
+				opponentFile.write(str(bx) + "," + str(by) + ",")
 				for j in range(0,3):
-					dribbleFile.write(str(teammates[j]) + " ")
-					opponentFile.write(str(teammates[j]) + " ")
+					dribbleFile.write(str(teammates[j]) + ",")
+					opponentFile.write(str(teammates[j]) + ",")
 				for j in range(0,4):
-					dribbleFile.write(str(opponents[j]) + " ")
-					opponentFile.write(str(opponents[j]) + " ")
+					dribbleFile.write(str(opponents[j]) + ",")
+					opponentFile.write(str(opponents[j]) + ",")
 				dribbleFile.write(line[i] + "\n")
 				opponentFile.write(line[i] + "\n")
 			elif (line[i] == "UNSUCCESSFULSHOOT"):
-				shotFile.write(str(bx) + " " + str(by) + " ")
-				opponentFile.write(str(bx) + " " + str(by) + " ")
+				shotFile.write(str(bx) + "," + str(by) + ",")
+				opponentFile.write(str(bx) + "," + str(by) + ",")
 				for j in range(0,3):
-					shotFile.write(str(teammates[j]) + " ")
-					opponentFile.write(str(teammates[j]) + " ")
+					shotFile.write(str(teammates[j]) + ",")
+					opponentFile.write(str(teammates[j]) + ",")
 				for j in range(0,4):
-					shotFile.write(str(opponents[j]) + " ")
-					opponentFile.write(str(opponents[j]) + " ")
+					shotFile.write(str(opponents[j]) + ",")
+					opponentFile.write(str(opponents[j]) + ",")
 				shotFile.write(line[i] + "\n")
 				opponentFile.write("SHOOT\n")
 			elif (line[i] == "UNSUCCESSFULDRIBBLE"):
-				dribbleFile.write(str(bx) + " " + str(by) + " ")
-				opponentFile.write(str(bx) + " " + str(by) + " ")
+				dribbleFile.write(str(bx) + "," + str(by) + ",")
+				opponentFile.write(str(bx) + "," + str(by) + ",")
 				for j in range(0,3):
-					dribbleFile.write(str(teammates[j]) + " ")
-					opponentFile.write(str(teammates[j]) + " ")
+					dribbleFile.write(str(teammates[j]) + ",")
+					opponentFile.write(str(teammates[j]) + ",")
 				for j in range(0,4):
-					dribbleFile.write(str(opponents[j]) + " ")
-					opponentFile.write(str(opponents[j]) + " ")
+					dribbleFile.write(str(opponents[j]) + ",")
+					opponentFile.write(str(opponents[j]) + ",")
 				dribbleFile.write(line[i] + "\n")
 				opponentFile.write("DRIBBLE\n")
 			elif (line[i] == "UNSUCCESSFULPASS"):
-				passFile.write(str(bx) + " " + str(by) + " ")
-				opponentFile.write(str(bx) + " " + str(by) + " ")
+				passFile.write(str(bx) + "," + str(by) + ",")
+				opponentFile.write(str(bx) + "," + str(by) + ",")
 				for j in range(0,3):
-					passFile.write(str(teammates[j]) + " ")
-					opponentFile.write(str(teammates[j]) + " ")
+					passFile.write(str(teammates[j]) + ",")
+					opponentFile.write(str(teammates[j]) + ",")
 				for j in range(0,4):
-					passFile.write(str(opponents[j]) + " ")
-					opponentFile.write(str(opponents[j]) + " ")
+					passFile.write(str(opponents[j]) + ",")
+					opponentFile.write(str(opponents[j]) + ",")
 				passFile.write(line[i] + "\n")
 				opponentFile.write("PASS\n")
 
