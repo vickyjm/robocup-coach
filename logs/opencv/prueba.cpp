@@ -55,11 +55,9 @@ int main() {
     //1. Declare a structure to keep the data
     CvMLData cvml;
     //2. Read the file
-    cvml.read_csv("../opponentFile.dat");
+    cvml.read_csv ("opponentFile.dat");
     //3. Indicate which column is the response
-    cvml.set_response_idx(9);
-
-    cvml.change_var_type(9, CV_VAR_CATEGORICAL);
+    cvml.set_response_idx (9);
 
     // std::cout << cv::Mat(cvml.get_values()) << '\n';
 
@@ -68,9 +66,10 @@ int main() {
     CvDTree* dtree = new CvDTree();
     dtree->train(&cvml,params);
 
-    cv::Mat testData(1, 9, CV_64FC1);
+    cv::Mat testData(100, 10, CV_32FC1);
     cv::randu(testData,0,5);
+    const cv::Mat sample = testData.row(0);
 
-    std::cout<< dtree->predict(testData)->value << '\n';
+    std::cout<< dtree->predict(sample)->value << '\n';
 	return 0;
 }
