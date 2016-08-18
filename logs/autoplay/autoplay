@@ -1,0 +1,42 @@
+#!/bin/bash
+
+NUMGAMES=1
+CURRENTPORT=6000
+while getopts ":n" opt; 
+do
+	case $opt in
+		n)
+			NUMGAMES=$2 ;; 
+		\?)
+			echo "flag invalido " ;;
+	esac
+done
+
+GAME=0
+PORT=6000
+COACHPORT=6001
+OLCOACHPORT=6002
+
+while [ $GAME -lt $NUMGAMES ]
+do
+	rcssserver server::auto_mode=on server::port=$PORT server::coach_port=$COACHPORT server::olcoach_port=$OLCOACHPORT server::synch_mode=on &
+	sleep 5
+	/home/jemd/Documents/USB/Tesis/2DSoccer/agent2d-3.1.1/src/start.sh -P $COACHPORT -p $PORT -t team1 &
+	sleep 5
+	/home/jemd/Documents/USB/Tesis/2DSoccer/agent2d-3.1.1/src/start.sh -P $COACHPORT -p $PORT -t team2 &
+
+	sleep 80
+	GAME=$[$GAME+1]
+done
+
+GAME=0
+PORT=6000
+
+# while [ $GAME -lt $NUMGAMES ]
+# do
+# 	/home/jemd/Documents/USB/Tesis/2DSoccer/agent2d-3.1.1/src/start.sh -p $PORT -t team1 &
+# 	sleep 5
+# 	/home/jemd/Documents/USB/Tesis/2DSoccer/agent2d-3.1.1/src/start.sh -p $PORT -t team2 &
+# 	GAME=$[$GAME+1]
+# 	PORT=$[$PORT+3]
+# done 
