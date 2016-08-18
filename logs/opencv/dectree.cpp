@@ -3,16 +3,10 @@
 #include <string>
 #include "cv.h"
 #include "ml.h"
-#include "highgui.h"
+#include "opencv2/core/core_c.h"
 
 using namespace cv;
 using namespace std;
-
-bool plotSupportVectors = true;
-int numTrainingPoints = 200;
-int numTestPoints = 2000;
-int size = 200;
-int eq = 2;
 
 // accuracy
 float evaluate(cv::Mat& predicted, cv::Mat& actual) {
@@ -29,55 +23,6 @@ float evaluate(cv::Mat& predicted, cv::Mat& actual) {
         }
     }
     return (t * 1.0) / (t + f);
-}
-
-// plot data and class
-void plot_binary(cv::Mat& data, cv::Mat& classes, string name) {
-    cv::Mat plot(size, size, CV_8UC3);
-    plot.setTo(cv::Scalar(255.0,255.0,255.0));
-    for(int i = 0; i < data.rows; i++) {
-
-        float x = data.at<float>(i,0) * size;
-        float y = data.at<float>(i,1) * size;
-
-        if(classes.at<float>(i, 0) > 0) {
-            cv::circle(plot, Point(x,y), 2, CV_RGB(255,0,0),1);
-        } else {
-            cv::circle(plot, Point(x,y), 2, CV_RGB(0,255,0),1);
-        }
-    }
-    cv::imshow(name, plot);
-}
-
-// function to learn
-int f(float x, float y, int equation) {
-    switch(equation) {
-    case 0:
-        return y > sin(x*10) ? -1 : 1;
-        break;
-    case 1:
-        return y > cos(x * 10) ? -1 : 1;
-        break;
-    case 2:
-        return y > 2*x ? -1 : 1;
-        break;
-    case 3:
-        return y > tan(x*10) ? -1 : 1;
-        break;
-    default:
-        return y > cos(x*10) ? -1 : 1;
-    }
-}
-
-// label data with equation
-cv::Mat labelData(cv::Mat points, int equation) {
-    cv::Mat labels(points.rows, 1, CV_32FC1);
-    for(int i = 0; i < points.rows; i++) {
-             float x = points.at<float>(i,0);
-             float y = points.at<float>(i,1);
-             labels.at<float>(i, 0) = f(x, y, equation);
-        }
-    return labels;
 }
 
 void decisiontree(cv::Mat& trainingData, cv::Mat& trainingClasses) {
@@ -98,23 +43,41 @@ void decisiontree(cv::Mat& trainingData, cv::Mat& trainingClasses) {
 }
 
 
-int main() {
+int main(int argc, char* argv[]) {
 
-    cv::Mat trainingData(numTrainingPoints, 2, CV_32FC1);
-    cv::Mat testData(numTestPoints, 2, CV_32FC1);
+    int numTrainingLogs = 1;
+    float trainPortion = 0.7;   
 
-    cv::randu(trainingData,0,1);
-    cv::randu(testData,0,1);
+    if (argc < 3){
+        cout << "Hey, you forget the log file or the type flag!" << endl;
+        return 0;
+    }
 
-    cv::Mat trainingClasses = labelData(trainingData, eq);
-    cv::Mat testClasses = labelData(testData, eq);
+    if ((strcmp(argv[1], "-d") != 0) && (strcmp(argv[1], "-s") != 0)
+            && (strcmp(argv[1], "-p") != 0) && (strcmp(argv[1], "-o") != 0)){
+        
+        cout << "Please enter a valid flag!" << endl;
+        return 0;
+    }
 
-    plot_binary(trainingData, trainingClasses, "Training Data");
-    plot_binary(testData, testClasses, "Test Data");
+    CvMLData cvml;                          // Structure to keep the data
+    cvml.read_csv(argv[2]);                 // Read the file
+    cvml.set_response_idx (9);              // Indicate which column corresponds to the class
 
-    decisiontree(trainingData, trainingClasses);
+    CvTrainTestSplit spl(trainPortion);
+    cvml.set_train_test_split(&spl);
 
-    cv::waitKey();
+    cv::Mat trainingSet = cvml.get_train_sample_idx();
+    cv::Mat testSet = cvml.get_test_sample_idx();
+
+    cout << trainingSet << endl;
+
+    cout << testSet << endl;
+
+    //cout << cv::Mat(cvml.get_values()) << '\n';
+
+
+    //decisiontree(trainingData, trainingClasses);
 
     return 0;
 }
