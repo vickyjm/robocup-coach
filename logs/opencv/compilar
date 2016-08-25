@@ -1,0 +1,13 @@
+#!/bin/bash
+
+while getopts ":f" opt; 
+do
+	case $opt in
+		f)
+			FILE=$2 ;; 
+		\?)
+			echo "flag invalido " ;;
+	esac
+done
+
+ g++ -ggdb `pkg-config --cflags opencv` -o $FILE $FILE.cpp `pkg-config --libs opencv`

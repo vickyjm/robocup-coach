@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
     float trainPortion = 0.7;   
 
     if (argc < 3){
-        cout << "Hey, you forget the log file or the type flag!" << endl;
+        cout << "Hey, you forgot the log file or the type flag!" << endl;
         return 0;
     }
 
@@ -65,19 +65,31 @@ int main(int argc, char* argv[]) {
     cvml.set_response_idx (9);              // Indicate which column corresponds to the class
 
     CvTrainTestSplit spl(trainPortion);
-    cvml.set_train_test_split(&spl);
+    cvml.set_train_test_split(&spl); // The mix flag is set to true by default. Used to mix test and training samples
+                                     // so it doesn't use them in the same order that's given.
 
     cv::Mat trainingSet = cvml.get_train_sample_idx();
     cv::Mat testSet = cvml.get_test_sample_idx();
 
     cout << trainingSet << endl;
-
+    // To access a column of a cv::Mat use trainingSet.col(n) where n is the column
+    // To access a row use .row(n)
     cout << testSet << endl;
 
+    cv::Mat trainingData = Mat(trainingSet.rows,10,CV_32FC1);
+    cv::Mat trainingClasses = Mat(1,trainingSet.rows,CV_32FC1);
+    // cv::Mat cvmlMat = Mat(cvml.get_values(),true); // Transforming cvml into a Mat
+
+    // int i = 0;
+    // while (i < trainingSet.rows) { // The idea is to create the TrainingData and TrainingClasses using the ids from TrainingSet
+    //     trainingData.row(i) = cvmlMat.row(trainingSet.at<int>(0,i));
+    //     trainingClasses.at<int>(0,i) = cvmlMat.at(cvmlMat.row(trainingSet.at<int>(0,i)),9);
+    //     i++;
+    // }
     //cout << cv::Mat(cvml.get_values()) << '\n';
 
 
-    //decisiontree(trainingData, trainingClasses);
+    // decisiontree(trainingSet, trainingClasses);
 
     return 0;
 }
