@@ -319,6 +319,135 @@ def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by, old_bx, old_by
 	return opponents
 
 
+##------------------------------------------------------------##
+#	This function returns the nearest teammate 				   #
+#															   #
+#	Param:													   #
+#		px,py: player's position.	   				   		   #
+#		teammates: position of all teammates.				   #
+##------------------------------------------------------------##
+def nearestTeammate(px, py, teammates):
+	minDist = sqrt(pow(px - teammates[0][0], 2) + pow(py - teammates[0][1], 2))
+	for i in range(1,3):
+		dist = sqrt(pow(px - teammates[i][0], 2) + pow(py - teammates[i][1], 2))
+		if (minDist > dist):
+			minDist = dist
+
+	return minDist
+
+
+##------------------------------------------------------------##
+#	This function generate the files for the second 		   #
+#	preprocessing described by Maryam.						   #
+#	Param:													   #
+#		px,py: player's position.	   				   		   #
+#		teammates: position of all teammates.				   #
+##------------------------------------------------------------##
+def generateNormalizedLogs(logFile):
+	##---- Outputs files ----##
+	shotFile = open("shotFile.dat", "a") 
+	dribbleFile = open("dribbleFile.dat", "a")	
+	passFile = open("passFile.dat", "a")
+	opponentFile = open("opponentFile.dat", "a")
+
+	with open(logFile) as file:
+		for line in file:
+			teammates = []
+			opponents = []
+			originalDist = []
+
+			line = line.split()						# Split into a list
+
+			##---- Normalize ball's position ----##
+			old_bx = float(line[0])
+			old_by = float(line[1])
+			bx = old_bx/5
+			by = old_by/5
+
+			i = 2
+			while (i <= 6):
+				originalDist.append([float(line[i]), float(line[i+1])])
+				dist = sqrt(pow(old_bx - float(line[i]), 2) + pow(old_by - float(line[i+1]), 2))
+				teammates.append(dist)
+				i = i + 2
+			while (i <= 15):
+				nearestPlayer = nearestTeammate(float(line[i]), float(line[i+1]), originalDist)
+				opponents.append(nearestPlayer)
+				i = i + 2
+
+			##---- Actions ----##
+			if (line[i] == "GOAL"):
+				shotFile.write(str(bx) + "," + str(by) + ",")
+				opponentFile.write(str(bx) + "," + str(by) + ",")
+				for j in range(0,3):
+					shotFile.write(str(teammates[j]) + ",")
+					opponentFile.write(str(teammates[j]) + ",")
+				for j in range(0,4):
+					shotFile.write(str(opponents[j]) + ",")
+					opponentFile.write(str(opponents[j]) + ",")
+				shotFile.write(line[i] + "\n")
+				opponentFile.write("SHOOT\n")
+			elif (line[i] == "PASS"):
+				passFile.write(str(bx) + "," + str(by) + ",")
+				opponentFile.write(str(bx) + "," + str(by) + ",")
+				for j in range(0,3):
+					passFile.write(str(teammates[j]) + ",")
+					opponentFile.write(str(teammates[j]) + ",")
+				for j in range(0,4):
+					passFile.write(str(opponents[j]) + ",")
+					opponentFile.write(str(opponents[j]) + ",")
+				passFile.write(line[i] + "\n")
+				opponentFile.write(line[i] + "\n")
+			elif (line[i] == "DRIBBLE"):
+				dribbleFile.write(str(bx) + "," + str(by) + ",")
+				opponentFile.write(str(bx) + "," + str(by) + ",")
+				for j in range(0,3):
+					dribbleFile.write(str(teammates[j]) + ",")
+					opponentFile.write(str(teammates[j]) + ",")
+				for j in range(0,4):
+					dribbleFile.write(str(opponents[j]) + ",")
+					opponentFile.write(str(opponents[j]) + ",")
+				dribbleFile.write(line[i] + "\n")
+				opponentFile.write(line[i] + "\n")
+			elif (line[i] == "UNSUCCESSFULSHOOT"):
+				shotFile.write(str(bx) + "," + str(by) + ",")
+				opponentFile.write(str(bx) + "," + str(by) + ",")
+				for j in range(0,3):
+					shotFile.write(str(teammates[j]) + ",")
+					opponentFile.write(str(teammates[j]) + ",")
+				for j in range(0,4):
+					shotFile.write(str(opponents[j]) + ",")
+					opponentFile.write(str(opponents[j]) + ",")
+				shotFile.write(line[i] + "\n")
+				opponentFile.write("SHOOT\n")
+			elif (line[i] == "UNSUCCESSFULDRIBBLE"):
+				dribbleFile.write(str(bx) + "," + str(by) + ",")
+				opponentFile.write(str(bx) + "," + str(by) + ",")
+				for j in range(0,3):
+					dribbleFile.write(str(teammates[j]) + ",")
+					opponentFile.write(str(teammates[j]) + ",")
+				for j in range(0,4):
+					dribbleFile.write(str(opponents[j]) + ",")
+					opponentFile.write(str(opponents[j]) + ",")
+				dribbleFile.write(line[i] + "\n")
+				opponentFile.write("DRIBBLE\n")
+			elif (line[i] == "UNSUCCESSFULPASS"):
+				passFile.write(str(bx) + "," + str(by) + ",")
+				opponentFile.write(str(bx) + "," + str(by) + ",")
+				for j in range(0,3):
+					passFile.write(str(teammates[j]) + ",")
+					opponentFile.write(str(teammates[j]) + ",")
+				for j in range(0,4):
+					passFile.write(str(opponents[j]) + ",")
+					opponentFile.write(str(opponents[j]) + ",")
+				passFile.write(line[i] + "\n")
+				opponentFile.write("PASS\n")
+		file.close()
+
+	shotFile.close()
+	passFile.close()
+	dribbleFile.close()
+	opponentFile.close()
 
 ##---- Main function ----##
 if __name__ == "__main__":
@@ -333,7 +462,7 @@ if __name__ == "__main__":
 	ownerOld = ""
 	ownerNew = ""
 	kick_rand = []
-	outputFile = open("logActions.dat","w") # Output file
+	outputFile = open(sys.argv[2],"w") # Output file
 
 	cycle = 1
 	with open(sys.argv[1]) as file:
@@ -446,9 +575,12 @@ if __name__ == "__main__":
 				outputFile.write("GOAL" + "\n")
 
 				isInitialPos = True		# Restart the init values of the next action
+
+		file.close()
 			
 
 	outputFile.close()
+	generateNormalizedLogs(sys.argv[2])
 
 
 			

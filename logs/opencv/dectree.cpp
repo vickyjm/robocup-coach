@@ -21,7 +21,6 @@ int main(int argc, char* argv[]) {
     if (strcmp(argv[1], "-d") == 0){
         outFile = (char*)malloc(15);
         strcpy(outFile,"dribbleTree.yml");
-        //outFile = "dribbleTree.yml";
     } 
     else if (strcmp(argv[1], "-s") == 0){
         outFile = (char*)malloc(13);
@@ -43,8 +42,8 @@ int main(int argc, char* argv[]) {
 
     CvMLData cvml;                                  // Structure to keep the data
     cvml.read_csv(argv[2]);                         // Read the file
-    cvml.change_var_type(9, CV_VAR_CATEGORICAL);    // The output is categorical 
     cvml.set_response_idx (9);                      // Indicate which column corresponds to the class
+    cvml.change_var_type(9, CV_VAR_CATEGORICAL);    // The output is categorical 
 
     CvTrainTestSplit spl(trainPortion);
     cvml.set_train_test_split(&spl); // The mix flag is set to true by default. Used to mix test and training samples
