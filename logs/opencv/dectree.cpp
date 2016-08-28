@@ -53,6 +53,7 @@ int main(int argc, char* argv[]) {
 
     dtree.train(&cvml,CvDTreeParams());    // Train the tree only using the test set
 
+    // cout << dtree.calc_error(&cvml,CV_TEST_ERROR) << endl;
     dtree.save(outFile);
 
     free(outFile);
