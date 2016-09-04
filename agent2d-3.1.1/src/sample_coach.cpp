@@ -211,7 +211,7 @@ SampleCoach::actionImpl()
 
     doSubstitute();
     sayPlayerTypes();
-    sayHello();
+    //sayHello();
 }
 
 /*-------------------------------------------------------------------*/
