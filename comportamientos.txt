@@ -1,0 +1,49 @@
+##---------------------------------------------------------------------------------------------------------------------##
+#													ROLES						    									#
+##---------------------------------------------------------------------------------------------------------------------##
+
+El rol que tiene asignado un jugador en determinado momento es el que va a influir en el comportamiento que se utilizará.
+
+* Role goalie: rol únicamente para el arquero del equipo (jugador 1).
+	-> Para patear la pelota usa Body_ClearBall.
+	-> Para moverse Bhv_GoalieChaseBall o Bhv_GoalieBasicMove.
+
+* Role side back: son los laterales, jugadores con los números 4 y 5.
+	-> Para patear la pelota usa el Bhv_ChainAction o Bhv_BasicOffensiveKick.
+	-> Para moverse usa Bhv_BasicMove.
+
+* Role center back: son los centrales, jugadores con los números 2 y 3.
+	-> Para patear la pelota usa el Bhv_ChainAction o Bhv_BasicOffensiveKick.
+	-> Para moverse usa Bhv_BasicMove.
+
+* Role side half: con la formación actual a nadie se le asigna esta posición. Pero deberían ser los mediocampistas externos.
+	-> Para patear la pelota usa el Bhv_ChainAction o Bhv_BasicOffensiveKick.
+	-> Para moverse usa Bhv_BasicMove.
+
+* Role defensive half: mediocentro defensivo, a veces se une a la línea de centrales para ayudar en defensa. 
+						Es el encargado de la recuperación de balones y la destrucción de la ofensiva rival. 
+						En esta formación es el jugador 6.
+	-> Para patear la pelota usa el Bhv_ChainAction o Bhv_BasicOffensiveKick.
+	-> Para moverse usa Bhv_BasicMove.
+
+* Role offensive half: mediocentros ofensivos. En esta formación son los jugadores 7 y 8.
+	-> Para patear la pelota usa el Bhv_ChainAction o Bhv_BasicOffensiveKick.
+	-> Para moverse usa Bhv_BasicMove.
+
+* Role side forward: extremo. Son los delanteros que se abren por los laterales. Jugadores 9 y 10.
+	-> Para patear la pelota usa el Bhv_ChainAction o Bhv_BasicOffensiveKick.
+	-> Para moverse usa Bhv_BasicMove.
+
+* Role center forward: delantero centro. Jugador 11.	
+	-> Para patear la pelota usa el Bhv_ChainAction o Bhv_BasicOffensiveKick.
+	-> Para moverse usa Bhv_BasicMove.
+
+
+##---------------------------------------------------------------------------------------------------------------------##
+#												COMPORTAMIENTOS															#
+##---------------------------------------------------------------------------------------------------------------------##
+* Bhv_ChainAction: 
+
+* Bhv_BasicOffensiveKick:
+
+* Bhv_BasicMove:
