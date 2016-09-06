@@ -63,6 +63,11 @@ using namespace rcsc;
 
 /*-------------------------------------------------------------------*/
 /*!
+    Description: This function is executed when the ball leaves the 
+    field by the side. 
+    Parameters:
+        PlayerAgent* agent: player of the team that owns the ball
+                            that will realize the kick-in
   execute action
 */
 bool
@@ -71,6 +76,7 @@ Bhv_SetPlayKickIn::execute( PlayerAgent * agent )
     dlog.addText( Logger::TEAM,
                   __FILE__": Bhv_SetPlayKickIn" );
 
+    // The player can kick the ball
     if ( Bhv_SetPlay::is_kicker( agent ) )
     {
         doKick( agent );
@@ -85,7 +91,10 @@ Bhv_SetPlayKickIn::execute( PlayerAgent * agent )
 
 /*-------------------------------------------------------------------*/
 /*!
-
+    Description:
+        This function is used by a player who wants to kick the ball.
+    Parameters:
+        PlayerAgent* agent: player that will kick the ball.
  */
 void
 Bhv_SetPlayKickIn::doKick( PlayerAgent * agent )

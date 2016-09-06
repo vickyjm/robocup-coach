@@ -93,7 +93,7 @@ Bhv_SetPlay::execute( PlayerAgent * agent )
                     home_pos, 0.5, "#0000ff", true );
 #endif
 
-
+    // Check if the player is the goalie
     if ( wm.self().goalie() )
     {
         if ( wm.gameMode().type() != GameMode::BackPass_

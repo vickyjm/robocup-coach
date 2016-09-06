@@ -497,6 +497,9 @@ Strategy::exchangeRole( const int unum0,
 
 /*-------------------------------------------------------------------*/
 /*!
+    Parameters:
+        const int unum: uniform number.
+    Description: check if it is a defensive player.
 
 */
 bool

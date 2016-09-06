@@ -1,3 +1,11 @@
+Tuesday 6/09/16:
+	@ 12:00pm:
+		- Created comportamientos.txt. Added some info about how the behaviors works.
+
+Monday 5/09/16:
+	@ 8:00pm:
+		- Commented the function Bhv_SetPlayKickIn::execute in bhv_set_play_kick_in.cpp
+
 Thursday 12/05/16:
 	@ 8:00pm:
 		- Created a coach message. (hello. can you hear me?)

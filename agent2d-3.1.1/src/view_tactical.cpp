@@ -97,6 +97,7 @@ View_Tactical::execute( PlayerAgent * agent )
 bool
 View_Tactical::doDefault( PlayerAgent * agent )
 {
+
     const WorldModel & wm = agent->world();
 
     if ( ! wm.ball().posValid() )
