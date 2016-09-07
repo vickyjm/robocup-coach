@@ -81,8 +81,9 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
     // printf("Distancia del oponente : %f \n",distOppo);
 
     // Este no es exactamente el calculo del owner. Pero bueno, por ahora, el jugador mas cercano y ya.
+    PlayerObject * owner;
     if (distTeam <= distOppo) {
-        PlayerObject * owner = possTeamOwner;
+        owner = possTeamOwner;
     }
     else {
         // Si el owner es oponente, no se usan los arboles.
@@ -94,8 +95,8 @@ Bhv_BasicMove::execute( PlayerAgent * agent )
     // documentacion no explica que es...puse 1 por ahora (100% confidence supongo?)
     double* distTeammate2; // estas dos dists es donde se guarda la distancia entre el owner y teammate2 u opponent1
     double* distOpponent1;
-    PlayerObject * teammate2 = agent->world().getTeammateNearestTo(owner,1,distTeammate2);
-    PlayerObject * opponent1 = agent->world().getOpponentNearestTo(owner,1,distOpponent1);
+    const PlayerObject * teammate2 = agent->world().getTeammateNearestTo(owner,1,distTeammate2);
+    const PlayerObject * opponent1 = agent->world().getOpponentNearestTo(owner,1,distOpponent1);
 
     // Para obtener los demas features, necesitamos saber como sacar los puntos del action path 
     // antes de que ocurra la accion (?) y usar :
