@@ -57,7 +57,55 @@
 #include <rcsc/common/server_param.h>
 #include <rcsc/common/logger.h>
 
+#include "cv.h"
+#include "ml.h"
+
+using namespace cv;
 using namespace rcsc;
+
+cv::Mat
+extractFeatures(CvDTree dtree , PlayerAgent* agent)
+{
+    /*// Ball position
+    Vector2D ballPos = agent->world().ball().pos();
+
+    // Posibles owners de la pelota (maybe?)
+    PlayerObject * possTeamOwner = agent->world().teammatesFromBall()[0];
+    PlayerObject * possOppoOwner = agent->world().opponentsFromBall()[0];
+
+    // Existe tambien un dist2 que saca la "squared distance" en caso de que sea eso lo q se deba usar.
+    double distTeam = ballPos.dist(possTeamOwner->pos());
+    double distOppo = ballPos.dist(possOppoOwner->pos());
+    // printf("Distancia del teammate : %f \n",distTeam);
+    // printf("Distancia del oponente : %f \n",distOppo);
+
+    // Este no es exactamente el calculo del owner. Pero bueno, por ahora, el jugador mas cercano y ya.
+    PlayerObject * owner;
+    if (distTeam <= distOppo) {
+        owner = possTeamOwner;
+    }
+    //else {
+        // Si el owner es oponente, no se usan los arboles.
+        // PlayerObject * owner = possOppoOwner; 
+    //}
+
+    // Obteniendo teammate2  y distOpponent1.
+    // en los getNearestTo, el 2do parametro es count_thr : "Confidence count threshold" pero la 
+    // documentacion no explica que es...puse 1 por ahora (100% confidence supongo?)
+    double* distTeammate2; // estas dos dists es donde se guarda la distancia entre el owner y teammate2 u opponent1
+    double* distOpponent1;
+    const PlayerObject * teammate2 = agent->world().getTeammateNearestTo(owner,1,distTeammate2);
+    const PlayerObject * opponent1 = agent->world().getOpponentNearestTo(owner,1,distOpponent1);
+
+    // Para obtener los demas features, necesitamos saber como sacar los puntos del action path 
+    // antes de que ocurra la accion (?) y usar :
+    // PlayerObject * teammate3 = agent->world().getTeammateNearestTo(Vector2D punto,count_thr,double dist_to_point);
+    // PlayerObject * Opponent2 = agent->world().getTeammateNearestTo(Vector2D punto,count_thr,double dist_to_point);
+
+    // Aqui el punto seria el middle of the action path.
+    // PlayerObject * opponent3 = agent->world().getTeammateNearestTo(Vector2D punto,count_thr,double dist_to_point);*/
+
+}
 
 namespace {
 
@@ -224,8 +272,15 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
     switch ( first_action.category() ) {
     case CooperativeAction::Shoot:
         {
+            std::cout << "Shoot " << agent->world().self().unum() << std::endl;
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) shoot" );
+
+            CvDTree shootTree;
+            shootTree.load("shootTree.yml");
+
+            cv::Mat testSample(extractFeatures(shootTree, agent));    
+
             if ( Body_ForceShoot().execute( agent ) )
             {
                 agent->setNeckAction( new Neck_TurnToGoalieOrScan() );
@@ -237,6 +292,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
     case CooperativeAction::Dribble:
         {
+            std::cout << "Dribble " << agent->world().self().unum() << std::endl;
             if ( wm.gameMode().type() != GameMode::PlayOn
                  && ! wm.gameMode().isPenaltyKickMode() )
             {
@@ -265,6 +321,11 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
                 neck = NeckAction::Ptr( new Neck_TurnToGoalieOrScan( count_thr ) );
             }
 
+            CvDTree dribbleTree;
+            dribbleTree.load("dribbleTree.yml");
+
+            cv::Mat testSample(extractFeatures(dribbleTree, agent));
+
             if ( Bhv_NormalDribble( first_action, neck ).execute( agent ) )
             {
                 return true;
@@ -274,6 +335,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
     case CooperativeAction::Hold:
         {
+            std::cout << "Hold " << agent->world().self().unum() << std::endl;
             if ( wm.gameMode().type() != GameMode::PlayOn )
             {
                 agent->debugClient().addMessage( "CancelChainHold" );
@@ -305,8 +367,15 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
     case CooperativeAction::Pass:
         {
+            std::cout << "Pass " << agent->world().self().unum() << std::endl;
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) pass" );
+
+            CvDTree passTree;
+            passTree.load("passTree.yml");
+
+            cv::Mat testSample(extractFeatures(passTree, agent));
+
             Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent );
             return true;
             break;
@@ -314,6 +383,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
     case CooperativeAction::Move:
         {
+            std::cout << "Move " << agent->world().self().unum() << std::endl;
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) move" );
 
@@ -330,6 +400,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
     case CooperativeAction::NoAction:
         {
+            std::cout << "NoAction " << agent->world().self().unum() << std::endl;
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) no action" );
 

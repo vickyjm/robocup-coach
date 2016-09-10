@@ -37,13 +37,3 @@ El rol que tiene asignado un jugador en determinado momento es el que va a influ
 * Role center forward: delantero centro. Jugador 11.	
 	-> Para patear la pelota usa el Bhv_ChainAction o Bhv_BasicOffensiveKick.
 	-> Para moverse usa Bhv_BasicMove.
-
-
-##---------------------------------------------------------------------------------------------------------------------##
-#												COMPORTAMIENTOS															#
-##---------------------------------------------------------------------------------------------------------------------##
-* Bhv_ChainAction: 
-
-* Bhv_BasicOffensiveKick:
-
-* Bhv_BasicMove:

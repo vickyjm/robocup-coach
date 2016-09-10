@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     } 
     else if (strcmp(argv[1], "-s") == 0){
         outFile = (char*)malloc(13);
-        strcpy(outFile,"shotTree.yml");
+        strcpy(outFile,"shootTree.yml");
     }
     else if (strcmp(argv[1], "-p") == 0){
         outFile = (char*)malloc(13);

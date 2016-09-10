@@ -1,3 +1,8 @@
+Friday 9/09/16:
+	@ 5:00pm:
+		- The Makefile from agent2D team was modified to include the flags of the ML library.
+		  You have to add `pkg-config --cflags opencv` to the CPPFLAGS variable and `pkg-config --libs opencv` to the LIBS variable.
+		- Created the function extractFeatures in bhv_chain_action.cpp.
 Tuesday 6/09/16:
 	@ 12:00pm:
 		- Created comportamientos.txt. Added some info about how the behaviors works.

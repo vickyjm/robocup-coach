@@ -65,49 +65,6 @@ using namespace rcsc;
 bool
 Bhv_BasicMove::execute( PlayerAgent * agent )
 {
-
-    // BORRAR DESPUES O PASAR A OTRO ARCHIVO. SOLO PRUEBA.
-    // Posicion del balon 
-    Vector2D ballPos = agent->world().ball().pos();
-
-    // Posibles owners de la pelota (maybe?)
-    PlayerObject * possTeamOwner = agent->world().teammatesFromBall()[0];
-    PlayerObject * possOppoOwner = agent->world().opponentsFromBall()[0];
-
-    // Existe tambien un dist2 que saca la "squared distance" en caso de que sea eso lo q se deba usar.
-    double distTeam = ballPos.dist(possTeamOwner->pos());
-    double distOppo = ballPos.dist(possOppoOwner->pos());
-    // printf("Distancia del teammate : %f \n",distTeam);
-    // printf("Distancia del oponente : %f \n",distOppo);
-
-    // Este no es exactamente el calculo del owner. Pero bueno, por ahora, el jugador mas cercano y ya.
-    PlayerObject * owner;
-    if (distTeam <= distOppo) {
-        owner = possTeamOwner;
-    }
-    else {
-        // Si el owner es oponente, no se usan los arboles.
-        // PlayerObject * owner = possOppoOwner; 
-    }
-
-    // Obteniendo teammate2  y distOpponent1.
-    // en los getNearestTo, el 2do parametro es count_thr : "Confidence count threshold" pero la 
-    // documentacion no explica que es...puse 1 por ahora (100% confidence supongo?)
-    double* distTeammate2; // estas dos dists es donde se guarda la distancia entre el owner y teammate2 u opponent1
-    double* distOpponent1;
-    const PlayerObject * teammate2 = agent->world().getTeammateNearestTo(owner,1,distTeammate2);
-    const PlayerObject * opponent1 = agent->world().getOpponentNearestTo(owner,1,distOpponent1);
-
-    // Para obtener los demas features, necesitamos saber como sacar los puntos del action path 
-    // antes de que ocurra la accion (?) y usar :
-    // PlayerObject * teammate3 = agent->world().getTeammateNearestTo(Vector2D punto,count_thr,double dist_to_point);
-    // PlayerObject * Opponent2 = agent->world().getTeammateNearestTo(Vector2D punto,count_thr,double dist_to_point);
-
-    // Aqui el punto seria el middle of the action path.
-    // PlayerObject * opponent3 = agent->world().getTeammateNearestTo(Vector2D punto,count_thr,double dist_to_point);
-
-
-
     dlog.addText( Logger::TEAM,
                   __FILE__": Bhv_BasicMove" );
 
