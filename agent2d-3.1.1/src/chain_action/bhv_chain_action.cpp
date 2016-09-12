@@ -74,8 +74,8 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action)
     PlayerObject * possOppoOwner = agent->world().opponentsFromBall()[0];
 
     // Existe tambien un dist2 que saca la "squared distance" en caso de que sea eso lo q se deba usar.
-    double distTeam = ballPos.dist2(possTeamOwner->pos())/10;
-    double distOppo = ballPos.dist2(possOppoOwner->pos())/10;
+    double distTeam = ballPos.dist(possTeamOwner->pos());
+    double distOppo = ballPos.dist(possOppoOwner->pos());
     // printf("Distancia del teammate : %f \n",distTeam);
     // printf("Distancia del oponente : %f \n",distOppo);
 
