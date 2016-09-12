@@ -64,9 +64,9 @@ using namespace cv;
 using namespace rcsc;
 
 cv::Mat
-extractFeatures(CvDTree dtree , PlayerAgent* agent)
+extractFeatures(PlayerAgent* agent)
 {
-    /*// Ball position
+    // Ball position
     Vector2D ballPos = agent->world().ball().pos();
 
     // Posibles owners de la pelota (maybe?)
@@ -79,7 +79,7 @@ extractFeatures(CvDTree dtree , PlayerAgent* agent)
     // printf("Distancia del teammate : %f \n",distTeam);
     // printf("Distancia del oponente : %f \n",distOppo);
 
-    // Este no es exactamente el calculo del owner. Pero bueno, por ahora, el jugador mas cercano y ya.
+    /*// Este no es exactamente el calculo del owner. Pero bueno, por ahora, el jugador mas cercano y ya.
     PlayerObject * owner;
     if (distTeam <= distOppo) {
         owner = possTeamOwner;
@@ -279,12 +279,15 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             CvDTree shootTree;
             shootTree.load("shootTree.yml");
 
-            cv::Mat testSample(extractFeatures(shootTree, agent));    
+            cv::Mat testSample(extractFeatures(agent));    
 
-            if ( Body_ForceShoot().execute( agent ) )
-            {
-                agent->setNeckAction( new Neck_TurnToGoalieOrScan() );
-                return true;
+            // It will be a successful shoot.
+            if (shootTree.predict(testSample)->value == 1){
+                if ( Body_ForceShoot().execute( agent ) )
+                {
+                    agent->setNeckAction( new Neck_TurnToGoalieOrScan() );
+                    return true;
+                }
             }
 
             break;
@@ -324,11 +327,14 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             CvDTree dribbleTree;
             dribbleTree.load("dribbleTree.yml");
 
-            cv::Mat testSample(extractFeatures(dribbleTree, agent));
+            cv::Mat testSample(extractFeatures(agent));
 
-            if ( Bhv_NormalDribble( first_action, neck ).execute( agent ) )
-            {
-                return true;
+            // It will be a successful dribble
+            if (dribbleTree.predict(testSample)->value == 1){
+                if ( Bhv_NormalDribble( first_action, neck ).execute( agent ) ){
+                    return true;
+                }
+
             }
             break;
         }
@@ -374,10 +380,13 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             CvDTree passTree;
             passTree.load("passTree.yml");
 
-            cv::Mat testSample(extractFeatures(passTree, agent));
+            cv::Mat testSample(extractFeatures(agent));
 
-            Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent );
-            return true;
+            // It will be a successful pass
+            if (passTree.predict(testSample)->value == 1){
+                Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent );
+                return true;
+            }
             break;
         }
 

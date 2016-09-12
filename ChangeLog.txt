@@ -1,3 +1,8 @@
+Sunday 12/09/16:
+	@ 10:00pm:
+		- Changed the output format of the preprocessing logs file, from the original classes to 1 when the class is positive and 0 when it is negative.
+		- Added the verifications of the trees before execute an action in bhv_chain_action.cpp
+
 Friday 9/09/16:
 	@ 5:00pm:
 		- The Makefile from agent2D team was modified to include the flags of the ML library.

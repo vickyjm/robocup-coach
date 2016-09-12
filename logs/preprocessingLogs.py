@@ -385,7 +385,8 @@ def generateNormalizedLogs(logFile):
 				for j in range(0,4):
 					shotFile.write(str(opponents[j]) + ",")
 					opponentFile.write(str(opponents[j]) + ",")
-				shotFile.write(line[i] + "\n")
+				#shotFile.write(line[i] + "\n")
+				shotFile.write("1" + "\n")
 				opponentFile.write("SHOOT\n")
 			elif (line[i] == "PASS"):
 				passFile.write(str(bx) + "," + str(by) + ",")
@@ -396,7 +397,8 @@ def generateNormalizedLogs(logFile):
 				for j in range(0,4):
 					passFile.write(str(opponents[j]) + ",")
 					opponentFile.write(str(opponents[j]) + ",")
-				passFile.write(line[i] + "\n")
+				#passFile.write(line[i] + "\n")
+				passFile.write("1" + "\n")
 				opponentFile.write(line[i] + "\n")
 			elif (line[i] == "DRIBBLE"):
 				dribbleFile.write(str(bx) + "," + str(by) + ",")
@@ -407,7 +409,8 @@ def generateNormalizedLogs(logFile):
 				for j in range(0,4):
 					dribbleFile.write(str(opponents[j]) + ",")
 					opponentFile.write(str(opponents[j]) + ",")
-				dribbleFile.write(line[i] + "\n")
+				#dribbleFile.write(line[i] + "\n")
+				dribbleFile.write("1" + "\n")
 				opponentFile.write(line[i] + "\n")
 			elif (line[i] == "UNSUCCESSFULSHOOT"):
 				shotFile.write(str(bx) + "," + str(by) + ",")
@@ -418,7 +421,8 @@ def generateNormalizedLogs(logFile):
 				for j in range(0,4):
 					shotFile.write(str(opponents[j]) + ",")
 					opponentFile.write(str(opponents[j]) + ",")
-				shotFile.write(line[i] + "\n")
+				#shotFile.write(line[i] + "\n")
+				shotFile.write("0" + "\n")
 				opponentFile.write("SHOOT\n")
 			elif (line[i] == "UNSUCCESSFULDRIBBLE"):
 				dribbleFile.write(str(bx) + "," + str(by) + ",")
@@ -429,7 +433,8 @@ def generateNormalizedLogs(logFile):
 				for j in range(0,4):
 					dribbleFile.write(str(opponents[j]) + ",")
 					opponentFile.write(str(opponents[j]) + ",")
-				dribbleFile.write(line[i] + "\n")
+				#dribbleFile.write(line[i] + "\n")
+				dribbleFile.write("0" + "\n")
 				opponentFile.write("DRIBBLE\n")
 			elif (line[i] == "UNSUCCESSFULPASS"):
 				passFile.write(str(bx) + "," + str(by) + ",")
@@ -440,7 +445,8 @@ def generateNormalizedLogs(logFile):
 				for j in range(0,4):
 					passFile.write(str(opponents[j]) + ",")
 					opponentFile.write(str(opponents[j]) + ",")
-				passFile.write(line[i] + "\n")
+				#passFile.write(line[i] + "\n")
+				passFile.write("0" + "\n")
 				opponentFile.write("PASS\n")
 		file.close()
 

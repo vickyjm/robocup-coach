@@ -42,14 +42,20 @@ int main(int argc, char* argv[]) {
 
     CvMLData cvml;                                  // Structure to keep the data
     cvml.read_csv(argv[2]);                         // Read the file
-    cvml.set_response_idx (9);                      // Indicate which column corresponds to the class
-    cvml.change_var_type(9, CV_VAR_CATEGORICAL);    // The output is categorical 
+    //cvml.change_var_type(9, CV_VAR_CATEGORICAL);    // The output is categorical
+    cvml.set_response_idx (9);                      // Indicate which column corresponds to the class 
 
     CvTrainTestSplit spl(trainPortion);
     cvml.set_train_test_split(&spl); // The mix flag is set to true by default. Used to mix test and training samples
                                      // so it doesn't use them in the same order that's given.
 
     CvDTree dtree;
+
+    const CvMat* resp = cvml.get_responses();
+
+    Mat respM(resp,false);
+
+    cout << respM << endl;
 
     dtree.train(&cvml,CvDTreeParams());    // Train the tree only using the test set
 
