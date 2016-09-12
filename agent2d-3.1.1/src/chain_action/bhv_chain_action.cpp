@@ -64,7 +64,7 @@ using namespace cv;
 using namespace rcsc;
 
 cv::Mat
-extractFeatures(PlayerAgent* agent)
+extractFeatures(PlayerAgent* agent, const CooperativeAction & action)
 {
     // Ball position
     Vector2D ballPos = agent->world().ball().pos();
@@ -74,20 +74,20 @@ extractFeatures(PlayerAgent* agent)
     PlayerObject * possOppoOwner = agent->world().opponentsFromBall()[0];
 
     // Existe tambien un dist2 que saca la "squared distance" en caso de que sea eso lo q se deba usar.
-    double distTeam = ballPos.dist(possTeamOwner->pos());
-    double distOppo = ballPos.dist(possOppoOwner->pos());
+    double distTeam = ballPos.dist2(possTeamOwner->pos())/10;
+    double distOppo = ballPos.dist2(possOppoOwner->pos())/10;
     // printf("Distancia del teammate : %f \n",distTeam);
     // printf("Distancia del oponente : %f \n",distOppo);
 
-    /*// Este no es exactamente el calculo del owner. Pero bueno, por ahora, el jugador mas cercano y ya.
+    // Este no es exactamente el calculo del owner. Pero bueno, por ahora, el jugador mas cercano y ya.
     PlayerObject * owner;
-    if (distTeam <= distOppo) {
+    /*if (distTeam <= distOppo) {
         owner = possTeamOwner;
     }
     //else {
         // Si el owner es oponente, no se usan los arboles.
         // PlayerObject * owner = possOppoOwner; 
-    //}
+    //}*/
 
     // Obteniendo teammate2  y distOpponent1.
     // en los getNearestTo, el 2do parametro es count_thr : "Confidence count threshold" pero la 
@@ -103,7 +103,9 @@ extractFeatures(PlayerAgent* agent)
     // PlayerObject * Opponent2 = agent->world().getTeammateNearestTo(Vector2D punto,count_thr,double dist_to_point);
 
     // Aqui el punto seria el middle of the action path.
-    // PlayerObject * opponent3 = agent->world().getTeammateNearestTo(Vector2D punto,count_thr,double dist_to_point);*/
+    // PlayerObject * opponent3 = agent->world().getTeammateNearestTo(Vector2D punto,count_thr,double dist_to_point);
+
+    //Action tiene .targetPlayerUnum() y .targetPoint()
 
 }
 
@@ -279,7 +281,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             CvDTree shootTree;
             shootTree.load("shootTree.yml");
 
-            cv::Mat testSample(extractFeatures(agent));    
+            cv::Mat testSample(extractFeatures(agent, first_action));    
 
             // It will be a successful shoot.
             if (shootTree.predict(testSample)->value == 1){
@@ -327,7 +329,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             CvDTree dribbleTree;
             dribbleTree.load("dribbleTree.yml");
 
-            cv::Mat testSample(extractFeatures(agent));
+            cv::Mat testSample(extractFeatures(agent, first_action));
 
             // It will be a successful dribble
             if (dribbleTree.predict(testSample)->value == 1){
@@ -380,7 +382,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             CvDTree passTree;
             passTree.load("passTree.yml");
 
-            cv::Mat testSample(extractFeatures(agent));
+            cv::Mat testSample(extractFeatures(agent, first_action));
 
             // It will be a successful pass
             if (passTree.predict(testSample)->value == 1){
