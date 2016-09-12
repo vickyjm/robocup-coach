@@ -70,17 +70,17 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action)
     Vector2D ballPos = agent->world().ball().pos();
 
     // Posibles owners de la pelota (maybe?)
-    PlayerObject * possTeamOwner = agent->world().teammatesFromBall()[0];
-    PlayerObject * possOppoOwner = agent->world().opponentsFromBall()[0];
+    // PlayerObject * possTeamOwner = agent->world().teammatesFromBall()[0];
+    // PlayerObject * possOppoOwner = agent->world().opponentsFromBall()[0];
 
     // Existe tambien un dist2 que saca la "squared distance" en caso de que sea eso lo q se deba usar.
-    double distTeam = ballPos.dist(possTeamOwner->pos());
-    double distOppo = ballPos.dist(possOppoOwner->pos());
+    // double distTeam = ballPos.dist(possTeamOwner->pos());
+    // double distOppo = ballPos.dist(possOppoOwner->pos());
     // printf("Distancia del teammate : %f \n",distTeam);
     // printf("Distancia del oponente : %f \n",distOppo);
 
     // Este no es exactamente el calculo del owner. Pero bueno, por ahora, el jugador mas cercano y ya.
-    PlayerObject * owner;
+    // PlayerObject * owner;
     /*if (distTeam <= distOppo) {
         owner = possTeamOwner;
     }
@@ -89,21 +89,40 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action)
         // PlayerObject * owner = possOppoOwner; 
     //}*/
 
+    // Comente la parte de distTeam y eso porque agent es el owner, asi que usare eso.
+
+
     // Obteniendo teammate2  y distOpponent1.
     // en los getNearestTo, el 2do parametro es count_thr : "Confidence count threshold" pero la 
     // documentacion no explica que es...puse 1 por ahora (100% confidence supongo?)
-    double* distTeammate2; // estas dos dists es donde se guarda la distancia entre el owner y teammate2 u opponent1
-    double* distOpponent1;
-    const PlayerObject * teammate2 = agent->world().getTeammateNearestTo(owner,1,distTeammate2);
-    const PlayerObject * opponent1 = agent->world().getOpponentNearestTo(owner,1,distOpponent1);
+    // double* distTeammate2; // estas dos dists es donde se guarda la distancia entre el owner y teammate2 u opponent1
+    // double* distOpponent1;
+    // const PlayerObject * teammate2 = agent->world().getTeammateNearestTo(owner,1,distTeammate2); 
+    // const PlayerObject * opponent1 = agent->world().getOpponentNearestTo(owner,1,distOpponent1);
 
-    // Para obtener los demas features, necesitamos saber como sacar los puntos del action path 
-    // antes de que ocurra la accion (?) y usar :
-    // PlayerObject * teammate3 = agent->world().getTeammateNearestTo(Vector2D punto,count_thr,double dist_to_point);
-    // PlayerObject * Opponent2 = agent->world().getTeammateNearestTo(Vector2D punto,count_thr,double dist_to_point);
+    // Cambie esto para usar getTeammateNearestToSelf porque agent es playerAgent y no playerObject que es el que
+    // necesitan las otras dos funciones. El true es "include goalie" para contar el arquero como nearest si lo es.
+    // Se puede cambiar si nos parece necesario.
+    const PlayerObject * teammate2 = agent->world().getTeammateNearestToSelf(1,true); 
+    const PlayerObject * opponent1 = agent->world().getOpponentNearestToSelf(1,true);
 
-    // Aqui el punto seria el middle of the action path.
-    // PlayerObject * opponent3 = agent->world().getTeammateNearestTo(Vector2D punto,count_thr,double dist_to_point);
+    // Opponent and Teammate nearest to the final point of action path
+    double* distTeammate3;
+    double* distOpponent2;
+    const PlayerObject * teammate3 = agent->world().getTeammateNearestTo(action.targetPoint(),1,distTeammate3);
+    const PlayerObject * opponent2 = agent->world().getOpponentNearestTo(action.targetPoint(),1,distOpponent2);
+
+    // Opponents nearest to the middle point of action path
+    double* distOpponent3;
+    double* distOpponent4;
+    const double midPointX = (ballPos.x + action.targetPoint().x) / 2;
+    const double midPointY = (ballPos.y + action.targetPoint().y) / 2;
+    const Vector2D midPoint = Vector2D(midPointX,midPointY);
+    const PlayerObject * opponent3 = agent->world().getOpponentNearestTo(midPoint,1,distOpponent3);
+    // Este ultimo no esta correcto. Por lo que entiendo son los dos oponentes mas cercanos al midpoint.
+    // El OpponentNearestTo solo da un punto. Con esto tengo el mas cercano al punto, y el mas cercano a ese 
+    // oponente. Ando viendo como sacarlo bien.
+    const PlayerObject * opponent4 = agent->world().getOpponentNearestTo(opponent3,1,distOpponent4);
 
     //Action tiene .targetPlayerUnum() y .targetPoint()
 
