@@ -99,8 +99,9 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action)
     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
         // Obtain the distance between the midpoint and the current opponent in iter
         distAux = sqrt(pow((midPoint.x - iter->pos().x),2) + pow((midPoint.y - iter->pos().y),2));
-        // If its not opponent3, and the distance is less than distOpponent4 and more than distOpponent3...
-        if ((iter->unum() != opponent3->unum()) and (distAux < distOpponent4) and (distAux >= *distOpponent3)) {
+        // If its not opponent3,2 or 1, and the distance is less than distOpponent4 and more than distOpponent3...
+        if ((iter->unum() != opponent3->unum()) and (iter->unum() != opponent2->unum()) and (iter->unum() != opponent1->unum())
+        and (distAux < distOpponent4) and (distAux >= *distOpponent3)) {
             distOpponent4 = distAux;    // Assign the new distOpponent4
             *opponent4 = *iter;         // Assign the current iterator value to opponent4
         }
