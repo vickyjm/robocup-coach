@@ -83,15 +83,29 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action)
 
     // Opponents nearest to the middle point of action path
     double* distOpponent3;
-    double* distOpponent4;
     const double midPointX = (ballPos.x + action.targetPoint().x) / 2;
     const double midPointY = (ballPos.y + action.targetPoint().y) / 2;
     const Vector2D midPoint = Vector2D(midPointX,midPointY);
     const PlayerObject * opponent3 = agent->world().getOpponentNearestTo(midPoint,1,distOpponent3);
-    // Este ultimo no esta correcto. Por lo que entiendo son los dos oponentes mas cercanos al midpoint.
-    // El OpponentNearestTo solo da un punto. Con esto tengo el mas cercano al punto, y el mas cercano a ese 
-    // oponente. Ando viendo como sacarlo bien.
-    const PlayerObject * opponent4 = agent->world().getOpponentNearestTo(opponent3,1,distOpponent4);
+    PlayerObject * opponent4;
+
+
+    PlayerCont allOpps = agent->world().opponents(); // Grab all opponents from the world model
+    PlayerCont::iterator iter;                       // Declare an iterator for the container
+    double distOpponent4 = 10000000;                 // Declare a big initial value for distOpponent4
+    double distAux = 0;                              // Aux distance variable
+
+    // Iterate over the opponent container
+    for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
+        // Obtain the distance between the midpoint and the current opponent in iter
+        distAux = sqrt(pow((midPoint.x - iter->pos().x),2) + pow((midPoint.y - iter->pos().y),2));
+        // If its not opponent3, and the distance is less than distOpponent4 and more than distOpponent3...
+        if ((iter->unum() != opponent3->unum()) and (distAux < distOpponent4) and (distAux >= *distOpponent3)) {
+            distOpponent4 = distAux;    // Assign the new distOpponent4
+            *opponent4 = *iter;         // Assign the current iterator value to opponent4
+        }
+    }
+    // const PlayerObject * opponent4 = agent->world().getOpponentNearestTo(opponent3,1,distOpponent4);
 
     // Second preprocessing
     ballPos.assign(ballPos.x/5, ballPos.y/5);
