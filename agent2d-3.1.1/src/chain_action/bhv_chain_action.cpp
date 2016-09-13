@@ -69,37 +69,6 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action)
     // Ball position
     Vector2D ballPos = agent->world().ball().pos();
 
-    // Posibles owners de la pelota (maybe?)
-    // PlayerObject * possTeamOwner = agent->world().teammatesFromBall()[0];
-    // PlayerObject * possOppoOwner = agent->world().opponentsFromBall()[0];
-
-    // Existe tambien un dist2 que saca la "squared distance" en caso de que sea eso lo q se deba usar.
-    // double distTeam = ballPos.dist(possTeamOwner->pos());
-    // double distOppo = ballPos.dist(possOppoOwner->pos());
-    // printf("Distancia del teammate : %f \n",distTeam);
-    // printf("Distancia del oponente : %f \n",distOppo);
-
-    // Este no es exactamente el calculo del owner. Pero bueno, por ahora, el jugador mas cercano y ya.
-    // PlayerObject * owner;
-    /*if (distTeam <= distOppo) {
-        owner = possTeamOwner;
-    }
-    //else {
-        // Si el owner es oponente, no se usan los arboles.
-        // PlayerObject * owner = possOppoOwner; 
-    //}*/
-
-    // Comente la parte de distTeam y eso porque agent es el owner, asi que usare eso.
-
-
-    // Obteniendo teammate2  y distOpponent1.
-    // en los getNearestTo, el 2do parametro es count_thr : "Confidence count threshold" pero la 
-    // documentacion no explica que es...puse 1 por ahora (100% confidence supongo?)
-    // double* distTeammate2; // estas dos dists es donde se guarda la distancia entre el owner y teammate2 u opponent1
-    // double* distOpponent1;
-    // const PlayerObject * teammate2 = agent->world().getTeammateNearestTo(owner,1,distTeammate2); 
-    // const PlayerObject * opponent1 = agent->world().getOpponentNearestTo(owner,1,distOpponent1);
-
     // Cambie esto para usar getTeammateNearestToSelf porque agent es playerAgent y no playerObject que es el que
     // necesitan las otras dos funciones. El true es "include goalie" para contar el arquero como nearest si lo es.
     // Se puede cambiar si nos parece necesario.
@@ -124,7 +93,12 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action)
     // oponente. Ando viendo como sacarlo bien.
     const PlayerObject * opponent4 = agent->world().getOpponentNearestTo(opponent3,1,distOpponent4);
 
-    //Action tiene .targetPlayerUnum() y .targetPoint()
+    // Second preprocessing
+    ballPos.assign(ballPos.x/5, ballPos.y/5);
+    double distT1 = ballPos.dist(agent->world().self().pos());
+    double distT2 = ballPos.dist(teammate2->pos());
+    double distT3 = ballPos.dist(teammate3->pos());
+
 
 }
 
