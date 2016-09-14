@@ -59,16 +59,28 @@
 
 #include "cv.h"
 #include "ml.h"
+#include <algorithm>
 
 using namespace cv;
 using namespace rcsc;
 
+double nearestTeammate(Vector2D teammate1, Vector2D teammate2, Vector2D teammate3, Vector2D opponnent){
+    double dists[3];
+    dists[0] = opponnent.dist(teammate1);
+    dists[1] = opponnent.dist(teammate2);
+    dists[2] = opponnent.dist(teammate3);
+    std::cout << dists[0] << dists[1] << dists[2] << std::endl;
+    std::cout << *std::min_element(dists, dists+3) << std::endl;
+
+    return *std::min_element(dists,dists+3);
+
+}
+
 cv::Mat
-extractFeatures(PlayerAgent* agent, const CooperativeAction & action)
-{
+extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     // Ball position
     Vector2D ballPos = agent->world().ball().pos();
-
+/*
     // Cambie esto para usar getTeammateNearestToSelf porque agent es playerAgent y no playerObject que es el que
     // necesitan las otras dos funciones. El true es "include goalie" para contar el arquero como nearest si lo es.
     // Se puede cambiar si nos parece necesario.
@@ -107,12 +119,21 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action)
         }
     }
     // const PlayerObject * opponent4 = agent->world().getOpponentNearestTo(opponent3,1,distOpponent4);
-
+*/
     // Second preprocessing
     ballPos.assign(ballPos.x/5, ballPos.y/5);
     double distT1 = ballPos.dist(agent->world().self().pos());
-    double distT2 = ballPos.dist(teammate2->pos());
-    double distT3 = ballPos.dist(teammate3->pos());
+    //double distT2 = ballPos.dist(teammate2->pos());
+    //double distT3 = ballPos.dist(teammate3->pos());
+
+    //double distO1 = nearestTeammate(distT1, distT2, distT3, opponent1->pos());
+    //double distO2 = nearestTeammate(distT1, distT2, distT3, opponent2->pos());
+    //ouble distO3 = nearestTeammate(distT1, distT2, distT3, opponent3->pos());
+    //double distO4 = nearestTeammate(distT1, distT2, distT3, opponent4->pos());
+
+    //Mat features = (Mat_<float>(1,9) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
+
+    //return features;
 
 
 }
@@ -292,13 +313,13 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             cv::Mat testSample(extractFeatures(agent, first_action));    
 
             // It will be a successful shoot.
-            if (shootTree.predict(testSample)->value == 1){
+            //if (shootTree.predict(testSample)->value == 1){
                 if ( Body_ForceShoot().execute( agent ) )
                 {
                     agent->setNeckAction( new Neck_TurnToGoalieOrScan() );
                     return true;
                 }
-            }
+            //}
 
             break;
         }
@@ -340,12 +361,12 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             cv::Mat testSample(extractFeatures(agent, first_action));
 
             // It will be a successful dribble
-            if (dribbleTree.predict(testSample)->value == 1){
+            //if (dribbleTree.predict(testSample)->value == 1){
                 if ( Bhv_NormalDribble( first_action, neck ).execute( agent ) ){
                     return true;
                 }
 
-            }
+            //}
             break;
         }
 
@@ -393,10 +414,10 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             cv::Mat testSample(extractFeatures(agent, first_action));
 
             // It will be a successful pass
-            if (passTree.predict(testSample)->value == 1){
+            //if (passTree.predict(testSample)->value == 1){
                 Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent );
                 return true;
-            }
+            //}
             break;
         }
 
