@@ -128,10 +128,10 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     // double distT2 = ballPos.dist(teammate2->pos());
     // double distT3 = ballPos.dist(teammate3->pos());
 
-    // double distO1 = nearestTeammate(distT1, distT2, distT3, opponent1->pos());
-    // double distO2 = nearestTeammate(distT1, distT2, distT3, opponent2->pos());
-    // double distO3 = nearestTeammate(distT1, distT2, distT3, opponent3->pos());
-    // double distO4 = nearestTeammate(distT1, distT2, distT3, opponent4.pos());
+    // double distO1 = nearestTeammate(agent->world().self().pos(), teammate2->pos(), teammate3->pos(), opponent1->pos());
+    // double distO2 = nearestTeammate(agent->world().self().pos(), teammate2->pos(), teammate3->pos(), opponent2->pos());
+    // double distO3 = nearestTeammate(agent->world().self().pos(), teammate2->pos(), teammate3->pos(), opponent3->pos());
+    // double distO4 = nearestTeammate(agent->world().self().pos(), teammate2->pos(), teammate3->pos(), opponent4.pos());
 
     // Mat features = (Mat_<float>(1,9) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
     Mat features = Mat::ones(2,2,CV_32F);
