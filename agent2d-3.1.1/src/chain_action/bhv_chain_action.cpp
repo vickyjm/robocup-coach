@@ -59,6 +59,7 @@
 
 #include "cv.h"
 #include "ml.h"
+
 #include <algorithm>
 
 using namespace cv;
@@ -80,7 +81,7 @@ cv::Mat
 extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     // Ball position
     Vector2D ballPos = agent->world().ball().pos();
-/*
+
     // Cambie esto para usar getTeammateNearestToSelf porque agent es playerAgent y no playerObject que es el que
     // necesitan las otras dos funciones. El true es "include goalie" para contar el arquero como nearest si lo es.
     // Se puede cambiar si nos parece necesario.
@@ -99,30 +100,31 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     const double midPointY = (ballPos.y + action.targetPoint().y) / 2;
     const Vector2D midPoint = Vector2D(midPointX,midPointY);
     const PlayerObject * opponent3 = agent->world().getOpponentNearestTo(midPoint,1,distOpponent3);
-    PlayerObject * opponent4;
+    PlayerObject opponent4;
 
 
     PlayerCont allOpps = agent->world().opponents(); // Grab all opponents from the world model
     PlayerCont::iterator iter;                       // Declare an iterator for the container
     double distOpponent4 = 10000000;                 // Declare a big initial value for distOpponent4
     double distAux = 0;                              // Aux distance variable
+    double distOpp3Aux = sqrt(pow((midPoint.x - opponent3->pos().x),2) + pow((midPoint.y - opponent3->pos().y),2));      
 
     // Iterate over the opponent container
     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
         // Obtain the distance between the midpoint and the current opponent in iter
         distAux = sqrt(pow((midPoint.x - iter->pos().x),2) + pow((midPoint.y - iter->pos().y),2));
+
         // If its not opponent3,2 or 1, and the distance is less than distOpponent4 and more than distOpponent3...
         if ((iter->unum() != opponent3->unum()) and (iter->unum() != opponent2->unum()) and (iter->unum() != opponent1->unum())
-        and (distAux < distOpponent4) and (distAux >= *distOpponent3)) {
+        and (distAux < distOpponent4) and (distAux >= distOpp3Aux)) {
             distOpponent4 = distAux;    // Assign the new distOpponent4
-            *opponent4 = *iter;         // Assign the current iterator value to opponent4
+            opponent4 = *iter;          // Assign the current iterator value to opponent4
         }
     }
-    // const PlayerObject * opponent4 = agent->world().getOpponentNearestTo(opponent3,1,distOpponent4);
-*/
+    
     // Second preprocessing
-    ballPos.assign(ballPos.x/5, ballPos.y/5);
-    double distT1 = ballPos.dist(agent->world().self().pos());
+    // ballPos.assign(ballPos.x/5, ballPos.y/5);
+    // double distT1 = ballPos.dist(agent->world().self().pos());
     //double distT2 = ballPos.dist(teammate2->pos());
     //double distT3 = ballPos.dist(teammate3->pos());
 
@@ -132,10 +134,8 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     //double distO4 = nearestTeammate(distT1, distT2, distT3, opponent4->pos());
 
     //Mat features = (Mat_<float>(1,9) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
-
-    //return features;
-
-
+    Mat features = Mat::ones(2,2,CV_32F);
+    return features;
 }
 
 namespace {
