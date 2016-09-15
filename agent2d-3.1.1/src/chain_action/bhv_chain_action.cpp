@@ -121,19 +121,19 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
             opponent4 = *iter;          // Assign the current iterator value to opponent4
         }
     }
-    
+
     // Second preprocessing
     // ballPos.assign(ballPos.x/5, ballPos.y/5);
     // double distT1 = ballPos.dist(agent->world().self().pos());
-    //double distT2 = ballPos.dist(teammate2->pos());
-    //double distT3 = ballPos.dist(teammate3->pos());
+    // double distT2 = ballPos.dist(teammate2->pos());
+    // double distT3 = ballPos.dist(teammate3->pos());
 
-    //double distO1 = nearestTeammate(distT1, distT2, distT3, opponent1->pos());
-    //double distO2 = nearestTeammate(distT1, distT2, distT3, opponent2->pos());
-    //ouble distO3 = nearestTeammate(distT1, distT2, distT3, opponent3->pos());
-    //double distO4 = nearestTeammate(distT1, distT2, distT3, opponent4->pos());
+    // double distO1 = nearestTeammate(distT1, distT2, distT3, opponent1->pos());
+    // double distO2 = nearestTeammate(distT1, distT2, distT3, opponent2->pos());
+    // double distO3 = nearestTeammate(distT1, distT2, distT3, opponent3->pos());
+    // double distO4 = nearestTeammate(distT1, distT2, distT3, opponent4.pos());
 
-    //Mat features = (Mat_<float>(1,9) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
+    // Mat features = (Mat_<float>(1,9) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
     Mat features = Mat::ones(2,2,CV_32F);
     return features;
 }
