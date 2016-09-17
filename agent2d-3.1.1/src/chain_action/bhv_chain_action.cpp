@@ -383,7 +383,6 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
     case CooperativeAction::Dribble:
         {
-            std::cout << "Dribble " << agent->world().self().unum() << std::endl;
             if ( wm.gameMode().type() != GameMode::PlayOn
                  && ! wm.gameMode().isPenaltyKickMode() )
             {
@@ -420,6 +419,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             // It will be a successful dribble
             //if (dribbleTree.predict(testSample)->value == 1){
                 if ( Bhv_NormalDribble( first_action, neck ).execute( agent ) ){
+                    std::cout << "Dribble " << agent->world().self().unum() << std::endl;
                     return true;
                 }
 
@@ -429,7 +429,6 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
     case CooperativeAction::Hold:
         {
-            std::cout << "Hold " << agent->world().self().unum() << std::endl;
             if ( wm.gameMode().type() != GameMode::PlayOn )
             {
                 agent->debugClient().addMessage( "CancelChainHold" );
@@ -453,9 +452,11 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) hold" );
 
-            Body_HoldBall().execute( agent );
-            agent->setNeckAction( new Neck_ScanField() );
-            return true;
+            if (Body_HoldBall().execute( agent )) {
+                std::cout << "Hold " << agent->world().self().unum() << std::endl;
+                agent->setNeckAction( new Neck_ScanField() );
+                return true;
+            }
             break;
         }
 
@@ -472,15 +473,16 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
             // It will be a successful pass
             //if (passTree.predict(testSample)->value == 1){
-                Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent );
+            if (Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent )) {
+                std::cout << "Pass " << agent->world().self().unum() << std::endl;
                 return true;
+            }
             //}
             break;
         }
 
     case CooperativeAction::Move:
         {
-            std::cout << "Move " << agent->world().self().unum() << std::endl;
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) move" );
 
@@ -488,6 +490,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
                                  1.0,
                                  SP.maxDashPower() ).execute( agent ) )
             {
+                std::cout << "Move " << agent->world().self().unum() << std::endl;
                 agent->setNeckAction( new Neck_ScanField() );
                 return true;
             }
