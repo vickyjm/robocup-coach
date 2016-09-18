@@ -44,7 +44,142 @@
 #include <rcsc/player/debug_client.h>
 #include <rcsc/common/logger.h>
 
+#include "cv.h"
+#include "ml.h"
+
+#include <algorithm>
+
+using namespace cv;
 using namespace rcsc;
+
+double nearestTeammateShoot(Vector2D teammate1, Vector2D teammate2, Vector2D teammate3, Vector2D opponnent){
+    double dists[3];
+    dists[0] = opponnent.dist(teammate1);
+    dists[1] = opponnent.dist(teammate2);
+    dists[2] = opponnent.dist(teammate3);
+
+    return *std::min_element(dists,dists+3);
+
+}
+
+cv::Mat
+extractFeaturesShoot(PlayerAgent* agent, Vector2D targetPoint){
+    PlayerCont allOpps;
+    PlayerCont allTeammts;
+    PlayerCont::iterator iter;
+    double distOpp;
+    double distAux;
+
+    // Ball position
+    Vector2D ballPos = agent->world().ball().pos();
+
+    // Calculating Teammate2.
+    allTeammts = agent->world().teammates();
+    distOpp = 10000000000;
+    distAux = 0; 
+    PlayerObject teammate2;
+    for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
+        distAux = agent->world().self().pos().dist(iter->pos());
+        if ((distAux < distOpp) and (iter->unum() != agent->world().self().unum())) {
+            distOpp = distAux;  
+            teammate2 = *iter;     
+        }
+    }
+
+    // Calculating teammate3
+    allTeammts = agent->world().teammates();
+    distOpp = std::numeric_limits<double>::max();
+    distAux = 0; 
+    PlayerObject teammate3;
+    for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
+        distAux = targetPoint.dist(iter->pos());
+
+        if ((distAux < distOpp) and (teammate2.unum() != iter->unum()) and (iter->unum() != agent->world().self().unum())){
+            distOpp = distAux;   
+            teammate3 = *iter;     
+        }
+    }
+
+    // Calculating Opponent1.
+    allOpps = agent->world().opponents();
+    distOpp = 10000000000;
+    distAux = 0; 
+    PlayerObject opponent1;
+    for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
+        distAux = agent->world().self().pos().dist(iter->pos());
+        if (distAux < distOpp) {
+            distOpp = distAux;  
+            opponent1 = *iter;     
+        }
+    }
+
+    // Calculating Opponent2.
+    allOpps = agent->world().opponents();
+    distOpp = std::numeric_limits<double>::max();
+    distAux = 0; 
+    PlayerObject opponent2;
+    for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
+        distAux = targetPoint.dist(iter->pos());
+
+        if ((distAux < distOpp) and (opponent1.unum() != iter->unum())){
+            distOpp = distAux;   
+            opponent2 = *iter;     
+        }
+    }
+
+    // Opponents nearest to the middle point of action path
+    const double midPointX = (ballPos.x + targetPoint.x) / 2;
+    const double midPointY = (ballPos.y + targetPoint.y) / 2;
+    const Vector2D midPoint = Vector2D(midPointX,midPointY);
+
+    // Calculating Opponent3.
+    allOpps = agent->world().opponents();
+    distOpp = std::numeric_limits<double>::max();
+    distAux = 0; 
+    PlayerObject opponent3;
+    allOpps = agent->world().opponents(); // Grab all opponents from the world model
+    for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
+        distAux = midPoint.dist(iter->pos());
+
+        if ((iter->unum() != opponent2.unum()) and (iter->unum() != opponent1.unum()) and (distAux < distOpp)) {
+            distOpp = distAux;   
+            opponent3 = *iter;     
+        }
+    }
+
+    // Calculating Opponent4'
+    allOpps = agent->world().opponents();
+    distOpp = std::numeric_limits<double>::max();
+    distAux = 0; 
+    PlayerObject opponent4;
+    allOpps = agent->world().opponents(); // Grab all opponents from the world model
+    double distOpp3Aux = midPoint.dist(opponent3.pos());
+    for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
+        distAux = midPoint.dist(iter->pos());
+
+        if ((iter->unum() != opponent3.unum()) and (iter->unum() != opponent2.unum()) and 
+            (iter->unum() != opponent1.unum()) and (distAux < distOpp) and (distAux >= distOpp3Aux)) {
+            distOpp = distAux;   
+            opponent4 = *iter;     
+        }
+    }
+
+    // Second preprocessing
+    ballPos.assign(ballPos.x/5, ballPos.y/5);
+    double distT1 = ballPos.dist(agent->world().self().pos());
+    double distT2 = ballPos.dist(teammate2.pos());
+    double distT3 = ballPos.dist(teammate3.pos());
+
+    double distO1 = nearestTeammateShoot(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent1.pos());
+    double distO2 = nearestTeammateShoot(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent2.pos());
+    double distO3 = nearestTeammateShoot(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent3.pos());
+    double distO4 = nearestTeammateShoot(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent4.pos());
+
+    Mat features = (Mat_<float>(1,10) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
+    
+    return features;
+}
+
 
 /*-------------------------------------------------------------------*/
 /*!
@@ -106,31 +241,42 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
                   best_shoot->first_ball_speed_,
                   one_step_speed );
 
+    CvDTree shootTree;
+    shootTree.load("trainedTrees/shootTree.yml");
+
+    cv::Mat testSample(extractFeaturesShoot(agent, best_shoot->target_point_));
+
     if ( one_step_speed > best_shoot->first_ball_speed_ * 0.99 )
-    {
-        if ( Body_SmartKick( best_shoot->target_point_,
-                             one_step_speed,
-                             one_step_speed * 0.99 - 0.0001,
-                             1 ).execute( agent ) )
-        {
-             agent->setNeckAction( new Neck_TurnToGoalieOrScan( -1 ) );
-             agent->debugClient().addMessage( "Force1Step" );
-             std::cout << "Shoot " << std::endl;
-             return true;
+    { 
+        // It will be a successful shoot.
+        if (shootTree.predict(testSample)->value >= 0.5){
+          if ( Body_SmartKick( best_shoot->target_point_,
+                               one_step_speed,
+                               one_step_speed * 0.99 - 0.0001,
+                               1 ).execute( agent ) )
+          {
+               agent->setNeckAction( new Neck_TurnToGoalieOrScan( -1 ) );
+               agent->debugClient().addMessage( "Force1Step" );
+               std::cout << "Shoot " << std::endl;
+               return true;
+          }
         }
     }
 
-    if ( Body_SmartKick( best_shoot->target_point_,
-                         best_shoot->first_ball_speed_,
-                         best_shoot->first_ball_speed_ * 0.99,
-                         3 ).execute( agent ) )
-    {
-        if ( ! doTurnNeckToShootPoint( agent, best_shoot->target_point_ ) )
-        {
-            agent->setNeckAction( new Neck_TurnToGoalieOrScan( -1 ) );
-        }
-        std::cout << "Shoot " << std::endl;
-        return true;
+    // It will be a successful shoot.
+    if (shootTree.predict(testSample)->value >= 0.5){
+      if ( Body_SmartKick( best_shoot->target_point_,
+                           best_shoot->first_ball_speed_,
+                           best_shoot->first_ball_speed_ * 0.99,
+                           3 ).execute( agent ) )
+      {
+          if ( ! doTurnNeckToShootPoint( agent, best_shoot->target_point_ ) )
+          {
+              agent->setNeckAction( new Neck_TurnToGoalieOrScan( -1 ) );
+          }
+          std::cout << "Shoot " << std::endl;
+          return true;
+      }
     }
 
     dlog.addText( Logger::SHOOT,

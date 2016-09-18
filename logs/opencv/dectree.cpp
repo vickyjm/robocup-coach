@@ -53,9 +53,9 @@ int main(int argc, char* argv[]) {
 
     const CvMat* resp = cvml.get_responses();
 
-    Mat respM(resp,false);
+    //Mat respM(resp,false);
 
-    cout << respM << endl;
+    //cout << respM << endl;
 
     dtree.train(&cvml,CvDTreeParams());    // Train the tree only using the test set
 

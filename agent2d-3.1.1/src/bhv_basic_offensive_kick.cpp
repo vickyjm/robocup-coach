@@ -44,7 +44,142 @@
 #include <rcsc/common/server_param.h>
 #include <rcsc/geom/sector_2d.h>
 
+#include "cv.h"
+#include "ml.h"
+
+#include <algorithm>
+
+using namespace cv;
 using namespace rcsc;
+
+double nearestTeammateKick(Vector2D teammate1, Vector2D teammate2, Vector2D teammate3, Vector2D opponnent){
+    double dists[3];
+    dists[0] = opponnent.dist(teammate1);
+    dists[1] = opponnent.dist(teammate2);
+    dists[2] = opponnent.dist(teammate3);
+
+    return *std::min_element(dists,dists+3);
+
+}
+
+cv::Mat
+extractFeaturesKick(PlayerAgent* agent, Vector2D targetPoint){
+    PlayerCont allOpps;
+    PlayerCont allTeammts;
+    PlayerCont::iterator iter;
+    double distOpp;
+    double distAux;
+
+    // Ball position
+    Vector2D ballPos = agent->world().ball().pos();
+
+    // Calculating Teammate2.
+    allTeammts = agent->world().teammates();
+    distOpp = 10000000000;
+    distAux = 0; 
+    PlayerObject teammate2;
+    for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
+        distAux = agent->world().self().pos().dist(iter->pos());
+        if ((distAux < distOpp) and (iter->unum() != agent->world().self().unum())) {
+            distOpp = distAux;  
+            teammate2 = *iter;     
+        }
+    }
+
+    // Calculating teammate3
+    allTeammts = agent->world().teammates();
+    distOpp = std::numeric_limits<double>::max();
+    distAux = 0; 
+    PlayerObject teammate3;
+    for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
+        distAux = targetPoint.dist(iter->pos());
+
+        if ((distAux < distOpp) and (teammate2.unum() != iter->unum()) and (iter->unum() != agent->world().self().unum())){
+            distOpp = distAux;   
+            teammate3 = *iter;     
+        }
+    }
+
+    // Calculating Opponent1.
+    allOpps = agent->world().opponents();
+    distOpp = 10000000000;
+    distAux = 0; 
+    PlayerObject opponent1;
+    for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
+        distAux = agent->world().self().pos().dist(iter->pos());
+        if (distAux < distOpp) {
+            distOpp = distAux;  
+            opponent1 = *iter;     
+        }
+    }
+
+    // Calculating Opponent2.
+    allOpps = agent->world().opponents();
+    distOpp = std::numeric_limits<double>::max();
+    distAux = 0; 
+    PlayerObject opponent2;
+    for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
+        distAux = targetPoint.dist(iter->pos());
+
+        if ((distAux < distOpp) and (opponent1.unum() != iter->unum())){
+            distOpp = distAux;   
+            opponent2 = *iter;     
+        }
+    }
+
+    // Opponents nearest to the middle point of action path
+    const double midPointX = (ballPos.x + targetPoint.x) / 2;
+    const double midPointY = (ballPos.y + targetPoint.y) / 2;
+    const Vector2D midPoint = Vector2D(midPointX,midPointY);
+
+    // Calculating Opponent3.
+    allOpps = agent->world().opponents();
+    distOpp = std::numeric_limits<double>::max();
+    distAux = 0; 
+    PlayerObject opponent3;
+    allOpps = agent->world().opponents(); // Grab all opponents from the world model
+    for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
+        distAux = midPoint.dist(iter->pos());
+
+        if ((iter->unum() != opponent2.unum()) and (iter->unum() != opponent1.unum()) and (distAux < distOpp)) {
+            distOpp = distAux;   
+            opponent3 = *iter;     
+        }
+    }
+
+    // Calculating Opponent4'
+    allOpps = agent->world().opponents();
+    distOpp = std::numeric_limits<double>::max();
+    distAux = 0; 
+    PlayerObject opponent4;
+    allOpps = agent->world().opponents(); // Grab all opponents from the world model
+    double distOpp3Aux = midPoint.dist(opponent3.pos());
+    for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
+        distAux = midPoint.dist(iter->pos());
+
+        if ((iter->unum() != opponent3.unum()) and (iter->unum() != opponent2.unum()) and 
+            (iter->unum() != opponent1.unum()) and (distAux < distOpp) and (distAux >= distOpp3Aux)) {
+            distOpp = distAux;   
+            opponent4 = *iter;     
+        }
+    }
+
+    // Second preprocessing
+    ballPos.assign(ballPos.x/5, ballPos.y/5);
+    double distT1 = ballPos.dist(agent->world().self().pos());
+    double distT2 = ballPos.dist(teammate2.pos());
+    double distT3 = ballPos.dist(teammate3.pos());
+
+    double distO1 = nearestTeammateKick(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent1.pos());
+    double distO2 = nearestTeammateKick(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent2.pos());
+    double distO3 = nearestTeammateKick(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent3.pos());
+    double distO4 = nearestTeammateKick(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent4.pos());
+
+    Mat features = (Mat_<float>(1,10) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
+    
+    return features;
+}
+
 
 /*-------------------------------------------------------------------*/
 /*!
@@ -53,6 +188,12 @@ using namespace rcsc;
 bool
 Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
 {
+    CvDTree dribbleTree;
+    dribbleTree.load("trainedTrees/dribbleTree.yml");
+
+    CvDTree passTree;
+    passTree.load("trainedTrees/passTree.yml");
+
     dlog.addText( Logger::TEAM,
                   __FILE__": Bhv_BasicOffensiveKick" );
 
@@ -99,13 +240,18 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
             // If its still safe to make the pass
             if ( safety )
             {
-                dlog.addText( Logger::TEAM,
-                              __FILE__": (execute) do best pass" );
-                agent->debugClient().addMessage( "OffKickPass(1)" );
-                // Execute a pass.
-                Body_Pass().execute( agent );
-                agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
-                return true;
+                cv::Mat bestPass(extractFeaturesKick(agent, pass_point));
+
+                // It will be a successful pass
+                if (passTree.predict(bestPass)->value >= 0.5){
+                  dlog.addText( Logger::TEAM,
+                                __FILE__": (execute) do best pass" );
+                  agent->debugClient().addMessage( "OffKickPass(1)" );
+                  // Execute a pass.
+                  Body_Pass().execute( agent );
+                  agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
+                  return true;
+                }
             }
         }
     }
@@ -171,6 +317,8 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     if ( wm.self().pos().y < 0.0 ) drib_target.y *= -1.0;
     const AngleDeg drib_angle = ( drib_target - wm.self().pos() ).th();
 
+    cv::Mat dribbleSample(extractFeaturesKick(agent, drib_target));
+
     // opponent is behind of me
     if ( nearest_opp_pos.x < wm.self().pos().x + 1.0 )
     {
@@ -191,28 +339,34 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                 drib_target.y *= ( 10.0 / drib_target.absY() );
             }
 
-            dlog.addText( Logger::TEAM,
-                          __FILE__": (execute) fast dribble to (%.1f, %.1f) max_step=%d",
-                          drib_target.x, drib_target.y,
-                          max_dash_step );
-            agent->debugClient().addMessage( "OffKickDrib(2)" );
-            Body_Dribble( drib_target,
-                          1.0,
-                          ServerParam::i().maxDashPower(),
-                          std::min( 5, max_dash_step )
-                          ).execute( agent );
+            // It will be a successful dribble
+            if (dribbleTree.predict(dribbleSample)->value >= 0.5){
+              dlog.addText( Logger::TEAM,
+                            __FILE__": (execute) fast dribble to (%.1f, %.1f) max_step=%d",
+                            drib_target.x, drib_target.y,
+                            max_dash_step );
+              agent->debugClient().addMessage( "OffKickDrib(2)" );
+              Body_Dribble( drib_target,
+                            1.0,
+                            ServerParam::i().maxDashPower(),
+                            std::min( 5, max_dash_step )
+                            ).execute( agent );
+            }
         }
         else
         {
-            dlog.addText( Logger::TEAM,
-                          __FILE__": (execute) slow dribble to (%.1f, %.1f)",
-                          drib_target.x, drib_target.y );
-            agent->debugClient().addMessage( "OffKickDrib(3)" );
-            Body_Dribble( drib_target,
-                          1.0,
-                          ServerParam::i().maxDashPower(),
-                          2
-                          ).execute( agent );
+            // It will be a successful dribble
+            if (dribbleTree.predict(dribbleSample)->value >= 0.5){
+              dlog.addText( Logger::TEAM,
+                            __FILE__": (execute) slow dribble to (%.1f, %.1f)",
+                            drib_target.x, drib_target.y );
+              agent->debugClient().addMessage( "OffKickDrib(3)" );
+              Body_Dribble( drib_target,
+                            1.0,
+                            ServerParam::i().maxDashPower(),
+                            2
+                            ).execute( agent );
+            }
 
         }
         agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
@@ -222,17 +376,20 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     // opp is far from me
     if ( nearest_opp_dist > 5.0 )
     {
-        dlog.addText( Logger::TEAM,
-                      __FILE__": opp far. dribble(%.1f, %.1f)",
-                      drib_target.x, drib_target.y );
-        agent->debugClient().addMessage( "OffKickDrib(4)" );
-        Body_Dribble( drib_target,
-                      1.0,
-                      ServerParam::i().maxDashPower() * 0.4,
-                      1
-                      ).execute( agent );
-        agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
-        return true;
+        // It will be a successful dribble
+        if (dribbleTree.predict(dribbleSample)->value >= 0.5){
+          dlog.addText( Logger::TEAM,
+                        __FILE__": opp far. dribble(%.1f, %.1f)",
+                        drib_target.x, drib_target.y );
+          agent->debugClient().addMessage( "OffKickDrib(4)" );
+          Body_Dribble( drib_target,
+                        1.0,
+                        ServerParam::i().maxDashPower() * 0.4,
+                        1
+                        ).execute( agent );
+          agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
+          return true;
+        }
     }
 
     // opp is near
@@ -251,17 +408,20 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     // opp is far from me
     if ( nearest_opp_dist > 3.0 )
     {
-        dlog.addText( Logger::TEAM,
-                      __FILE__": (execute) opp far. dribble(%f, %f)",
-                      drib_target.x, drib_target.y );
-        agent->debugClient().addMessage( "OffKickDrib(5)" );
-        Body_Dribble( drib_target,
-                      1.0,
-                      ServerParam::i().maxDashPower() * 0.2,
-                      1
-                      ).execute( agent );
-        agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
-        return true;
+        // It will be a successful dribble
+        if (dribbleTree.predict(dribbleSample)->value >= 0.5){
+          dlog.addText( Logger::TEAM,
+                        __FILE__": (execute) opp far. dribble(%f, %f)",
+                        drib_target.x, drib_target.y );
+          agent->debugClient().addMessage( "OffKickDrib(5)" );
+          Body_Dribble( drib_target,
+                        1.0,
+                        ServerParam::i().maxDashPower() * 0.2,
+                        1
+                        ).execute( agent );
+          agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
+          return true;
+        }
     }
 
     // Hold the ball if the nearest opponent is between 2,5 and 3.0 distance.

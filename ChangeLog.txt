@@ -1,3 +1,7 @@
+Saturday 18/09/16:
+	@ 10:00pm:
+		- Added the verifications of the trees before execute an action in bhv_basic_offensive_kick.cpp and bhv_strict_check_shoot.cpp
+
 Sunday 12/09/16:
 	@ 10:00pm:
 		- Changed the output format of the preprocessing logs file, from the original classes to 1 when the class is positive and 0 when it is negative.

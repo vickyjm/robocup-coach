@@ -70,8 +70,6 @@ double nearestTeammate(Vector2D teammate1, Vector2D teammate2, Vector2D teammate
     dists[0] = opponnent.dist(teammate1);
     dists[1] = opponnent.dist(teammate2);
     dists[2] = opponnent.dist(teammate3);
-    std::cout << dists[0] << dists[1] << dists[2] << std::endl;
-    std::cout << *std::min_element(dists, dists+3) << std::endl;
 
     return *std::min_element(dists,dists+3);
 
@@ -180,18 +178,18 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     }
 
     // Second preprocessing
-    // ballPos.assign(ballPos.x/5, ballPos.y/5);
-    // double distT1 = ballPos.dist(agent->world().self().pos());
-    // double distT2 = ballPos.dist(teammate2->pos());
-    // double distT3 = ballPos.dist(teammate3->pos());
+    ballPos.assign(ballPos.x/5, ballPos.y/5);
+    double distT1 = ballPos.dist(agent->world().self().pos());
+    double distT2 = ballPos.dist(teammate2.pos());
+    double distT3 = ballPos.dist(teammate3.pos());
 
-    // double distO1 = nearestTeammate(agent->world().self().pos(), teammate2->pos(), teammate3->pos(), opponent1->pos());
-    // double distO2 = nearestTeammate(agent->world().self().pos(), teammate2->pos(), teammate3->pos(), opponent2->pos());
-    // double distO3 = nearestTeammate(agent->world().self().pos(), teammate2->pos(), teammate3->pos(), opponent3->pos());
-    // double distO4 = nearestTeammate(agent->world().self().pos(), teammate2->pos(), teammate3->pos(), opponent4->pos());
+    double distO1 = nearestTeammate(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent1.pos());
+    double distO2 = nearestTeammate(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent2.pos());
+    double distO3 = nearestTeammate(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent3.pos());
+    double distO4 = nearestTeammate(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent4.pos());
 
-    // Mat features = (Mat_<float>(1,9) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
-    Mat features = Mat::ones(2,2,CV_32F);
+    Mat features = (Mat_<float>(1,10) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
+    
     return features;
 }
 
@@ -365,18 +363,18 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
                           __FILE__" (Bhv_ChainAction) shoot" );
 
             CvDTree shootTree;
-            shootTree.load("shootTree.yml");
+            shootTree.load("trainedTrees/shootTree.yml");
 
             cv::Mat testSample(extractFeatures(agent, first_action));    
 
             // It will be a successful shoot.
-            //if (shootTree.predict(testSample)->value == 1){
+            if (shootTree.predict(testSample)->value >= 0.5){
                 if ( Body_ForceShoot().execute( agent ) )
                 {
                     agent->setNeckAction( new Neck_TurnToGoalieOrScan() );
                     return true;
                 }
-            //}
+            }
 
             break;
         }
@@ -412,18 +410,18 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             }
 
             CvDTree dribbleTree;
-            dribbleTree.load("dribbleTree.yml");
+            dribbleTree.load("trainedTrees/dribbleTree.yml");
 
             cv::Mat testSample(extractFeatures(agent, first_action));
-
+            
             // It will be a successful dribble
-            //if (dribbleTree.predict(testSample)->value == 1){
+            if (dribbleTree.predict(testSample)->value >= 0.5){
                 if ( Bhv_NormalDribble( first_action, neck ).execute( agent ) ){
                     std::cout << "Dribble " << agent->world().self().unum() << std::endl;
                     return true;
                 }
 
-            //}
+            }
             break;
         }
 
@@ -462,22 +460,21 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
     case CooperativeAction::Pass:
         {
-            std::cout << "Pass " << agent->world().self().unum() << std::endl;
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) pass" );
 
             CvDTree passTree;
-            passTree.load("passTree.yml");
+            passTree.load("trainedTrees/passTree.yml");
 
             cv::Mat testSample(extractFeatures(agent, first_action));
 
             // It will be a successful pass
-            //if (passTree.predict(testSample)->value == 1){
-            if (Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent )) {
-                std::cout << "Pass " << agent->world().self().unum() << std::endl;
-                return true;
+            if (passTree.predict(testSample)->value >= 0.5){
+                if (Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent )) {
+                    std::cout << "Pass " << agent->world().self().unum() << std::endl;
+                    return true;
+                }
             }
-            //}
             break;
         }
 
