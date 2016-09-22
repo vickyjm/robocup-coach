@@ -197,6 +197,8 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     dlog.addText( Logger::TEAM,
                   __FILE__": Bhv_BasicOffensiveKick" );
 
+    bool getBestPass = false;
+
     // Get a pointer to the world model.
     const WorldModel & wm = agent->world();
     // Get opponents sorted by distance from self.
@@ -220,6 +222,9 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     // Calculates the best pass route. (True if the pass route is found).
     if ( Body_Pass::get_best_pass( wm, &pass_point, NULL, NULL ) )
     {
+        getBestPass = true;
+        cv::Mat bestPass(extractFeaturesKick(agent, pass_point));
+
         // If the X coordinate of the pass point is greater than
         // the X coordinate of the player.
         if ( pass_point.x > wm.self().pos().x - 1.0 )
@@ -240,8 +245,6 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
             // If its still safe to make the pass
             if ( safety )
             {
-                cv::Mat bestPass(extractFeaturesKick(agent, pass_point));
-
                 // It will be a successful pass
                 if (passTree.predict(bestPass)->value >= 0.5){
                   dlog.addText( Logger::TEAM,
@@ -254,19 +257,21 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                 }
             }
         }
-    }
-
-    // If the distance to the nearest opponent is less than 7.0
-    if ( nearest_opp_dist < 7.0 )
-    {
-        // If the pass is executed.
-        if ( Body_Pass().execute( agent ) )
+        // If the distance to the nearest opponent is less than 7.0
+        if ( nearest_opp_dist < 7.0 )
         {
-            dlog.addText( Logger::TEAM,
-                          __FILE__": (execute) do best pass" );
-            agent->debugClient().addMessage( "OffKickPass(2)" );
-            agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
-            return true;
+            // It will be a successful pass
+            if (passTree.predict(bestPass)->value >= 0.5){
+              // If the pass is executed.
+              if ( Body_Pass().execute( agent ) )
+              {
+                  dlog.addText( Logger::TEAM,
+                                __FILE__": (execute) do best pass" );
+                  agent->debugClient().addMessage( "OffKickPass(2)" );
+                  agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
+                  return true;
+              }
+            }
         }
     }
 
@@ -294,19 +299,24 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                                    0.5, 10.0,
                                    wm.self().body() - 30.0,
                                    wm.self().body() + 30.0 );
+
+            cv::Mat dribbleSample1(extractFeaturesKick(agent, body_dir_drib_target));
+
             // opponent check with goalie
-            if ( ! wm.existOpponentIn( sector, 10, true ) )
-            {
-                dlog.addText( Logger::TEAM,
-                              __FILE__": (execute) dribble to my body dir" );
-                agent->debugClient().addMessage( "OffKickDrib(1)" );
-                Body_Dribble( body_dir_drib_target,
-                              1.0,
-                              ServerParam::i().maxDashPower(),
-                              2
-                              ).execute( agent );
-                agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
-                return true;
+            if (dribbleTree.predict(dribbleSample1)->value >= 0.5){
+              if ( ! wm.existOpponentIn( sector, 10, true ) )
+              {
+                  dlog.addText( Logger::TEAM,
+                                __FILE__": (execute) dribble to my body dir" );
+                  agent->debugClient().addMessage( "OffKickDrib(1)" );
+                  Body_Dribble( body_dir_drib_target,
+                                1.0,
+                                ServerParam::i().maxDashPower(),
+                                2
+                                ).execute( agent );
+                  agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
+                  return true;
+              }
             }
         }
     }
@@ -394,20 +404,26 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
 
     // opp is near
 
-    // can pass
-    if ( Body_Pass().execute( agent ) )
-    {
-        dlog.addText( Logger::TEAM,
-                      __FILE__": (execute) pass",
-                      __LINE__ );
-        agent->debugClient().addMessage( "OffKickPass(3)" );
-        agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
-        return true;
+    if (getBestPass){
+      cv::Mat bestPass(extractFeaturesKick(agent, pass_point));
+      // It will be a successful pass
+      if (passTree.predict(bestPass)->value >= 0.5){
+      // can pass
+        if ( Body_Pass().execute( agent ) )
+        {
+            dlog.addText( Logger::TEAM,
+                          __FILE__": (execute) pass",
+                          __LINE__ );
+            agent->debugClient().addMessage( "OffKickPass(3)" );
+            agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
+            return true;
+        }
+      }
     }
 
     // opp is far from me
     if ( nearest_opp_dist > 3.0 )
-    {
+    { 
         // It will be a successful dribble
         if (dribbleTree.predict(dribbleSample)->value >= 0.5){
           dlog.addText( Logger::TEAM,
