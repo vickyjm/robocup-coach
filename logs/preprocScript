@@ -1,0 +1,9 @@
+#!/bin/bash
+
+LOGPATH=$1
+
+for f in $LOGPATH/*.rcg
+do
+	echo $f
+	python3 preprocessingLogs.py $f outputFile.txt
+done
