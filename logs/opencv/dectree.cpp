@@ -4,13 +4,49 @@
 #include "cv.h"
 #include "ml.h"
 #include "opencv2/core/core_c.h"
-
+#include <vector>
+ 
 using namespace cv;
 using namespace std;
 
+int* kfold( int size, int k )
+{
+    int* indices = new int[ size ];
+
+    for (int i = 0; i < size; i++ )
+        indices[i] = i%k;
+
+    sort(indices, indices + size);
+
+    return indices;
+}
+
+vector<int> chooseIndex(int* index, int flag, int iter, int size, int numSamples){
+    vector<int> res(size);
+    int actual = 0;
+
+    if (flag == 0){
+        for (int i = 0; i < numSamples; i++){
+            if (index[i] != iter){
+                res[actual] = i;
+                actual++;
+            }
+        }
+
+    } else {
+        for (int i = 0; i < numSamples; i++){
+            if (index[i] == iter){
+                res[actual] = i;
+                actual++;
+            }
+        }
+
+    }
+    return res;
+}
+
 int main(int argc, char* argv[]) {
 
-    float trainPortion = 0.7;   
     char* outFile;
 
     if (argc < 3){
@@ -39,30 +75,43 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
+    int folds = 5;
+    int numSamples = 144035;
+    vector<int> trainingIndex;
+    vector<int> testIndex;
 
     CvMLData cvml;                                  // Structure to keep the data
     cvml.read_csv(argv[2]);                         // Read the file
-    //cvml.change_var_type(9, CV_VAR_CATEGORICAL);    // The output is categorical
-    cvml.set_response_idx (9);                      // Indicate which column corresponds to the class 
+    cvml.set_response_idx (9);
 
-    CvTrainTestSplit spl(trainPortion);
-    cvml.set_train_test_split(&spl); // The mix flag is set to true by default. Used to mix test and training samples
-                                     // so it doesn't use them in the same order that's given.
+    const Mat values(cvml.get_values(), true);
+    const Mat responses(cvml.get_responses(), true);
+    const Mat responsesT(responses.t());
 
-    CvDTree dtree;
 
-    const CvMat* resp = cvml.get_responses();
+    int* index = kfold(numSamples, folds);
 
-    //Mat respM(resp,false);
+    for (int i = 0; i!=folds; i++){
+        CvDTree dtree;
 
-    //cout << respM << endl;
+        trainingIndex = chooseIndex(index, 0, i, (numSamples*(folds-1))/folds, numSamples);
+        testIndex = chooseIndex(index, 1, i, numSamples/folds, numSamples);
 
-    dtree.train(&cvml,CvDTreeParams());    // Train the tree only using the test set
+        const Mat training = Mat(trainingIndex);
+
+        // Train the tree only with the training samples
+        dtree.train(values, CV_ROW_SAMPLE, responsesT, NULL, training);
+        
+        //Probar
+        //Sumar el error
+    }
+
+    /*
 
     // cout << dtree.calc_error(&cvml,CV_TEST_ERROR) << endl;
     dtree.save(outFile);
 
-    free(outFile);
+    free(outFile);*/
 
     return 0;
 }
