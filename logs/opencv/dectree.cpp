@@ -45,6 +45,13 @@ vector<int> chooseIndex(int* index, int flag, int iter, int size, int numSamples
     return res;
 }
 
+int filterValue(float ans){
+    if (ans >= 0.5)
+        return 1;
+    else
+        return 0;
+}
+
 int main(int argc, char* argv[]) {
 
     char* outFile;
@@ -76,7 +83,7 @@ int main(int argc, char* argv[]) {
     }
 
     int folds = 5;
-    int numSamples = 144036;
+    int numSamples = 824;
     vector<int> trainingIndex;
     vector<int> testIndex;
 
@@ -84,7 +91,8 @@ int main(int argc, char* argv[]) {
     cvml.read_csv(argv[2]);                         // Read the file
     cvml.set_response_idx (9);
 
-    const Mat values(cvml.get_values(),true);
+    const Mat aux(cvml.get_values(),true);
+    const Mat values = aux(Range::all(), Range(0,9));
     const Mat responses(cvml.get_responses(),true);
     const Mat responsesT(responses.t());
 
@@ -100,6 +108,7 @@ int main(int argc, char* argv[]) {
     int false1 = 0;          // Incorrectly classified 1s
     int totalTrue = 0;       // Total number of correctly classified actions
     int totalFalse = 0;      // Total number of incorrectly classified actions
+    int predict;
 
     // vector<int> stuff;
     // for (int i = 0; i < 9; i++) {
@@ -127,16 +136,18 @@ int main(int argc, char* argv[]) {
         totalFalse = 0;      
         for (it=testIndex.begin() ; it < testIndex.end(); ++it) {
             ans = dtree.predict(values.row(*it));
-            if (ans->value == responsesT.at<int>(0,*it)) {
-                if (ans->value == 0) {
+            predict = filterValue(ans->value);
+            cout << predict << endl;
+            if (predict == responsesT.at<int>(0,*it)) {
+                if (predict == 0) {
                     true0++; // The tree correctly predicted a 0 (unsuccessful action)
                 }
                 else {
                     true1++; // The tree correctly predicted a 1 (successful action)
                 }
             }
-            else if (ans->value != responsesT.at<int>(0,*it)) {
-                if ((ans->value == 0) && (responsesT.at<int>(0,*it) == 1)) {
+            else if (predict != responsesT.at<int>(0,*it)) {
+                if ((predict == 0) && (responsesT.at<int>(0,*it) == 1)) {
                     false0++; // The tree predicted a 0, but it was really a 1.
                 }
                 else {
@@ -149,8 +160,8 @@ int main(int argc, char* argv[]) {
         totalFalse = false0+false1;
 
         //Sumar el error
-        std::cout << "Correctos : " << totalTrue << std::endl;
-        std::cout << "Incorrectos : " << totalFalse << std::endl;
+        cout << "Correctos : " << totalTrue << endl;
+        cout << "Incorrectos : " << totalFalse << endl;
 
     }
 
