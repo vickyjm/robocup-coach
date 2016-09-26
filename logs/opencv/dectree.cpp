@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 
     char* outFile;
 
-    if (argc < 3){
+    if (argc < 5){
         cout << "Hey, you forgot the log file or the type flag!" << endl;
         return 0;
     }
@@ -82,8 +82,13 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    int folds = 5;
-    int numSamples = 21733;
+    int folds = atoi(argv[3]);
+    int numSamples = atoi(argv[4]);
+    cout << "Total samples : " << numSamples << endl;
+    cout << "Folds : " << folds << endl;
+    cout << "Using " << (numSamples/folds)*(folds-1) << " samples to train" << endl;
+    cout << "and " << (numSamples/folds) << " samples to test" << endl;
+
     vector<int> trainingIndex;
     vector<int> testIndex;
 
@@ -110,15 +115,13 @@ int main(int argc, char* argv[]) {
     int totalFalse = 0;      // Total number of incorrectly classified actions
     int predict;
 
-    // vector<int> stuff;
-    // for (int i = 0; i < 9; i++) {
-    //     stuff.push_back(i);
-    // }
-
-    // for (int i = 0; i < numSamples; i++){
-    //     cout << responses.row(i).col(0) << endl;
-    // }
-
+    int tp = 0;
+    int tn = 0;
+    int fp = 0;
+    int fn = 0;
+    int finalTrue = 0;
+    int finalFalse = 0;
+    float accuracy = 0;
     for (int i = 0; i!=folds; i++){
         CvDTree dtree;
 
@@ -163,11 +166,32 @@ int main(int argc, char* argv[]) {
         totalTrue = true0+true1;
         totalFalse = false0+false1;
 
-        //Sumar el error
-        cout << "Correctos : " << totalTrue << endl;
-        cout << "Incorrectos : " << totalFalse << endl;
+        tp = tp + true1;
+        tn = tn + true0;
+        fp = fp + false1;
+        fn = fn + false0;
+        finalTrue = finalTrue + totalTrue;
+        finalFalse = finalFalse + totalFalse;
 
     }
+
+    tp = tp / folds;
+    tn = tn / folds;
+    fp = fp / folds;
+    fn = fn / folds;
+    finalTrue = finalTrue / folds;
+    finalFalse = finalFalse / folds;
+
+    cout << "----------*-------------" << endl; 
+    cout << "True positives : " << tp << " - " << ((float)(tp*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
+    cout << "True negatives : " << tn << " - " << ((float)(tn*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
+
+    cout << "False positives : " << fp << " - " << ((float)(fp*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
+    cout << "False negatives : " << fn << " - " << ((float)(fn*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
+
+    //Sumar el error
+    cout << "Total true : " << finalTrue << " - " << ((float)(finalTrue*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
+    cout << "Total false : " << finalFalse << " - " << ((float)(finalFalse*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
 
     // CvDTree dtree;
     // CvDTreeParams params = CvDTreeParams();
