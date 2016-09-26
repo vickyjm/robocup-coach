@@ -84,8 +84,8 @@ int main(int argc, char* argv[]) {
     cvml.read_csv(argv[2]);                         // Read the file
     cvml.set_response_idx (9);
 
-    const Mat values(cvml.get_values(), true);
-    const Mat responses(cvml.get_responses(), true);
+    const Mat values(cvml.get_values(),true);
+    const Mat responses(cvml.get_responses(),true);
     const Mat responsesT(responses.t());
 
 
@@ -100,6 +100,11 @@ int main(int argc, char* argv[]) {
     int false1 = 0;          // Incorrectly classified 1s
     int totalTrue = 0;       // Total number of correctly classified actions
     int totalFalse = 0;      // Total number of incorrectly classified actions
+
+    // vector<int> stuff;
+    // for (int i = 0; i < 9; i++) {
+    //     stuff.push_back(i);
+    // }
 
     for (int i = 0; i!=folds; i++){
         CvDTree dtree;
@@ -122,7 +127,6 @@ int main(int argc, char* argv[]) {
         totalFalse = 0;      
         for (it=testIndex.begin() ; it < testIndex.end(); ++it) {
             ans = dtree.predict(values.row(*it));
-
             if (ans->value == responsesT.at<int>(0,*it)) {
                 if (ans->value == 0) {
                     true0++; // The tree correctly predicted a 0 (unsuccessful action)
@@ -150,6 +154,34 @@ int main(int argc, char* argv[]) {
 
     }
 
+    // CvDTree dtree;
+    // CvDTreeParams params = CvDTreeParams();
+    // dtree.train(&cvml,params);
+
+    // for (int i = 0; i < numSamples; i++) {
+    //     ans = dtree.predict(values.row(i));
+    //     cout << ans->value << endl;
+    //     if (ans->value == responsesT.at<int>(0,i)) {
+    //         if (ans->value == 0) {
+    //             true0++; // The tree correctly predicted a 0 (unsuccessful action)
+    //         }
+    //         else {
+    //             true1++; // The tree correctly predicted a 1 (successful action)
+    //         }
+    //     }
+    //     else if (ans->value != responsesT.at<int>(0,i)) {
+    //         if ((ans->value == 0) && (responsesT.at<int>(0,i) == 1)) {
+    //             false0++; // The tree predicted a 0, but it was really a 1.
+    //         }
+    //         else {
+    //             false1++; // The tree predicted a 1, but it was really a 0.
+    //         }
+    //     }
+    // }
+    // totalTrue = true0+true1;
+    // totalFalse = false0+false1;
+    // std::cout << "Correctos : " << totalTrue << std::endl;
+    // std::cout << "Incorrectos : " << totalFalse << std::endl;
     /*
 
     // cout << dtree.calc_error(&cvml,CV_TEST_ERROR) << endl;
