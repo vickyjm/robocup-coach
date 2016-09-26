@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
     }
 
     int folds = 5;
-    int numSamples = 824;
+    int numSamples = 21733;
     vector<int> trainingIndex;
     vector<int> testIndex;
 
@@ -115,6 +115,10 @@ int main(int argc, char* argv[]) {
     //     stuff.push_back(i);
     // }
 
+    // for (int i = 0; i < numSamples; i++){
+    //     cout << responses.row(i).col(0) << endl;
+    // }
+
     for (int i = 0; i!=folds; i++){
         CvDTree dtree;
 
@@ -133,12 +137,12 @@ int main(int argc, char* argv[]) {
         false0 = 0;          
         false1 = 0;         
         totalTrue = 0;       
-        totalFalse = 0;      
+        totalFalse = 0;    
+
         for (it=testIndex.begin() ; it < testIndex.end(); ++it) {
             ans = dtree.predict(values.row(*it));
             predict = filterValue(ans->value);
-            cout << predict << endl;
-            if (predict == responsesT.at<int>(0,*it)) {
+            if (predict == responsesT.at<float>(0,*it)) {
                 if (predict == 0) {
                     true0++; // The tree correctly predicted a 0 (unsuccessful action)
                 }
@@ -146,8 +150,8 @@ int main(int argc, char* argv[]) {
                     true1++; // The tree correctly predicted a 1 (successful action)
                 }
             }
-            else if (predict != responsesT.at<int>(0,*it)) {
-                if ((predict == 0) && (responsesT.at<int>(0,*it) == 1)) {
+            else if (predict != responsesT.at<float>(0,*it)) {
+                if ((predict == 0) && (responsesT.at<float>(0,*it) == 1)) {
                     false0++; // The tree predicted a 0, but it was really a 1.
                 }
                 else {
@@ -193,6 +197,7 @@ int main(int argc, char* argv[]) {
     // totalFalse = false0+false1;
     // std::cout << "Correctos : " << totalTrue << std::endl;
     // std::cout << "Incorrectos : " << totalFalse << std::endl;
+    // std::cout << "Error : " << dtree.calc_error(&cvml,CV_TEST_ERROR) << std::endl;
     /*
 
     // cout << dtree.calc_error(&cvml,CV_TEST_ERROR) << endl;
