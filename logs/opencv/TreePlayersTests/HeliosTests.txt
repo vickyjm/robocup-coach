@@ -1,0 +1,142 @@
+Helios : 
+DRIBBLE 5 FOLD : 
+Total samples : 138280
+Folds : 5
+Using 110624 samples to train
+and 27656 samples to test
+----------*-------------
+True positives : 27045 - 97.7943%
+True negatives : 195 - 0.705117%
+False positives : 415 - 1.50063%
+False negatives : 0 - 0%
+Total true : 27240 - 98.4994%
+Total false : 415 - 1.50063%
+ 
+DRIBBLE 10 FOLD : 
+Total samples : 138280
+Folds : 10
+Using 124452 samples to train
+and 13828 samples to test
+----------*-------------
+True positives : 13522 - 97.7942%
+True negatives : 97 - 0.701526%
+False positives : 207 - 1.49707%
+False negatives : 0 - 0%
+Total true : 13620 - 98.5029%
+Total false : 207 - 1.49707%
+ 
+PASS 5 FOLD : 
+Total samples : 22950
+Folds : 5
+Using 18360 samples to train
+and 4590 samples to test
+----------*-------------
+True positives : 4083 - 88.9542%
+True negatives : 10 - 0.217865%
+False positives : 491 - 10.6972%
+False negatives : 5 - 0.108932%
+Total true : 4093 - 89.1721%
+Total false : 497 - 10.8279%
+ 
+PASS 10 FOLD : 
+Total samples : 22950
+Folds : 10
+Using 20655 samples to train
+and 2295 samples to test
+----------*-------------
+True positives : 2042 - 89.0148%
+True negatives : 4 - 0.174368%
+False positives : 246 - 10.7236%
+False negatives : 1 - 0.043592%
+Total true : 2047 - 89.2328%
+Total false : 247 - 10.7672%
+ 
+SHOOT 5 FOLD : 
+Total samples : 870
+Folds : 5
+Using 696 samples to train
+and 174 samples to test
+ 
+SHOOT 10 FOLD :  
+Total samples : 870
+Folds : 10
+Using 783 samples to train
+and 87 samples to test
+Helios : 
+DRIBBLE 5 FOLD : 
+Total samples : 138280
+Folds : 5
+Using 110624 samples to train
+and 27656 samples to test
+----------*-------------
+True positives : 27045 - 97.7943%
+True negatives : 195 - 0.705117%
+False positives : 415 - 1.50063%
+False negatives : 0 - 0%
+Total true : 27240 - 98.4994%
+Total false : 415 - 1.50063%
+ 
+DRIBBLE 10 FOLD : 
+Total samples : 138280
+Folds : 10
+Using 124452 samples to train
+and 13828 samples to test
+----------*-------------
+True positives : 13522 - 97.7942%
+True negatives : 97 - 0.701526%
+False positives : 207 - 1.49707%
+False negatives : 0 - 0%
+Total true : 13620 - 98.5029%
+Total false : 207 - 1.49707%
+ 
+PASS 5 FOLD : 
+Total samples : 22950
+Folds : 5
+Using 18360 samples to train
+and 4590 samples to test
+----------*-------------
+True positives : 4083 - 88.9542%
+True negatives : 10 - 0.217865%
+False positives : 491 - 10.6972%
+False negatives : 5 - 0.108932%
+Total true : 4093 - 89.1721%
+Total false : 497 - 10.8279%
+ 
+PASS 10 FOLD : 
+Total samples : 22950
+Folds : 10
+Using 20655 samples to train
+and 2295 samples to test
+----------*-------------
+True positives : 2042 - 89.0148%
+True negatives : 4 - 0.174368%
+False positives : 246 - 10.7236%
+False negatives : 1 - 0.043592%
+Total true : 2047 - 89.2328%
+Total false : 247 - 10.7672%
+ 
+SHOOT 5 FOLD : 
+Total samples : 870
+Folds : 5
+Using 696 samples to train
+and 174 samples to test
+----------*-------------
+True positives : 80 - 46.2428%
+True negatives : 85 - 49.1329%
+False positives : 0 - 0%
+False negatives : 7 - 4.04624%
+Total true : 166 - 95.9538%
+Total false : 7 - 4.04624%
+ 
+SHOOT 10 FOLD :  
+Total samples : 870
+Folds : 10
+Using 783 samples to train
+and 87 samples to test
+----------*-------------
+True positives : 40 - 46.5116%
+True negatives : 42 - 48.8372%
+False positives : 0 - 0%
+False negatives : 3 - 3.48837%
+Total true : 83 - 96.5116%
+Total false : 3 - 3.48837%
