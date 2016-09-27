@@ -1,0 +1,106 @@
+#!/bin/bash
+
+echo "Genius : " >> GeniusTests.txt
+echo "DRIBBLE 5 FOLD : " >> GeniusTests.txt
+./dectree -d ../Genius/dats/dribbleFile.dat 5 144030 >> GeniusTests.txt
+echo " " >> GeniusTests.txt
+echo "DRIBBLE 10 FOLD :  " >> GeniusTests.txt
+./dectree -d ../Genius/dats/dribbleFile.dat 10 144030 >> GeniusTests.txt
+echo " " >> GeniusTests.txt
+echo "PASS 5 FOLD : " >> GeniusTests.txt 
+./dectree -p ../Genius/dats/passFile.dat 5 21730 >> GeniusTests.txt
+echo " " >> GeniusTests.txt
+echo "PASS 10 FOLD : " >> GeniusTests.txt
+./dectree -p ../Genius/dats/passFile.dat 10 21730 >> GeniusTests.txt
+echo " " >> GeniusTests.txt
+echo "SHOOT 5 FOLD : " >> GeniusTests.txt 
+./dectree -s ../Genius/dats/shootFile.dat 5 820 >> GeniusTests.txt
+echo " " >> GeniusTests.txt
+echo "SHOOT 10 FOLD : " >> GeniusTests.txt
+./dectree -s ../Genius/dats/shootFile.dat 10 820 >> GeniusTests.txt
+
+echo "Helios : " >> HeliosTests.txt
+echo "DRIBBLE 5 FOLD : " >> HeliosTests.txt
+./dectree -d ../Helios/dats/dribbleFile.dat 5 138280 >> HeliosTests.txt
+echo " " >> HeliosTests.txt
+echo "DRIBBLE 10 FOLD : " >> HeliosTests.txt
+./dectree -d ../Helios/dats/dribbleFile.dat 10 138280 >> HeliosTests.txt
+echo " " >> HeliosTests.txt
+echo "PASS 5 FOLD : " >> HeliosTests.txt 
+./dectree -p ../Helios/dats/passFile.dat 5 22950 >> HeliosTests.txt
+echo " " >> HeliosTests.txt
+echo "PASS 10 FOLD : " >> HeliosTests.txt
+./dectree -p ../Helios/dats/passFile.dat 10 22950 >> HeliosTests.txt
+echo " " >> HeliosTests.txt
+echo "SHOOT 5 FOLD : " >> HeliosTests.txt 
+./dectree -s ../Helios/dats/shootFile.dat 5 870 >> HeliosTests.txt
+echo " " >> HeliosTests.txt
+echo "SHOOT 10 FOLD :  " >> HeliosTests.txt
+./dectree -s ../Helios/dats/shootFile.dat 10 870 >> HeliosTests.txt
+
+echo "Hermes : " >> HermesTests.txt
+echo "DRIBBLE 5 FOLD : " >> HermesTests.txt
+./dectree -d ../Hermes/dats/dribbleFile.dat 5 143300 >> HermesTests.txt
+echo " " >> HermesTests.txt
+echo "DRIBBLE 10 FOLD : " >> HermesTests.txt
+./dectree -d ../Hermes/dats/dribbleFile.dat 10 143300 >> HermesTests.txt
+echo " " >> HermesTests.txt
+echo "PASS 5 FOLD : " >> HermesTests.txt 
+./dectree -p ../Hermes/dats/passFile.dat 5 22860 >> HermesTests.txt
+echo " " >> HermesTests.txt
+echo "PASS 10 FOLD : " >> HermesTests.txt
+./dectree -p ../Hermes/dats/passFile.dat 10 22860 >> HermesTests.txt
+echo " " >> HermesTests.txt
+echo "SHOOT 5 FOLD : " >> HermesTests.txt 
+./dectree -s ../Hermes/dats/shootFile.dat 5 780 >> HermesTests.txt
+echo " " >> HermesTests.txt
+echo "SHOOT 10 FOLD : " >> HermesTests.txt
+./dectree -s ../Hermes/dats/shootFile.dat 10 780 >> HermesTests.txt
+
+echo "Jaeger : " >> JaegerTests.txt
+echo "DRIBBLE 5 FOLD : " >> JaegerTests.txt
+./dectree -d ../Jaeger/dats/dribbleFile.dat 5 137970 >> JaegerTests.txt
+echo " " >> JaegerTests.txt
+echo "DRIBBLE 10 FOLD : " >> JaegerTests.txt
+./dectree -d ../Jaeger/dats/dribbleFile.dat 10 137970 >> JaegerTests.txt
+echo " " >> JaegerTests.txt
+echo "PASS 5 FOLD : " >> JaegerTests.txt 
+./dectree -p ../Jaeger/dats/passFile.dat 5 22500 >> JaegerTests.txt
+echo " " >> JaegerTests.txt
+echo "PASS 10 FOLD : " >> JaegerTests.txt
+./dectree -p ../Jaeger/dats/passFile.dat 10 22500 >> JaegerTests.txt
+echo " " >> JaegerTests.txt
+echo "SHOOT 5 FOLD : " >> JaegerTests.txt 
+./dectree -s ../Jaeger/dats/shootFile.dat 5 950 >> JaegerTests.txt
+echo " " >> JaegerTests.txt
+echo "PASS 10 FOLD : " >> JaegerTests.txt
+./dectree -s ../Jaeger/dats/shootFile.dat 10 950 >> JaegerTests.txt
+
+
+echo "WrightEagle : " >> WrightEagleTests.txt
+echo "DRIBBLE 5 FOLD : " >> WrightEagleTests.txt
+./dectree -d ../WrightEagle/dats/dribbleFile.dat 5 137220 >> WrightEagleTests.txt
+echo " " >> WrightEagleTests.txt
+echo "DRIBBLE 10 FOLD : " >> WrightEagleTests.txt
+./dectree -d ../WrightEagle/dats/dribbleFile.dat 10 137220 >> WrightEagleTests.txt
+echo " " >> WrightEagleTests.txt
+echo "PASS 5 FOLD : " >> WrightEagleTests.txt 
+./dectree -p ../WrightEagle/dats/passFile.dat 5 23480 >> WrightEagleTests.txt
+echo " " >> WrightEagleTests.txt
+echo "PASS 10 FOLD : " >> WrightEagleTests.txt
+./dectree -p ../WrightEagle/dats/passFile.dat 10 23480 >> WrightEagleTests.txt
+echo " " >> WrightEagleTests.txt
+echo "SHOOT 5 FOLD : " >> WrightEagleTests.txt 
+./dectree -s ../WrightEagle/dats/shootFile.dat 5 850 >> WrightEagleTests.txt
+echo " " >> WrightEagleTests.txt
+echo "SHOOT 10 FOLD : " >> WrightEagleTests.txt
+./dectree -s ../WrightEagle/dats/shootFile.dat 10 850 >> WrightEagleTests.txt
+
+
+
+
+
+
+
+
+
