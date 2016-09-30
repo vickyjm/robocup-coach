@@ -1,0 +1,52 @@
+Archivo:  ../../Genius/dats/dribbleFile.dat
+Total 1's:  140953 	--> 137878 	(3075)
+Total 0's:  3077 	--> 2 		(3075)
+Archivo:  ../../Genius/dats/shotFile.dat
+Total 1's:  413
+Total 0's:  407
+Archivo:  ../../Genius/dats/passFile.dat
+Total 1's:  19277	--> 16827	(2450)
+Total 0's:  2453	--> 3		(2450)
+
+
+Archivo:  ../../WrightEagle/dats/dribbleFile.dat
+Total 1's:  134063	-->	130908	(3155)
+Total 0's:  3157	--> 2		(3155)
+Archivo:  ../../WrightEagle/dats/shotFile.dat
+Total 1's:  455
+Total 0's:  395
+Archivo:  ../../WrightEagle/dats/passFile.dat
+Total 1's:  20639	--> 17799	(2840)
+Total 0's:  2841	--> 1		(2840)
+
+
+Archivo:  ../../Helios/dats/dribbleFile.dat
+Total 1's:  135228	--> 132178	(3050)
+Total 0's:  3052	--> 2		(3050)
+Archivo:  ../../Helios/dats/shotFile.dat
+Total 1's:  439
+Total 0's:  431
+Archivo:  ../../Helios/dats/passFile.dat
+Total 1's:  20441	-->	17936	(2505)
+Total 0's:  2509	--> 4		(2505)
+
+
+Archivo:  ../../Hermes/dats/dribbleFile.dat
+Total 1's:  140368	--> 137438	(2930)
+Total 0's:  2932	--> 2		(2930)
+Archivo:  ../../Hermes/dats/shotFile.dat
+Total 1's:  387
+Total 0's:  393
+Archivo:  ../../Hermes/dats/passFile.dat
+Total 1's:  20323	-->	17786	(2535)
+Total 0's:  2537	-->	2		(2535)
+
+Archivo:  ../../Jaeger/dats/dribbleFile.dat
+Total 1's:  134746	--> 131526	(3220)
+Total 0's:  3224	--> 4		(3220)
+Archivo:  ../../Jaeger/dats/shotFile.dat
+Total 1's:  463
+Total 0's:  487
+Archivo:  ../../Jaeger/dats/passFile.dat
+Total 1's:  20012	--> 20009	(2485)
+Total 0's:  2488	--> 3		(2485)
