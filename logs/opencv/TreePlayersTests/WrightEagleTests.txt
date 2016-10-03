@@ -1,119 +1,29 @@
 WrightEagle : 
 DRIBBLE 5 FOLD : 
-Total samples : 137220
+Total samples : 6310
 Folds : 5
-Using 109776 samples to train
-and 27444 samples to test
+Using 5048 samples to train
+and 1262 samples to test
 ----------*-------------
-True positives : 26812 - 97.6971%
-True negatives : 195 - 0.710538%
-False positives : 436 - 1.58869%
-False negatives : 0 - 0%
-Total true : 27008 - 98.4113%
-Total false : 436 - 1.58869%
- 
-DRIBBLE 10 FOLD : 
-Total samples : 137220
-Folds : 10
-Using 123498 samples to train
-and 13722 samples to test
-----------*-------------
-True positives : 13406 - 97.6971%
-True negatives : 97 - 0.706894%
-False positives : 218 - 1.58869%
-False negatives : 0 - 0%
-Total true : 13504 - 98.4113%
-Total false : 218 - 1.58869%
+True positives : 2224
+True negatives : 2780
+False positives : 375
+False negatives : 931
+Total true : 5004 - 79.3027%
+Total false : 1306 - 20.6973%
  
 PASS 5 FOLD : 
-Total samples : 23480
+Total samples : 5680
 Folds : 5
-Using 18784 samples to train
-and 4696 samples to test
+Using 4544 samples to train
+and 1136 samples to test
 ----------*-------------
-True positives : 4121 - 87.7742%
-True negatives : 15 - 0.319489%
-False positives : 552 - 11.7572%
-False negatives : 6 - 0.127796%
-Total true : 4136 - 88.0937%
-Total false : 559 - 11.9063%
- 
-PASS 10 FOLD : 
-Total samples : 23480
-Folds : 10
-Using 21132 samples to train
-and 2348 samples to test
-----------*-------------
-True positives : 2060 - 87.7716%
-True negatives : 7 - 0.298253%
-False positives : 277 - 11.8023%
-False negatives : 3 - 0.127823%
-Total true : 2067 - 88.0699%
-Total false : 280 - 11.9301%
- 
-SHOOT 5 FOLD : 
-Total samples : 850
-Folds : 5
-Using 680 samples to train
-and 170 samples to test
- 
-SHOOT 10 FOLD : 
-Total samples : 850
-Folds : 10
-Using 765 samples to train
-and 85 samples to test
-WrightEagle : 
-DRIBBLE 5 FOLD : 
-Total samples : 137220
-Folds : 5
-Using 109776 samples to train
-and 27444 samples to test
-----------*-------------
-True positives : 26812 - 97.6971%
-True negatives : 195 - 0.710538%
-False positives : 436 - 1.58869%
-False negatives : 0 - 0%
-Total true : 27008 - 98.4113%
-Total false : 436 - 1.58869%
- 
-DRIBBLE 10 FOLD : 
-Total samples : 137220
-Folds : 10
-Using 123498 samples to train
-and 13722 samples to test
-----------*-------------
-True positives : 13406 - 97.6971%
-True negatives : 97 - 0.706894%
-False positives : 218 - 1.58869%
-False negatives : 0 - 0%
-Total true : 13504 - 98.4113%
-Total false : 218 - 1.58869%
- 
-PASS 5 FOLD : 
-Total samples : 23480
-Folds : 5
-Using 18784 samples to train
-and 4696 samples to test
-----------*-------------
-True positives : 4121 - 87.7742%
-True negatives : 15 - 0.319489%
-False positives : 552 - 11.7572%
-False negatives : 6 - 0.127796%
-Total true : 4136 - 88.0937%
-Total false : 559 - 11.9063%
- 
-PASS 10 FOLD : 
-Total samples : 23480
-Folds : 10
-Using 21132 samples to train
-and 2348 samples to test
-----------*-------------
-True positives : 2060 - 87.7716%
-True negatives : 7 - 0.298253%
-False positives : 277 - 11.8023%
-False negatives : 3 - 0.127823%
-Total true : 2067 - 88.0699%
-Total false : 280 - 11.9301%
+True positives : 1229
+True negatives : 1952
+False positives : 888
+False negatives : 1611
+Total true : 3181 - 56.0035%
+Total false : 2499 - 43.9965%
  
 SHOOT 5 FOLD : 
 Total samples : 850
@@ -121,22 +31,10 @@ Folds : 5
 Using 680 samples to train
 and 170 samples to test
 ----------*-------------
-True positives : 85 - 50.2959%
-True negatives : 78 - 46.1538%
-False positives : 1 - 0.591716%
-False negatives : 5 - 2.95858%
-Total true : 163 - 96.4497%
-Total false : 6 - 3.5503%
+True positives : 429
+True negatives : 390
+False positives : 5
+False negatives : 26
+Total true : 819 - 96.3529%
+Total false : 31 - 3.64706%
  
-SHOOT 10 FOLD : 
-Total samples : 850
-Folds : 10
-Using 765 samples to train
-and 85 samples to test
-----------*-------------
-True positives : 42 - 50%
-True negatives : 39 - 46.4286%
-False positives : 0 - 0%
-False negatives : 2 - 2.38095%
-Total true : 81 - 96.4286%
-Total false : 3 - 3.57143%
