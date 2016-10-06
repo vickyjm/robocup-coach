@@ -362,19 +362,19 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) shoot" );
 
-            //CvDTree shootTree;
-            //shootTree.load("trainedTrees/shootTree.yml");
+            CvDTree shootTree;
+            shootTree.load("trainedTrees/shootTree.yml");
 
-            //cv::Mat testSample(extractFeatures(agent, first_action));    
+            cv::Mat testSample(extractFeatures(agent, first_action));    
 
             // It will be a successful shoot.
-            //if (shootTree.predict(testSample)->value >= 0.5){
+            if (shootTree.predict(testSample)->value >= 0.5){
                 if ( Body_ForceShoot().execute( agent ) )
                 {
                     agent->setNeckAction( new Neck_TurnToGoalieOrScan() );
                     return true;
                 }
-            //}
+            }
 
             break;
         }
@@ -409,19 +409,19 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
                 neck = NeckAction::Ptr( new Neck_TurnToGoalieOrScan( count_thr ) );
             }
 
-            /*CvDTree dribbleTree;
+            CvDTree dribbleTree;
             dribbleTree.load("trainedTrees/dribbleTree.yml");
 
             cv::Mat testSample(extractFeatures(agent, first_action));
             
             // It will be a successful dribble
-            if (dribbleTree.predict(testSample)->value >= 0.5){*/
+            if (dribbleTree.predict(testSample)->value >= 0.5){
                 if ( Bhv_NormalDribble( first_action, neck ).execute( agent ) ){
                     std::cout << "Dribble " << agent->world().self().unum() << std::endl;
                     return true;
                 }
 
-            //}
+            }
             break;
         }
 
@@ -463,18 +463,18 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) pass" );
 
-           /* CvDTree passTree;
+            CvDTree passTree;
             passTree.load("trainedTrees/passTree.yml");
 
             cv::Mat testSample(extractFeatures(agent, first_action));
 
             // It will be a successful pass
-            if (passTree.predict(testSample)->value >= 0.5){*/
+            if (passTree.predict(testSample)->value >= 0.5){
                 if (Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent )) {
                     std::cout << "Pass " << agent->world().self().unum() << std::endl;
                     return true;
                 }
-            //}
+            }
             break;
         }
 
