@@ -86,8 +86,8 @@ int main(int argc, char* argv[]) {
     int numSamples = atoi(argv[4]);
     cout << "Total samples : " << numSamples << endl;
     cout << "Folds : " << folds << endl;
-    cout << "Using " << (numSamples/folds)*(folds-1) << " samples to train" << endl;
-    cout << "and " << (numSamples/folds) << " samples to test" << endl;
+    cout << "Using " << (numSamples*(folds-1))/folds << " samples to train" << endl;
+    cout << "and " << numSamples/folds << " samples to test" << endl;
 
     vector<int> trainingIndex;
     vector<int> testIndex;
@@ -175,19 +175,19 @@ int main(int argc, char* argv[]) {
 
     }
 
-    tp = tp / folds;
-    tn = tn / folds;
-    fp = fp / folds;
-    fn = fn / folds;
-    finalTrue = finalTrue / folds;
-    finalFalse = finalFalse / folds;
+    //tp = tp / folds;
+    //tn = tn / folds;
+    //fp = fp / folds;
+    //fn = fn / folds;
+    //finalTrue = finalTrue / folds;
+    //finalFalse = finalFalse / folds;
 
     cout << "----------*-------------" << endl; 
-    cout << "True positives : " << tp << " - " << ((float)(tp*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
-    cout << "True negatives : " << tn << " - " << ((float)(tn*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
+    cout << "True positives : " << tp  << endl;
+    cout << "True negatives : " << tn  << endl;
 
-    cout << "False positives : " << fp << " - " << ((float)(fp*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
-    cout << "False negatives : " << fn << " - " << ((float)(fn*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
+    cout << "False positives : " << fp  << endl;
+    cout << "False negatives : " << fn  << endl;
 
     //Sumar el error
     cout << "Total true : " << finalTrue << " - " << ((float)(finalTrue*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
