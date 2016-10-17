@@ -74,8 +74,8 @@ actionInfo ownerPlayer(CoachAgent* agent){
   float minDist = 1000;
   float aux;
   actionInfo newAction;
-  std::vector<GlobalPlayerObject*> myPlayers = agent->world().teammates();
-  std::vector<GlobalPlayerObject*> myOpponents = agent->world().opponents();
+  const std::vector<const GlobalPlayerObject*> myPlayers = agent->world().teammates();
+  const std::vector<const GlobalPlayerObject*> myOpponents = agent->world().opponents();
   std::vector<GlobalPlayerObject*>::iterator iter;
   Vector2D ballPos = agent->world().ball().pos();
   Vector2D ballVel = agent->world().ball().vel();
@@ -85,21 +85,38 @@ actionInfo ownerPlayer(CoachAgent* agent){
 //  myPlayers = agent->world().teammates();
 //  myOpponents = agent->world().opponents();
 
-  for (iter = myPlayers.begin(); iter != myPlayers.end(); iter++){
-    aux = pow(ballPos.x - iter->pos().x,2) + pow(ballPos.y - iter->pos().y,2);
+
+  for (int i = 0; i < myPlayers.size(); i++) {
+    aux = pow(ballPos.x - myPlayers[i]->pos().x,2) + pow(ballPos.y - myPlayers[i]->pos().y,2);
     if (aux < minDist){
       newAction.isTeammate = true;
-      newAction.ownerUnum = iter->unum();
+      newAction.ownerUnum = myPlayers[i]->unum();
     }
   }
 
-  for (iter = myOpponents.begin(); iter != myOpponents.end(); iter++){
-    aux = pow(ballPos.x - iter->pos().x,2) + pow(ballPos.y - iter->pos().y,2);
+
+  for (int i = 0; i < myOpponents.size();i++) {
+    aux = pow(ballPos.x - myOpponents[i]->pos().x,2) + pow(ballPos.y - myOpponents[i]->pos().y,2);
     if (aux < minDist){
       newAction.isTeammate = false;
-      newAction.ownerUnum = iter->unum();
-    } 
+      newAction.ownerUnum = myOpponents[i]->unum();
+    }
   }
+  // for (iter = myPlayers.begin(); iter != myPlayers.end(); iter++){
+  //   aux = pow(ballPos.x - iter->pos().x,2) + pow(ballPos.y - iter->pos().y,2);
+  //   if (aux < minDist){
+  //     newAction.isTeammate = true;
+  //     newAction.ownerUnum = iter->unum();
+  //   }
+  // }
+
+  // for (iter = myOpponents.begin(); iter != myOpponents.end(); iter++){
+  //   aux = pow(ballPos.x - iter->pos().x,2) + pow(ballPos.y - iter->pos().y,2);
+  //   if (aux < minDist){
+  //     newAction.isTeammate = false;
+  //     newAction.ownerUnum = iter->unum();
+  //   } 
+  // }
 
   newAction.ballPosx = ballPos.x;
   newAction.ballPosy = ballPos.y;
