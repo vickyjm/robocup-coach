@@ -866,7 +866,7 @@ PlayerAgent::handleStartOffline()
 
  */
 void
-PlayerAgent::handleMessage()
+PlayerAgent::handleMessage(actionInfo* lastAction)
 {
     if ( ! M_client )
     {

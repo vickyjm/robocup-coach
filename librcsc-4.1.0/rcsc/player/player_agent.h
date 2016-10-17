@@ -422,7 +422,7 @@ protected:
       Do NOT call this method by yourself!
     */
     virtual
-    void handleMessage();
+    void handleMessage(actionInfo* lastAction);
 
     /*!
       \brief handle offline client log message in offline client mode.

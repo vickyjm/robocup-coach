@@ -56,8 +56,74 @@
 
 #include <sstream>
 #include <cstring>
+#include <vector>
 
 namespace rcsc {
+
+/*
+  This function determines if a player is the ball owner.
+
+*/
+bool isOwner(float bx, float by, float px, float py, float radious){
+  float distance = sqrt(pow(bx - px, 2) + pow(by - py, 2));
+  return distance < radious;
+}
+
+actionInfo ownerPlayer(CoachAgent* agent){
+  float radious = 0.05;
+  float minDist = 1000;
+  float aux;
+  actionInfo newAction;
+  std::vector<GlobalPlayerObject*> myPlayers = agent->world().teammates();
+  std::vector<GlobalPlayerObject*> myOpponents = agent->world().opponents();
+  std::vector<GlobalPlayerObject*>::iterator iter;
+  Vector2D ballPos = agent->world().ball().pos();
+  Vector2D ballVel = agent->world().ball().vel();
+
+  newAction.ownerUnum = -1;
+
+//  myPlayers = agent->world().teammates();
+//  myOpponents = agent->world().opponents();
+
+  for (iter = myPlayers.begin(); iter != myPlayers.end(); iter++){
+    aux = pow(ballPos.x - iter->pos().x,2) + pow(ballPos.y - iter->pos().y,2);
+    if (aux < minDist){
+      newAction.isTeammate = true;
+      newAction.ownerUnum = iter->unum();
+    }
+  }
+
+  for (iter = myOpponents.begin(); iter != myOpponents.end(); iter++){
+    aux = pow(ballPos.x - iter->pos().x,2) + pow(ballPos.y - iter->pos().y,2);
+    if (aux < minDist){
+      newAction.isTeammate = false;
+      newAction.ownerUnum = iter->unum();
+    } 
+  }
+
+  newAction.ballPosx = ballPos.x;
+  newAction.ballPosy = ballPos.y;
+  newAction.ballVelx = ballVel.x;
+  newAction.ballVely = ballVel.y;
+
+  if (newAction.ownerUnum != -1){
+    if (newAction.isTeammate){
+      if (isOwner(ballPos.x, ballPos.y, agent->world().teammate(newAction.ownerUnum)->pos().x, agent->world().teammate(newAction.ownerUnum)->pos().y, radious)){
+        return newAction;
+      }  
+    } else {
+      if (isOwner(ballPos.x, ballPos.y, agent->world().opponent(newAction.ownerUnum)->pos().x, agent->world().opponent(newAction.ownerUnum)->pos().y, radious)){
+        return newAction;
+      }    
+    }    
+  }
+  newAction.ownerUnum = -1;
+
+  return newAction;
+
+}
+
+
 
 ///////////////////////////////////////////////////////////////////////
 /*!
@@ -531,7 +597,7 @@ CoachAgent::handleStartOffline()
 
 */
 void
-CoachAgent::handleMessage()
+CoachAgent::handleMessage(actionInfo* lastAction)
 {
     if ( ! M_client )
     {

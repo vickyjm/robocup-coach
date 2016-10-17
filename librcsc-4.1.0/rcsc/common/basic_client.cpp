@@ -127,6 +127,14 @@ BasicClient::runOnline( SoccerAgent * agent )
     int timeout_count = 0;
     long waited_msec = 0;
 
+    actionInfo lastAction;
+    lastAction.isTeammate = true;
+    lastAction.ownerUnum = -1;
+    lastAction.ballPosx = 0;
+    lastAction.ballPosy = 0;
+    lastAction.ballVelx = 0;
+    lastAction.ballVely = 0;
+
     while ( isServerAlive() )
     {
         read_fds = read_fds_back;
@@ -155,7 +163,7 @@ BasicClient::runOnline( SoccerAgent * agent )
             // received message, reset wait time
             waited_msec = 0;
             timeout_count = 0;
-            agent->handleMessage();
+            agent->handleMessage(&lastAction);
         }
     }
 }

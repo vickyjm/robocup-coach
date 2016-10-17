@@ -32,6 +32,14 @@
 #ifndef RCSC_SOCCER_AGENT_H
 #define RCSC_SOCCER_AGENT_H
 
+
+struct actionInfo{
+    bool isTeammate;
+    int ownerUnum;
+    float ballVelx, ballVely;
+    float ballPosx, ballPosy;
+};
+
 namespace rcsc {
 
 class BasicClient;
@@ -135,7 +143,7 @@ protected:
       This method is called when server message is arrived.
      */
     virtual
-    void handleMessage() = 0;
+    void handleMessage(actionInfo* lastAction) = 0;
 
 
     /*!
