@@ -209,6 +209,8 @@ public:
     bool doTeamGraphic( const int x,
                         const int y,
                         const TeamGraphic & team_graphic );
+    
+    actionInfo ownerPlayer();
 
 private:
 

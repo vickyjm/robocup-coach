@@ -69,24 +69,19 @@ bool isOwner(float bx, float by, float px, float py, float radious){
   return distance < radious;
 }
 
-actionInfo ownerPlayer(CoachAgent* agent){
+actionInfo CoachAgent::ownerPlayer(){
   float radious = 0.05;
   float minDist = 1000;
   float aux;
   actionInfo newAction;
-  const std::vector<const GlobalPlayerObject*> myPlayers = agent->world().teammates();
-  const std::vector<const GlobalPlayerObject*> myOpponents = agent->world().opponents();
-  std::vector<GlobalPlayerObject*>::iterator iter;
-  Vector2D ballPos = agent->world().ball().pos();
-  Vector2D ballVel = agent->world().ball().vel();
+  const std::vector<const GlobalPlayerObject*> myPlayers = world().teammates();
+  const std::vector<const GlobalPlayerObject*> myOpponents = world().opponents();
+  Vector2D ballPos = world().ball().pos();
+  Vector2D ballVel = world().ball().vel();
 
   newAction.ownerUnum = -1;
 
-//  myPlayers = agent->world().teammates();
-//  myOpponents = agent->world().opponents();
-
-
-  for (int i = 0; i < myPlayers.size(); i++) {
+  for (unsigned int i = 0; i < myPlayers.size(); i++) {
     aux = pow(ballPos.x - myPlayers[i]->pos().x,2) + pow(ballPos.y - myPlayers[i]->pos().y,2);
     if (aux < minDist){
       newAction.isTeammate = true;
@@ -95,28 +90,13 @@ actionInfo ownerPlayer(CoachAgent* agent){
   }
 
 
-  for (int i = 0; i < myOpponents.size();i++) {
+  for (unsigned int i = 0; i < myOpponents.size();i++) {
     aux = pow(ballPos.x - myOpponents[i]->pos().x,2) + pow(ballPos.y - myOpponents[i]->pos().y,2);
     if (aux < minDist){
       newAction.isTeammate = false;
       newAction.ownerUnum = myOpponents[i]->unum();
     }
   }
-  // for (iter = myPlayers.begin(); iter != myPlayers.end(); iter++){
-  //   aux = pow(ballPos.x - iter->pos().x,2) + pow(ballPos.y - iter->pos().y,2);
-  //   if (aux < minDist){
-  //     newAction.isTeammate = true;
-  //     newAction.ownerUnum = iter->unum();
-  //   }
-  // }
-
-  // for (iter = myOpponents.begin(); iter != myOpponents.end(); iter++){
-  //   aux = pow(ballPos.x - iter->pos().x,2) + pow(ballPos.y - iter->pos().y,2);
-  //   if (aux < minDist){
-  //     newAction.isTeammate = false;
-  //     newAction.ownerUnum = iter->unum();
-  //   } 
-  // }
 
   newAction.ballPosx = ballPos.x;
   newAction.ballPosy = ballPos.y;
@@ -125,11 +105,11 @@ actionInfo ownerPlayer(CoachAgent* agent){
 
   if (newAction.ownerUnum != -1){
     if (newAction.isTeammate){
-      if (isOwner(ballPos.x, ballPos.y, agent->world().teammate(newAction.ownerUnum)->pos().x, agent->world().teammate(newAction.ownerUnum)->pos().y, radious)){
+      if (isOwner(ballPos.x, ballPos.y, world().teammate(newAction.ownerUnum)->pos().x, world().teammate(newAction.ownerUnum)->pos().y, radious)){
         return newAction;
       }  
     } else {
-      if (isOwner(ballPos.x, ballPos.y, agent->world().opponent(newAction.ownerUnum)->pos().x, agent->world().opponent(newAction.ownerUnum)->pos().y, radious)){
+      if (isOwner(ballPos.x, ballPos.y, world().opponent(newAction.ownerUnum)->pos().x, world().opponent(newAction.ownerUnum)->pos().y, radious)){
         return newAction;
       }    
     }    
@@ -625,6 +605,8 @@ CoachAgent::handleMessage(actionInfo* lastAction)
 
     int counter = 0;
     GameTime start_time = M_impl->current_time_;
+    actionInfo newAction = ownerPlayer();
+    std::cout << "Owner: " << newAction.ownerUnum << " " << newAction.isTeammate << std::endl;
 
     // receive and analyze message
     while ( M_client->recvMessage() > 0 )

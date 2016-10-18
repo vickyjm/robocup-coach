@@ -265,7 +265,7 @@ protected:
       Do NOT call this method by yourself!
     */
     virtual
-    void handleMessage();
+    void handleMessage(actionInfo* lastAction);
 
     /*!
       \brief handle timeout event
