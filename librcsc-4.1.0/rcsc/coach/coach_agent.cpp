@@ -70,7 +70,7 @@ bool isOwner(float bx, float by, float px, float py, float radious){
 }
 
 actionInfo CoachAgent::ownerPlayer(){
-  float radious = 0.05;
+  float radious = 0.8;
   float minDist = 1000;
   float aux;
   actionInfo newAction;
@@ -86,15 +86,16 @@ actionInfo CoachAgent::ownerPlayer(){
     if (aux < minDist){
       newAction.isTeammate = true;
       newAction.ownerUnum = myPlayers[i]->unum();
+      minDist = aux;
     }
   }
-
 
   for (unsigned int i = 0; i < myOpponents.size();i++) {
     aux = pow(ballPos.x - myOpponents[i]->pos().x,2) + pow(ballPos.y - myOpponents[i]->pos().y,2);
     if (aux < minDist){
       newAction.isTeammate = false;
       newAction.ownerUnum = myOpponents[i]->unum();
+      minDist = aux;
     }
   }
 
@@ -606,7 +607,7 @@ CoachAgent::handleMessage(actionInfo* lastAction)
     int counter = 0;
     GameTime start_time = M_impl->current_time_;
     actionInfo newAction = ownerPlayer();
-    std::cout << "Owner: " << newAction.ownerUnum << " " << newAction.isTeammate << std::endl;
+    //std::cout << "Owner: " << newAction.ownerUnum << " " << newAction.isTeammate << std::endl;
 
     // receive and analyze message
     while ( M_client->recvMessage() > 0 )
