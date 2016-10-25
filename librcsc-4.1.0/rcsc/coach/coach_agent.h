@@ -212,6 +212,8 @@ public:
     
     actionInfo ownerPlayer();
 
+    bool actionClassifier(actionInfo oldAction, actionInfo currentAction);
+
 private:
 
     /*!

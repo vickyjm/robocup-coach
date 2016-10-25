@@ -99,10 +99,10 @@ actionInfo CoachAgent::ownerPlayer(){
     }
   }
 
-  newAction.ballPosx = ballPos.x;
-  newAction.ballPosy = ballPos.y;
-  newAction.ballVelx = ballVel.x;
-  newAction.ballVely = ballVel.y;
+  newAction.ballPos.x = ballPos.x;
+  newAction.ballPos.y = ballPos.y;
+  newAction.ballVel.x = ballVel.x;
+  newAction.ballVel.y = ballVel.y;
 
   if (newAction.ownerUnum != -1){
     if (newAction.isTeammate){
@@ -118,7 +118,41 @@ actionInfo CoachAgent::ownerPlayer(){
   newAction.ownerUnum = -1;
 
   return newAction;
+}
 
+bool CoachAgent::actionClassifier(actionInfo oldAction, actionInfo currentAction){
+  float distance = sqrt(pow(currentAction.ballPos.x - oldAction.ownerPos.x, 2) + pow(currentAction.ballPos.y - oldAction.ownerPos.y, 2));
+  bool thereIsAction = true;
+
+  // If the ball velocity has changed it means it has moved
+  if ((oldAction.ballVel.x != currentAction.ballVel.x) || (oldAction.ballVel.y != currentAction.ballVel.y)) {
+    if ((oldAction.ownerUnum != currentAction.ownerUnum) && (currentAction.ownerUnum != -1) && (oldAction.ownerUnum != -1)){
+      if (oldAction.isTeammate == currentAction.isTeammate){  // Both players are on the same team
+        std::cout << "PASS" << std::endl;
+        return thereIsAction;
+      }
+    }
+      /*else {    // The new owner is from the other team
+        if (distance < 5){
+          std::cout << "UNSUCCESFULDRIBBLE" << std::endl;
+          return thereIsAction;
+        }
+        else {
+          std::cout << "UNSUCCESFULPASS" << std::endl;
+          return thereIsAction;
+        }
+      }
+    }
+    else if ((oldAction.ownerUnum == currentAction.ownerUnum) && (oldAction.isTeammate == currentAction.isTeammate)
+                  && (oldAction.ownerUnum != -1)){
+      if (distance > 0.5){
+        std::cout << "DRIBBLE" << std::endl;
+        return thereIsAction;
+      }
+    }*/
+  }
+  thereIsAction = false;
+  return thereIsAction;
 }
 
 

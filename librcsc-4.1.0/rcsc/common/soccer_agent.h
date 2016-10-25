@@ -32,12 +32,18 @@
 #ifndef RCSC_SOCCER_AGENT_H
 #define RCSC_SOCCER_AGENT_H
 
+#include <rcsc/geom/vector_2d.h>
+
 
 struct actionInfo{
     bool isTeammate;
     int ownerUnum;
+    rcsc::Vector2D ownerPos;
+    rcsc::Vector2D ballVel;
+    rcsc::Vector2D ballPos;
+    /*float ownerPosx, ownerPosy;
     float ballVelx, ballVely;
-    float ballPosx, ballPosy;
+    float ballPosx, ballPosy;*/
 };
 
 namespace rcsc {

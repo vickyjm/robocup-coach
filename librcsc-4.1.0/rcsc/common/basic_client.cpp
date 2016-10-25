@@ -128,12 +128,19 @@ BasicClient::runOnline( SoccerAgent * agent )
     long waited_msec = 0;
 
     actionInfo lastAction;
+    actionInfo firstAction;
+
+    firstAction.isTeammate = true;
+    firstAction.ownerUnum = -1;
+    firstAction.ownerPos = Vector2D(0.0, 0.0);
+    firstAction.ballPos = Vector2D(0.0, 0.0);
+    firstAction.ballVel = Vector2D(0.0, 0.0);
+
     lastAction.isTeammate = true;
     lastAction.ownerUnum = -1;
-    lastAction.ballPosx = 0;
-    lastAction.ballPosy = 0;
-    lastAction.ballVelx = 0;
-    lastAction.ballVely = 0;
+    lastAction.ownerPos = Vector2D(0.0, 0.0);
+    lastAction.ballPos = Vector2D(0.0, 0.0);
+    lastAction.ballVel = Vector2D(0.0, 0.0);
 
     while ( isServerAlive() )
     {
