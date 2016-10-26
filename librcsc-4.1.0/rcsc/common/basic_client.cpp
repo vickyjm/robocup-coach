@@ -135,12 +135,14 @@ BasicClient::runOnline( SoccerAgent * agent )
     firstAction.ownerPos = Vector2D(0.0, 0.0);
     firstAction.ballPos = Vector2D(0.0, 0.0);
     firstAction.ballVel = Vector2D(0.0, 0.0);
+    firstAction.goalChecked = false;
 
     lastAction.isTeammate = true;
     lastAction.ownerUnum = -1;
     lastAction.ownerPos = Vector2D(0.0, 0.0);
     lastAction.ballPos = Vector2D(0.0, 0.0);
     lastAction.ballVel = Vector2D(0.0, 0.0);
+    lastAction.goalChecked = false;
 
     while ( isServerAlive() )
     {

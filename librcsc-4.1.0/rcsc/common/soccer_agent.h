@@ -41,6 +41,7 @@ struct actionInfo{
     rcsc::Vector2D ownerPos;
     rcsc::Vector2D ballVel;
     rcsc::Vector2D ballPos;
+    bool goalChecked;
 };
 
 namespace rcsc {

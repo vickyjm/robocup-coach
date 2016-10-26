@@ -132,19 +132,24 @@ bool CoachAgent::actionClassifier(actionInfo oldAction, actionInfo currentAction
       }
       else {    // The new owner is from the other team
         if (currentAction.isTeammate){
-          if ((world().ourSide() == 1) && (currentAction.ballPos.x >= 42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x > 0)){
+          if ((world().ourSide() == LEFT) && (currentAction.ballPos.x >= 42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x > 0)){
             std::cout << "UNSUCCESFULSHOOT" << std::endl;
             return true;
-          } else if ((world().ourSide() == -1 ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
+          } else if ((world().ourSide() == RIGHT ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
             std::cout << "UNSUCCESFULSHOOT" << std::endl;
             return true;
           }
+          else{
+            std::cout << "Holis " << world().ourSide() << std::endl;
+          }
         } else {
-          if ((world().theirSide() == 1) && (currentAction.ballPos.x >= 42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x > 0)){
+          if ((world().theirSide() == LEFT) && (currentAction.ballPos.x >= 42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x > 0)){
             std::cout << "UNSUCCESFULSHOOT" << std::endl;
-          } else if ((world().theirSide() == -1 ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
+          } else if ((world().theirSide() == RIGHT ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
             std::cout << "UNSUCCESFULSHOOT" << std::endl;
             return true;
+          } else{
+            std::cout << "Hola vale " << world().theirSide() << std::endl;
           }
         }
         if (distance < 5){
@@ -666,6 +671,12 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
     lastAction->ballVel = newAction.ballVel;
 
     bool thereIsAction = actionClassifier(*firstAction, *lastAction);
+
+    if ((world().gameMode().type() == GameMode::AfterGoal_) && (firstAction->goalChecked == false)){
+      std::cout << "GOAL" << std::endl;
+      thereIsAction = true;
+      firstAction->goalChecked = true;
+    }
 
     if (thereIsAction){
       //choose teammates
