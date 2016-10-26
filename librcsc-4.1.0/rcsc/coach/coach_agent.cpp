@@ -122,24 +122,38 @@ actionInfo CoachAgent::ownerPlayer(){
 
 bool CoachAgent::actionClassifier(actionInfo oldAction, actionInfo currentAction){
   float distance = sqrt(pow(currentAction.ballPos.x - oldAction.ownerPos.x, 2) + pow(currentAction.ballPos.y - oldAction.ownerPos.y, 2));
-  bool thereIsAction = true;
 
   // If the ball velocity has changed it means it has moved
   if ((oldAction.ballVel.x != currentAction.ballVel.x) || (oldAction.ballVel.y != currentAction.ballVel.y)) {
     if ((oldAction.ownerUnum != currentAction.ownerUnum) && (currentAction.ownerUnum != -1) && (oldAction.ownerUnum != -1)){
       if (oldAction.isTeammate == currentAction.isTeammate){  // Both players are on the same team
         std::cout << "PASS" << std::endl;
-        return thereIsAction;
+        return true;
       }
-    }
-      /*else {    // The new owner is from the other team
+      else {    // The new owner is from the other team
+        if (currentAction.isTeammate){
+          if ((world().ourSide() == 1) && (currentAction.ballPos.x >= 42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x > 0)){
+            std::cout << "UNSUCCESFULSHOOT" << std::endl;
+            return true;
+          } else if ((world().ourSide() == -1 ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
+            std::cout << "UNSUCCESFULSHOOT" << std::endl;
+            return true;
+          }
+        } else {
+          if ((world().theirSide() == 1) && (currentAction.ballPos.x >= 42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x > 0)){
+            std::cout << "UNSUCCESFULSHOOT" << std::endl;
+          } else if ((world().theirSide() == -1 ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
+            std::cout << "UNSUCCESFULSHOOT" << std::endl;
+            return true;
+          }
+        }
         if (distance < 5){
           std::cout << "UNSUCCESFULDRIBBLE" << std::endl;
-          return thereIsAction;
+          return true;
         }
         else {
           std::cout << "UNSUCCESFULPASS" << std::endl;
-          return thereIsAction;
+          return true;
         }
       }
     }
@@ -147,12 +161,12 @@ bool CoachAgent::actionClassifier(actionInfo oldAction, actionInfo currentAction
                   && (oldAction.ownerUnum != -1)){
       if (distance > 0.5){
         std::cout << "DRIBBLE" << std::endl;
-        return thereIsAction;
+        return true;
       }
-    }*/
+    }
   }
-  thereIsAction = false;
-  return thereIsAction;
+  
+  return false;
 }
 
 
@@ -629,7 +643,7 @@ CoachAgent::handleStartOffline()
 
 */
 void
-CoachAgent::handleMessage(actionInfo* lastAction)
+CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
 {
     if ( ! M_client )
     {
@@ -641,7 +655,28 @@ CoachAgent::handleMessage(actionInfo* lastAction)
     int counter = 0;
     GameTime start_time = M_impl->current_time_;
     actionInfo newAction = ownerPlayer();
-    //std::cout << "Owner: " << newAction.ownerUnum << " " << newAction.isTeammate << std::endl;
+
+    if (newAction.ownerUnum != -1){
+      lastAction->ownerUnum = newAction.ownerUnum;
+      lastAction->isTeammate = newAction.isTeammate;
+      lastAction->ownerPos = newAction.ownerPos;
+    }
+
+    lastAction->ballPos = newAction.ballPos;
+    lastAction->ballVel = newAction.ballVel;
+
+    bool thereIsAction = actionClassifier(*firstAction, *lastAction);
+
+    if (thereIsAction){
+      //choose teammates
+      //choose opponents
+    }
+
+    firstAction->ownerUnum = lastAction->ownerUnum;
+    firstAction->isTeammate = lastAction->isTeammate;
+    firstAction->ownerPos = lastAction->ownerPos;
+    firstAction->ballPos = lastAction->ballPos;
+    firstAction->ballVel = lastAction->ballVel;
 
     // receive and analyze message
     while ( M_client->recvMessage() > 0 )

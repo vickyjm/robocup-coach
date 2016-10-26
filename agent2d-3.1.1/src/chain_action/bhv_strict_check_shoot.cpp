@@ -257,7 +257,7 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
           {
                agent->setNeckAction( new Neck_TurnToGoalieOrScan( -1 ) );
                agent->debugClient().addMessage( "Force1Step" );
-               std::cout << "Shoot " << std::endl;
+               //std::cout << "Shoot " << std::endl;
                return true;
           }
         }
@@ -274,7 +274,7 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
           {
               agent->setNeckAction( new Neck_TurnToGoalieOrScan( -1 ) );
           }
-          std::cout << "Shoot " << std::endl;
+          //std::cout << "Shoot " << std::endl;
           return true;
       }
     }

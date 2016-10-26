@@ -41,9 +41,6 @@ struct actionInfo{
     rcsc::Vector2D ownerPos;
     rcsc::Vector2D ballVel;
     rcsc::Vector2D ballPos;
-    /*float ownerPosx, ownerPosy;
-    float ballVelx, ballVely;
-    float ballPosx, ballPosy;*/
 };
 
 namespace rcsc {
@@ -149,7 +146,7 @@ protected:
       This method is called when server message is arrived.
      */
     virtual
-    void handleMessage(actionInfo* lastAction) = 0;
+    void handleMessage(actionInfo* firstAction, actionInfo* lastAction) = 0;
 
 
     /*!

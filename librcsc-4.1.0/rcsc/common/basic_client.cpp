@@ -170,7 +170,7 @@ BasicClient::runOnline( SoccerAgent * agent )
             // received message, reset wait time
             waited_msec = 0;
             timeout_count = 0;
-            agent->handleMessage(&lastAction);
+            agent->handleMessage(&firstAction,&lastAction);
         }
     }
 }
