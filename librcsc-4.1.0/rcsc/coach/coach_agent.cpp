@@ -125,34 +125,42 @@ bool CoachAgent::actionClassifier(actionInfo oldAction, actionInfo currentAction
 
   // If the ball velocity has changed it means it has moved
   if ((oldAction.ballVel.x != currentAction.ballVel.x) || (oldAction.ballVel.y != currentAction.ballVel.y)) {
+    // A different player ownes the ball
     if ((oldAction.ownerUnum != currentAction.ownerUnum) && (currentAction.ownerUnum != -1) && (oldAction.ownerUnum != -1)){
-      if (oldAction.isTeammate == currentAction.isTeammate){  // Both players are on the same team
+      // Both players are on the same team
+      if (oldAction.isTeammate == currentAction.isTeammate){  
         std::cout << "PASS" << std::endl;
         return true;
       }
-      else {    // The new owner is from the other team
-        if (currentAction.isTeammate){
+      // The ball changed teams
+      else {    
+        // The owner is from our team
+        if (oldAction.isTeammate){
+          // We're playing on the left side of the field
           if ((world().ourSide() == LEFT) && (currentAction.ballPos.x >= 42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x > 0)){
             std::cout << "UNSUCCESFULSHOOT" << std::endl;
             return true;
-          } else if ((world().ourSide() == RIGHT ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
+          } 
+          // We're playing on the right side of the field
+          else if ((world().ourSide() == RIGHT ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
             std::cout << "UNSUCCESFULSHOOT" << std::endl;
             return true;
-          }
-          else{
-            std::cout << "Holis " << world().ourSide() << std::endl;
-          }
-        } else {
-          if ((world().theirSide() == LEFT) && (currentAction.ballPos.x >= 42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x > 0)){
-            std::cout << "UNSUCCESFULSHOOT" << std::endl;
-          } else if ((world().theirSide() == RIGHT ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
-            std::cout << "UNSUCCESFULSHOOT" << std::endl;
-            return true;
-          } else{
-            std::cout << "Hola vale " << world().theirSide() << std::endl;
           }
         }
-        if (distance < 5){
+        // The owner is from the other team 
+        else {
+          // They're playing on the left side of the field
+          if ((world().theirSide() == LEFT) && (currentAction.ballPos.x >= 42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x > 0)){
+            std::cout << "UNSUCCESFULSHOOT" << std::endl;
+          } 
+          // They're playing on the right side of the field
+          else if ((world().theirSide() == RIGHT ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
+            std::cout << "UNSUCCESFULSHOOT" << std::endl;
+            return true;
+          }
+        }
+  
+        if (distance < 30){
           std::cout << "UNSUCCESFULDRIBBLE" << std::endl;
           return true;
         }
@@ -676,6 +684,10 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
       std::cout << "GOAL" << std::endl;
       thereIsAction = true;
       firstAction->goalChecked = true;
+    }
+
+    if ((world().gameMode().type() != GameMode::AfterGoal_) && firstAction->goalChecked){
+      firstAction->goalChecked = false;
     }
 
     if (thereIsAction){
