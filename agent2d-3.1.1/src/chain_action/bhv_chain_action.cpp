@@ -93,7 +93,7 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     PlayerObject teammate2;
     for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
         distAux = agent->world().self().pos().dist(iter->pos());
-        if ((distAux < distOpp) and (iter->unum() != agent->world().self().unum())) {
+        if ((distAux < distOpp) && (iter->unum() != agent->world().self().unum())) {
             distOpp = distAux;  
             teammate2 = *iter;     
         }
@@ -107,7 +107,7 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
         distAux = action.targetPoint().dist(iter->pos());
 
-        if ((distAux < distOpp) and (teammate2.unum() != iter->unum()) and (iter->unum() != agent->world().self().unum())){
+        if ((distAux < distOpp) && (teammate2.unum() != iter->unum()) && (iter->unum() != agent->world().self().unum())){
             distOpp = distAux;   
             teammate3 = *iter;     
         }
@@ -134,7 +134,7 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
         distAux = action.targetPoint().dist(iter->pos());
 
-        if ((distAux < distOpp) and (opponent1.unum() != iter->unum())){
+        if ((distAux < distOpp) && (opponent1.unum() != iter->unum())){
             distOpp = distAux;   
             opponent2 = *iter;     
         }
@@ -154,7 +154,7 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
         distAux = midPoint.dist(iter->pos());
 
-        if ((iter->unum() != opponent2.unum()) and (iter->unum() != opponent1.unum()) and (distAux < distOpp)) {
+        if ((iter->unum() != opponent2.unum()) && (iter->unum() != opponent1.unum()) && (distAux < distOpp)) {
             distOpp = distAux;   
             opponent3 = *iter;     
         }
@@ -170,8 +170,8 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
         distAux = midPoint.dist(iter->pos());
 
-        if ((iter->unum() != opponent3.unum()) and (iter->unum() != opponent2.unum()) and 
-            (iter->unum() != opponent1.unum()) and (distAux < distOpp) and (distAux >= distOpp3Aux)) {
+        if ((iter->unum() != opponent3.unum()) && (iter->unum() != opponent2.unum()) && 
+            (iter->unum() != opponent1.unum()) && (distAux < distOpp) && (distAux >= distOpp3Aux)) {
             distOpp = distAux;   
             opponent4 = *iter;     
         }
