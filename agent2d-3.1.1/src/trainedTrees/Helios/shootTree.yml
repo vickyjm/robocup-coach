@@ -1,0 +1,147 @@
+%YAML:1.0
+my_tree: !!opencv-ml-tree
+   is_classifier: 0
+   var_all: 10
+   var_count: 9
+   ord_var_count: 9
+   cat_var_count: 0
+   training_params:
+      use_surrogates: 1
+      regression_accuracy: 9.9999997764825821e-03
+      max_depth: 25
+      min_sample_count: 10
+      cross_validation_folds: 10
+      use_1se_rule: 1
+      truncate_pruned_tree: 1
+   var_idx: !!opencv-matrix
+      rows: 1
+      cols: 9
+      dt: i
+      data: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+   var_type: [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+   best_tree_idx: 0
+   nodes:
+      -
+         depth: 0
+         sample_count: 870
+         value: 5.0459770114942526e-01
+         Tn: 5
+         complexity: 2
+         alpha: 1.6702693190003211e+02
+         node_risk: 2.1748160919540231e+02
+         tree_risk: 2.8722748815165879e+01
+         tree_error: 3.6497607870443165e+00
+         splits:
+            - { var:2, quality:4.0662875366210938e+02,
+                le:2.4324796199798584e+00 }
+      -
+         depth: 1
+         sample_count: 466
+         value: 7.5107296137339061e-02
+         Tn: 4
+         complexity: 1
+         alpha: 5.4167614806811351e+00
+         node_risk: 3.2371244635193136e+01
+         tree_risk: 2.8722748815165879e+01
+         tree_error: 3.6497607870443165e+00
+         splits:
+            - { var:7, quality:8.3622722625732422e+00,
+                le:4.3252754211425781e+00 }
+      -
+         depth: 2
+         sample_count: 38
+         value: 4.4736842105263158e-01
+         Tn: 3
+         complexity: 1
+         alpha: 2.8735042735042757e+00
+         node_risk: 9.3947368421052637e+00
+         tree_risk: 8.8888888888888893e+00
+         tree_error: 5.0617283950617287e-01
+         splits:
+            - { var:0, quality:1.0905723571777344e+01,
+                le:9.9726600646972656e+00 }
+      -
+         depth: 3
+         sample_count: 27
+         value: 2.5925925925925924e-01
+         Tn: 2
+         complexity: 1
+         alpha: 2.5244755244755241e+00
+         node_risk: 5.1851851851851851e+00
+         tree_risk: 5.1153846153846150e+00
+         tree_error: 7.2485207100591711e-02
+         splits:
+            - { var:8, quality:4.3913044929504395e+00,
+                le:3.8219888210296631e+00 }
+      -
+         depth: 4
+         sample_count: 4
+         value: 1.
+         Tn: 2147483647
+         complexity: 1
+         alpha: 0.
+         node_risk: 0.
+         tree_risk: 0.
+         tree_error: 0.
+      -
+         depth: 4
+         sample_count: 23
+         value: 1.3043478260869565e-01
+         Tn: 0
+         complexity: 1
+         alpha: 5.9090909090909083e-01
+         node_risk: 2.6086956521739131e+00
+         tree_risk: 2.5909090909090908e+00
+         tree_error: 1.8595041322314047e-02
+      -
+         depth: 3
+         sample_count: 11
+         value: 9.0909090909090906e-01
+         Tn: 1
+         complexity: 1
+         alpha: 8.9999999999999858e-01
+         node_risk: 9.0909090909091006e-01
+         tree_risk: 8.9999999999999858e-01
+         tree_error: 1.0000000000000009e-02
+         splits:
+            - { var:0, quality:10., le:1.0504469871520996e+01 }
+      -
+         depth: 4
+         sample_count: 10
+         value: 1.
+         Tn: 2147483647
+         complexity: 1
+         alpha: 0.
+         node_risk: 0.
+         tree_risk: 0.
+         tree_error: 0.
+      -
+         depth: 4
+         sample_count: 1
+         value: 0.
+         Tn: 2147483647
+         complexity: 1
+         alpha: 0.
+         node_risk: 0.
+         tree_risk: 0.
+         tree_error: 0.
+      -
+         depth: 2
+         sample_count: 428
+         value: 4.2056074766355138e-02
+         Tn: 2147483647
+         complexity: 1
+         alpha: 0.
+         node_risk: 1.7242990654205606e+01
+         tree_risk: 1.4417098445595855e+01
+         tree_error: 2.8302638997020053e+00
+      -
+         depth: 1
+         sample_count: 404
+         value: 1.
+         Tn: 2147483647
+         complexity: 1
+         alpha: 0.
+         node_risk: 0.
+         tree_risk: 0.
+         tree_error: 0.

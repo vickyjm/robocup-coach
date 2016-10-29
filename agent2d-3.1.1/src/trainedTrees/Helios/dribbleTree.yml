@@ -1,0 +1,33 @@
+%YAML:1.0
+my_tree: !!opencv-ml-tree
+   is_classifier: 0
+   var_all: 10
+   var_count: 9
+   ord_var_count: 9
+   cat_var_count: 0
+   training_params:
+      use_surrogates: 1
+      regression_accuracy: 9.9999997764825821e-03
+      max_depth: 25
+      min_sample_count: 10
+      cross_validation_folds: 10
+      use_1se_rule: 1
+      truncate_pruned_tree: 1
+   var_idx: !!opencv-matrix
+      rows: 1
+      cols: 9
+      dt: i
+      data: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+   var_type: [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+   best_tree_idx: -1
+   nodes:
+      -
+         depth: 0
+         sample_count: 6100
+         value: 5.0000000000000000e-01
+         Tn: 2147483647
+         complexity: 0
+         alpha: 0.
+         node_risk: 1525.
+         tree_risk: 0.
+         tree_error: 0.

@@ -1,0 +1,79 @@
+%YAML:1.0
+my_tree: !!opencv-ml-tree
+   is_classifier: 0
+   var_all: 10
+   var_count: 9
+   ord_var_count: 9
+   cat_var_count: 0
+   training_params:
+      use_surrogates: 1
+      regression_accuracy: 9.9999997764825821e-03
+      max_depth: 25
+      min_sample_count: 10
+      cross_validation_folds: 10
+      use_1se_rule: 1
+      truncate_pruned_tree: 1
+   var_idx: !!opencv-matrix
+      rows: 1
+      cols: 9
+      dt: i
+      data: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+   var_type: [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+   best_tree_idx: 0
+   nodes:
+      -
+         depth: 0
+         sample_count: 780
+         value: 4.9615384615384617e-01
+         Tn: 2
+         complexity: 2
+         alpha: 1.5464469647161951e+02
+         node_risk: 1.9498846153846154e+02
+         tree_risk: 2.0785502958579904e+01
+         tree_error: 2.0420437834809713e+00
+         splits:
+            - { var:2, quality:3.6418280029296875e+02,
+                le:2.1847853660583496e+00 }
+      -
+         depth: 1
+         sample_count: 413
+         value: 5.3268765133171914e-02
+         Tn: 1
+         complexity: 1
+         alpha: 1.7856991075223121e+00
+         node_risk: 2.0828087167070219e+01
+         tree_risk: 1.9788461538461540e+01
+         tree_error: 1.0477071005917160e+00
+         splits:
+            - { var:8, quality:2.9732360839843750e+00,
+                le:3.0438170433044434e+00 }
+      -
+         depth: 2
+         sample_count: 2
+         value: 1.
+         Tn: 2147483647
+         complexity: 1
+         alpha: 0.
+         node_risk: 0.
+         tree_risk: 0.
+         tree_error: 0.
+      -
+         depth: 2
+         sample_count: 411
+         value: 4.8661800486618008e-02
+         Tn: 0
+         complexity: 1
+         alpha: 1.6383556512782107e+00
+         node_risk: 1.9026763990267639e+01
+         tree_risk: 1.8002762430939228e+01
+         tree_error: 1.0300128201214860e+00
+      -
+         depth: 1
+         sample_count: 367
+         value: 9.9455040871934608e-01
+         Tn: 2147483647
+         complexity: 1
+         alpha: 0.
+         node_risk: 1.9891008174386684e+00
+         tree_risk: 9.9704142011836439e-01
+         tree_error: 9.9433668288925503e-01
