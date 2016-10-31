@@ -59,10 +59,65 @@
 #include <vector>
 #include <fstream>
 
+#include "cv.h"
+#include "ml.h"
+
 namespace rcsc {
 
 /*
-  This function determines if a player is the ball owner.
+  This function is used for training the existing decision trees
+  using the old log information and the actions extracted from the
+  current game.
+
+  IMPORTANT NOTE: The paths to the .dats files and the trees must
+  be changed when the opponent changes.
+
+*/
+void trainTrees(){
+  // Structures to keep the data from the logs
+  CvMLData shotData;
+  CvMLData dribbleData;
+  CvMLData passData;
+
+  // Read the files with the current info
+  shotData.read_csv ("shotFile.dat");
+  dribbleData.read_csv ("dribbleFile.dat");
+  passData.read_csv ("passFile.dat");
+
+  // Indicate which column is the response
+  shotData.set_response_idx (9);
+  dribbleData.set_response_idx (9);
+  passData.set_response_idx (9);
+
+  // Create the new decision trees for every type of action
+  CvDTree* shotTree = new CvDTree();
+  CvDTree* dribbleTree = new CvDTree();
+  CvDTree* passTree = new CvDTree();
+
+  // Train the new trees with the old logs and the actions from the current game
+  CvDTreeParams params = CvDTreeParams();
+
+  shotTree->train(&shotData,params);
+  dribbleTree->train(&dribbleData,params);
+  passTree->train(&passData,params);
+
+  // Save the new trees
+  // NOTE: These paths MUST be changed every time you play with a different team
+  // If the logs are separated by teams you should put here the tree that you trained
+  // for the current opponent team.
+  shotTree->save("./trainedTrees/shootTree.yml");
+  dribbleTree->save("./trainedTrees/dribbleTree.yml");
+  passTree->save("./trainedTrees/passTree.yml");
+
+}
+
+/*
+  This function determines if a player is a possible ball owner.
+
+  Parameters:
+    bx, by: ball's position on the X and Y axes.
+    px, py: player's position on the X and Y axes.
+    radious: some value referent to the size of the player and the kick_rand associated to his type.
 
 */
 bool isOwner(float bx, float by, float px, float py, float radious){
@@ -70,6 +125,14 @@ bool isOwner(float bx, float by, float px, float py, float radious){
   return distance < radious;
 }
 
+
+/*
+  Returns the nearest teammate to a certain player.
+
+  Parameters:
+    teammate1, teammate2, teammate3: vectors that contains the position of the three selected teammates.
+    opponent: vector with the position of the opponent player.
+*/
 double nearestTeammate(Vector2D teammate1, Vector2D teammate2, Vector2D teammate3, Vector2D opponnent){
   double dists[3];
   dists[0] = opponnent.dist(teammate1);
@@ -80,16 +143,46 @@ double nearestTeammate(Vector2D teammate1, Vector2D teammate2, Vector2D teammate
 
 }
 
+/*
+  This function is used for the feature extraction of the actions obtained from a game.
+  The features will be used for the training of the corresponding decision tree.
+
+  Parameters:
+    firstAction: contains the info about the first cycle of the current action. 
+    lastAction: contains the info about the last cycle of the current action.
+    currentAction: indicates which action is happening at this cycle.
+*/
 void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, std::string currentAction){
-  //string fileName = "actualGame.rcg";
   std::ofstream outfile;
-  outfile.open("actualGame.rcg", std::ios_base::app);
   const std::vector<const GlobalPlayerObject*> myPlayers = world().teammates();
   const std::vector<const GlobalPlayerObject*> myOpponents = world().opponents();
   Vector2D posTeammate2, posTeammate3;
   int unumTeammate2 = -1;
   Vector2D posOpponent1, posOpponent2, posOpponent3, posOpponent4;
   int unumOpponent1 = -1, unumOpponent2 = -1, unumOpponent3 = -1;
+  int valAction;
+
+  // The output file depends on the type of the action.
+  if (currentAction == "PASS"){
+    outfile.open("passFile.dat", std::ios_base::app);
+    valAction = 1;
+  } else if (currentAction == "UNSUCCESFULPASS"){
+    outfile.open("passFile.dat", std::ios_base::app);
+    valAction = 0;
+  } else if (currentAction == "DRIBBLE"){
+    outfile.open("dribbleFile.dat", std::ios_base::app);
+    valAction = 1;
+  } else if (currentAction == "UNSUCCESFULDRIBBLE"){
+    outfile.open("dribbleFile.dat", std::ios_base::app);
+    valAction = 0;
+  } else if (currentAction == "GOAL"){
+    outfile.open("shotFile.dat", std::ios_base::app);
+    valAction = 1;
+  } else if (currentAction == "UNSUCCESFULSHOOT"){
+    outfile.open("shotFile.dat", std::ios_base::app);
+    valAction = 0;
+  }
+
 
   //Normalized ball position
   outfile << lastAction.ballPos.x/5 << " " << lastAction.ballPos.y/5 << " ";
@@ -97,7 +190,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
   //Distance of the owner from the ball
   outfile << lastAction.ballPos.dist(lastAction.ownerPos) << " ";
 
-  // Calculating Teammate2.
+  // The second teammate corresponds to the player who is closer to the owner
   float minDist = 10000000000;
   float distAux = 0; 
   for (unsigned int i = 0; i < myPlayers.size(); i++){
@@ -113,7 +206,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
 
   outfile << lastAction.ballPos.dist(posTeammate2) << " ";
 
-  // Calculating teammate3
+  // The third teammate corresponds to the player who is closer to the ball's trajectory
   minDist = 10000000000;
   distAux = 0; 
   for (unsigned int i = 0; i < myPlayers.size(); i++){
@@ -128,7 +221,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
 
   outfile << lastAction.ballPos.dist(posTeammate3) << " ";
 
-  // The first opponent correspond to the player who is closer to the owner
+  // The first opponent corresponds to the player who is closer to the owner
   minDist = 10000000000;
   distAux = 0; 
   for (unsigned int i = 0; i < myOpponents.size(); i++){
@@ -144,7 +237,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
   
   outfile << nearestTeammate(lastAction.ownerPos, posTeammate2, posTeammate3, posOpponent1) << " ";
 
-  // The second opponent correspond to the player who is closer to last position of the ball
+  // The second opponent corresponds to the player who is closer to last position of the ball
   minDist = 10000000000;
   distAux = 0; 
   for (unsigned int i = 0; i < myOpponents.size(); i++){
@@ -178,15 +271,21 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
     outfile << nearestTeammate(lastAction.ownerPos, posTeammate2, posTeammate3, posOpponent3) << " ";
   }
 
-  outfile << currentAction << std::endl;
+  // Value associated to the type of the action
+  // 1 if it's a positive action
+  // 0 if it's negative
+  outfile << valAction << std::endl;
 
-  //outfile << "Data";
   outfile.flush(); 
 
   outfile.close();
 
 }
 
+/*
+  This function determines the ball owner.
+
+*/
 actionInfo CoachAgent::ownerPlayer(){
   float radious = 0.8;
   float minDist = 1000;
@@ -238,6 +337,14 @@ actionInfo CoachAgent::ownerPlayer(){
   return newAction;
 }
 
+
+/*
+  This function classifies the actions that have occurred during the match.
+
+  Parameters:
+    oldAction: contains the info from the first cycle of the action.
+    currentAction: contains the info from the last cycle of the action.
+*/
 std::string CoachAgent::actionClassifier(actionInfo oldAction, actionInfo currentAction){
   float distance = sqrt(pow(currentAction.ballPos.x - oldAction.ownerPos.x, 2) + pow(currentAction.ballPos.y - oldAction.ownerPos.y, 2));
 
@@ -300,8 +407,6 @@ std::string CoachAgent::actionClassifier(actionInfo oldAction, actionInfo curren
   
   return "";
 }
-
-
 
 ///////////////////////////////////////////////////////////////////////
 /*!
@@ -818,6 +923,11 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
     firstAction->ownerPos = lastAction->ownerPos;
     firstAction->ballPos = lastAction->ballPos;
     firstAction->ballVel = lastAction->ballVel;
+
+    if (world().gameMode().type() == GameMode::KickIn_){
+      std::cout << "Estoy reentrenando" << std::endl;
+      trainTrees();
+    }
 
     // receive and analyze message
     while ( M_client->recvMessage() > 0 )
