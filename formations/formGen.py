@@ -188,7 +188,7 @@ def printField(field) :
 	print("------- DONE PRINTING FIELD -----------")
 
 # Calculates the formation.
-def calculateFormation(opponentSide,matrizFinal) :
+def calculateFormation(opponentSide,matrizFinal,formationFile) :
 	offense = 0
 	center = 0
 	defense = 0
@@ -206,21 +206,26 @@ def calculateFormation(opponentSide,matrizFinal) :
 					if (matrizFinal[k][i][j] == 2):
 						offense += 1
 
-	elif (opponentSide == "r") :
-		for k in range(0,10) :
-			for i in range(0,34) :
-				for j in range(0,12):
-					if (matrizFinal[k][i][j] == 2):
-						offense += 1
-				for j in range(12,24):
-					if (matrizFinal[k][i][j] == 2):
-						center += 1
-				for j in range(24,35):
-					if (matrizFinal[k][i][j] == 2):
-						defense += 1
+	# elif (opponentSide == "r") :
+	# 	for k in range(0,10) :
+	# 		for i in range(0,34) :
+	# 			for j in range(0,12):
+	# 				if (matrizFinal[k][i][j] == 2):
+	# 					offense += 1
+	# 			for j in range(12,24):
+	# 				if (matrizFinal[k][i][j] == 2):
+	# 					center += 1
+	# 			for j in range(24,35):
+	# 				if (matrizFinal[k][i][j] == 2):
+	# 					defense += 1
 
 	print("Opponent side : "+opponentSide)
 	print(str(defense)+str(center)+str(offense))
+
+	f = open(formationFile,'w')
+	f.write(str(defense)+str(center)+str(offense))
+	f.close()
+	return
 
 # Checks the side of the opponent team in the given file
 def checkSide(filename,teamname) :
@@ -242,7 +247,7 @@ def checkSide(filename,teamname) :
 
 
 ##---- Main function ----##
-# python3 logsCampo.py path teamname
+# python3 logsCampo.py path teamname formationFile
 if __name__ == "__main__":
 	ball_velXOld = 0
 	ball_velYOld = 0
@@ -315,7 +320,7 @@ if __name__ == "__main__":
 			for j in range(0,35):
 				matrizFinal[k][i].append(field[i][j][k])
 
-	calculateFormation(opponentSide,matrizFinal)
+	calculateFormation(opponentSide,matrizFinal,sys.argv[3])
 
 	# generate the colors for your colormap
 	color1 = colorConverter.to_rgba('white')
