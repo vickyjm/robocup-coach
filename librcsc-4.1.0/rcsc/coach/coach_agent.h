@@ -209,6 +209,12 @@ public:
     bool doTeamGraphic( const int x,
                         const int y,
                         const TeamGraphic & team_graphic );
+    
+    actionInfo ownerPlayer();
+
+    std::string actionClassifier(actionInfo oldAction, actionInfo currentAction);
+
+    void extractFeatures(actionInfo firstAction, actionInfo lastAction, std::string action);
 
 private:
 
@@ -272,7 +278,7 @@ protected:
       Do NOT call this method by yourself!
      */
     virtual
-    void handleMessage();
+    void handleMessage(actionInfo* firstAction, actionInfo* lastAction);
 
 
     /*!

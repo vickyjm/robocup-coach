@@ -32,6 +32,18 @@
 #ifndef RCSC_SOCCER_AGENT_H
 #define RCSC_SOCCER_AGENT_H
 
+#include <rcsc/geom/vector_2d.h>
+
+
+struct actionInfo{
+    bool isTeammate;
+    int ownerUnum;
+    rcsc::Vector2D ownerPos;
+    rcsc::Vector2D ballVel;
+    rcsc::Vector2D ballPos;
+    bool goalChecked;
+};
+
 namespace rcsc {
 
 class BasicClient;
@@ -135,7 +147,7 @@ protected:
       This method is called when server message is arrived.
      */
     virtual
-    void handleMessage() = 0;
+    void handleMessage(actionInfo* firstAction, actionInfo* lastAction) = 0;
 
 
     /*!

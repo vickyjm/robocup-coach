@@ -127,6 +127,23 @@ BasicClient::runOnline( SoccerAgent * agent )
     int timeout_count = 0;
     long waited_msec = 0;
 
+    actionInfo lastAction;
+    actionInfo firstAction;
+
+    firstAction.isTeammate = true;
+    firstAction.ownerUnum = -1;
+    firstAction.ownerPos = Vector2D(0.0, 0.0);
+    firstAction.ballPos = Vector2D(0.0, 0.0);
+    firstAction.ballVel = Vector2D(0.0, 0.0);
+    firstAction.goalChecked = false;
+
+    lastAction.isTeammate = true;
+    lastAction.ownerUnum = -1;
+    lastAction.ownerPos = Vector2D(0.0, 0.0);
+    lastAction.ballPos = Vector2D(0.0, 0.0);
+    lastAction.ballVel = Vector2D(0.0, 0.0);
+    lastAction.goalChecked = false;
+
     while ( isServerAlive() )
     {
         read_fds = read_fds_back;
@@ -155,7 +172,7 @@ BasicClient::runOnline( SoccerAgent * agent )
             // received message, reset wait time
             waited_msec = 0;
             timeout_count = 0;
-            agent->handleMessage();
+            agent->handleMessage(&firstAction,&lastAction);
         }
     }
 }

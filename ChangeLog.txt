@@ -1,3 +1,10 @@
+Friday 04/11/16:
+	@ 4:00pm:
+		- Created teamManual.txt.
+		- Added all the stuff on the coach for the training of the trees during the game.
+		- The Makefile from the coach (librcsc-4.1.0/rcsc/coach/Makefile) was modified to include the flags of the ML library.
+		  You have to add `pkg-config --cflags opencv` to the CPPFLAGS variable and `pkg-config --libs opencv` to the LIBS variable.
+
 Saturday 18/09/16:
 	@ 10:00pm:
 		- Added the verifications of the trees before execute an action in bhv_basic_offensive_kick.cpp and bhv_strict_check_shoot.cpp

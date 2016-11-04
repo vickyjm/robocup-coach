@@ -56,8 +56,357 @@
 
 #include <sstream>
 #include <cstring>
+#include <vector>
+#include <fstream>
+
+#include "cv.h"
+#include "ml.h"
 
 namespace rcsc {
+
+/*
+  This function is used for training the existing decision trees
+  using the old log information and the actions extracted from the
+  current game.
+
+  IMPORTANT NOTE: The paths to the .dats files and the trees must
+  be changed when the opponent changes.
+
+*/
+void trainTrees(){
+  // Structures to keep the data from the logs
+  CvMLData shotData;
+  CvMLData dribbleData;
+  CvMLData passData;
+
+  // Read the files with the current info
+  shotData.read_csv ("shotFile.dat");
+  dribbleData.read_csv ("dribbleFile.dat");
+  passData.read_csv ("passFile.dat");
+
+  // Indicate which column is the response
+  shotData.set_response_idx (9);
+  dribbleData.set_response_idx (9);
+  passData.set_response_idx (9);
+
+  // Create the new decision trees for every type of action
+  CvDTree* shotTree = new CvDTree();
+  CvDTree* dribbleTree = new CvDTree();
+  CvDTree* passTree = new CvDTree();
+
+  // Train the new trees with the old logs and the actions from the current game
+  CvDTreeParams params = CvDTreeParams();
+
+  shotTree->train(&shotData,params);
+  dribbleTree->train(&dribbleData,params);
+  passTree->train(&passData,params);
+
+  // Save the new trees
+  // NOTE: These paths MUST be changed every time you play with a different team
+  // If the logs are separated by teams you should put here the tree that you trained
+  // for the current opponent team.
+  shotTree->save("./trainedTrees/shootTree.yml");
+  dribbleTree->save("./trainedTrees/dribbleTree.yml");
+  passTree->save("./trainedTrees/passTree.yml");
+
+}
+
+/*
+  This function determines if a player is a possible ball owner.
+
+  Parameters:
+    bx, by: ball's position on the X and Y axes.
+    px, py: player's position on the X and Y axes.
+    radious: some value referent to the size of the player and the kick_rand associated to his type.
+
+*/
+bool isOwner(float bx, float by, float px, float py, float radious){
+  float distance = sqrt(pow(bx - px, 2) + pow(by - py, 2));
+  return distance < radious;
+}
+
+
+/*
+  Returns the nearest teammate to a certain player.
+
+  Parameters:
+    teammate1, teammate2, teammate3: vectors that contains the position of the three selected teammates.
+    opponent: vector with the position of the opponent player.
+*/
+double nearestTeammate(Vector2D teammate1, Vector2D teammate2, Vector2D teammate3, Vector2D opponnent){
+  double dists[3];
+  dists[0] = opponnent.dist(teammate1);
+  dists[1] = opponnent.dist(teammate2);
+  dists[2] = opponnent.dist(teammate3);
+
+  return *std::min_element(dists,dists+3);
+
+}
+
+/*
+  This function is used for the feature extraction of the actions obtained from a game.
+  The features will be used for the training of the corresponding decision tree.
+
+  Parameters:
+    firstAction: contains the info about the first cycle of the current action. 
+    lastAction: contains the info about the last cycle of the current action.
+    currentAction: indicates which action is happening at this cycle.
+*/
+void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, std::string currentAction){
+  std::ofstream outfile;
+  const std::vector<const GlobalPlayerObject*> myPlayers = world().teammates();
+  const std::vector<const GlobalPlayerObject*> myOpponents = world().opponents();
+  Vector2D posTeammate2, posTeammate3;
+  int unumTeammate2 = -1;
+  Vector2D posOpponent1, posOpponent2, posOpponent3, posOpponent4;
+  int unumOpponent1 = -1, unumOpponent2 = -1, unumOpponent3 = -1;
+  int valAction;
+
+  // The output file depends on the type of the action.
+  if (currentAction == "PASS"){
+    outfile.open("passFile.dat", std::ios_base::app);
+    valAction = 1;
+  } else if (currentAction == "UNSUCCESFULPASS"){
+    outfile.open("passFile.dat", std::ios_base::app);
+    valAction = 0;
+  } else if (currentAction == "DRIBBLE"){
+    outfile.open("dribbleFile.dat", std::ios_base::app);
+    valAction = 1;
+  } else if (currentAction == "UNSUCCESFULDRIBBLE"){
+    outfile.open("dribbleFile.dat", std::ios_base::app);
+    valAction = 0;
+  } else if (currentAction == "GOAL"){
+    outfile.open("shotFile.dat", std::ios_base::app);
+    valAction = 1;
+  } else if (currentAction == "UNSUCCESFULSHOOT"){
+    outfile.open("shotFile.dat", std::ios_base::app);
+    valAction = 0;
+  }
+
+
+  //Normalized ball position
+  outfile << lastAction.ballPos.x/5 << " " << lastAction.ballPos.y/5 << " ";
+
+  //Distance of the owner from the ball
+  outfile << lastAction.ballPos.dist(lastAction.ownerPos) << " ";
+
+  // The second teammate corresponds to the player who is closer to the owner
+  float minDist = 10000000000;
+  float distAux = 0; 
+  for (unsigned int i = 0; i < myPlayers.size(); i++){
+    if (myPlayers[i]->unum() != lastAction.ownerUnum){
+      distAux = lastAction.ownerPos.dist(myPlayers[i]->pos());
+      if (distAux < minDist) {
+          minDist = distAux;  
+          posTeammate2 = myPlayers[i]->pos();     
+          unumTeammate2 = myPlayers[i]->unum();
+      }
+    }
+  }
+
+  outfile << lastAction.ballPos.dist(posTeammate2) << " ";
+
+  // The third teammate corresponds to the player who is closer to the ball's trajectory
+  minDist = 10000000000;
+  distAux = 0; 
+  for (unsigned int i = 0; i < myPlayers.size(); i++){
+    if ((myPlayers[i]->unum() != lastAction.ownerUnum) && (myPlayers[i]->unum() != unumTeammate2)){
+      distAux = lastAction.ballPos.dist(myPlayers[i]->pos());
+      if (distAux < minDist){
+          minDist = distAux;   
+          posTeammate3 = myPlayers[i]->pos();   
+      }
+    }
+  }
+
+  outfile << lastAction.ballPos.dist(posTeammate3) << " ";
+
+  // The first opponent corresponds to the player who is closer to the owner
+  minDist = 10000000000;
+  distAux = 0; 
+  for (unsigned int i = 0; i < myOpponents.size(); i++){
+    if (myOpponents[i]->unum() != lastAction.ownerUnum){
+      distAux = lastAction.ownerPos.dist(myOpponents[i]->pos());
+      if (distAux < minDist) {
+          minDist = distAux;  
+          posOpponent1 = myOpponents[i]->pos();     
+          unumOpponent1 = myOpponents[i]->unum();
+      }
+    }
+  }
+  
+  outfile << nearestTeammate(lastAction.ownerPos, posTeammate2, posTeammate3, posOpponent1) << " ";
+
+  // The second opponent corresponds to the player who is closer to last position of the ball
+  minDist = 10000000000;
+  distAux = 0; 
+  for (unsigned int i = 0; i < myOpponents.size(); i++){
+    if ((myOpponents[i]->unum() != lastAction.ownerUnum) && (myOpponents[i]->unum() != unumOpponent1)){
+      distAux = lastAction.ballPos.dist(myOpponents[i]->pos());
+      if (distAux < minDist){
+          minDist = distAux;   
+          posOpponent2 = myOpponents[i]->pos();
+          unumOpponent2 = myOpponents[i]->unum();     
+      }
+    }
+  }
+
+  outfile << nearestTeammate(lastAction.ownerPos, posTeammate2, posTeammate3, posOpponent2) << " ";
+
+  //The third and the fourth opponents corresponds to the players near to the center of action path
+  Vector2D middlePoint = Vector2D((lastAction.ballPos.x + firstAction.ballPos.x)/2, (lastAction.ballPos.y + firstAction.ballPos.y)/2);
+  minDist = 10000000000;
+  distAux = 0; 
+  for (int i = 0; i < 2; i++){
+    for (unsigned int j = 0; j < myOpponents.size(); j++){
+      if ((myOpponents[j]->unum() != unumOpponent1) && (myOpponents[j]->unum() != unumOpponent2) && (myOpponents[j]->unum() != unumOpponent3)){
+        distAux = middlePoint.dist(myOpponents[i]->pos());
+        if (distAux < minDist){
+          minDist = distAux;
+          posOpponent3 = myOpponents[i]->pos();
+          unumOpponent3 = myOpponents[i]->unum();
+        }
+      }
+    }
+    outfile << nearestTeammate(lastAction.ownerPos, posTeammate2, posTeammate3, posOpponent3) << " ";
+  }
+
+  // Value associated to the type of the action
+  // 1 if it's a positive action
+  // 0 if it's negative
+  outfile << valAction << std::endl;
+
+  outfile.flush(); 
+
+  outfile.close();
+
+}
+
+/*
+  This function determines the ball owner.
+
+*/
+actionInfo CoachAgent::ownerPlayer(){
+  float radious = 0.8;
+  float minDist = 1000;
+  float aux;
+  actionInfo newAction;
+  const std::vector<const GlobalPlayerObject*> myPlayers = world().teammates();
+  const std::vector<const GlobalPlayerObject*> myOpponents = world().opponents();
+  Vector2D ballPos = world().ball().pos();
+  Vector2D ballVel = world().ball().vel();
+
+  newAction.ownerUnum = -1;
+
+  for (unsigned int i = 0; i < myPlayers.size(); i++) {
+    aux = pow(ballPos.x - myPlayers[i]->pos().x,2) + pow(ballPos.y - myPlayers[i]->pos().y,2);
+    if (aux < minDist){
+      newAction.isTeammate = true;
+      newAction.ownerUnum = myPlayers[i]->unum();
+      minDist = aux;
+    }
+  }
+
+  for (unsigned int i = 0; i < myOpponents.size();i++) {
+    aux = pow(ballPos.x - myOpponents[i]->pos().x,2) + pow(ballPos.y - myOpponents[i]->pos().y,2);
+    if (aux < minDist){
+      newAction.isTeammate = false;
+      newAction.ownerUnum = myOpponents[i]->unum();
+      minDist = aux;
+    }
+  }
+
+  newAction.ballPos.x = ballPos.x;
+  newAction.ballPos.y = ballPos.y;
+  newAction.ballVel.x = ballVel.x;
+  newAction.ballVel.y = ballVel.y;
+
+  if (newAction.ownerUnum != -1){
+    if (newAction.isTeammate){
+      if (isOwner(ballPos.x, ballPos.y, world().teammate(newAction.ownerUnum)->pos().x, world().teammate(newAction.ownerUnum)->pos().y, radious)){
+        return newAction;
+      }  
+    } else {
+      if (isOwner(ballPos.x, ballPos.y, world().opponent(newAction.ownerUnum)->pos().x, world().opponent(newAction.ownerUnum)->pos().y, radious)){
+        return newAction;
+      }    
+    }    
+  }
+  newAction.ownerUnum = -1;
+
+  return newAction;
+}
+
+
+/*
+  This function classifies the actions that have occurred during the match.
+
+  Parameters:
+    oldAction: contains the info from the first cycle of the action.
+    currentAction: contains the info from the last cycle of the action.
+*/
+std::string CoachAgent::actionClassifier(actionInfo oldAction, actionInfo currentAction){
+  float distance = sqrt(pow(currentAction.ballPos.x - oldAction.ownerPos.x, 2) + pow(currentAction.ballPos.y - oldAction.ownerPos.y, 2));
+
+  // If the ball velocity has changed it means it has moved
+  if ((oldAction.ballVel.x != currentAction.ballVel.x) || (oldAction.ballVel.y != currentAction.ballVel.y)) {
+    // A different player ownes the ball
+    if ((oldAction.ownerUnum != currentAction.ownerUnum) && (currentAction.ownerUnum != -1) && (oldAction.ownerUnum != -1)){
+      // Both players are on the same team
+      if (oldAction.isTeammate == currentAction.isTeammate){  
+        std::cout << "PASS" << std::endl;
+        return "PASS";
+      }
+      // The ball changed teams
+      else {    
+        // The owner is from our team
+        if (oldAction.isTeammate){
+          // We're playing on the left side of the field
+          if ((world().ourSide() == LEFT) && (currentAction.ballPos.x >= 42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x > 0)){
+            std::cout << "UNSUCCESFULSHOOT" << std::endl;
+            return "UNSUCCESFULSHOOT";
+          } 
+          // We're playing on the right side of the field
+          else if ((world().ourSide() == RIGHT ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
+            std::cout << "UNSUCCESFULSHOOT" << std::endl;
+            return "UNSUCCESFULSHOOT";
+          }
+        }
+        // The owner is from the other team 
+        else {
+          // They're playing on the left side of the field
+          if ((world().theirSide() == LEFT) && (currentAction.ballPos.x >= 42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x > 0)){
+            std::cout << "UNSUCCESFULSHOOT" << std::endl;
+            return "UNSUCCESFULSHOOT";
+          } 
+          // They're playing on the right side of the field
+          else if ((world().theirSide() == RIGHT ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
+            std::cout << "UNSUCCESFULSHOOT" << std::endl;
+            return "UNSUCCESFULSHOOT";
+          }
+        }
+  
+        if (distance < 30){
+          std::cout << "UNSUCCESFULDRIBBLE" << std::endl;
+          return "UNSUCCESFULDRIBBLE";
+        }
+        else {
+          std::cout << "UNSUCCESFULPASS" << std::endl;
+          return "UNSUCCESFULPASS";
+        }
+      }
+    }
+    else if ((oldAction.ownerUnum == currentAction.ownerUnum) && (oldAction.isTeammate == currentAction.isTeammate)
+                  && (oldAction.ownerUnum != -1)){
+      if (distance > 0.5){
+        std::cout << "DRIBBLE" << std::endl;
+        return "DRIBBLE";
+      }
+    }
+  }
+  
+  return "";
+}
 
 ///////////////////////////////////////////////////////////////////////
 /*!
@@ -531,7 +880,7 @@ CoachAgent::handleStartOffline()
 
 */
 void
-CoachAgent::handleMessage()
+CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
 {
     if ( ! M_client )
     {
@@ -542,6 +891,43 @@ CoachAgent::handleMessage()
 
     int counter = 0;
     GameTime start_time = M_impl->current_time_;
+    actionInfo newAction = ownerPlayer();
+
+    if (newAction.ownerUnum != -1){
+      lastAction->ownerUnum = newAction.ownerUnum;
+      lastAction->isTeammate = newAction.isTeammate;
+      lastAction->ownerPos = newAction.ownerPos;
+    }
+
+    lastAction->ballPos = newAction.ballPos;
+    lastAction->ballVel = newAction.ballVel;
+
+    std::string currentAction = actionClassifier(*firstAction, *lastAction);
+
+    if ((world().gameMode().type() == GameMode::AfterGoal_) && (firstAction->goalChecked == false)){
+      std::cout << "GOAL" << std::endl;
+      currentAction = "GOAL";
+      firstAction->goalChecked = true;
+    }
+
+    if ((world().gameMode().type() != GameMode::AfterGoal_) && firstAction->goalChecked){
+      firstAction->goalChecked = false;
+    }
+
+    if (currentAction != ""){
+      extractFeatures(*firstAction, *lastAction, currentAction);
+    }
+
+    firstAction->ownerUnum = lastAction->ownerUnum;
+    firstAction->isTeammate = lastAction->isTeammate;
+    firstAction->ownerPos = lastAction->ownerPos;
+    firstAction->ballPos = lastAction->ballPos;
+    firstAction->ballVel = lastAction->ballVel;
+
+    if (world().gameMode().type() == GameMode::KickIn_){
+      std::cout << "Estoy reentrenando" << std::endl;
+      trainTrees();
+    }
 
     // receive and analyze message
     while ( M_client->recvMessage() > 0 )

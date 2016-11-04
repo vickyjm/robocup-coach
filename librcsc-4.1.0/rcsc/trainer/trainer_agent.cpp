@@ -399,7 +399,7 @@ TrainerAgent::handleStart()
 
 */
 void
-TrainerAgent::handleMessage()
+TrainerAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
 {
     if ( ! M_client )
     {
