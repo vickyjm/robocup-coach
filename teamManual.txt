@@ -1,0 +1,40 @@
+Detalles importantes para el uso del equipo:
+Modificar el archivo agent2d-3.1.1/Makefile de la siguiente forma:
+	Agregar `pkg-config --cflags opencv` a la variable CPPFLAGS y `pkg-config --libs opencv` a la variable LIBS.
+Hacer los mismos cambios en el archivo librcsc-4.1.0/rcsc/coach/Makefile.
+
+Si no se quieren usar los árboles de acciones en los jugadores:
+	-> Comentar todas las líneas donde se usen los árboles de OpenCV en la función Bhv_BasicOffensiveKick::execute 
+	   del archivo agent2d-3.1.1/src/bhv_basic_offensive_kick.cpp 
+	-> Comentar todas las líneas donde se usen los árboles de OpenCV en la función Bhv_StrictCheckShoot::execute 
+	   del archivo agent2d-3.1.1/src/chain_action/bhv_strict_check_shoot.cpp 
+	-> Comentar todas las líneas donde se usen los árboles de OpenCV en la función Bhv_ChainAction::execute
+	   del archivo agent2d-3.1.1/src/chain_action/bhv_chain_action.cpp 
+
+Si se quieren usar los árboles de acciones:
+	En el directorio src/trainedTrees se encuentran los árboles para los equipos WrightEagle, Jaeger, Genius, Helios y Hermes.
+
+	1.- Caso en que los árboles del oponente a enfrentarse ya están entrenados:
+		-> Se deben cambiar todos los paths de los árboles de pases y dribles en las llamadas a la función load de OpenCV en la
+		   función Bhv_BasicOffensiveKick::execute del archivo agent2d-3.1.1/src/bhv_basic_offensive_kick.cpp 
+		-> Se deben cambiar todos los paths del árbol de tiros al arco en las llamadas a la función load de OpenCV en la función
+		   Bhv_StrictCheckShoot::execute ddel archivo agent2d-3.1.1/src/chain_action/bhv_strict_check_shoot.cpp
+		-> Se deben cambiar todos los paths de los árboles de pases, dribles y tiros al arco en las llamadas a la función load de
+		   OpenCV en la función Bhv_ChainAction::execute del archivo agent2d-3.1.1/src/chain_action/bhv_chain_action.cpp
+
+	2.- Caso en que los árboles del oponente a enfrentarse no existen:
+		-> Generar los logs de los partidos con los que se desea entrenar, pasarlos por el archivo preprocessingLogs.py y con los
+		   archivos obtenidos generar los árboles de pases, dribles y tiros al arco.
+		-> Luego, ir al caso 1.
+
+	3.- Caso en que se quiere usar el coach para re-entrenar los árboles durante el partido:
+		-> Si se desea cambiar el momento en que se re-entrenan los árboles debe cambiarse la condición del gameMode en la función
+		   CoachAgent::handleMessage del archivo librcsc-4.1.0/rcsc/coach/coach_agent.cpp y volver a compilar la librería.
+		-> Cambiar los paths de los archivos .dats temporales, que deben contener los datos con los que fueron entrenados los árboles,
+		   en la función CoachAgent::extractFeatures del archivo librcsc-4.1.0/rcsc/coach/coach_agent.cpp. Estos .dats deben ser eliminados
+		   después de cada partido para no generar desbalance en las clases de los árboles, y deben ser reemplazados por una copia de los
+		   .dats con los que se entrenaron los mismos.
+
+	4.- Caso en que no se quiere re-entrenar los árboles durante el partido:
+		-> Comentar todas las líneas de la función CoachAgent::handleMessage relacionadas con la extracción de las acciones, features y 
+	       entrenamiento de los árboles en el archivo librcsc-4.1.0/rcsc/coach/coach_agent.cpp.
