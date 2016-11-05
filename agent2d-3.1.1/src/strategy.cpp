@@ -795,11 +795,25 @@ Strategy::getPosition( const int unum ) const
 Formation::Ptr
 Strategy::getFormation( const WorldModel & wm ) const
 {
+    std::string line;
+    std::ifstream oppFormationFile("./enemyFormations/sampleFormation1.txt");
+    int offense = 0;
+    int defense = 0;
+    int center = 0;
     //
     // play on
     //
     if ( wm.gameMode().type() == GameMode::PlayOn )
     {
+        // Read the formation file and obtain the number of defense, centers and offense players.
+        if (oppFormationFile.is_open()) {
+            while (getline(oppFormationFile,line)) {
+                defense = line[0] - '0';
+                center = line[1] - '0';
+                offense = line[2] - '0';
+            }
+            oppFormationFile.close();
+        }
         switch ( M_current_situation ) {
         case Defense_Situation:
             return M_defense_formation;

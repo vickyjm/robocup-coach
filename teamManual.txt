@@ -38,3 +38,13 @@ Si se quieren usar los árboles de acciones:
 	4.- Caso en que no se quiere re-entrenar los árboles durante el partido:
 		-> Comentar todas las líneas de la función CoachAgent::handleMessage relacionadas con la extracción de las acciones, features y 
 	       entrenamiento de los árboles en el archivo librcsc-4.1.0/rcsc/coach/coach_agent.cpp.
+
+
+
+// Cosas de Estrategias y Formaciones :
+- En agent2d-3.1.1/src/sample_player.cpp en la funcion SamplePlayer::actionImpl() se hace un 
+Strategy::instance().update( world() ), esto, en agent2d-3.1.1/src/strategy.cpp llama al metodo update, el cual procede a llamar a updateSituation y updatePosition del mismo archivo. updateSituation primero verifica si hay un penalty, de serlo, modifica la situation para que los jugadores hagan lo que tienen que hacer. Si no es penalty, encuentra primero la minima cantidad de ciclos para que el jugador llegue a la pelota sin gastar toda su stammina, calcula tambien la minima cantidad de ciclos para que alguno de sus companeros de equipo llegue a la pelota sin gaster su stamina, y calcula lo mismo para los oponentes. Luego, tomando el minimo entre sus companeros y el mismo, verifica si la cantidad de ciclos minima para que su equipo llegue a la pelota es mayor que la del oponente o no. Si lo es, se dice que es una Defense_Situation, si no, se dice que es una Offense_Situation.
+
+- En updatePosition, se llama a getFormation, que en base a la situacion obtenida en updateSituation y el estado del juego, modifica la formacion, utilizando una de las que estan en los archivos en agent2d-3.1.1/src/formations-dt, estas se leen al principio del partido y se tienen guardadas.
+
+
