@@ -47,4 +47,7 @@ Strategy::instance().update( world() ), esto, en agent2d-3.1.1/src/strategy.cpp 
 
 - En updatePosition, se llama a getFormation, que en base a la situacion obtenida en updateSituation y el estado del juego, modifica la formacion, utilizando una de las que estan en los archivos en agent2d-3.1.1/src/formations-dt, estas se leen al principio del partido y se tienen guardadas.
 
+- Para cambiar el archivo de formacion del oponente, cambiar el archivo que se abre en getFormation en el archivo 
+agent2d-3.1.1/src/strategy.cpp por el del equipo correspondiente.
+
 
