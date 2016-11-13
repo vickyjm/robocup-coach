@@ -165,7 +165,6 @@ extractFeaturesShoot(PlayerAgent* agent, Vector2D targetPoint){
     }
 
     // Second preprocessing
-    ballPos.assign(ballPos.x/5, ballPos.y/5);
     double distT1 = ballPos.dist(agent->world().self().pos());
     double distT2 = ballPos.dist(teammate2.pos());
     double distT3 = ballPos.dist(teammate3.pos());
@@ -174,6 +173,8 @@ extractFeaturesShoot(PlayerAgent* agent, Vector2D targetPoint){
     double distO2 = nearestTeammateShoot(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent2.pos());
     double distO3 = nearestTeammateShoot(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent3.pos());
     double distO4 = nearestTeammateShoot(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent4.pos());
+
+    ballPos.assign(ballPos.x/5, ballPos.y/5);
 
     Mat features = (Mat_<float>(1,10) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
     
@@ -241,15 +242,15 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
                   best_shoot->first_ball_speed_,
                   one_step_speed );
 
-    CvDTree shootTree;
-    shootTree.load("trainedTrees/shootTree.yml");
+    /*CvDTree shootTree;
+    shootTree.load("trainedTrees/Genius/shootTree.yml");
 
-    cv::Mat testSample(extractFeaturesShoot(agent, best_shoot->target_point_));
+    cv::Mat testSample(extractFeaturesShoot(agent, best_shoot->target_point_));*/
 
     if ( one_step_speed > best_shoot->first_ball_speed_ * 0.99 )
     { 
         // It will be a successful shoot.
-        if (shootTree.predict(testSample)->value >= 0.5){
+        //if (shootTree.predict(testSample)->value >= 0.5){
           if ( Body_SmartKick( best_shoot->target_point_,
                                one_step_speed,
                                one_step_speed * 0.99 - 0.0001,
@@ -260,11 +261,11 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
                //std::cout << "Shoot " << std::endl;
                return true;
           }
-        }
+        //}
     }
 
     // It will be a successful shoot.
-    if (shootTree.predict(testSample)->value >= 0.5){
+    //if (shootTree.predict(testSample)->value >= 0.5){
       if ( Body_SmartKick( best_shoot->target_point_,
                            best_shoot->first_ball_speed_,
                            best_shoot->first_ball_speed_ * 0.99,
@@ -277,7 +278,7 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
           //std::cout << "Shoot " << std::endl;
           return true;
       }
-    }
+   // }
 
     dlog.addText( Logger::SHOOT,
                   __FILE__": failed" );

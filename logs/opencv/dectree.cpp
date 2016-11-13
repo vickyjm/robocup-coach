@@ -94,12 +94,20 @@ int main(int argc, char* argv[]) {
 
     CvMLData cvml;                                  // Structure to keep the data
     cvml.read_csv(argv[2]);                         // Read the file
+    cvml.change_var_type(9, CV_VAR_CATEGORICAL);    // The output is categorical
     cvml.set_response_idx (9);
 
     const Mat aux(cvml.get_values(),true);
     const Mat values = aux(Range::all(), Range(0,9));
     const Mat responses(cvml.get_responses(),true);
     const Mat responsesT(responses.t());
+
+    CvMat* var_type;
+    
+    var_type = cvCreateMat( 10, 1, CV_8U );
+
+    cvSet(var_type, cvScalarAll(CV_VAR_ORDERED));
+    cvSetReal1D(var_type, 9, CV_VAR_CATEGORICAL);
 
 
     int* index = kfold(numSamples, folds);
@@ -122,6 +130,7 @@ int main(int argc, char* argv[]) {
     int finalTrue = 0;
     int finalFalse = 0;
     float accuracy = 0;
+    double predValue;
     for (int i = 0; i!=folds; i++){
         CvDTree dtree;
 
@@ -144,7 +153,9 @@ int main(int argc, char* argv[]) {
 
         for (it=testIndex.begin() ; it < testIndex.end(); ++it) {
             ans = dtree.predict(values.row(*it));
-            predict = filterValue(ans->value);
+
+            //predict = filterValue(ans->value);
+            predict = ans->value;
             if (predict == responsesT.at<float>(0,*it)) {
                 if (predict == 0) {
                     true0++; // The tree correctly predicted a 0 (unsuccessful action)
@@ -172,8 +183,9 @@ int main(int argc, char* argv[]) {
         fn = fn + false0;
         finalTrue = finalTrue + totalTrue;
         finalFalse = finalFalse + totalFalse;
-
+        
     }
+
 
     //tp = tp / folds;
     //tn = tn / folds;

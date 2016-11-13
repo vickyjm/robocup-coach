@@ -13,6 +13,8 @@ Si no se quieren usar los árboles de acciones en los jugadores:
 
 Si se quieren usar los árboles de acciones:
 	En el directorio src/trainedTrees se encuentran los árboles para los equipos WrightEagle, Jaeger, Genius, Helios y Hermes.
+	Cada árbol fue entrenado con partidos entre nuestro equipo y el oponente seleccionado, más los partidos generados entre
+	el oponente seleccionado contra los otros 4.
 
 	1.- Caso en que los árboles del oponente a enfrentarse ya están entrenados:
 		-> Se deben cambiar todos los paths de los árboles de pases y dribles en las llamadas a la función load de OpenCV en la

@@ -178,10 +178,11 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     }
 
     // Second preprocessing
-    ballPos.assign(ballPos.x/5, ballPos.y/5);
     double distT1 = ballPos.dist(agent->world().self().pos());
     double distT2 = ballPos.dist(teammate2.pos());
     double distT3 = ballPos.dist(teammate3.pos());
+
+    ballPos.assign(ballPos.x/5, ballPos.y/5);
 
     double distO1 = nearestTeammate(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent1.pos());
     double distO2 = nearestTeammate(agent->world().self().pos(), teammate2.pos(), teammate3.pos(), opponent2.pos());
@@ -362,19 +363,19 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) shoot" );
 
-            CvDTree shootTree;
-            shootTree.load("trainedTrees/shootTree.yml");
+            /*CvDTree shootTree;
+            shootTree.load("trainedTrees/Genius/shootTree.yml");
 
             cv::Mat testSample(extractFeatures(agent, first_action));    
 
             // It will be a successful shoot.
-            if (shootTree.predict(testSample)->value >= 0.5){
+            if (shootTree.predict(testSample)->value >= 0.5){*/
                 if ( Body_ForceShoot().execute( agent ) )
                 {
                     agent->setNeckAction( new Neck_TurnToGoalieOrScan() );
                     return true;
                 }
-            }
+            //}
 
             break;
         }
@@ -409,19 +410,19 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
                 neck = NeckAction::Ptr( new Neck_TurnToGoalieOrScan( count_thr ) );
             }
 
-            CvDTree dribbleTree;
-            dribbleTree.load("trainedTrees/dribbleTree.yml");
+            /*CvDTree dribbleTree;
+            dribbleTree.load("trainedTrees/Genius/dribbleTree.yml");
 
             cv::Mat testSample(extractFeatures(agent, first_action));
             
             // It will be a successful dribble
-            if (dribbleTree.predict(testSample)->value >= 0.5){
+            if (dribbleTree.predict(testSample)->value >= 0.5){*/
                 if ( Bhv_NormalDribble( first_action, neck ).execute( agent ) ){
                     //std::cout << "Dribble " << agent->world().self().unum() << std::endl;
                     return true;
                 }
 
-            }
+           // }
             break;
         }
 
@@ -463,18 +464,18 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) pass" );
 
-            CvDTree passTree;
-            passTree.load("trainedTrees/passTree.yml");
+            /*CvDTree passTree;
+            passTree.load("trainedTrees/Genius/passTree.yml");
 
             cv::Mat testSample(extractFeatures(agent, first_action));
 
             // It will be a successful pass
-            if (passTree.predict(testSample)->value >= 0.5){
+            if (passTree.predict(testSample)->value >= 0.5){*/
                 if (Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent )) {
                    // std::cout << "Pass " << agent->world().self().unum() << std::endl;
                     return true;
                 }
-            }
+            //}
             break;
         }
 
