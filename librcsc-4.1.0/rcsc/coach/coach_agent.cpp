@@ -58,6 +58,7 @@
 #include <cstring>
 #include <vector>
 #include <fstream>
+#include <math.h>
 
 #include "cv.h"
 #include "ml.h"
@@ -407,6 +408,219 @@ std::string CoachAgent::actionClassifier(actionInfo oldAction, actionInfo curren
   
   return "";
 }
+
+float **obtainRectangle(const std::vector<const GlobalPlayerObject*> myOpponents) {
+  // Create the rectangle
+  float **rectangle = new float*[4];
+  for (int row = 0;row < 4;row++){
+    rectangle[row] = new float[2];
+  }
+
+  float minX = 70;
+  float maxX = -70;
+  float minY = 70;
+  float maxY = -70;
+
+  for (int i = 0;i < myOpponents.size(); i++){
+    if (myOpponents[i]->unum() != 1) {
+      if (myOpponents[i]->pos().x > maxX) {
+        maxX = myOpponents[i]->pos().x;
+      }
+      if (myOpponents[i]->pos().x < minX) {
+        minX = myOpponents[i]->pos().x;
+      }
+      if (myOpponents[i]->pos().y > maxY) {
+        maxY = myOpponents[i]->pos().y;
+      }
+      if (myOpponents[i]->pos().y < minY) {
+        minY = myOpponents[i]->pos().y;
+      }
+    }
+  }
+
+  rectangle[0][0] = minX;
+  rectangle[0][1] = maxY;
+
+  rectangle[1][0] = maxX;
+  rectangle[1][1] = maxY;
+
+  rectangle[2][0] = minX;
+  rectangle[2][1] = minY;
+
+  rectangle[3][0] = maxX;
+  rectangle[3][1] = minY;
+
+  return rectangle;
+
+
+}
+
+float* mapToField(float originX,float originY,float rectWidth,float rectHeight,float x,float y,SideID opponentSide) {
+  float* finalPoint = new float[2];
+  float fieldWidth = 104;
+  float fieldHeight = 68;
+  int side = 1;
+  if (opponentSide == RIGHT) {
+    side = -1;
+  }
+
+  finalPoint[0] = side*((((x - originX)/rectWidth)*fieldWidth) - 52);
+  finalPoint[1] = -1*((((y - originY)/rectHeight)*fieldHeight) + 34);
+
+  return finalPoint;
+}
+
+void sumPositions(float field[10][34][35],float areaWidth,float areaHeight,float** mappedPos) {
+  int posX = 0;
+  int posY = 0;
+  int i = 0;
+
+  for (int j = 0;j < 10;j++){
+    if (mappedPos[j][0] != -1) {
+      posX = floor((mappedPos[j][0] / areaWidth)+0.5);
+      posY = floor((mappedPos[j][1] / areaHeight)+0.5);
+
+      if (posX < 0) {
+        posX = posX+18;
+      }
+      else {
+        posX = posX+16;
+      }
+      if (posY > 0) {
+        posY = posY+16;
+      }
+      else {
+        posY = posY+17;
+      }
+
+      field[j][posY][posX] = field[j][posY][posX]+1;
+      if (posY < 33) {
+        field[j][posY+1][posX] = field[j][posY+1][posX]+1;
+      }
+      if (posY > 0) {
+        field[j][posY-1][posX] = field[j][posY-1][posX]+1;
+      }
+      if (posX < 34) {
+        field[j][posY][posX+1] = field[j][posY][posX+1]+1;
+      }
+      if (posX > 0) {
+        field[j][posY][posX-1] = field[j][posY][posX-1]+1;
+      }
+
+      if ((posY < 33) and (posX < 34)) {
+        field[j][posY+1][posX+1] = field[j][posY+1][posX+1]+1;
+      }
+      if ((posY > 0) and (posX > 0)) {
+        field[j][posY-1][posX-1] = field[j][posY-1][posX-1]+1;
+      }
+      if ((posY > 0) and (posX < 34)) {
+        field[j][posY-1][posX+1] = field[j][posY-1][posX+1]+1;
+      }
+      if ((posY < 33) and (posX > 0)) {
+        field[j][posY+1][posX-1] = field[j][posY+1][posX-1]+1;
+      }
+    }
+  }
+}
+
+void normalizeField(float field[10][34][35]){
+  float maxElems[10];
+
+  for (int i = 0;i<10;i++){
+    maxElems[i] = 0;
+  }
+
+  for (int k = 0;k < 10;k++){
+    for (int i = 0;i < 34;i++){
+      for (int j = 0;j<35;j++){
+        if (field[k][i][j] > maxElems[k]) {
+          maxElems[k] = field[k][i][j];
+        }
+      }
+    }
+  }
+
+  bool checks[10];
+  for (int i = 0;i < 10;i++){
+    checks[i] = false;
+  }
+
+  for (int k = 0;k < 10;k++){
+    for (int i = 0;i < 34;i++){
+      for (int j = 0;j<35;j++){
+        field[k][i][j] = (field[k][i][j] / maxElems[k]);
+        if ((field[k][i][j] == 1) and (!(checks[k]))) {
+          checks[k] = true;
+          field[k][i][j] = 2;
+        }
+      }
+    }
+  }
+}
+
+void calculateFormation(float field[10][34][35]) {
+  int offense = 0;
+  int center = 0;
+  int defense = 0;
+
+
+  // for (int k = 0; k < 10;k++){
+  //   for (int i = 0;i < 34;i++) {
+  //     for (int j = 0;j < 35;j++){
+  //       std::cout << field[k][i][j] << " ";
+  //     }
+  //     std::cout << " " << std::endl;
+  //   }
+  //   std::cout << " " << std::endl;
+  // }
+
+  for (int k = 0; k < 10;k++){
+    for (int i = 0;i < 34;i++) {
+      for (int j = 0;j < 12;j++){
+        if (field[k][i][j] == 2){
+            defense = defense+1;
+        }
+      }
+      for (int j = 12;j < 24;j++) {
+        if (field[k][i][j] == 2){
+          center = center+1;
+        }
+      }
+      for (int j = 24;j < 35;j++) {
+        if (field[k][i][j] == 2){
+          offense = offense+1;
+        }
+      }
+    }
+  }
+
+  std::cout << defense << " " << center << " " << offense << std::endl;
+}
+
+void resetField(float field[10][34][35]) {
+  for (int k = 0; k < 10;k++){
+    for (int i = 0;i < 34;i++) {
+      for (int j = 0;j < 35;j++){
+        field[k][i][j] = 0;
+      }
+    }
+  }  
+}
+
+bool checkField(float field[10][34][35]) {
+   for (int k = 0; k < 10;k++){
+    for (int i = 0;i < 34;i++) {
+      for (int j = 0;j < 35;j++){
+        if (field[k][i][j] != 0) {
+          return false;
+        }
+      }
+    }
+  }  
+  return true;
+}
+
+
 
 ///////////////////////////////////////////////////////////////////////
 /*!
@@ -880,7 +1094,8 @@ CoachAgent::handleStartOffline()
 
 */
 void
-CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
+// CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
+CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float field[10][34][35])
 {
     if ( ! M_client )
     {
@@ -888,7 +1103,7 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
                   << std::endl;
         return;
     }
-
+    
     int counter = 0;
     GameTime start_time = M_impl->current_time_;
     actionInfo newAction = ownerPlayer();
@@ -904,6 +1119,8 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
 
     std::string currentAction = actionClassifier(*firstAction, *lastAction);
 
+    
+    // std::cout << &field[9][33][34] << std::endl;
     if ((world().gameMode().type() == GameMode::AfterGoal_) && (firstAction->goalChecked == false)){
       std::cout << "GOAL" << std::endl;
       currentAction = "GOAL";
@@ -924,10 +1141,60 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
     firstAction->ballPos = lastAction->ballPos;
     firstAction->ballVel = lastAction->ballVel;
 
-    if (world().gameMode().type() == GameMode::KickIn_){
-      std::cout << "Estoy reentrenando" << std::endl;
-      trainTrees();
+    // if (world().gameMode().type() == GameMode::KickIn_){
+    //   std::cout << "Estoy reentrenando" << std::endl;
+    //   trainTrees();
+    // }
+
+
+    // Formation Stuff
+    if (world().gameMode().type() == GameMode::AfterGoal_){
+      if (!(checkField(field))) {
+        normalizeField(field);
+        calculateFormation(field);
+        resetField(field);
+      }
     }
+
+    if (world().gameMode().type() == GameMode::PlayOn) {
+      float fieldAreaWidth = 2.971428571;
+      float fieldAreaHeight = 2;
+      const std::vector<const GlobalPlayerObject*> myOpponents = world().opponents();
+      float **rectangle = obtainRectangle(myOpponents);
+
+      // std::cout << rectangle[0][0] << "    " << rectangle[0][1] << std::endl;
+      // std::cout << rectangle[1][0] << "    " << rectangle[1][1] << std::endl;
+
+      float rectWidth = rectangle[1][0] - rectangle[0][0];
+      float rectHeight = rectangle[0][1] - rectangle[2][1];
+
+      float **mappedPos = new float*[10];
+
+      // Initialize mappedPos
+      for (int row = 0;row < 10;row++){
+        mappedPos[row] = new float[2];
+        for (int col = 0; col < 2;col++){
+          mappedPos[row][col] = -1;
+        }
+      }
+
+
+      for (int i = 0; i < myOpponents.size(); i++){
+        if (myOpponents[i]->unum() >= 2) {
+          mappedPos[myOpponents[i]->unum()-2] = mapToField(rectangle[0][0],rectangle[0][1],rectWidth,rectHeight,
+            myOpponents[i]->pos().x,myOpponents[i]->pos().y,world().theirSide());
+          // std::cout << mappedPos[myOpponents[i]->unum()-2][0] << " " << mappedPos[myOpponents[i]->unum()-2][1] << std::endl;
+        }
+      }
+
+
+      sumPositions(field,fieldAreaWidth,fieldAreaHeight,mappedPos);
+
+      // std::cout << "Estoy funcionando!" << std::endl;
+      free(rectangle);
+      free(mappedPos);
+    }
+
 
     // receive and analyze message
     while ( M_client->recvMessage() > 0 )
