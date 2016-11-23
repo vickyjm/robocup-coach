@@ -1155,6 +1155,7 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
         resetField(field);
       }
     }
+
     if (world().gameMode().type() == GameMode::PlayOn) {
       float fieldAreaWidth = 2.971428571;
       float fieldAreaHeight = 2;
