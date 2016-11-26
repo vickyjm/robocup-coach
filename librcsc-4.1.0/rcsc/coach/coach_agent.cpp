@@ -891,7 +891,7 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
 
     int counter = 0;
     GameTime start_time = M_impl->current_time_;
-    actionInfo newAction = ownerPlayer();
+    /*actionInfo newAction = ownerPlayer();
 
     if (newAction.ownerUnum != -1){
       lastAction->ownerUnum = newAction.ownerUnum;
@@ -927,7 +927,7 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction)
     if (world().gameMode().type() == GameMode::KickIn_){
       std::cout << "Estoy reentrenando" << std::endl;
       trainTrees();
-    }
+    }*/
 
     // receive and analyze message
     while ( M_client->recvMessage() > 0 )
