@@ -45,13 +45,6 @@ vector<int> chooseIndex(int* index, int flag, int iter, int size, int numSamples
     return res;
 }
 
-int filterValue(float ans){
-    if (ans >= 0.5)
-        return 1;
-    else
-        return 0;
-}
-
 int main(int argc, char* argv[]) {
 
     char* outFile;
@@ -138,10 +131,22 @@ int main(int argc, char* argv[]) {
         testIndex = chooseIndex(index, 1, i, numSamples/folds, numSamples);
 
         const Mat varIdx = Mat();
+        const Mat missing = Mat();
         const Mat training = Mat(trainingIndex);
 
         // Train the tree only with the training samples
-        dtree.train(values, CV_ROW_SAMPLE, responsesT, varIdx, training);
+        dtree.train(values, CV_ROW_SAMPLE, responsesT, varIdx, training, var_type,missing, CvDTreeParams( 25, // max depth
+                                 10, // min sample count
+                                 0, // regression accuracy: N/A here
+                                 false, // compute surrogate split, as we have missing data
+                                 16, // max number of categories (use sub-optimal algorithm for larger numbers)
+                                 10, // the number of cross-validation folds
+                                 false, // use 1SE rule => smaller tree
+                                 true, // throw away the pruned tree branches
+                                 0 // the array of priors, the bigger p_weight, the more attention
+                                        // to the poisonous mushrooms
+                                        // (a mushroom will be judjed to be poisonous with bigger chance)
+                                 ));
         
         //Probar
         true0 = 0;           
@@ -154,7 +159,6 @@ int main(int argc, char* argv[]) {
         for (it=testIndex.begin() ; it < testIndex.end(); ++it) {
             ans = dtree.predict(values.row(*it));
 
-            //predict = filterValue(ans->value);
             predict = ans->value;
             if (predict == responsesT.at<float>(0,*it)) {
                 if (predict == 0) {
@@ -183,6 +187,9 @@ int main(int argc, char* argv[]) {
         fn = fn + false0;
         finalTrue = finalTrue + totalTrue;
         finalFalse = finalFalse + totalFalse;
+
+        std::cout << "Variables:" << std::endl;
+        std::cout << Mat(dtree.get_var_importance()) << std::endl;
         
     }
 
@@ -202,8 +209,8 @@ int main(int argc, char* argv[]) {
     cout << "False negatives : " << fn  << endl;
 
     //Sumar el error
-    cout << "Total true : " << finalTrue << " - " << ((float)(finalTrue*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
-    cout << "Total false : " << finalFalse << " - " << ((float)(finalFalse*100)/(float)(finalTrue+finalFalse)) << '%' << endl;
+    cout << "Total true : " << finalTrue << " - " << ((float)(finalTrue*100)/(float)(numSamples)) << '%' << endl;
+    cout << "Total false : " << finalFalse << " - " << ((float)(finalFalse*100)/(float)(numSamples)) << '%' << endl;
 
     // CvDTree dtree;
     // CvDTreeParams params = CvDTreeParams();
