@@ -52,4 +52,37 @@ Strategy::instance().update( world() ), esto, en agent2d-3.1.1/src/strategy.cpp 
 - Para cambiar el archivo de formacion del oponente, cambiar el archivo que se abre en getFormation en el archivo 
 agent2d-3.1.1/src/strategy.cpp por el del equipo correspondiente.
 
+- Para agregar nuevas formaciones para nuestro equipo :
+	-> Crear el archivo de la formacion usando fedit2. Esto genera un .conf. 
+	-> Colocar dicho .conf en la carpeta /agent2d-3.1.1/src/formations-dt/
+	-> En el archivo /agent2d-3.1.1/src/strategy.h, colocar despues de "public:" una variable de la forma :
+	static const std::string (NOMBRE DE LA FORMACION)_CONF. (En mayusculas para mantener la forma)
+	-> En el mismo archivo, bajar un poco hasta el comentario de //formations y crear una variable de la forma :
+	rcsc::Formation::Ptr M_(nombre de la formacion)_formation.
+	-> En el archivo /agent2d-3.1.1/src/strategy.cpp despues del namespace, colocar 
+	const std::string Strategy::(NOMBRE DEL CONF DECLARADO ANTES) = "(nombre del archivo .conf real, con extension y todo)"
+	-> En el mismo archivo, en la funcion read colocar un bloque de codigo de la forma :
+	M_(nombre formacion)_formation = readFormation("./formations-dt/" + (NOMBRE DEL CONF DECLARADO ANTES));
+    if (! M_(nombre formacion)_formation )
+    {
+        std::cerr << "Failed to read (nombre formacion) formation" << std::endl;
+        return false;
+    }
+    -> A partir de este punto, se puede usar la formacion colocando en la funcion getFormation, en el switch (M_current_situation), se colocan las condiciones que se consideran necesarias para adoptar una formacion dada, y se coloca un return M_(nombre formacion)_formation. Por ejemplo :
+
+    switch ( M_current_situation ) {
+        case Defense_Situation:
+        	if (offense == 4) {
+        		return defense_442_formation;
+        	}
+            return M_defense_formation;
+        case Offense_Situation:
+            return M_offense_formation;
+        default:
+            break;
+    }
+
+    Suponiendo q en el ejemplo, defense_442_formation es nuestra formacion creada. offense,center y defense son variables que contienen la cantidad de delanteros,defensas y medio campistas del equipo oponente segun se obtuvo en el proceso de obtener la formacion realizado antes del partido, o en el transcurso del mismo.
+
+
 
