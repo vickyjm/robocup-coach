@@ -86,6 +86,12 @@ const std::string Strategy::SETPLAY_OPP_FORMATION_CONF = "setplay-opp-formation.
 const std::string Strategy::SETPLAY_OUR_FORMATION_CONF = "setplay-our-formation.conf";
 const std::string Strategy::INDIRECT_FREEKICK_OPP_FORMATION_CONF = "indirect-freekick-opp-formation.conf";
 const std::string Strategy::INDIRECT_FREEKICK_OUR_FORMATION_CONF = "indirect-freekick-our-formation.conf";
+const std::string Strategy::DEFENSE_4231_CONF = "defense-4231.conf";
+const std::string Strategy::DEFENSE_442_CONF = "defense-442.conf";
+const std::string Strategy::DEFENSE_433_CONF = "defense-433.conf";
+const std::string Strategy::OFFENSE_4231_CONF = "offense-4231.conf";
+const std::string Strategy::OFFENSE_442_CONF = "offense-442.conf";
+const std::string Strategy::OFFENSE_433_CONF = "offense-433.conf";
 
 
 /*-------------------------------------------------------------------*/
@@ -197,6 +203,15 @@ Strategy::read( const std::string & formation_dir )
          && configpath[ configpath.length() - 1 ] != '/' )
     {
         configpath += '/';
+    }
+
+
+    // Testing formation stuff
+    M_offense_442_formation = readFormation("./formations-dt/" + OFFENSE_442_CONF);
+    if (! M_offense_442_formation )
+    {
+        std::cerr << "Failed to read offense-442 formation" << std::endl;
+        return false;
     }
 
     // before kick off

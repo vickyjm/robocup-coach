@@ -80,6 +80,12 @@ public:
     static const std::string SETPLAY_OUR_FORMATION_CONF;
     static const std::string INDIRECT_FREEKICK_OPP_FORMATION_CONF;
     static const std::string INDIRECT_FREEKICK_OUR_FORMATION_CONF;
+    static const std::string DEFENSE_4231_CONF;
+    static const std::string DEFENSE_442_CONF;
+    static const std::string DEFENSE_433_CONF;
+    static const std::string OFFENSE_4231_CONF;
+    static const std::string OFFENSE_442_CONF;
+    static const std::string OFFENSE_433_CONF;
 
     enum BallArea {
         BA_CrossBlock, BA_DribbleBlock, BA_DribbleAttack, BA_Cross,
@@ -121,6 +127,8 @@ private:
     rcsc::Formation::Ptr M_setplay_our_formation;
     rcsc::Formation::Ptr M_indirect_freekick_opp_formation;
     rcsc::Formation::Ptr M_indirect_freekick_our_formation;
+
+    rcsc::Formation::Ptr M_offense_442_formation;
 
 
     int M_goalie_unum;
