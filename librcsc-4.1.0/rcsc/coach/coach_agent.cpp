@@ -63,7 +63,12 @@
 #include "cv.h"
 #include "ml.h"
 
+
+int opp_score = 0;
+int old_opp_score = 0;
+int our_score = 0;
 namespace rcsc {
+
 
 /*
   This function is used for training the existing decision trees
@@ -409,6 +414,13 @@ std::string CoachAgent::actionClassifier(actionInfo oldAction, actionInfo curren
   return "";
 }
 
+/*
+  This function is used to obtain the smallest rectangle that can contain every agent of the opponent 
+  team and returns it in a 2x2 matrix.
+
+  Parameters:
+    myOpponents : Vector containing the information of each opponent.
+*/
 float **obtainRectangle(const std::vector<const GlobalPlayerObject*> myOpponents) {
   // Create the rectangle
   float **rectangle = new float*[4];
@@ -455,6 +467,17 @@ float **obtainRectangle(const std::vector<const GlobalPlayerObject*> myOpponents
 
 }
 
+/*
+  This function is used to map the position of a player from the initial rectangle to the field. 
+
+  Parameters:
+    originX,OriginY : Top left corner of the rectangle.
+    rectWidth : Width of the rectangle.
+    rectHeight : Height of the rectangle.
+    x : X coordinate of the position of the agent in the rectangle.
+    y : Y coordinate of the position of the agent in the rectangle.
+    opponentSide : RIGHT or LEFT depending on the side of the opponent team.
+*/
 float* mapToField(float originX,float originY,float rectWidth,float rectHeight,float x,float y,SideID opponentSide) {
   float* finalPoint = new float[2];
   float fieldWidth = 104;
@@ -470,6 +493,16 @@ float* mapToField(float originX,float originY,float rectWidth,float rectHeight,f
   return finalPoint;
 }
 
+/*
+  This function uses the mapped positions of each player to the field and adds 1 to the respective area
+  to which that player is asociated in the field.
+
+  Parameters:
+    field : Matrices for each player that represent the field and its rectangular divisions.
+    areaWidth : Width of the rectangular areas in which the field is divided.
+    areaHeight : Height of the rectangular areas in which the field is divided.
+    mappedPos : Positions of the players in the field (after being mapped from the rectangle).
+*/
 void sumPositions(float field[10][34][35],float areaWidth,float areaHeight,float** mappedPos) {
   int posX = 0;
   int posY = 0;
@@ -523,6 +556,12 @@ void sumPositions(float field[10][34][35],float areaWidth,float areaHeight,float
   }
 }
 
+/*
+  This function normalizes the field so that each element is between 0 and 1.
+
+  Parameters:
+    field : Matrices for each player that represent the field and its rectangular divisions.
+*/
 void normalizeField(float field[10][34][35]){
   float maxElems[10];
 
@@ -558,6 +597,13 @@ void normalizeField(float field[10][34][35]){
   }
 }
 
+/*
+  This function is used calculate the formation of the enemy team.
+
+  Parameters:
+    field : Matrices for each player that represent the field and its rectangular divisions.
+    
+*/
 void calculateFormation(float field[10][34][35]) {
   int offense = 0;
   int center = 0;
@@ -594,9 +640,16 @@ void calculateFormation(float field[10][34][35]) {
     }
   }
 
-  std::cout << defense << " " << center << " " << offense << std::endl;
+  std::cout << "FORMATION : " << defense << " " << center << " " << offense << std::endl;
 }
 
+/*
+  This function resets the field after each goal.
+
+  Parameters:
+    field : Matrices for each player that represent the field and its rectangular divisions.
+    
+*/
 void resetField(float field[10][34][35]) {
   for (int k = 0; k < 10;k++){
     for (int i = 0;i < 34;i++) {
@@ -607,6 +660,13 @@ void resetField(float field[10][34][35]) {
   }  
 }
 
+/*
+  This function checks if the field  has any elements different from 0.
+
+  Parameters:
+    field : Matrices for each player that represent the field and its rectangular divisions.
+    
+*/
 bool checkField(float field[10][34][35]) {
    for (int k = 0; k < 10;k++){
     for (int i = 0;i < 34;i++) {
@@ -1106,6 +1166,14 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
     
     int counter = 0;
     GameTime start_time = M_impl->current_time_;
+
+    old_opp_score = opp_score;
+    our_score = ( world().ourSide() == LEFT
+                      ? world().gameMode().scoreLeft()
+                      : world().gameMode().scoreRight() );
+    opp_score = ( world().ourSide() == LEFT
+                      ? world().gameMode().scoreRight()
+                      : world().gameMode().scoreLeft() );
     /*actionInfo newAction = ownerPlayer();
 
     if (newAction.ownerUnum != -1){
@@ -1148,7 +1216,7 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
 
 
     // Formation Stuff
-    if (world().gameMode().type() == GameMode::AfterGoal_){
+    if ((world().gameMode().type() == GameMode::AfterGoal_)){
       if (!(checkField(field))) {
         normalizeField(field);
         calculateFormation(field);
