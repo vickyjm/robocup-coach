@@ -67,15 +67,22 @@ def checkEqualRows(subsetMatrix) :
 	difRows1 = []
 	difRows2 = []
 	newMatrix = [row[:features] for row in subsetMatrix]
+	rowsDribbles = [] # Para los dribbles distintos.
+	i = 0
 
 	for row in subsetMatrix :
 		check = False
+		if (row[features] == 0.0) :
+			rowsDribbles.append(i)
 		for row2 in difRows1 :
 			if (row2 == row) :
 				check = True
 				break
 		if not(check) :
 			difRows1.append(row)
+			if (row[features] == 1.0) :
+				rowsDribbles.append(i)
+		i += 1
 
 	for row in newMatrix :
 		check = False
@@ -109,7 +116,7 @@ def checkEqualRows(subsetMatrix) :
 	print("Numero de filas distintas sin clasificacion : " + str(len(difRows2)))
 	print("Numero de contradicciones : " + str(contradict))
 	print("Contradicciones totales : " + str(contradictTotal)) 
-	return finalMatrix, difRows2
+	return finalMatrix, difRows2, rowsDribbles
 
 def findContrads(finalMatrix) :
 	contradMatrix = []
@@ -141,11 +148,12 @@ def generateNewDat(featureMatrix,newDatRows):
 
 	return newDat
 
-# python3 passChecking.py filename subsets features outputFile
+# python3 passChecking.py filename subsets features outputFile outputFile2
 # filname es el archivo .dat
 # subsets recomiendo 5. 10 es mucho y termina por haber muy pocas contradicciones.
 # features es el  numero de features
 # outputFile es el nuevo .dat con las contradicciones eliminadas.
+# outputFile2 es el nuevo .dat con solo 1 caso para cada elemento successful (para los dribles)
 # El output en pantalla (numero total de filas,contradicciones,etc) si se quiere en un archivo se puede
 # usar >> despues del comando.
 if __name__ == "__main__":
@@ -154,6 +162,7 @@ if __name__ == "__main__":
 	subsets = int(sys.argv[2])
 	features = int(sys.argv[3])
 	outputFile = sys.argv[4]
+	outputFile2 = sys.argv[5]
 
 	print("Team : " + filename)
 	print("Subsets : " + str(subsets))
@@ -167,7 +176,7 @@ if __name__ == "__main__":
 		initializeCounter(subsetCounter)
 		subsetMatrix.append(obtainRowSubsets(row,minList,maxList,stepList,subsets))
 
-	finalMatrix,difRows = checkEqualRows(subsetMatrix)
+	finalMatrix,difRows,rowsDribbles = checkEqualRows(subsetMatrix)
 	print("Numero total de filas : " + str(len(subsetMatrix)))
 	
 	contrads = findContrads(finalMatrix)
@@ -175,6 +184,7 @@ if __name__ == "__main__":
 	newDatRows = generateNewDatRows(difRows,subsetMatrix,contrads)
 
 	newDat = generateNewDat(featureMatrix,newDatRows)
+	newDat2 = generateNewDat(featureMatrix,rowsDribbles)
 
 	outFile = open(outputFile,'w+')
 	j = 0
@@ -186,6 +196,17 @@ if __name__ == "__main__":
 			if (j != features+1) :
 				outFile.write(',')
 		outFile.write('\n')
+
+	outFile2 = open(outputFile2,'w+')
+	j = 0
+	for row in newDat2 :
+		j = 0
+		for elem in row :
+			j += 1
+			outFile2.write(str(elem))
+			if (j != features+1) :
+				outFile2.write(',')
+		outFile2.write('\n')
 
 
 	
