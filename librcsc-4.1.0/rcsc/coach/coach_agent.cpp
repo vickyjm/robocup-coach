@@ -59,6 +59,7 @@
 #include <vector>
 #include <fstream>
 #include <math.h>
+#include <string> 
 
 #include "cv.h"
 #include "ml.h"
@@ -67,6 +68,17 @@
 int opp_score = 0;
 int old_opp_score = 0;
 int our_score = 0;
+
+namespace patch
+{
+    template < typename T > std::string to_string( const T& n )
+    {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
+
 namespace rcsc {
 
 
@@ -640,7 +652,16 @@ void calculateFormation(float field[10][34][35]) {
     }
   }
 
-  std::cout << "FORMATION : " << defense << " " << center << " " << offense << std::endl;
+  //std::cout << "FORMATION : " << defense << " " << center << " " << offense << std::endl;
+  std::ofstream formationOutFile;
+  formationOutFile.open("../../agent2d-3.1.1/src/enemyFormations/sampleFormation1.txt");
+
+  if (formationOutFile.is_open()) {
+    formationOutFile << patch::to_string(defense);
+    formationOutFile << patch::to_string(center);
+    formationOutFile << patch::to_string(offense);
+    formationOutFile.close();
+  }
 }
 
 /*
@@ -1174,6 +1195,7 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
     opp_score = ( world().ourSide() == LEFT
                       ? world().gameMode().scoreRight()
                       : world().gameMode().scoreLeft() );
+    
     /*actionInfo newAction = ownerPlayer();
 
     if (newAction.ownerUnum != -1){
@@ -1216,8 +1238,10 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
 
 
     // Formation Stuff
-    if ((world().gameMode().type() == GameMode::AfterGoal_)){
+    //if ((world().gameMode().type() == GameMode::AfterGoal_)){
+    if (old_opp_score + 1 == opp_score){
       if (!(checkField(field))) {
+        std::cout << "Reseteando y normalizando!" << std::endl;
         normalizeField(field);
         calculateFormation(field);
         resetField(field);
