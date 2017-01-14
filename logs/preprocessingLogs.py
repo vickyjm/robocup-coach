@@ -406,6 +406,7 @@ def generateNormalizedLogs(logFile):
 				dist = sqrt(pow(first_bx - float(line[i]), 2) + pow(first_by - float(line[i+1]), 2))
 				#dist = distFromLine(first_bx,first_by,last_bx,last_by,float(line[i]),float(line[i+1]))
 				#teammatesPass.append(distPass)
+				#VELOCIDAD
 				teamVel.append([line[i+2], line[i+3]])
 				teammates.append(dist)
 				i = i + 4
@@ -413,6 +414,7 @@ def generateNormalizedLogs(logFile):
 				#nearestPlayer = nearestTeammate(float(line[i]), float(line[i+1]), originalDist)
 				nearestPlayer = distFromLine(first_bx,first_by,last_bx,last_by,float(line[i]),float(line[i+1]))
 				opponents.append(nearestPlayer)
+				#AQUI DEBERIA IR OTRA VELOCIDAD
 				#opponentsPass.append(dist)
 				i = i + 4
 
@@ -625,6 +627,7 @@ if __name__ == "__main__":
 					right_pPosX0 = right_pPosX
 					right_pPosY0 = right_pPosY
 
+					#VELOCIDAD
 					for i in range(11):
 						unum = str(i+1)
 
@@ -671,6 +674,8 @@ if __name__ == "__main__":
 						#teammates = list(zip(left_pPosX0,left_pPosY0))
 						#auxOpp = list(zip(right_pPosX0,right_pPosY0))
 						#opponents = list(zip(right_pPosX0,right_pPosY0))
+
+						#VELOCIDAD
 						teammates, teamVel = chooseTeammates(ownerOld, left_pPosX0, left_pPosY0, ball_posXOld, ball_posYOld, left_pVelX0, left_pVelY0)
 						opponents, oppVel = chooseOpponents(ownerX, ownerY, right_pPosX0, right_pPosY0, ball_posX, ball_posY, ball_posXOld, ball_posYOld, right_pVelX0, right_pVelY0)
 					else:
@@ -680,6 +685,8 @@ if __name__ == "__main__":
 						#teammates = list(zip(right_pPosX0, right_pPosY0))
 						#auxOpp = list(zip(left_pPosX0, left_pPosY0))
 						#opponents = list(zip(left_pPosX0, left_pPosY0))
+
+						#VELOCIDAD
 						teammates, teamVel = chooseTeammates(ownerOld, right_pPosX0, right_pPosY0, ball_posXOld, ball_posYOld, right_pVelX0, right_pVelY0)
 						opponents, oppVel = chooseOpponents(ownerX, ownerY, left_pPosX0, left_pPosY0, ball_posX, ball_posY, ball_posXOld, ball_posYOld, left_pVelX0, left_pVelY0)
 
@@ -691,11 +698,13 @@ if __name__ == "__main__":
 					i = 0
 					for player in teammates:
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
+						#VELOCIDAD
 						outputFile.write(str(teamVel[i][0]) + " " + str(teamVel[i][1]) + " ")
 						i += 1
 					i = 0
 					for player in opponents:
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
+						#VELOCIDAD
 						outputFile.write(str(oppVel[i][0]) + " " + str(oppVel[i][1]) + " ")
 						i += 1
 
@@ -725,6 +734,8 @@ if __name__ == "__main__":
 					#teammates = list(zip(left_pPosX0,left_pPosY0))
 					#auxOpp = list(zip(right_pPosX0,right_pPosY0))
 					#opponents = list(zip(right_pPosX0,right_pPosY0))
+
+					#VELOCIDAD
 					teammates, teamVel = chooseTeammates(ownerOld, left_pPosX0, left_pPosY0, ball_posXOld, ball_posYOld, left_pVelX0, left_pVelY0)
 					opponents, oppVel = chooseOpponents(ownerX, ownerY, right_pPosX0, right_pPosY0, ball_posX, ball_posY, ball_posXOld, ball_posYOld, right_pVelX0, right_pVelY0)
 				elif (auxOwner[0] == "r"):
@@ -734,6 +745,8 @@ if __name__ == "__main__":
 					#teammates = list(zip(right_pPosX0, right_pPosY0))
 					#auxOpp = list(zip(left_pPosX0, left_pPosY0))
 					#opponents = list(zip(left_pPosX0, left_pPosY0))
+
+					#VELOCIDAD
 					teammates, teamVel = chooseTeammates(ownerOld, right_pPosX0, right_pPosY0, ball_posXOld, ball_posYOld, right_pVelX0, right_pVelY0)
 					opponents, oppVel = chooseOpponents(ownerX, ownerY, left_pPosX0, left_pPosY0, ball_posX, ball_posY, ball_posXOld, ball_posYOld, left_pVelX0, left_pVelY0)
 
@@ -750,6 +763,7 @@ if __name__ == "__main__":
 				i = 0
 				for player in opponents:
 					outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
+					#VELOCIDAD
 					outputFile.write(str(oppVel[i][0]) + " " + str(oppVel[i][1]) + " ")
 					i += 1
 				outputFile.write(str(firstVel[0]) + " " + str(firstVel[1]) + " ")
