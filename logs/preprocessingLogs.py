@@ -381,11 +381,12 @@ def generateNormalizedLogs(logFile):
 		for line in file:
 			cont += 1
 			teammates = []
-			teammatesPass = []
+			#teammatesPass = []
 			opponents = []
-			opponentsPass = []
+			#opponentsPass = []
 			originalDist = []
 			teamVel = []
+			oppVel = []
 
 			line = line.split()						# Split into a list
 
@@ -415,6 +416,7 @@ def generateNormalizedLogs(logFile):
 				nearestPlayer = distFromLine(first_bx,first_by,last_bx,last_by,float(line[i]),float(line[i+1]))
 				opponents.append(nearestPlayer)
 				#AQUI DEBERIA IR OTRA VELOCIDAD
+				oppVel.append([line[i+2], line[i+3]])
 				#opponentsPass.append(dist)
 				i = i + 4
 
@@ -633,8 +635,8 @@ if __name__ == "__main__":
 
 						left_pVelX0.append(extractPosInfo("l", unum, "vel.x", line))
 						left_pVelY0.append(extractPosInfo("l", unum, "vel.y", line))
-						right_pVelX0.append(extractPosInfo("l", unum, "vel.x", line))
-						right_pVelY0.append(extractPosInfo("l", unum, "vel.y", line))
+						right_pVelX0.append(extractPosInfo("r", unum, "vel.x", line))
+						right_pVelY0.append(extractPosInfo("r", unum, "vel.y", line))
 
 					isInitialPos = False
 
