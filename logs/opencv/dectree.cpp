@@ -87,20 +87,47 @@ int main(int argc, char* argv[]) {
 
     CvMLData cvml;                                  // Structure to keep the data
     cvml.read_csv(argv[2]);                         // Read the file
-    cvml.change_var_type(9, CV_VAR_CATEGORICAL);    // The output is categorical
-    cvml.set_response_idx (9);
+    /*cvml.change_var_type(9, CV_VAR_CATEGORICAL);    // The output is categorical
+    cvml.set_response_idx (9);*/
+    /*cvml.change_var_type(24, CV_VAR_CATEGORICAL);    // The output is categorical
+    cvml.set_response_idx (24);*/
+    /*cvml.change_var_type(17, CV_VAR_CATEGORICAL);    // The output is categorical
+    cvml.set_response_idx (17);*/
+    cvml.change_var_type(23, CV_VAR_CATEGORICAL);    // The output is categorical
+    cvml.set_response_idx (23);
+    /*cvml.change_var_type(11, CV_VAR_CATEGORICAL);    // The output is categorical
+    cvml.set_response_idx (11);*/
+    /*cvml.change_var_type(7, CV_VAR_CATEGORICAL);    // The output is categorical
+    cvml.set_response_idx (7);*/
+    /*cvml.change_var_type(26, CV_VAR_CATEGORICAL);    // The output is categorical
+    cvml.set_response_idx (26);*/
 
     const Mat aux(cvml.get_values(),true);
-    const Mat values = aux(Range::all(), Range(0,9));
+    //const Mat values = aux(Range::all(), Range(0,9));
+    //const Mat values = aux(Range::all(), Range(0,24));
+    const Mat values = aux(Range::all(), Range(0,23));
+    //const Mat values = aux(Range::all(), Range(0,26));
+    //const Mat values = aux(Range::all(), Range(0,11));
+    //const Mat values = aux(Range::all(), Range(0,7));
     const Mat responses(cvml.get_responses(),true);
     const Mat responsesT(responses.t());
 
     CvMat* var_type;
     
-    var_type = cvCreateMat( 10, 1, CV_8U );
+    //var_type = cvCreateMat( 25, 1, CV_8U );
+    var_type = cvCreateMat( 24, 1, CV_8U );
+    //var_type = cvCreateMat( 27, 1, CV_8U );
+    //var_type = cvCreateMat( 10, 1, CV_8U );
+    //var_type = cvCreateMat( 12, 1, CV_8U );
+    //var_type = cvCreateMat( 8, 1, CV_8U );
 
     cvSet(var_type, cvScalarAll(CV_VAR_ORDERED));
-    cvSetReal1D(var_type, 9, CV_VAR_CATEGORICAL);
+    //cvSetReal1D(var_type, 9, CV_VAR_CATEGORICAL);
+    //cvSetReal1D(var_type, 24, CV_VAR_CATEGORICAL);
+    cvSetReal1D(var_type, 23, CV_VAR_CATEGORICAL);
+    //cvSetReal1D(var_type, 26, CV_VAR_CATEGORICAL);
+    //cvSetReal1D(var_type, 11, CV_VAR_CATEGORICAL);
+    //cvSetReal1D(var_type, 7, CV_VAR_CATEGORICAL);
 
 
     int* index = kfold(numSamples, folds);
@@ -188,8 +215,8 @@ int main(int argc, char* argv[]) {
         finalTrue = finalTrue + totalTrue;
         finalFalse = finalFalse + totalFalse;
 
-        std::cout << "Variables:" << std::endl;
-        std::cout << Mat(dtree.get_var_importance()) << std::endl;
+        //std::cout << "Variables:" << std::endl;
+        //std::cout << Mat(dtree.get_var_importance()) << std::endl;
         
     }
 

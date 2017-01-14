@@ -231,13 +231,14 @@ def actionClassifier(ball_posX, ball_posY,ball_velXNew,ball_velYNew,ball_velXOld
 #							  the ball.   					   #
 #		bx, by: ball position. 								   #
 ##------------------------------------------------------------##
-def chooseTeammates(owner, team_posX, team_posY, bx, by):
+def chooseTeammates(owner, team_posX, team_posY, bx, by, team_velX, team_velY):
 	auxOwner = owner.split()
 	ownerX = team_posX[int(auxOwner[1]) - 1]
 	ownerY = team_posY[int(auxOwner[1]) - 1]
 	selected = [int(auxOwner[1]) - 1] # List with the players that are already selected
 
 	teammates = [[ownerX, ownerY]] # Add the info about the owner
+	teamVel = [[team_velX[int(auxOwner[1]) -1],team_velY[int(auxOwner[1]) -1] ]]
 
 	##---- The second teammate correspond to the player who is closer to the owner ----##
 	minDist = 10000
@@ -250,6 +251,7 @@ def chooseTeammates(owner, team_posX, team_posY, bx, by):
 				minPlayer = i
 	selected.append(minPlayer)
 	teammates.append([team_posX[minPlayer], team_posY[minPlayer]]) 	# Add the info about the second teammate
+	teamVel.append([team_velX[minPlayer], team_velY[minPlayer]])
 	
 	##---- The third teammate correspond to the player who is closer to the ball's trajectory ----##
 	minDist = 10000
@@ -262,8 +264,9 @@ def chooseTeammates(owner, team_posX, team_posY, bx, by):
 				minPlayer = i
 
 	teammates.append([team_posX[minPlayer], team_posY[minPlayer]]) 		# Add the info about the third teammate
+	teamVel.append([team_velX[minPlayer], team_velY[minPlayer]])
 
-	return teammates
+	return teammates, teamVel
 
 ##------------------------------------------------------------##
 #	This function returns the opponents involved in the action.#
@@ -275,9 +278,10 @@ def chooseTeammates(owner, team_posX, team_posY, bx, by):
 #		old_bx, old_by: position of the ball at the start of   #
 #						the action.							   #
 ##------------------------------------------------------------##
-def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by, old_bx, old_by):
+def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by, old_bx, old_by, velX, velY):
 	opponents = []
 	selected = [] # List with the players that are already selected
+	oppVel = []
 
 	##---- The first opponent correspond to the player who is closer to the owner ----##
 	minDist = sqrt(pow(ownerX - team_posX[0], 2) + pow(ownerY - team_posY[0], 2))
@@ -290,6 +294,7 @@ def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by, old_bx, old_by
 			minPlayer = i
 	selected.append(minPlayer)
 	opponents.append([team_posX[minPlayer], team_posY[minPlayer]]) 		# Add the info about the first opponent
+	oppVel.append([str(velX[minPlayer]), str(velY[minPlayer])])
 
 	##---- The second opponent correspond to the player who is closer to last position of the ball ----##
 	minDist = 10000
@@ -302,6 +307,7 @@ def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by, old_bx, old_by
 				minPlayer = i
 	selected.append(minPlayer)
 	opponents.append([team_posX[minPlayer], team_posY[minPlayer]])	# Add the info about the second opponent
+	oppVel.append([str(velX[minPlayer]), str(velY[minPlayer])])
 
 	##---- The third and the fourth opponents corresponds to the players near to the center of action path ----##
 	middlePoint = [(bx + old_bx)/2, (by + old_by)/2]
@@ -316,8 +322,9 @@ def chooseOpponents(ownerX, ownerY, team_posX, team_posY, bx, by, old_bx, old_by
 					minPlayer = i
 		selected.append(minPlayer)
 		opponents.append([team_posX[minPlayer], team_posY[minPlayer]])
+		oppVel.append([str(velX[minPlayer]), str(velY[minPlayer])])
 
-	return opponents
+	return opponents, oppVel
 
 
 ##------------------------------------------------------------##
@@ -378,6 +385,7 @@ def generateNormalizedLogs(logFile):
 			opponents = []
 			opponentsPass = []
 			originalDist = []
+			teamVel = []
 
 			line = line.split()						# Split into a list
 
@@ -388,23 +396,25 @@ def generateNormalizedLogs(logFile):
 			last_bx = float(line[2])
 			last_by = float(line[3])
 
-			#bbbb|45|67|89|1011|1213|1415|1617|1819|2021|2223|2425|
-			#2627|2829|3031|3233|3435|3637|3839|4041|4243|4445|4647
+			#bbbb|45|67| 89|1011| 1213|1415| 
+			#1617|1819| 2021|2223| 2425|2627| 2829|3031| 3233|3435| 
+			#3637|3839|4041|4243|4445|4647 
 
 			i = 4
-			while (i <= 24):
-				#originalDist.append([float(line[i]), float(line[i+1])])
-				#dist = sqrt(pow(first_bx - float(line[i]), 2) + pow(first_by - float(line[i+1]), 2))
-				dist = distFromLine(first_bx,first_by,last_bx,last_by,float(line[i]),float(line[i+1]))
+			while (i <= 12):
+				originalDist.append([float(line[i]), float(line[i+1])])
+				dist = sqrt(pow(first_bx - float(line[i]), 2) + pow(first_by - float(line[i+1]), 2))
+				#dist = distFromLine(first_bx,first_by,last_bx,last_by,float(line[i]),float(line[i+1]))
 				#teammatesPass.append(distPass)
+				teamVel.append([line[i+2], line[i+3]])
 				teammates.append(dist)
-				i = i + 2
-			while (i <= 46):
+				i = i + 4
+			while (i <= 28):
 				#nearestPlayer = nearestTeammate(float(line[i]), float(line[i+1]), originalDist)
 				nearestPlayer = distFromLine(first_bx,first_by,last_bx,last_by,float(line[i]),float(line[i+1]))
 				opponents.append(nearestPlayer)
 				#opponentsPass.append(dist)
-				i = i + 2
+				i = i + 4
 
 			ball_velX = float(line[i])
 			ball_velY = float(line[i+1])
@@ -416,11 +426,17 @@ def generateNormalizedLogs(logFile):
 				shotFile.write(str(first_bx/5) + "," + str(first_by/5) + ",")
 				#shotFile.write(str(ball_velX) + "," + str(ball_velY) + ",")
 				#opponentFile.write(str(first_bx) + "," + str(first_by) + ",")
+				i = 0
 				for p in teammates:
 					shotFile.write(str(p) + ",")
+					shotFile.write(teamVel[i][0] + "," + teamVel[i][1] + ",")
+					i += 1
 					#opponentFile.write(str(teammates[j]) + ",")
+				i = 0
 				for p in opponents:
 					shotFile.write(str(p) + ",")
+					shotFile.write(oppVel[i][0] + "," + oppVel[i][1] + ",")
+					i += 1
 					#opponentFile.write(str(opponents[j]) + ",")
 				#shotFile.write(line[i] + "\n")
 				shotFile.write("1" + "\n")
@@ -429,13 +445,19 @@ def generateNormalizedLogs(logFile):
 				passFile.write(str(first_bx/5) + "," + str(first_by/5) + ",")
 				#passFile.write(str(ball_velX) + "," + str(ball_velY) + ",")
 				#opponentFile.write(str(first_bx) + "," + str(first_by) + ",")
+				i = 0
 				for p in teammates:
 					#passFile.write(str(teammatesPass[j]) + ",")
 					passFile.write(str(p) + ",")
+					passFile.write(teamVel[i][0] + "," + teamVel[i][1] + ",")
+					i += 1
 					#opponentFile.write(str(teammates[j]) + ",")
+				i = 0
 				for p in opponents:
 					#passFile.write(str(opponentsPass[j]) + ",")
 					passFile.write(str(p) + ",")
+					passFile.write(oppVel[i][0] + "," + oppVel[i][1] + ",")
+					i += 1
 					#opponentFile.write(str(opponents[j]) + ",")
 				#passFile.write(line[i] + "\n")
 				passFile.write("1" + "\n")
@@ -444,11 +466,17 @@ def generateNormalizedLogs(logFile):
 				dribbleFile.write(str(first_bx/5) + "," + str(first_by/5) + ",")
 				#dribbleFile.write(str(ball_velX) + "," + str(ball_velY) + ",")
 				#opponentFile.write(str(first_bx/5) + "," + str(first_by/5) + ",")
+				i = 0
 				for p in teammates:
 					dribbleFile.write(str(p) + ",")
+					dribbleFile.write(teamVel[i][0] + "," + teamVel[i][1] + ",")
+					i += 1
 					#opponentFile.write(str(teammates[j]) + ",")
+				i = 0
 				for p in opponents:
 					dribbleFile.write(str(p) + ",")
+					dribbleFile.write(oppVel[i][0] + "," + oppVel[i][1] + ",")
+					i += 1
 					#opponentFile.write(str(opponents[j]) + ",")
 				#dribbleFile.write(line[i] + "\n")
 				dribbleFile.write("1" + "\n")
@@ -457,11 +485,17 @@ def generateNormalizedLogs(logFile):
 				shotFile.write(str(first_bx/5) + "," + str(first_by/5) + ",")
 				#shotFile.write(str(ball_velX) + "," + str(ball_velY) + ",")
 				#opponentFile.write(str(first_bx/5) + "," + str(first_by/5) + ",")
+				i = 0
 				for p in teammates:
 					shotFile.write(str(p) + ",")
+					shotFile.write(teamVel[i][0] + "," + teamVel[i][1] + ",")
+					i += 1
 					#opponentFile.write(str(teammates[j]) + ",")
+				i = 0
 				for p in opponents:
 					shotFile.write(str(p) + ",")
+					shotFile.write(oppVel[i][0] + "," + oppVel[i][1] + ",")
+					i += 1
 					#opponentFile.write(str(opponents[j]) + ",")
 				#shotFile.write(line[i] + "\n")
 				shotFile.write("0" + "\n")
@@ -470,11 +504,17 @@ def generateNormalizedLogs(logFile):
 				dribbleFile.write(str(first_bx/5) + "," + str(first_by/5) + ",")
 				#dribbleFile.write(str(ball_velX) + "," + str(ball_velY) + ",")
 				#opponentFile.write(str(first_bx/5) + "," + str(first_by/5) + ",")
+				i = 0
 				for p in teammates:
 					dribbleFile.write(str(p) + ",")
+					dribbleFile.write(teamVel[i][0] + "," + teamVel[i][1] + ",")
+					i += 1
 					#opponentFile.write(str(teammates[j]) + ",")
+				i = 0
 				for p in opponents:
 					dribbleFile.write(str(p) + ",")
+					dribbleFile.write(oppVel[i][0] + "," + oppVel[i][1] + ",")
+					i += 1
 					#opponentFile.write(str(opponents[j]) + ",")
 				#dribbleFile.write(line[i] + "\n")
 				dribbleFile.write("0" + "\n")
@@ -483,13 +523,19 @@ def generateNormalizedLogs(logFile):
 				passFile.write(str(first_bx/5) + "," + str(first_by/5) + ",")
 				#passFile.write(str(ball_velX) + "," + str(ball_velY) + ",")
 				#opponentFile.write(str(first_bx/5) + "," + str(first_by) + ",")
+				i = 0
 				for p in teammates:
 					#passFile.write(str(teammatesPass[j]) + ",")
 					passFile.write(str(p) + ",")
+					passFile.write(teamVel[i][0] + "," + teamVel[i][1] + ",")
+					i += 1
 					#opponentFile.write(str(teammates[j]) + ",")
+				i = 0
 				for p in opponents:
 					#passFile.write(str(opponentsPass[j]) + ",")
 					passFile.write(str(p) + ",")
+					passFile.write(oppVel[i][0] + "," + oppVel[i][1] + ",")
+					i += 1
 					#opponentFile.write(str(opponents[j]) + ",")
 				#passFile.write(line[i] + "\n")
 				passFile.write("0" + "\n")
@@ -559,12 +605,15 @@ if __name__ == "__main__":
 					##---- Extract player's position (Left Team) ----##
 					left_pPosX.append(extractPosInfo("l", unum, "pos.x", line))
 					left_pPosY.append(extractPosInfo("l", unum, "pos.y", line))
+					
 
 					##---- Extract player's position (Right Team) ----##
 					right_pPosX.append(extractPosInfo("r", unum, "pos.x", line))
 					right_pPosY.append(extractPosInfo("r", unum, "pos.y", line))
+					
 
 				if (isInitialPos): 			# First line of the action
+					left_pVelX0, left_pVelY0, right_pVelX0, right_pVelY0 = [], [], [], []
 					ball_posXOld = ball_posX
 					ball_posYOld = ball_posY
 					firstVel[0] = ball_velXNew
@@ -575,6 +624,14 @@ if __name__ == "__main__":
 					left_pPosY0 = left_pPosY
 					right_pPosX0 = right_pPosX
 					right_pPosY0 = right_pPosY
+
+					for i in range(11):
+						unum = str(i+1)
+
+						left_pVelX0.append(extractPosInfo("l", unum, "vel.x", line))
+						left_pVelY0.append(extractPosInfo("l", unum, "vel.y", line))
+						right_pVelX0.append(extractPosInfo("l", unum, "vel.x", line))
+						right_pVelY0.append(extractPosInfo("l", unum, "vel.y", line))
 
 					isInitialPos = False
 
@@ -608,33 +665,39 @@ if __name__ == "__main__":
 					ownerY = oldOwner_Y
 
 					if (auxOwner[0] == "l"):
-						#ownerX = left_pPosX[int(auxOwner[1]) - 1]
-						#ownerY = left_pPosY[int(auxOwner[1]) - 1]
+						ownerX = left_pPosX[int(auxOwner[1]) - 1]
+						ownerY = left_pPosY[int(auxOwner[1]) - 1]
 						#auxTeam = list(zip(left_pPosX0,left_pPosY0))
-						teammates = list(zip(left_pPosX0,left_pPosY0))
+						#teammates = list(zip(left_pPosX0,left_pPosY0))
 						#auxOpp = list(zip(right_pPosX0,right_pPosY0))
-						opponents = list(zip(right_pPosX0,right_pPosY0))
-						#teammates = chooseTeammates(ownerOld, left_pPosX0, left_pPosY0, ball_posX, ball_posY)
-						#opponents = chooseOpponents(ownerX, ownerY, right_pPosX0, right_pPosY0, ball_posX, ball_posY, ball_posXOld, ball_posYOld)
+						#opponents = list(zip(right_pPosX0,right_pPosY0))
+						teammates, teamVel = chooseTeammates(ownerOld, left_pPosX0, left_pPosY0, ball_posXOld, ball_posYOld, left_pVelX0, left_pVelY0)
+						opponents, oppVel = chooseOpponents(ownerX, ownerY, right_pPosX0, right_pPosY0, ball_posX, ball_posY, ball_posXOld, ball_posYOld, right_pVelX0, right_pVelY0)
 					else:
-						#ownerX = right_pPosX[int(auxOwner[1]) - 1]
-						#ownerY = right_pPosY[int(auxOwner[1]) - 1]
+						ownerX = right_pPosX[int(auxOwner[1]) - 1]
+						ownerY = right_pPosY[int(auxOwner[1]) - 1]
 						#auxTeam = list(zip(right_pPosX0, right_pPosY0))
-						teammates = list(zip(right_pPosX0, right_pPosY0))
+						#teammates = list(zip(right_pPosX0, right_pPosY0))
 						#auxOpp = list(zip(left_pPosX0, left_pPosY0))
-						opponents = list(zip(left_pPosX0, left_pPosY0))
-						#teammates = chooseTeammates(ownerOld, right_pPosX0, right_pPosY0, ball_posX, ball_posY)
-						#opponents = chooseOpponents(ownerX, ownerY, left_pPosX0, left_pPosY0, ball_posX, ball_posY, ball_posXOld, ball_posYOld)
+						#opponents = list(zip(left_pPosX0, left_pPosY0))
+						teammates, teamVel = chooseTeammates(ownerOld, right_pPosX0, right_pPosY0, ball_posXOld, ball_posYOld, right_pVelX0, right_pVelY0)
+						opponents, oppVel = chooseOpponents(ownerX, ownerY, left_pPosX0, left_pPosY0, ball_posX, ball_posY, ball_posXOld, ball_posYOld, left_pVelX0, left_pVelY0)
 
-					#teammates = chooseNearestPlayers(auxTeam, ball_posX, ball_posY, ball_posXOld, ball_posYOld,7)
+					#teammates = chooseNearestPlayers(auxTeam, ball_posX, ball_posY, ball_posXOld, ball_posYOld,6)
 					#opponents = chooseNearestPlayers(auxOpp, ball_posX, ball_posY, ball_posXOld, ball_posYOld,7)
 
 					outputFile.write(str(ball_posXOld) + " " + str(ball_posYOld) + " ") # First ball position
 					outputFile.write(str(ball_posX) + " " + str(ball_posY) + " ") # Last ball position
+					i = 0
 					for player in teammates:
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
+						outputFile.write(str(teamVel[i][0]) + " " + str(teamVel[i][1]) + " ")
+						i += 1
+					i = 0
 					for player in opponents:
 						outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
+						outputFile.write(str(oppVel[i][0]) + " " + str(oppVel[i][1]) + " ")
+						i += 1
 
 					outputFile.write(str(firstVel[0]) + " " + str(firstVel[1]) + " ")
 					outputFile.write(action + "\n")
@@ -656,33 +719,39 @@ if __name__ == "__main__":
 				auxOwner = ownerOld.split()
 
 				if (auxOwner[0] == "l"):
-					#ownerX = left_pPosX[int(auxOwner[1]) - 1]
-					#ownerY = left_pPosY[int(auxOwner[1]) - 1]
+					ownerX = left_pPosX0[int(auxOwner[1]) - 1]
+					ownerY = left_pPosY0[int(auxOwner[1]) - 1]
 					#auxTeam = list(zip(left_pPosX0,left_pPosY0))
-					teammates = list(zip(left_pPosX0,left_pPosY0))
+					#teammates = list(zip(left_pPosX0,left_pPosY0))
 					#auxOpp = list(zip(right_pPosX0,right_pPosY0))
-					opponents = list(zip(right_pPosX0,right_pPosY0))
-					#teammates = chooseTeammates(ownerOld, left_pPosX0, left_pPosY0, ball_posX, ball_posY)
-					#opponents = chooseOpponents(ownerX, ownerY, right_pPosX0, right_pPosY0, ball_posX, ball_posY, ball_posXOld, ball_posYOld)
+					#opponents = list(zip(right_pPosX0,right_pPosY0))
+					teammates, teamVel = chooseTeammates(ownerOld, left_pPosX0, left_pPosY0, ball_posXOld, ball_posYOld, left_pVelX0, left_pVelY0)
+					opponents, oppVel = chooseOpponents(ownerX, ownerY, right_pPosX0, right_pPosY0, ball_posX, ball_posY, ball_posXOld, ball_posYOld, right_pVelX0, right_pVelY0)
 				elif (auxOwner[0] == "r"):
-					#ownerX = right_pPosX[int(auxOwner[1]) - 1]
-					#ownerY = right_pPosY[int(auxOwner[1]) - 1]
+					ownerX = right_pPosX0[int(auxOwner[1]) - 1]
+					ownerY = right_pPosY0[int(auxOwner[1]) - 1]
 					#auxTeam = list(zip(right_pPosX0, right_pPosY0))
-					teammates = list(zip(right_pPosX0, right_pPosY0))
+					#teammates = list(zip(right_pPosX0, right_pPosY0))
 					#auxOpp = list(zip(left_pPosX0, left_pPosY0))
-					opponents = list(zip(left_pPosX0, left_pPosY0))
-					#teammates = chooseTeammates(ownerOld, right_pPosX0, right_pPosY0, ball_posX, ball_posY)
-					#opponents = chooseOpponents(ownerX, ownerY, left_pPosX, left_pPosY, ball_posX, ball_posY, ball_posXOld, ball_posYOld)
+					#opponents = list(zip(left_pPosX0, left_pPosY0))
+					teammates, teamVel = chooseTeammates(ownerOld, right_pPosX0, right_pPosY0, ball_posXOld, ball_posYOld, right_pVelX0, right_pVelY0)
+					opponents, oppVel = chooseOpponents(ownerX, ownerY, left_pPosX0, left_pPosY0, ball_posX, ball_posY, ball_posXOld, ball_posYOld, left_pVelX0, left_pVelY0)
 
-				#teammates = chooseNearestPlayers(auxTeam, ball_posX, ball_posY, ball_posXOld, ball_posYOld,7)
+				#teammates = chooseNearestPlayers(auxTeam, ball_posX, ball_posY, ball_posXOld, ball_posYOld,6)
 				#opponents = chooseNearestPlayers(auxOpp, ball_posX, ball_posY, ball_posXOld, ball_posYOld,7)
 
 				outputFile.write(str(ball_posXOld) + " " + str(ball_posYOld) + " ") # First ball position
 				outputFile.write(str(ball_posX) + " " + str(ball_posY) + " ") # Last ball position
+				i = 0
 				for player in teammates:
 					outputFile.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
+					outputFile.write(str(teamVel[i][0]) + " " + str(teamVel[i][1]) + " ")
+					i += 1
+				i = 0
 				for player in opponents:
 					outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
+					outputFile.write(str(oppVel[i][0]) + " " + str(oppVel[i][1]) + " ")
+					i += 1
 				outputFile.write(str(firstVel[0]) + " " + str(firstVel[1]) + " ")
 				outputFile.write("GOAL" + "\n")
 
