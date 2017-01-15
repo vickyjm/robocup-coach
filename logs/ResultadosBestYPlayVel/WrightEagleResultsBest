@@ -1,0 +1,28 @@
+Dribbles : 
+Team : ./logs/WrightEagle/dats/Best/dribbleFile.dat
+Subsets : 5
+Numero de filas distintas contando clasificacion : 6108
+Numero de filas distintas sin clasificacion : 5824
+Numero de contradicciones : 284
+Contradicciones totales : 1522
+Numero total de filas : 10060
+
+
+Passes : 
+Team : ./logs/WrightEagle/dats/Best/passFile.dat
+Subsets : 5
+Numero de filas distintas contando clasificacion : 5059
+Numero de filas distintas sin clasificacion : 4553
+Numero de contradicciones : 506
+Contradicciones totales : 3621
+Numero total de filas : 8950
+
+
+Shots : 
+Team : ./logs/WrightEagle/dats/Best/shotFile.dat
+Subsets : 5
+Numero de filas distintas contando clasificacion : 987
+Numero de filas distintas sin clasificacion : 897
+Numero de contradicciones : 90
+Contradicciones totales : 427
+Numero total de filas : 1380
