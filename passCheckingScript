@@ -1,0 +1,18 @@
+#!/bin/bash
+
+TEAM=$1
+
+
+python3 passChecking.py ./logs/$TEAM/dats/Best/dribbleFile.dat 5 24 "dribbleSinCont.dat" $TEAM"DribbleBest1Elem"
+
+python3 passChecking.py ./logs/$TEAM/dats/Best/passFile.dat 5 24 "passSinCont.dat" $TEAM"PassBest1Elem"
+
+python3 passChecking.py ./logs/$TEAM/dats/Best/shotFile.dat 5 24 "shotSinCont.dat" $TEAM"ShotBest1Elem" 
+
+rm $TEAM*Best1Elem
+
+mv *SinCont.dat ./logs/$TEAM/dats/Best/
+
+
+
+
