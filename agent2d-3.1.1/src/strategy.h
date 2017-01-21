@@ -80,12 +80,20 @@ public:
     static const std::string SETPLAY_OUR_FORMATION_CONF;
     static const std::string INDIRECT_FREEKICK_OPP_FORMATION_CONF;
     static const std::string INDIRECT_FREEKICK_OUR_FORMATION_CONF;
+
     static const std::string DEFENSE_4231_CONF;
     static const std::string DEFENSE_442_CONF;
     static const std::string DEFENSE_433_CONF;
     static const std::string OFFENSE_4231_CONF;
     static const std::string OFFENSE_442_CONF;
     static const std::string OFFENSE_433_CONF;
+
+    static const std::string FORM_352_CONF;
+    static const std::string FORM_4231_CONF;
+    static const std::string FORM_433_CONF;
+    static const std::string FORM_442_CONF;
+    static const std::string FORM_451_CONF;
+    static const std::string FORM_532_CONF;
 
     enum BallArea {
         BA_CrossBlock, BA_DribbleBlock, BA_DribbleAttack, BA_Cross,
@@ -129,6 +137,13 @@ private:
     rcsc::Formation::Ptr M_indirect_freekick_our_formation;
 
     rcsc::Formation::Ptr M_offense_442_formation;
+
+    rcsc::Formation::Ptr M_form_352_formation;
+    rcsc::Formation::Ptr M_form_4231_formation;
+    rcsc::Formation::Ptr M_form_433_formation;
+    rcsc::Formation::Ptr M_form_442_formation;
+    rcsc::Formation::Ptr M_form_451_formation;
+    rcsc::Formation::Ptr M_form_532_formation;
 
 
     int M_goalie_unum;
