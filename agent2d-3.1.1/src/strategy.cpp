@@ -86,12 +86,20 @@ const std::string Strategy::SETPLAY_OPP_FORMATION_CONF = "setplay-opp-formation.
 const std::string Strategy::SETPLAY_OUR_FORMATION_CONF = "setplay-our-formation.conf";
 const std::string Strategy::INDIRECT_FREEKICK_OPP_FORMATION_CONF = "indirect-freekick-opp-formation.conf";
 const std::string Strategy::INDIRECT_FREEKICK_OUR_FORMATION_CONF = "indirect-freekick-our-formation.conf";
+
 const std::string Strategy::DEFENSE_4231_CONF = "defense-4231.conf";
 const std::string Strategy::DEFENSE_442_CONF = "defense-442.conf";
 const std::string Strategy::DEFENSE_433_CONF = "defense-433.conf";
 const std::string Strategy::OFFENSE_4231_CONF = "offense-4231.conf";
 const std::string Strategy::OFFENSE_442_CONF = "offense-442.conf";
 const std::string Strategy::OFFENSE_433_CONF = "offense-433.conf";
+
+const std::string Strategy::FORM_352_CONF = "3-5-2.conf";
+const std::string Strategy::FORM_4231_CONF = "4-2-3-1.conf";
+const std::string Strategy::FORM_433_CONF = "4-3-3.conf";
+const std::string Strategy::FORM_442_CONF = "4-4-2.conf";
+const std::string Strategy::FORM_451_CONF = "4-5-1.conf";
+const std::string Strategy::FORM_532_CONF = "5-3-2.conf";
 
 
 /*-------------------------------------------------------------------*/
@@ -213,6 +221,51 @@ Strategy::read( const std::string & formation_dir )
         std::cerr << "Failed to read offense-442 formation" << std::endl;
         return false;
     }
+
+    // Our formations
+    M_form_352_formation = readFormation("./formations-dt/" + FORM_352_CONF);
+    if (! M_form_352_formation)
+    {
+        std::cerr << "Failed to read 352 formation" << std::endl;
+        return false;
+    }
+
+    M_form_4231_formation = readFormation("./formations-dt/" + FORM_4231_CONF);
+    if (! M_form_4231_formation)
+    {
+        std::cerr << "Failed to read 4231 formation" << std::endl;
+        return false;
+    }
+
+    M_form_433_formation = readFormation("./formations-dt/" + FORM_433_CONF);
+    if (! M_form_433_formation)
+    {
+        std::cerr << "Failed to read 433 formation" << std::endl;
+        return false;
+    }
+
+    M_form_442_formation = readFormation("./formations-dt/" + FORM_442_CONF);
+    if (! M_form_442_formation)
+    {
+        std::cerr << "Failed to read 442 formation" << std::endl;
+        return false;
+    }
+
+    M_form_451_formation = readFormation("./formations-dt/" + FORM_451_CONF);
+    if (! M_form_451_formation)
+    {
+        std::cerr << "Failed to read 451 formation" << std::endl;
+        return false;
+    }
+
+
+    M_form_532_formation = readFormation("./formations-dt/" + FORM_532_CONF);
+    if (! M_form_532_formation)
+    {
+        std::cerr << "Failed to read 532 formation" << std::endl;
+        return false;
+    }
+
 
     // before kick off
     M_before_kick_off_formation = readFormation( configpath + BEFORE_KICK_OFF_CONF );
