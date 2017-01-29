@@ -72,7 +72,7 @@ def checkEqualRows(subsetMatrix) :
 
 	for row in subsetMatrix :
 		check = False
-		if (row[features] == 0.0) :
+		if (row[features] == -1.0) :
 			rowsDribbles.append(i)
 		for row2 in difRows1 :
 			if (row2 == row) :
@@ -100,7 +100,7 @@ def checkEqualRows(subsetMatrix) :
 	for i in range(len(newMatrix)) :
 		for j in range(len(difRows2)) :
 			if newMatrix[i] == difRows2[j] :
-				if (subsetMatrix[i][features] == 0) :
+				if (subsetMatrix[i][features] == -1.0) :
 					finalMatrix[j][0] += 1
 				else :
 					finalMatrix[j][1] += 1
