@@ -3,15 +3,15 @@
 TEAM=$1
 
 
-python3 passChecking.py ./logs/$TEAM/dats/Best/dribbleFile.dat 5 24 "dribbleSinCont.dat" $TEAM"DribbleBest1Elem"
+python3 passChecking.py ./logs/$TEAM/dats/10-11/dribbleFile.dat 5 23 "dribbleSinCont.dat" $TEAM"Dribble10-111Elem"
 
-python3 passChecking.py ./logs/$TEAM/dats/Best/passFile.dat 5 24 "passSinCont.dat" $TEAM"PassBest1Elem"
+python3 passChecking.py ./logs/$TEAM/dats/10-11/passFile.dat 5 23 "passSinCont.dat" $TEAM"Pass10-111Elem"
 
-python3 passChecking.py ./logs/$TEAM/dats/Best/shotFile.dat 5 24 "shotSinCont.dat" $TEAM"ShotBest1Elem" 
+python3 passChecking.py ./logs/$TEAM/dats/10-11/shotFile.dat 5 23 "shotSinCont.dat" $TEAM"Shot10-111Elem" 
 
-rm $TEAM*Best1Elem
+rm $TEAM*10-111Elem
 
-mv *SinCont.dat ./logs/$TEAM/dats/Best/
+mv *SinCont.dat ./logs/$TEAM/dats/10-11/
 
 
 
