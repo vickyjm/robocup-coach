@@ -215,7 +215,7 @@ Strategy::read( const std::string & formation_dir )
 
 
     // Testing formation stuff
-    M_offense_442_formation = readFormation("./formations-dt/" + OFFENSE_442_CONF);
+    M_offense_442_formation = readFormation( configpath + OFFENSE_442_CONF);
     if (! M_offense_442_formation )
     {
         std::cerr << "Failed to read offense-442 formation" << std::endl;
@@ -223,35 +223,35 @@ Strategy::read( const std::string & formation_dir )
     }
 
     // Our formations
-    M_form_352_formation = readFormation("./formations-dt/" + FORM_352_CONF);
+    M_form_352_formation = readFormation( configpath + FORM_352_CONF);
     if (! M_form_352_formation)
     {
         std::cerr << "Failed to read 352 formation" << std::endl;
         return false;
     }
 
-    M_form_4231_formation = readFormation("./formations-dt/" + FORM_4231_CONF);
+    M_form_4231_formation = readFormation( configpath + FORM_4231_CONF);
     if (! M_form_4231_formation)
     {
         std::cerr << "Failed to read 4231 formation" << std::endl;
         return false;
     }
 
-    M_form_433_formation = readFormation("./formations-dt/" + FORM_433_CONF);
+    M_form_433_formation = readFormation( configpath + FORM_433_CONF);
     if (! M_form_433_formation)
     {
         std::cerr << "Failed to read 433 formation" << std::endl;
         return false;
     }
 
-    M_form_442_formation = readFormation("./formations-dt/" + FORM_442_CONF);
+    M_form_442_formation = readFormation( configpath + FORM_442_CONF);
     if (! M_form_442_formation)
     {
         std::cerr << "Failed to read 442 formation" << std::endl;
         return false;
     }
 
-    M_form_451_formation = readFormation("./formations-dt/" + FORM_451_CONF);
+    M_form_451_formation = readFormation( configpath + FORM_451_CONF);
     if (! M_form_451_formation)
     {
         std::cerr << "Failed to read 451 formation" << std::endl;
@@ -259,7 +259,7 @@ Strategy::read( const std::string & formation_dir )
     }
 
 
-    M_form_532_formation = readFormation("./formations-dt/" + FORM_532_CONF);
+    M_form_532_formation = readFormation( configpath + FORM_532_CONF);
     if (! M_form_532_formation)
     {
         std::cerr << "Failed to read 532 formation" << std::endl;

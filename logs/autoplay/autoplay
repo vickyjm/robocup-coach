@@ -25,4 +25,3 @@ do
     server::kick_off_wait=50 \
     server::synch_mode=on
   sleep 6
-done
