@@ -60,7 +60,7 @@ def mapToField(originX,originY,rectWidth,rectHeight,x,y,opponentSide) :
 		side = 1
 
 	finalPoint.append(side*((((x - originX)/rectWidth)*fieldWidth) - 52))
-	finalPoint.append((((y - originY)/rectHeight)*fieldHeight) + 34)
+	finalPoint.append(-1*((((y - originY)/rectHeight)*fieldHeight) + 34))
 
 	if (finalPoint[0] < -52) :
 		print(str(x) + " " + str(originX) + " " + str(rectWidth))
@@ -112,7 +112,7 @@ def sumPositions(field,areaWidth,areaHeight,mappedPos) :
 	i = 0
 	for pos in mappedPos :
 		posX = round(pos[0] / areaWidth)
-		posY = -1*round(pos[1] / areaHeight)
+		posY = round(pos[1] / areaHeight)
 		if (posX < 0) :
 			posX += 18
 		else :

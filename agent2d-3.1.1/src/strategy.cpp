@@ -943,14 +943,21 @@ Strategy::getFormation( const WorldModel & wm ) const
 
         // Our Formations during the game  (COMMENT IF NEEDED) //
 
-        if (our_score <= opp_score) {
-            if (wm.time().cycle() >= 4200) {
-                if (opp_score - our_score < 2) 
-                    return M_form_433_formation;
-                else if (opp_score - our_score >= 2)
-                    return M_form_352_formation;
+        if (wm.time().cycle() >= 4200) {
+            if (our_score <= opp_score) {
+                    if (opp_score - our_score < 2) 
+                        return M_form_433_formation;
+                    else if (opp_score - our_score >= 2)
+                        return M_form_352_formation;
             }
-            else {
+            else if (our_score > opp_score) {
+                if (offense > center) 
+                    return M_form_451_formation;
+                else 
+                    return M_form_532_formation;
+            }
+        }
+        else {
                 if ((defense == 4) && (center == 3) && (offense == 3)) 
                     return M_form_4231_formation;
                 else if (offense > center) 
@@ -959,13 +966,6 @@ Strategy::getFormation( const WorldModel & wm ) const
                     return M_form_451_formation;
                 else if (center < 5) 
                     return M_form_4231_formation;
-            }
-        }
-        else if (our_score > opp_score) {
-            if (offense > center) 
-                return M_form_451_formation;
-            else 
-                return M_form_532_formation;
         }
 
         // This is where our formations during the game end (COMMENT ABOVE IF NEEDED) //
