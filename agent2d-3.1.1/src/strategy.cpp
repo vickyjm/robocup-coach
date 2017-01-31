@@ -918,6 +918,14 @@ Strategy::getFormation( const WorldModel & wm ) const
     int offense = 0;
     int defense = 0;
     int center = 0;
+
+
+    int our_score = ( wm.ourSide() == LEFT
+                      ? wm.gameMode().scoreLeft()
+                      : wm.gameMode().scoreRight() );
+    int opp_score = ( wm.ourSide() == LEFT
+                      ? wm.gameMode().scoreRight()
+                      : wm.gameMode().scoreLeft() );
     //
     // play on
     //
@@ -932,6 +940,37 @@ Strategy::getFormation( const WorldModel & wm ) const
             }
             oppFormationFile.close();
         }
+
+        // Our Formations during the game  (COMMENT IF NEEDED) //
+
+        if (our_score <= opp_score) {
+            if (wm.time().cycle() >= 4200) {
+                if (opp_score - our_score < 2) 
+                    return M_form_433_formation;
+                else if (opp_score - our_score >= 2)
+                    return M_form_352_formation;
+            }
+            else {
+                if ((defense == 4) && (center == 3) && (offense == 3)) 
+                    return M_form_4231_formation;
+                else if (offense > center) 
+                    return M_form_532_formation;
+                else if (center >= 5) 
+                    return M_form_451_formation;
+                else if (center < 5) 
+                    return M_form_4231_formation;
+            }
+        }
+        else if (our_score > opp_score) {
+            if (offense > center) 
+                return M_form_451_formation;
+            else 
+                return M_form_532_formation;
+        }
+
+        // This is where our formations during the game end (COMMENT ABOVE IF NEEDED) //
+
+        // Formaciones durante le juego basicas del equipo
         switch ( M_current_situation ) {
         case Defense_Situation:
             return M_defense_formation;
@@ -1067,6 +1106,8 @@ Strategy::getFormation( const WorldModel & wm ) const
                 oppFormationFile.close();
             }
         }
+
+        // New Before kickoff formations (COMMENT IF NEEDED) //
         if ((defense == 4) && (center == 3) && (offense == 3)) 
             return M_form_BK_4231_formation;
         else if (offense > center) 
