@@ -88,12 +88,21 @@ public:
     static const std::string OFFENSE_442_CONF;
     static const std::string OFFENSE_433_CONF;
 
+    // Our formations
     static const std::string FORM_352_CONF;
     static const std::string FORM_4231_CONF;
     static const std::string FORM_433_CONF;
     static const std::string FORM_442_CONF;
     static const std::string FORM_451_CONF;
     static const std::string FORM_532_CONF;
+
+    static const std::string FORM_BK_352_CONF;
+    static const std::string FORM_BK_4231_CONF;
+    static const std::string FORM_BK_433_CONF;
+    static const std::string FORM_BK_442_CONF;
+    static const std::string FORM_BK_451_CONF;
+    static const std::string FORM_BK_532_CONF;
+
 
     enum BallArea {
         BA_CrossBlock, BA_DribbleBlock, BA_DribbleAttack, BA_Cross,
@@ -138,12 +147,20 @@ private:
 
     rcsc::Formation::Ptr M_offense_442_formation;
 
+    // Our formations
     rcsc::Formation::Ptr M_form_352_formation;
     rcsc::Formation::Ptr M_form_4231_formation;
     rcsc::Formation::Ptr M_form_433_formation;
     rcsc::Formation::Ptr M_form_442_formation;
     rcsc::Formation::Ptr M_form_451_formation;
     rcsc::Formation::Ptr M_form_532_formation;
+
+    rcsc::Formation::Ptr M_form_BK_352_formation;
+    rcsc::Formation::Ptr M_form_BK_4231_formation;
+    rcsc::Formation::Ptr M_form_BK_433_formation;
+    rcsc::Formation::Ptr M_form_BK_442_formation;
+    rcsc::Formation::Ptr M_form_BK_451_formation;
+    rcsc::Formation::Ptr M_form_BK_532_formation;
 
 
     int M_goalie_unum;

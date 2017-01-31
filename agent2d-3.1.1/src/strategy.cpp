@@ -101,6 +101,14 @@ const std::string Strategy::FORM_442_CONF = "4-4-2.conf";
 const std::string Strategy::FORM_451_CONF = "4-5-1.conf";
 const std::string Strategy::FORM_532_CONF = "5-3-2.conf";
 
+const std::string Strategy::FORM_BK_352_CONF = "BK-3-5-2.conf";
+const std::string Strategy::FORM_BK_4231_CONF = "BK-4-2-3-1.conf";
+const std::string Strategy::FORM_BK_433_CONF = "BK-4-3-3.conf";
+const std::string Strategy::FORM_BK_442_CONF = "BK-4-4-2.conf";
+const std::string Strategy::FORM_BK_451_CONF = "BK-4-5-1.conf";
+const std::string Strategy::FORM_BK_532_CONF = "BK-5-3-2.conf";
+
+
 
 /*-------------------------------------------------------------------*/
 /*!
@@ -264,6 +272,48 @@ Strategy::read( const std::string & formation_dir )
     {
         std::cerr << "Failed to read 532 formation" << std::endl;
         return false;
+    }
+
+    M_form_BK_352_formation = readFormation( configpath + FORM_BK_352_CONF);
+    if (! M_form_BK_352_formation)
+    {
+        std::cerr << "Failed to read BK352 formation" << std::endl;
+        return false;       
+    }
+
+    M_form_BK_4231_formation = readFormation( configpath + FORM_BK_4231_CONF);
+    if (! M_form_BK_4231_formation)
+    {
+        std::cerr << "Failed to read BK4231 formation" << std::endl;
+        return false;       
+    }
+
+    M_form_BK_433_formation = readFormation( configpath + FORM_BK_433_CONF);
+    if (! M_form_BK_433_formation)
+    {
+        std::cerr << "Failed to read BK433 formation" << std::endl;
+        return false;       
+    }
+
+    M_form_BK_442_formation = readFormation( configpath + FORM_BK_442_CONF);
+    if (! M_form_BK_442_formation)
+    {
+        std::cerr << "Failed to read BK442 formation" << std::endl;
+        return false;       
+    }
+
+    M_form_BK_451_formation = readFormation( configpath + FORM_BK_451_CONF);
+    if (! M_form_BK_451_formation)
+    {
+        std::cerr << "Failed to read BK451 formation" << std::endl;
+        return false;       
+    }
+
+    M_form_BK_532_formation = readFormation( configpath + FORM_BK_532_CONF);
+    if (! M_form_BK_532_formation)
+    {
+        std::cerr << "Failed to read BK532 formation" << std::endl;
+        return false;       
     }
 
 
@@ -1006,6 +1056,26 @@ Strategy::getFormation( const WorldModel & wm ) const
     if ( wm.gameMode().type() == GameMode::BeforeKickOff
          || wm.gameMode().type() == GameMode::AfterGoal_ )
     {
+        // Read the formation file and obtain the number of defense, centers and offense players.
+        if ((defense == 0) && (center == 0) && (offense == 0)) {
+            if (oppFormationFile.is_open()) {
+                while (getline(oppFormationFile,line)) {
+                    defense = line[0] - '0';
+                    center = line[1] - '0';
+                    offense = line[2] - '0';
+                }
+                oppFormationFile.close();
+            }
+        }
+        if ((defense == 4) && (center == 3) && (offense == 3)) 
+            return M_form_BK_4231_formation;
+        else if (offense > center) 
+            return M_form_BK_532_formation;
+        else if (center >= 5)
+            return M_form_BK_451_formation;
+        else if (center < 5)
+            return M_form_BK_4231_formation;
+
         return M_before_kick_off_formation;
     }
 
