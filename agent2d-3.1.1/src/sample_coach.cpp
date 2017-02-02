@@ -564,6 +564,7 @@ void
 SampleCoach::substituteTo( const int unum,
                            const int type )
 {
+
     if ( world().time().cycle() > 0
          && world().ourSubstituteCount() >= PlayerParam::i().subsMax() )
     {

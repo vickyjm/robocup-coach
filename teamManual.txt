@@ -86,3 +86,64 @@ agent2d-3.1.1/src/strategy.cpp por el del equipo correspondiente.
 
 
 
+##### Cosas respecto a sustituciones / cambios ############3
+
+- En los archivos de librcsc los nombres de los roles salen solo cuando los crean.
+- En los archivos del equipo solo aparecen en strategy.cpp en RoleFactory
+- sample_coach.cpp tiene un metodo GetFastestType que devuelve el tipo de jugador mas rapido...pero estos tipos de jugadores
+	no se si estan asociados a los roles de fedit...hay 17 tipos de jugador, y ninguno tiene nombre especifico,solo un id que es un numero de 1 a 17.
+- En sample_coach.cpp estan como comentario los roles en la funcion DoFirstSubstitute
+- strategy.cpp tiene un exchangeRole(x,y) que intercambia el rol (el rol segun fedit) de los dos jugadores que le pases.
+- fedit y sus formaciones parecen estar desligados del equipo en si. (?)
+- Estos son los stats de los distintos tipos :
+
+						id speed step inc  power  stam  karea
+						 0 1.000   6  45.0 100.0  55.0  1.085
+						 1 0.948   6  44.5 100.0  55.5  1.143
+						 2 0.980   5  42.0 100.0  58.0  1.160
+						 3 1.039   6  43.0 100.0  57.0  1.038
+						 4 0.784   5  47.6 100.0  52.4  1.166
+						 5 1.008   6  42.8 100.0  57.2  1.051
+						 6 1.018   5  41.0 100.0  59.0  1.085
+						 7 0.934   7  49.1 100.0  50.9  1.003
+						 8 0.892   7  51.4 100.0  48.6  1.119
+						 9 0.962   7  47.2 100.0  52.8  1.042
+						 10 0.793   5  46.7 100.0  53.3  1.060
+						 11 0.789   5  42.9 100.0  57.1  1.030
+						 12 0.760   5  51.9 100.0  48.1  1.021
+						 13 0.859   6  51.7 100.0  48.3  1.120
+						 14 0.786   5  44.6 100.0  55.4  1.121
+						 15 0.981   6  42.2 100.0  57.8  1.137
+						 16 0.869   5  44.8 100.0  55.2  0.995
+						 17 0.927   6  44.4 100.0  55.6  1.112
+
+- Y estos son los mensajes que da el coach al principio del partido. 
+
+						JEMV coach: change player 1 to type 0
+						JEMV coach: change player 11 to type 3
+						JEMV coach: change player 2 to type 6
+						JEMV coach: change player 3 to type 5
+						JEMV coach: change player 10 to type 2
+						JEMV coach: change player 9 to type 15
+						JEMV coach: change player 6 to type 9
+						JEMV coach: change player 4 to type 1
+						JEMV coach: change player 5 to type 17
+						JEMV coach: change player 7 to type 7
+						JEMV coach: change player 8 to type 8
+
+- Y estos son los roles que da Fedit :
+						
+						1  ----- Goalie
+						2  ----- CenterBack
+						3  ----- CenterBack
+						4  ----- SideBack
+						5  ----- SideBack
+						6  ----- DefensiveHalf
+						7  ----- OffensiveHalf
+						8  ----- OffensiveHalf
+						9  ----- SideForward
+						10 ----- SideForward
+						11 ----- CenterForward 
+
+
+

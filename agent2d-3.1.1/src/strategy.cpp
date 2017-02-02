@@ -919,6 +919,18 @@ Strategy::getFormation( const WorldModel & wm ) const
     int defense = 0;
     int center = 0;
 
+   // M_role_number[10]  role_number es solo eso, los numeros.
+   // M_position_types.at(1) Esto indica si es un tipo simetrico o no.
+   // M_positions es literal un x y y donde estan los jugadores segun la formacion si no me equivoco.
+
+    // for ( AbstractPlayerCont::const_iterator t = wm.ourPlayers().begin();
+    //     t != wm.ourPlayers().end(); ++t )
+    // {
+    //     std::cout <<  (*t)->unum() << std::endl;
+    // }
+
+    // (*t)->unum()
+    // (*t)->type()
 
     int our_score = ( wm.ourSide() == LEFT
                       ? wm.gameMode().scoreLeft()
