@@ -288,6 +288,69 @@ void
 SampleCoach::doFirstSubstitute()
 {
     PlayerTypePtrCont candidates;
+    std::string line;
+    std::ifstream oppFormationFile("./enemyFormations/sampleFormation1.txt");
+    int offense = 0;
+    int defense = 0;
+    int center = 0;
+
+    int ourOffense = 0;
+    int ourDefense = 0;
+    int ourCenter = 0;
+
+    // Formation stuff (COMMENT IF NEEDED) //
+    if (oppFormationFile.is_open()) {
+        while (getline(oppFormationFile,line)) {
+            defense = line[0] - '0';
+            center = line[1] - '0';
+            offense = line[2] - '0';
+        }
+        oppFormationFile.close();
+    }
+
+    if (defense == 0) {
+        if (center >  1) 
+            center = center - 1;
+        else 
+            offense = offense - 1;
+        defense = defense + 1;
+    }
+    if (offense == 0) {
+        if (center > 1)
+            center = center - 1;
+        else 
+            defense = defense - 1;
+        offense = offense + 1;
+    }
+    if (center == 0) {
+        if (defense >= offense) 
+            defense = defense - 1;
+        else 
+            offense = offense - 1;
+        center = center + 1;
+    }
+
+
+    if ((defense == 4) && (center == 3) && (offense == 3)) {
+      ourDefense = 4; // 4231 esta como 4 2 4 para diferenciarla usando 3 numeros.
+      ourCenter = 2;
+      ourOffense = 4;
+    }
+    else if (offense > center) {
+      ourDefense = 5;
+      ourCenter = 3;
+      ourOffense = 2;
+    }
+    else if (center >= 5) {
+      ourDefense = 4;
+      ourCenter = 5;
+      ourOffense = 1;
+    }
+    else if (center < 5) {
+      ourDefense = 4;
+      ourCenter = 2;
+      ourOffense = 4;
+    }
 
     std::fprintf( stderr,
                   "id speed step inc  power  stam"
