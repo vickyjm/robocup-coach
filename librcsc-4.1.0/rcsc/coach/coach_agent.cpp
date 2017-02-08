@@ -616,7 +616,7 @@ void normalizeField(float field[10][34][35]){
     field : Matrices for each player that represent the field and its rectangular divisions.
     
 */
-void calculateFormation(float field[10][34][35]) {
+void calculateFormation(float field[10][34][35],const std::string& opponentName) {
   int offense = 0;
   int center = 0;
   int defense = 0;
@@ -654,9 +654,13 @@ void calculateFormation(float field[10][34][35]) {
 
   //std::cout << "FORMATION : " << defense << " " << center << " " << offense << std::endl;
   std::ofstream formationOutFile;
-  formationOutFile.open("../../agent2d-3.1.1/src/enemyFormations/sampleFormation1.txt");
+  std::string fileName = "../../agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
+  formationOutFile.open(fileName.c_str());
+
+  // formationOutFile.open("../../agent2d-3.1.1/src/enemyFormations/formationJaeger.txt");
 
   if (formationOutFile.is_open()) {
+    std::cout << "ESCRIBIENDO" << std::endl;
     formationOutFile << patch::to_string(defense);
     formationOutFile << patch::to_string(center);
     formationOutFile << patch::to_string(offense);
@@ -1243,7 +1247,7 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
       if (!(checkField(field))) {
         std::cout << "Reseteando y normalizando!" << std::endl;
         normalizeField(field);
-        calculateFormation(field);
+        calculateFormation(field,M_worldmodel.theirTeamName());
         resetField(field);
       }
     }

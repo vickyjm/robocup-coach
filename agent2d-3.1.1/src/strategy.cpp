@@ -70,6 +70,7 @@
 #include <fstream>
 #include <iostream>
 #include <cstdio>
+#include <string>
 
 using namespace rcsc;
 
@@ -914,7 +915,9 @@ Formation::Ptr
 Strategy::getFormation( const WorldModel & wm ) const
 {
     std::string line;
-    std::ifstream oppFormationFile("./enemyFormations/sampleFormation1.txt");
+    std::string opponentName = wm.opponentTeamName();
+    std::string fileName = "./enemyFormations/formation" + opponentName + ".txt";
+    std::ifstream oppFormationFile(fileName.c_str());
     int offense = 0;
     int defense = 0;
     int center = 0;
@@ -953,32 +956,55 @@ Strategy::getFormation( const WorldModel & wm ) const
             oppFormationFile.close();
         }
 
+        if (defense == 0) {
+            if (center >  1) 
+                center = center - 1;
+            else 
+                offense = offense - 1;
+            defense = defense + 1;
+        }
+        if (offense == 0) {
+            if (center > 1)
+                center = center - 1;
+            else 
+                defense = defense - 1;
+            offense = offense + 1;
+        }
+        if (center == 0) {
+            if (defense >= offense) 
+                defense = defense - 1;
+            else 
+                offense = offense - 1;
+            center = center + 1;
+        }
+
+
         // Our Formations during the game  (COMMENT IF NEEDED) //
 
-        if (wm.time().cycle() >= 4200) {
-            if (our_score <= opp_score) {
-                    if (opp_score - our_score < 2) 
-                        return M_form_433_formation;
-                    else if (opp_score - our_score >= 2)
-                        return M_form_352_formation;
-            }
-            else if (our_score > opp_score) {
-                if (offense > center) 
-                    return M_form_451_formation;
-                else 
-                    return M_form_532_formation;
-            }
-        }
-        else {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                    return M_form_4231_formation;
-                else if (offense > center) 
-                    return M_form_532_formation;
-                else if (center >= 5) 
-                    return M_form_451_formation;
-                else if (center < 5) 
-                    return M_form_4231_formation;
-        }
+        // if (wm.time().cycle() >= 4200) {
+        //     if (our_score <= opp_score) {
+        //             if (opp_score - our_score < 2) 
+        //                 return M_form_433_formation;
+        //             else if (opp_score - our_score >= 2)
+        //                 return M_form_352_formation;
+        //     }
+        //     else if (our_score > opp_score) {
+        //         if (offense > center) 
+        //             return M_form_451_formation;
+        //         else 
+        //             return M_form_532_formation;
+        //     }
+        // }
+        // else {
+        //         if ((defense == 4) && (center == 3) && (offense == 3)) 
+        //             return M_form_4231_formation;
+        //         else if (offense > center) 
+        //             return M_form_532_formation;
+        //         else if (center >= 5) 
+        //             return M_form_451_formation;
+        //         else if (center < 5) 
+        //             return M_form_4231_formation;
+        // }
 
         // This is where our formations during the game end (COMMENT ABOVE IF NEEDED) //
 
@@ -1120,14 +1146,14 @@ Strategy::getFormation( const WorldModel & wm ) const
         }
 
         // New Before kickoff formations (COMMENT IF NEEDED) //
-        if ((defense == 4) && (center == 3) && (offense == 3)) 
-            return M_form_BK_4231_formation;
-        else if (offense > center) 
-            return M_form_BK_532_formation;
-        else if (center >= 5)
-            return M_form_BK_451_formation;
-        else if (center < 5)
-            return M_form_BK_4231_formation;
+        // if ((defense == 4) && (center == 3) && (offense == 3)) 
+        //     return M_form_BK_4231_formation;
+        // else if (offense > center) 
+        //     return M_form_BK_532_formation;
+        // else if (center >= 5)
+        //     return M_form_BK_451_formation;
+        // else if (center < 5)
+        //     return M_form_BK_4231_formation;
 
         return M_before_kick_off_formation;
     }
