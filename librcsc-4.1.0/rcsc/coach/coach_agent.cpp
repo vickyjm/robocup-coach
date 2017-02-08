@@ -1243,7 +1243,7 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
 
     // Formation Stuff
     //if ((world().gameMode().type() == GameMode::AfterGoal_)){
-    if (old_opp_score + 1 == opp_score){
+    if ((old_opp_score + 1 == opp_score) && (world().time().cycle() > 1750)) {
       if (!(checkField(field))) {
         std::cout << "Reseteando y normalizando!" << std::endl;
         normalizeField(field);
