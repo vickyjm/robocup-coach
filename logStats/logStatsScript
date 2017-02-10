@@ -1,0 +1,16 @@
+#!/bin/bash
+
+
+TYPE=$1
+BASEFOLDER=$2
+OUTPUTFILE=$3
+
+JAEGER='Jaeger'
+HERMES='Hermes'
+GENIUS='Genius'
+HELIOS='Helios'
+
+python3 logStatsGen.py $BASEFOLDER$JAEGER/ Jaeger $TYPE $OUTPUTFILE
+python3 logStatsGen.py $BASEFOLDER$HERMES/ HERMES $TYPE $OUTPUTFILE
+python3 logStatsGen.py $BASEFOLDER$HELIOS/ HELIOS2015 $TYPE $OUTPUTFILE
+python3 logStatsGen.py $BASEFOLDER$GENIUS/ Genius2015 $TYPE $OUTPUTFILE

@@ -1,0 +1,61 @@
+baseOnly.txt : (20 partidos)
+Equipo base.
+
+Promedio de posesion : 0.42675
+Total de diferencia de goles : -103
+
+
+#############################################
+
+formTeam.txt : (20 partidos)
+Equipo con las formaciones nuevas revisadas y los cambios de tipo de jugador hechos por nosotros.
+
+Promedio de posesion : 0.42175
+Total de diferencia de goles : -286
+
+#############################################
+
+oldFormTeam.txt : (20 partidos)
+Equipo con las formaciones antes de que fueran revisadas pero con los cambios de tipo de jugador hechos por nosotros.
+
+Promedio de posesion : 0.4206
+Total de diferencia de goles : -301
+
+#############################################
+
+oldFormTeamNoTypeChange.txt : (20 partidos)
+Equipo con las formaciones antes de que fueran revisadas sin los cambios de tipo de jugador hechos por nosotros.
+
+Promedio de posesion : 0.4255
+Total de diferencia de goles : -266
+
+#############################################
+
+formTeamOnlyBK.txt : (20 partidos)
+Equipo usando solo las nuevas formaciones before kick-off, usando las del equipo base para
+el resto del partido y con los cambios de tipo de jugador hechos por nosotros.
+
+Promedio de posesion : 0.44395000000000007
+Total de diferencia de goles : -83
+
+#############################################
+
+formTeamOldFormConds.txt : (20 partidos)
+Equipo usando las nuevas formaciones pero con las condiciones de cambio de formacion del equipo base
+usando las "Situations". Con los cambios de tipo de jugador hechos por nosotros.
+
+Promedio de posesion : 0.4196
+Total de diferencia de goles : -310
+
+#############################################
+
+formTeamOldFormsNewConds.txt : (20 partidos)
+Equipo con las formaciones del equipo base, pero siendo usadas en los momentos decididos por las condiciones
+que nosotros pusimos (basandonos en la formacion del oponente). Tambien con cambios de tipo de jugador
+hechos por nosotros. Tambien usa las formaciones before-kickoff.
+
+Promedio de posesion : 0.4365
+Total de diferencia de goles : -89
+
+#############################################
+
