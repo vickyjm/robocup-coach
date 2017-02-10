@@ -103,6 +103,27 @@ public:
     static const std::string FORM_BK_451_CONF;
     static const std::string FORM_BK_532_CONF;
 
+    // Helios formations
+    static const std::string DEF_FORM_433_CONF;
+    static const std::string OFF_FORM_433_CONF;
+    static const std::string NORM_FORM_433_CONF;
+    static const std::string DEF_FORM_4231_CONF;
+    static const std::string OFF_FORM_4231_CONF;
+    static const std::string NORM_FORM_4231_CONF;
+
+    // Genius formations
+    static const std::string DEF_FORM_442_CONF;
+    static const std::string OFF_FORM_442_CONF;
+    static const std::string NORM_FORM_442_CONF;
+    static const std::string DEF_FORM_541_CONF;
+    static const std::string OFF_FORM_541_CONF;
+    static const std::string NORM_FORM_541_CONF;
+    static const std::string DEF_FORM_4123_CONF;
+    static const std::string OFF_FORM_4123_CONF;
+    static const std::string NORM_FORM_4123_CONF;
+    static const std::string DEF_FORM_4213_CONF;
+    static const std::string OFF_FORM_4213_CONF;
+    static const std::string NORM_FORM_4213_CONF;
 
     enum BallArea {
         BA_CrossBlock, BA_DribbleBlock, BA_DribbleAttack, BA_Cross,
@@ -162,6 +183,22 @@ private:
     rcsc::Formation::Ptr M_form_BK_451_formation;
     rcsc::Formation::Ptr M_form_BK_532_formation;
 
+    // Genius formations
+    rcsc::Formation::Ptr M_form_def_433_formation;
+    rcsc::Formation::Ptr M_form_off_433_formation;
+    rcsc::Formation::Ptr M_form_norm_433_formation; 
+    rcsc::Formation::Ptr M_form_def_442_formation;
+    rcsc::Formation::Ptr M_form_off_442_formation;
+    rcsc::Formation::Ptr M_form_norm_442_formation;
+    rcsc::Formation::Ptr M_form_def_541_formation;
+    rcsc::Formation::Ptr M_form_off_541_formation;
+    rcsc::Formation::Ptr M_form_norm_541_formation;
+    rcsc::Formation::Ptr M_form_def_4123_formation;
+    rcsc::Formation::Ptr M_form_off_4123_formation;
+    rcsc::Formation::Ptr M_form_norm_4123_formation;
+    rcsc::Formation::Ptr M_form_def_4213_formation;
+    rcsc::Formation::Ptr M_form_off_4213_formation;
+    rcsc::Formation::Ptr M_form_norm_4213_formation;
 
     int M_goalie_unum;
 

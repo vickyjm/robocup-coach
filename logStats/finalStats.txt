@@ -59,3 +59,12 @@ Total de diferencia de goles : -89
 
 #############################################
 
+
+
+newForms.txt : (20 partidos)
+Equipo con las nuevas formaciones (de Genius)
+
+Promedio de posesion : 0.3969000000000001
+Total de diferencia de goles : -44
+
+
