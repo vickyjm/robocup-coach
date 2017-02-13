@@ -262,7 +262,7 @@ if __name__ == "__main__":
 	outputFile = open(sys.argv[4],"a")
 
 	if (os.stat(sys.argv[4]).st_size == 0) :
-		outputFile.write("# OurTeam OppTeam Type OurPos OppPos GoalDiff \n")
+		outputFile.write("# OurTeam OppTeam Type OurPos OppPos GoalDiff OurGoals OppGoals \n")
 
 	for filename in glob.glob(folderPath+'*.rcg') :
 		nameSplit = filename.split("vs")
@@ -354,19 +354,14 @@ if __name__ == "__main__":
 		finalString += str("{0:.3f}".format(ourPos / cycleTotal)) + " "
 		finalString += str("{0:.3f}".format(opponentPos / cycleTotal)) + " "
 		if (opponentTeam == "Jaeger") :
-			finalString += str(-1*(ourGoals - opponentGoals)) + "\n"
+			finalString += str(-1*(ourGoals - opponentGoals)) + " "
 		else :
-			finalString += str(ourGoals - opponentGoals) + "\n"
+			finalString += str(ourGoals - opponentGoals) + " "
+
+		if (opponentTeam == "Jaeger") :
+			finalString += str(opponentGoals) + " " + str(ourGoals) + "\n"
+		else :
+			finalString += str(ourGoals) + " " + str(opponentGoals) + "\n"
+
 		outputFile.write(finalString)
 		print("listo")
-					
-		
-
-
-
-		
-
-
-				
-
-

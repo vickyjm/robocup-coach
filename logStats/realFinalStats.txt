@@ -120,3 +120,24 @@ Goles oponentes : 50
 
 ######################################
 
+fullNewFormsNewTypeChange.txt
+
+Usando todas las formaciones de Genius, pero con los cambios de tipo en base a dichas formaciones. 
+(Un solo cambio por la manera en la que Genius pone a sus jugadores). 
+
+Promedio de posesion : 0.409
+Total de diferencia de goles : -20
+Nuestros goles : 18
+Goles oponentes : 38
+
+
+fullNewFormsLastReset.txt
+Equipo con formaciones de Genius y cambio de tipo de Genius. Pero chequeando para no resettear la formacion
+del oponente a menos que hayan pasado al menos 1000 ciclos.
+
+Promedio de posesion : 0.4218
+Total de diferencia de goles : -46
+Nuestros goles : 14
+Goles oponentes : 60
+
+

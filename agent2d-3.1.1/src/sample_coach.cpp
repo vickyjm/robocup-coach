@@ -336,13 +336,13 @@ SampleCoach::doFirstSubstitute()
 
 
     if ((defense == 4) && (center == 3) && (offense == 3)) {
-      ourDefense = 4; // 4231 esta como 4 2 4 para diferenciarla usando 3 numeros.
-      ourCenter = 2;
-      ourOffense = 4;
+      ourDefense = 4; // 4123 esta como 415 para diferenciarla usando 3 numeros.
+      ourCenter = 1;
+      ourOffense = 5;
     }
     else if (offense > center) {
-      ourDefense = 5;
-      ourCenter = 3;
+      ourDefense = 4;
+      ourCenter = 4;
       ourOffense = 2;
     }
     else if (center >= 5) {
@@ -351,8 +351,8 @@ SampleCoach::doFirstSubstitute()
       ourOffense = 1;
     }
     else if (center < 5) {
-      ourDefense = 4;
-      ourCenter = 2;
+      ourDefense = 4; // 4213 esta como 424 
+      ourCenter = 2; 
       ourOffense = 4;
     }
 
@@ -421,66 +421,130 @@ SampleCoach::doFirstSubstitute()
     std::vector< int > ordered_unum;
     ordered_unum.reserve( 11 );
 
-if ((ourDefense == 4) && (ourCenter == 2) && (ourOffense == 4)) {
+// New typechanges for Genius formations
+// if ((ourDefense == 4) && (ourCenter == 1) && (ourOffense == 5)) {
   ordered_unum.push_back( 11 ); // center forward
   ordered_unum.push_back( 4 );  // side back
   ordered_unum.push_back( 5 );  // side back
-  ordered_unum.push_back( 9 ); // side half
-  ordered_unum.push_back( 10 );  // side half
+  ordered_unum.push_back( 9 ); // side forward
+  ordered_unum.push_back( 10 );  // side forward
   ordered_unum.push_back( 2 );  // center back
   ordered_unum.push_back( 3 );  // center back
   ordered_unum.push_back( 6 );  // offensive half
   ordered_unum.push_back( 7 );  // defensive half
   ordered_unum.push_back( 8 );  // defensive half
-}
-else if ((ourDefense == 5) && (ourCenter == 3) && (ourOffense == 2)) {
-  ordered_unum.push_back( 9 ); // center forward
-  ordered_unum.push_back( 10 );  // center forward
-  ordered_unum.push_back( 4 );  // side back
-  ordered_unum.push_back( 5 ); // side back
-  ordered_unum.push_back( 2 );  // center back
-  ordered_unum.push_back( 3 );  // center back
-  ordered_unum.push_back( 7 );  // offensive half
-  ordered_unum.push_back( 8 );  // offensive half
-  ordered_unum.push_back( 11 );  // defensive half
-  ordered_unum.push_back( 6 );  // center back
-}
-else if ((ourDefense == 4) && (ourCenter == 5) && (ourOffense == 1)) {
-  ordered_unum.push_back( 11 ); // center forward
-  ordered_unum.push_back( 4 );  // side back
-  ordered_unum.push_back( 5 );  // side back
-  ordered_unum.push_back( 9 ); // offensive half
-  ordered_unum.push_back( 10 );  // offensive half
-  ordered_unum.push_back( 2 );  // center back
-  ordered_unum.push_back( 3 );  // center back
-  ordered_unum.push_back( 7 );  // side half
-  ordered_unum.push_back( 8 );  // side half
-  ordered_unum.push_back( 6 );  // defensive half
-}
-  // side back has priority
-  // ordered_unum.push_back( 11 ); // center forward
-  // ordered_unum.push_back( 2 );  // center back
-  // ordered_unum.push_back( 3 );  // center back
-  // ordered_unum.push_back( 4 );  // side back
-  // ordered_unum.push_back( 5 );  // side back
-  // ordered_unum.push_back( 10 ); // side half
-  // ordered_unum.push_back( 9 );  // side half
-  // ordered_unum.push_back( 6 );  // center half
-  // ordered_unum.push_back( 7 );  // defensive half
-  // ordered_unum.push_back( 8 );  // defensive half
-else {
-    // wing player has priority
-  ordered_unum.push_back( 11 ); // center forward
-  ordered_unum.push_back( 2 );  // center back
-  ordered_unum.push_back( 3 );  // center back
-  ordered_unum.push_back( 10 ); // side half
-  ordered_unum.push_back( 9 );  // side half
-  ordered_unum.push_back( 6 );  // center half
-  ordered_unum.push_back( 4 );  // side back
-  ordered_unum.push_back( 5 );  // side back
-  ordered_unum.push_back( 7 );  // defensive half
-  ordered_unum.push_back( 8 );  // defensive half
-}
+// }
+// else if ((ourDefense == 4) && (ourCenter == 4) && (ourOffense == 2)) {
+//   ordered_unum.push_back( 9 ); // center forward
+//   ordered_unum.push_back( 10 );  // center forward
+//   ordered_unum.push_back( 4 );  // side back
+//   ordered_unum.push_back( 5 ); // side back
+//   ordered_unum.push_back( 2 );  // center back
+//   ordered_unum.push_back( 3 );  // center back
+//   ordered_unum.push_back( 7 );  // offensive half
+//   ordered_unum.push_back( 8 );  // offensive half
+//   ordered_unum.push_back( 11 );  // defensive half
+//   ordered_unum.push_back( 6 );  // center back
+// }
+// else if ((ourDefense == 4) && (ourCenter == 5) && (ourOffense == 1)) {
+//   ordered_unum.push_back( 11 ); // center forward
+//   ordered_unum.push_back( 4 );  // side back
+//   ordered_unum.push_back( 5 );  // side back
+//   ordered_unum.push_back( 9 ); // offensive half
+//   ordered_unum.push_back( 10 );  // offensive half
+//   ordered_unum.push_back( 2 );  // center back
+//   ordered_unum.push_back( 3 );  // center back
+//   ordered_unum.push_back( 7 );  // side half
+//   ordered_unum.push_back( 8 );  // side half
+//   ordered_unum.push_back( 6 );  // defensive half
+// }
+// else if ((ourDefense == 4) && (ourCenter == 2) && (ourOffense == 4)) {
+//     // wing player has priority
+//   ordered_unum.push_back( 11 ); // center forward
+//   ordered_unum.push_back( 2 );  // center back
+//   ordered_unum.push_back( 3 );  // center back
+//   ordered_unum.push_back( 10 ); // side half
+//   ordered_unum.push_back( 9 );  // side half
+//   ordered_unum.push_back( 6 );  // center half
+//   ordered_unum.push_back( 4 );  // side back
+//   ordered_unum.push_back( 5 );  // side back
+//   ordered_unum.push_back( 7 );  // defensive half
+//   ordered_unum.push_back( 8 );  // defensive half
+// }
+// else {
+//     // wing player has priority
+//   ordered_unum.push_back( 11 ); // center forward
+//   ordered_unum.push_back( 2 );  // center back
+//   ordered_unum.push_back( 3 );  // center back
+//   ordered_unum.push_back( 10 ); // side half
+//   ordered_unum.push_back( 9 );  // side half
+//   ordered_unum.push_back( 6 );  // center half
+//   ordered_unum.push_back( 4 );  // side back
+//   ordered_unum.push_back( 5 );  // side back
+//   ordered_unum.push_back( 7 );  // defensive half
+//   ordered_unum.push_back( 8 );  // defensive half
+// }
+
+// if ((ourDefense == 4) && (ourCenter == 2) && (ourOffense == 4)) {
+//   ordered_unum.push_back( 11 ); // center forward
+//   ordered_unum.push_back( 4 );  // side back
+//   ordered_unum.push_back( 5 );  // side back
+//   ordered_unum.push_back( 9 ); // side half
+//   ordered_unum.push_back( 10 );  // side half
+//   ordered_unum.push_back( 2 );  // center back
+//   ordered_unum.push_back( 3 );  // center back
+//   ordered_unum.push_back( 6 );  // offensive half
+//   ordered_unum.push_back( 7 );  // defensive half
+//   ordered_unum.push_back( 8 );  // defensive half
+// }
+// else if ((ourDefense == 5) && (ourCenter == 3) && (ourOffense == 2)) {
+//   ordered_unum.push_back( 9 ); // center forward
+//   ordered_unum.push_back( 10 );  // center forward
+//   ordered_unum.push_back( 4 );  // side back
+//   ordered_unum.push_back( 5 ); // side back
+//   ordered_unum.push_back( 2 );  // center back
+//   ordered_unum.push_back( 3 );  // center back
+//   ordered_unum.push_back( 7 );  // offensive half
+//   ordered_unum.push_back( 8 );  // offensive half
+//   ordered_unum.push_back( 11 );  // defensive half
+//   ordered_unum.push_back( 6 );  // center back
+// }
+// else if ((ourDefense == 4) && (ourCenter == 5) && (ourOffense == 1)) {
+//   ordered_unum.push_back( 11 ); // center forward
+//   ordered_unum.push_back( 4 );  // side back
+//   ordered_unum.push_back( 5 );  // side back
+//   ordered_unum.push_back( 9 ); // offensive half
+//   ordered_unum.push_back( 10 );  // offensive half
+//   ordered_unum.push_back( 2 );  // center back
+//   ordered_unum.push_back( 3 );  // center back
+//   ordered_unum.push_back( 7 );  // side half
+//   ordered_unum.push_back( 8 );  // side half
+//   ordered_unum.push_back( 6 );  // defensive half
+// }
+//   // side back has priority
+//   // ordered_unum.push_back( 11 ); // center forward
+//   // ordered_unum.push_back( 2 );  // center back
+//   // ordered_unum.push_back( 3 );  // center back
+//   // ordered_unum.push_back( 4 );  // side back
+//   // ordered_unum.push_back( 5 );  // side back
+//   // ordered_unum.push_back( 10 ); // side half
+//   // ordered_unum.push_back( 9 );  // side half
+//   // ordered_unum.push_back( 6 );  // center half
+//   // ordered_unum.push_back( 7 );  // defensive half
+//   // ordered_unum.push_back( 8 );  // defensive half
+// else {
+//     // wing player has priority
+//   ordered_unum.push_back( 11 ); // center forward
+//   ordered_unum.push_back( 2 );  // center back
+//   ordered_unum.push_back( 3 );  // center back
+//   ordered_unum.push_back( 10 ); // side half
+//   ordered_unum.push_back( 9 );  // side half
+//   ordered_unum.push_back( 6 );  // center half
+//   ordered_unum.push_back( 4 );  // side back
+//   ordered_unum.push_back( 5 );  // side back
+//   ordered_unum.push_back( 7 );  // defensive half
+//   ordered_unum.push_back( 8 );  // defensive half
+// }
 
 
     //
