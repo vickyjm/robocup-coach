@@ -42,6 +42,7 @@
 
 #include <string>
 #include <set>
+ #include <vector>
 
 namespace rcsc {
 
@@ -278,7 +279,8 @@ protected:
       Do NOT call this method by yourself!
      */
     virtual
-    void handleMessage(actionInfo* firstAction, actionInfo* lastAction);
+    void handleMessage(actionInfo* firstAction, actionInfo* lastAction,float field[10][34][35]);
+    // void handleMessage(actionInfo* firstAction, actionInfo* lastAction);
 
 
     /*!

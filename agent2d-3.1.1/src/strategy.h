@@ -103,6 +103,82 @@ public:
     static const std::string FORM_BK_451_CONF;
     static const std::string FORM_BK_532_CONF;
 
+    // Genius formations
+    static const std::string DEF_FORM_433_CONF;
+    static const std::string OFF_FORM_433_CONF;
+    static const std::string NORM_FORM_433_CONF;
+    static const std::string DEF_FORM_442_CONF;
+    static const std::string OFF_FORM_442_CONF;
+    static const std::string NORM_FORM_442_CONF;
+    static const std::string DEF_FORM_541_CONF;
+    static const std::string OFF_FORM_541_CONF;
+    static const std::string NORM_FORM_541_CONF;
+    static const std::string DEF_FORM_4123_CONF;
+    static const std::string OFF_FORM_4123_CONF;
+    static const std::string NORM_FORM_4123_CONF;
+    static const std::string DEF_FORM_4213_CONF;
+    static const std::string OFF_FORM_4213_CONF;
+    static const std::string NORM_FORM_4213_CONF;
+
+    // Genius other formations
+    static const std::string BK_FORM_433_CONF;
+    static const std::string GOAL_KICK_OPP_FORM_433_CONF;
+    static const std::string GOAL_KICK_OUR_FORM_433_CONF;
+    static const std::string GOALIE_CATCH_OPP_FORM_433_CONF;
+    static const std::string GOALIE_CATCH_OUR_FORM_433_CONF;
+    static const std::string INDIRECT_FREEKICK_OPP_FORM_433_CONF;
+    static const std::string INDIRECT_FREEKICK_OUR_FORM_433_CONF;
+    static const std::string KICKIN_OUR_FORM_433_CONF;
+    static const std::string SETPLAY_OPP_FORM_433_CONF;
+    static const std::string SETPLAY_OUR_FORM_433_CONF;
+
+    static const std::string BK_FORM_442_CONF;
+    static const std::string GOAL_KICK_OPP_FORM_442_CONF;
+    static const std::string GOAL_KICK_OUR_FORM_442_CONF;
+    static const std::string GOALIE_CATCH_OPP_FORM_442_CONF;
+    static const std::string GOALIE_CATCH_OUR_FORM_442_CONF;
+    static const std::string INDIRECT_FREEKICK_OPP_FORM_442_CONF;
+    static const std::string INDIRECT_FREEKICK_OUR_FORM_442_CONF;
+    static const std::string KICKIN_OUR_FORM_442_CONF;
+    static const std::string SETPLAY_OPP_FORM_442_CONF;
+    static const std::string SETPLAY_OUR_FORM_442_CONF;
+
+    static const std::string BK_FORM_541_CONF;
+    static const std::string GOAL_KICK_OPP_FORM_541_CONF;
+    static const std::string GOAL_KICK_OUR_FORM_541_CONF;
+    static const std::string GOALIE_CATCH_OPP_FORM_541_CONF;
+    static const std::string GOALIE_CATCH_OUR_FORM_541_CONF;
+    static const std::string INDIRECT_FREEKICK_OPP_FORM_541_CONF;
+    static const std::string INDIRECT_FREEKICK_OUR_FORM_541_CONF;
+    static const std::string KICKIN_OUR_FORM_541_CONF;
+    static const std::string SETPLAY_OPP_FORM_541_CONF;
+    static const std::string SETPLAY_OUR_FORM_541_CONF;
+
+    static const std::string BK_FORM_4123_CONF;
+    static const std::string GOAL_KICK_OPP_FORM_4123_CONF;
+    static const std::string GOAL_KICK_OUR_FORM_4123_CONF;
+    static const std::string GOALIE_CATCH_OPP_FORM_4123_CONF;
+    static const std::string GOALIE_CATCH_OUR_FORM_4123_CONF;
+    static const std::string INDIRECT_FREEKICK_OPP_FORM_4123_CONF;
+    static const std::string INDIRECT_FREEKICK_OUR_FORM_4123_CONF;
+    static const std::string KICKIN_OUR_FORM_4123_CONF;
+    static const std::string SETPLAY_OPP_FORM_4123_CONF;
+    static const std::string SETPLAY_OUR_FORM_4123_CONF;
+
+    static const std::string BK_FORM_4213_CONF;
+    static const std::string GOAL_KICK_OPP_FORM_4213_CONF;
+    static const std::string GOAL_KICK_OUR_FORM_4213_CONF;
+    static const std::string GOALIE_CATCH_OPP_FORM_4213_CONF;
+    static const std::string GOALIE_CATCH_OUR_FORM_4213_CONF;
+    static const std::string INDIRECT_FREEKICK_OPP_FORM_4213_CONF;
+    static const std::string INDIRECT_FREEKICK_OUR_FORM_4213_CONF;
+    static const std::string KICKIN_OUR_FORM_4213_CONF;
+    static const std::string SETPLAY_OPP_FORM_4213_CONF;
+    static const std::string SETPLAY_OUR_FORM_4213_CONF;
+
+
+
+
 
     enum BallArea {
         BA_CrossBlock, BA_DribbleBlock, BA_DribbleAttack, BA_Cross,
@@ -162,6 +238,78 @@ private:
     rcsc::Formation::Ptr M_form_BK_451_formation;
     rcsc::Formation::Ptr M_form_BK_532_formation;
 
+    // Genius formations
+    rcsc::Formation::Ptr M_form_def_433_formation;
+    rcsc::Formation::Ptr M_form_off_433_formation;
+    rcsc::Formation::Ptr M_form_norm_433_formation; 
+    rcsc::Formation::Ptr M_form_def_442_formation;
+    rcsc::Formation::Ptr M_form_off_442_formation;
+    rcsc::Formation::Ptr M_form_norm_442_formation;
+    rcsc::Formation::Ptr M_form_def_541_formation;
+    rcsc::Formation::Ptr M_form_off_541_formation;
+    rcsc::Formation::Ptr M_form_norm_541_formation;
+    rcsc::Formation::Ptr M_form_def_4123_formation;
+    rcsc::Formation::Ptr M_form_off_4123_formation;
+    rcsc::Formation::Ptr M_form_norm_4123_formation;
+    rcsc::Formation::Ptr M_form_def_4213_formation;
+    rcsc::Formation::Ptr M_form_off_4213_formation;
+    rcsc::Formation::Ptr M_form_norm_4213_formation;
+
+    // Other Genius formations
+    rcsc::Formation::Ptr M_form_BKO_433_formation;
+    rcsc::Formation::Ptr M_form_goal_kick_opp_433_formation;
+    rcsc::Formation::Ptr M_form_goal_kick_our_433_formation;
+    rcsc::Formation::Ptr M_form_goalie_catch_opp_433_formation;
+    rcsc::Formation::Ptr M_form_goalie_catch_our_433_formation;
+    rcsc::Formation::Ptr M_form_indirect_freekick_opp_433_formation;
+    rcsc::Formation::Ptr M_form_indirect_freekick_our_433_formation;
+    rcsc::Formation::Ptr M_form_kickin_our_433_formation;
+    rcsc::Formation::Ptr M_form_setplay_opp_433_formation;
+    rcsc::Formation::Ptr M_form_setplay_our_433_formation;
+
+    rcsc::Formation::Ptr M_form_BKO_442_formation;
+    rcsc::Formation::Ptr M_form_goal_kick_opp_442_formation;
+    rcsc::Formation::Ptr M_form_goal_kick_our_442_formation;
+    rcsc::Formation::Ptr M_form_goalie_catch_opp_442_formation;
+    rcsc::Formation::Ptr M_form_goalie_catch_our_442_formation;
+    rcsc::Formation::Ptr M_form_indirect_freekick_opp_442_formation;
+    rcsc::Formation::Ptr M_form_indirect_freekick_our_442_formation;
+    rcsc::Formation::Ptr M_form_kickin_our_442_formation;
+    rcsc::Formation::Ptr M_form_setplay_opp_442_formation;
+    rcsc::Formation::Ptr M_form_setplay_our_442_formation;
+
+    rcsc::Formation::Ptr M_form_BKO_541_formation;
+    rcsc::Formation::Ptr M_form_goal_kick_opp_541_formation;
+    rcsc::Formation::Ptr M_form_goal_kick_our_541_formation;
+    rcsc::Formation::Ptr M_form_goalie_catch_opp_541_formation;
+    rcsc::Formation::Ptr M_form_goalie_catch_our_541_formation;
+    rcsc::Formation::Ptr M_form_indirect_freekick_opp_541_formation;
+    rcsc::Formation::Ptr M_form_indirect_freekick_our_541_formation;
+    rcsc::Formation::Ptr M_form_kickin_our_541_formation;
+    rcsc::Formation::Ptr M_form_setplay_opp_541_formation;
+    rcsc::Formation::Ptr M_form_setplay_our_541_formation;
+
+    rcsc::Formation::Ptr M_form_BKO_4123_formation;
+    rcsc::Formation::Ptr M_form_goal_kick_opp_4123_formation;
+    rcsc::Formation::Ptr M_form_goal_kick_our_4123_formation;
+    rcsc::Formation::Ptr M_form_goalie_catch_opp_4123_formation;
+    rcsc::Formation::Ptr M_form_goalie_catch_our_4123_formation;
+    rcsc::Formation::Ptr M_form_indirect_freekick_opp_4123_formation;
+    rcsc::Formation::Ptr M_form_indirect_freekick_our_4123_formation;
+    rcsc::Formation::Ptr M_form_kickin_our_4123_formation;
+    rcsc::Formation::Ptr M_form_setplay_opp_4123_formation;
+    rcsc::Formation::Ptr M_form_setplay_our_4123_formation;
+
+    rcsc::Formation::Ptr M_form_BKO_4213_formation;
+    rcsc::Formation::Ptr M_form_goal_kick_opp_4213_formation;
+    rcsc::Formation::Ptr M_form_goal_kick_our_4213_formation;
+    rcsc::Formation::Ptr M_form_goalie_catch_opp_4213_formation;
+    rcsc::Formation::Ptr M_form_goalie_catch_our_4213_formation;
+    rcsc::Formation::Ptr M_form_indirect_freekick_opp_4213_formation;
+    rcsc::Formation::Ptr M_form_indirect_freekick_our_4213_formation;
+    rcsc::Formation::Ptr M_form_kickin_our_4213_formation;
+    rcsc::Formation::Ptr M_form_setplay_opp_4213_formation;
+    rcsc::Formation::Ptr M_form_setplay_our_4213_formation;
 
     int M_goalie_unum;
 

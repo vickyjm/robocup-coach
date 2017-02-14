@@ -68,6 +68,7 @@
 int opp_score = 0;
 int old_opp_score = 0;
 int our_score = 0;
+int lastReset = 0;
 
 namespace patch
 {
@@ -1249,6 +1250,7 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
         normalizeField(field);
         calculateFormation(field,M_worldmodel.theirTeamName());
         resetField(field);
+        lastReset = world().time().cycle();
       }
     }
 
