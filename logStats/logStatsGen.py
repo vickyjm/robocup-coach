@@ -266,12 +266,12 @@ if __name__ == "__main__":
 
 	for filename in glob.glob(folderPath+'*.rcg') :
 		nameSplit = filename.split("vs")
-		if (nameSplit[0].find(opponentTeam) != -1) :
-			ourSide = "r"
-			theirSide = "l"
-		else :
+		if (nameSplit[0].find("JEMV") != -1) :
 			ourSide = "l"
 			theirSide = "r"
+		else :
+			ourSide = "r"
+			theirSide = "l"
 
 		cycleTotal = 1
 		opponentPos = 0 # Ball posession for opponent and for our team
@@ -318,14 +318,14 @@ if __name__ == "__main__":
 
 					if (ownerNew != "") :
 						if (ownerNew[0] == ourSide) :
-							if (opponentTeam == "Jaeger") :
-								opponentPos += 1
-							else :
+							# if (opponentTeam == "Jaeger") :
+							# 	opponentPos += 1
+							# else :
 								ourPos += 1
 						else :
-							if (opponentTeam == "Jaeger") :
-								ourPos += 1
-							else : 
+							# if (opponentTeam == "Jaeger") :
+							# 	ourPos += 1
+							# else : 
 								opponentPos += 1
 					cycleTotal = cycleTotal+1
 
@@ -359,15 +359,15 @@ if __name__ == "__main__":
 		finalString += ourTeamType+" "
 		finalString += str("{0:.3f}".format(ourPos / cycleTotal)) + " "
 		finalString += str("{0:.3f}".format(opponentPos / cycleTotal)) + " "
-		if (opponentTeam == "Jaeger") :
-			finalString += str(-1*(ourGoals - opponentGoals)) + " "
-		else :
-			finalString += str(ourGoals - opponentGoals) + " "
+		# if (opponentTeam == "Jaeger") :
+		# 	finalString += str(-1*(ourGoals - opponentGoals)) + " "
+		# else :
+		finalString += str(ourGoals - opponentGoals) + " "
 
-		if (opponentTeam == "Jaeger") :
-			finalString += str(opponentGoals) + " " + str(ourGoals) + "\n"
-		else :
-			finalString += str(ourGoals) + " " + str(opponentGoals) + "\n"
+		# if (opponentTeam == "Jaeger") :
+		# 	finalString += str(opponentGoals) + " " + str(ourGoals) + "\n"
+		# else :
+		finalString += str(ourGoals) + " " + str(opponentGoals) + "\n"
 
 		outputFile.write(finalString)
 		print("listo")

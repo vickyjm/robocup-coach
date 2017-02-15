@@ -1,0 +1,17 @@
+angelaBase.txt
+Control stuff 
+
+Promedio de posesion : 0.4379
+Total de diferencia de goles : -192
+Nuestros goles : 47
+Goles oponentes : 239
+
+
+Exp1 stuff 
+
+Promedio de posesion : 0.0
+Total de diferencia de goles : 0
+Nuestros goles : 0
+Goles oponentes : 0
+
+
