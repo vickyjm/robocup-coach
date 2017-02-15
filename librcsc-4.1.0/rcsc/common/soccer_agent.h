@@ -33,6 +33,7 @@
 #define RCSC_SOCCER_AGENT_H
 
 #include <rcsc/geom/vector_2d.h>
+#include <vector>
 
 
 struct actionInfo{
@@ -147,8 +148,8 @@ protected:
       This method is called when server message is arrived.
      */
     virtual
-    void handleMessage(actionInfo* firstAction, actionInfo* lastAction) = 0;
-
+    void handleMessage(actionInfo* firstAction, actionInfo* lastAction,float field[10][34][35]) = 0;
+    // void handleMessage(actionInfo* firstAction, actionInfo* lastAction) = 0;
 
     /*!
       \brief (virtual) handle offline client log message in offline client mode.
