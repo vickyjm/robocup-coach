@@ -318,9 +318,15 @@ if __name__ == "__main__":
 
 					if (ownerNew != "") :
 						if (ownerNew[0] == ourSide) :
-							ourPos += 1
+							if (opponentTeam == "Jaeger") :
+								opponentPos += 1
+							else :
+								ourPos += 1
 						else :
-							opponentPos += 1
+							if (opponentTeam == "Jaeger") :
+								ourPos += 1
+							else : 
+								opponentPos += 1
 					cycleTotal = cycleTotal+1
 
 
