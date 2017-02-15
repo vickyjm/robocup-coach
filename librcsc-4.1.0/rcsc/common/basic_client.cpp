@@ -37,6 +37,7 @@
 
 #include "soccer_agent.h"
 
+#include <vector>
 #include <rcsc/gz/gzcompressor.h>
 #include <rcsc/net/udp_socket.h>
 
@@ -127,6 +128,7 @@ BasicClient::runOnline( SoccerAgent * agent )
     int timeout_count = 0;
     long waited_msec = 0;
 
+    // Tree Stuff
     actionInfo lastAction;
     actionInfo firstAction;
 
@@ -143,6 +145,17 @@ BasicClient::runOnline( SoccerAgent * agent )
     lastAction.ballPos = Vector2D(0.0, 0.0);
     lastAction.ballVel = Vector2D(0.0, 0.0);
     lastAction.goalChecked = false;
+
+    // Formation Stuff
+    float field [10][34][35];
+
+    for (int k = 0; k < 10; k++) {
+        for (int i = 0; i < 34; i++) {
+            for (int j = 0; j < 35; j++) {
+                field[k][i][j] = 0;
+            }
+        }  
+    }
 
     while ( isServerAlive() )
     {
@@ -172,7 +185,8 @@ BasicClient::runOnline( SoccerAgent * agent )
             // received message, reset wait time
             waited_msec = 0;
             timeout_count = 0;
-            agent->handleMessage(&firstAction,&lastAction);
+            agent->handleMessage(&firstAction,&lastAction,field);
+            // agent->handleMessage(&firstAction,&lastAction);
         }
     }
 }
