@@ -423,16 +423,16 @@ SampleCoach::doFirstSubstitute()
 
 // New typechanges for Genius formations
 // if ((ourDefense == 4) && (ourCenter == 1) && (ourOffense == 5)) {
-  ordered_unum.push_back( 11 ); // center forward
-  ordered_unum.push_back( 4 );  // side back
-  ordered_unum.push_back( 5 );  // side back
-  ordered_unum.push_back( 9 ); // side forward
-  ordered_unum.push_back( 10 );  // side forward
-  ordered_unum.push_back( 2 );  // center back
-  ordered_unum.push_back( 3 );  // center back
-  ordered_unum.push_back( 6 );  // offensive half
-  ordered_unum.push_back( 7 );  // defensive half
-  ordered_unum.push_back( 8 );  // defensive half
+  // ordered_unum.push_back( 11 ); // center forward
+  // ordered_unum.push_back( 4 );  // side back
+  // ordered_unum.push_back( 5 );  // side back
+  // ordered_unum.push_back( 9 ); // side forward
+  // ordered_unum.push_back( 10 );  // side forward
+  // ordered_unum.push_back( 2 );  // center back
+  // ordered_unum.push_back( 3 );  // center back
+  // ordered_unum.push_back( 6 );  // offensive half
+  // ordered_unum.push_back( 7 );  // defensive half
+  // ordered_unum.push_back( 8 );  // defensive half
 // }
 // else if ((ourDefense == 4) && (ourCenter == 4) && (ourOffense == 2)) {
 //   ordered_unum.push_back( 9 ); // center forward
@@ -534,16 +534,16 @@ SampleCoach::doFirstSubstitute()
 //   // ordered_unum.push_back( 8 );  // defensive half
 // else {
 //     // wing player has priority
-//   ordered_unum.push_back( 11 ); // center forward
-//   ordered_unum.push_back( 2 );  // center back
-//   ordered_unum.push_back( 3 );  // center back
-//   ordered_unum.push_back( 10 ); // side half
-//   ordered_unum.push_back( 9 );  // side half
-//   ordered_unum.push_back( 6 );  // center half
-//   ordered_unum.push_back( 4 );  // side back
-//   ordered_unum.push_back( 5 );  // side back
-//   ordered_unum.push_back( 7 );  // defensive half
-//   ordered_unum.push_back( 8 );  // defensive half
+  ordered_unum.push_back( 11 ); // center forward
+  ordered_unum.push_back( 2 );  // center back
+  ordered_unum.push_back( 3 );  // center back
+  ordered_unum.push_back( 10 ); // side half
+  ordered_unum.push_back( 9 );  // side half
+  ordered_unum.push_back( 6 );  // center half
+  ordered_unum.push_back( 4 );  // side back
+  ordered_unum.push_back( 5 );  // side back
+  ordered_unum.push_back( 7 );  // defensive half
+  ordered_unum.push_back( 8 );  // defensive half
 // }
 
 

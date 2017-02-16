@@ -1549,88 +1549,101 @@ Strategy::getFormation( const WorldModel & wm ) const
 
         // Formaciones durante le juego basicas del equipo
 
-        switch ( M_current_situation ) {
+    //     switch ( M_current_situation ) {
+    //     case Defense_Situation:
+    //         if (wm.time().cycle() >= 4200) {
+    //             if (our_score <= opp_score) {
+    //                 if (opp_score - our_score < 2) 
+    //                     return M_form_def_433_formation;
+    //                 else if (opp_score - our_score >= 2)
+    //                     return M_form_def_442_formation;
+    //             }
+    //             else if (our_score > opp_score) {
+    //                 if (offense > center) 
+    //                     return M_form_def_541_formation;
+    //                 else 
+    //                     return M_form_def_442_formation;
+    //             }
+    //         }
+    //         else {
+    //             if ((defense == 4) && (center == 3) && (offense == 3)) 
+    //                return M_form_def_4123_formation;
+    //             else if (offense > center) 
+    //                return M_form_def_442_formation;
+    //             else if (center >= 5) 
+    //                return M_form_def_541_formation;
+    //             else if (center < 5) 
+    //                return M_form_def_4213_formation;
+    //         }
+    //         return M_defense_formation;
+    //     case Offense_Situation:
+    //         if (wm.time().cycle() >= 4200) {
+    //             if (our_score <= opp_score) {
+    //                 if (opp_score - our_score < 2) 
+    //                     return M_form_off_433_formation;
+    //                 else if (opp_score - our_score >= 2)
+    //                     return M_form_off_442_formation;
+    //             }
+    //             else if (our_score > opp_score) {
+    //                 if (offense > center) 
+    //                     return M_form_off_541_formation;
+    //                 else 
+    //                     return M_form_off_442_formation;
+    //             }
+    //         }
+    //         else {
+    //             if ((defense == 4) && (center == 3) && (offense == 3)) 
+    //                return M_form_off_4123_formation;
+    //             else if (offense > center) 
+    //                return M_form_off_442_formation;
+    //             else if (center >= 5) 
+    //                return M_form_off_541_formation;
+    //             else if (center < 5) 
+    //                return M_form_off_4213_formation;
+    //         }
+    //         return M_offense_formation;
+    //     default:
+    //         break;
+    //     }
+    //     if (wm.time().cycle() >= 4200) {
+    //         if (our_score <= opp_score) {
+    //             if (opp_score - our_score < 2) 
+    //                 return M_form_norm_433_formation;
+    //             else if (opp_score - our_score >= 2)
+    //                 return M_form_norm_442_formation;
+    //         }
+    //         else if (our_score > opp_score) {
+    //             if (offense > center) 
+    //                 return M_form_norm_541_formation;
+    //             else 
+    //                 return M_form_norm_442_formation;
+    //         }
+    //     }
+    //     else {
+    //         if ((defense == 4) && (center == 3) && (offense == 3)) 
+    //            return M_form_norm_4123_formation;
+    //         else if (offense > center) 
+    //            return M_form_off_442_formation;
+    //         else if (center >= 5) 
+    //            return M_form_norm_541_formation;
+    //         else if (center < 5) 
+    //            return M_form_norm_4213_formation;
+    //     }
+    //     return M_normal_formation;
+    // }
+
+
+    switch ( M_current_situation ) {
         case Defense_Situation:
-            if (wm.time().cycle() >= 4200) {
-                if (our_score <= opp_score) {
-                    if (opp_score - our_score < 2) 
-                        return M_form_def_433_formation;
-                    else if (opp_score - our_score >= 2)
-                        return M_form_def_442_formation;
-                }
-                else if (our_score > opp_score) {
-                    if (offense > center) 
-                        return M_form_def_541_formation;
-                    else 
-                        return M_form_def_442_formation;
-                }
-            }
-            else {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                   return M_form_def_4123_formation;
-                else if (offense > center) 
-                   return M_form_def_442_formation;
-                else if (center >= 5) 
-                   return M_form_def_541_formation;
-                else if (center < 5) 
-                   return M_form_def_4213_formation;
-            }
             return M_defense_formation;
         case Offense_Situation:
-            if (wm.time().cycle() >= 4200) {
-                if (our_score <= opp_score) {
-                    if (opp_score - our_score < 2) 
-                        return M_form_off_433_formation;
-                    else if (opp_score - our_score >= 2)
-                        return M_form_off_442_formation;
-                }
-                else if (our_score > opp_score) {
-                    if (offense > center) 
-                        return M_form_off_541_formation;
-                    else 
-                        return M_form_off_442_formation;
-                }
-            }
-            else {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                   return M_form_off_4123_formation;
-                else if (offense > center) 
-                   return M_form_off_442_formation;
-                else if (center >= 5) 
-                   return M_form_off_541_formation;
-                else if (center < 5) 
-                   return M_form_off_4213_formation;
-            }
             return M_offense_formation;
         default:
             break;
         }
-        if (wm.time().cycle() >= 4200) {
-            if (our_score <= opp_score) {
-                if (opp_score - our_score < 2) 
-                    return M_form_norm_433_formation;
-                else if (opp_score - our_score >= 2)
-                    return M_form_norm_442_formation;
-            }
-            else if (our_score > opp_score) {
-                if (offense > center) 
-                    return M_form_norm_541_formation;
-                else 
-                    return M_form_norm_442_formation;
-            }
-        }
-        else {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-               return M_form_norm_4123_formation;
-            else if (offense > center) 
-               return M_form_off_442_formation;
-            else if (center >= 5) 
-               return M_form_norm_541_formation;
-            else if (center < 5) 
-               return M_form_norm_4213_formation;
-        }
         return M_normal_formation;
     }
+
 
     //
     // kick in, corner kick
@@ -1652,26 +1665,26 @@ Strategy::getFormation( const WorldModel & wm ) const
         if ( wm.ourSide() == wm.gameMode().side() )
         {
             // our kick-in or corner-kick
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-                return M_form_kickin_our_4123_formation;
-            else if (offense > center) 
-                return M_form_kickin_our_442_formation;
-            else if (center >= 5)
-                return M_form_kickin_our_541_formation;
-            else if (center < 5)
-                return M_form_kickin_our_4213_formation;
+            // if ((defense == 4) && (center == 3) && (offense == 3)) 
+            //     return M_form_kickin_our_4123_formation;
+            // else if (offense > center) 
+            //     return M_form_kickin_our_442_formation;
+            // else if (center >= 5)
+            //     return M_form_kickin_our_541_formation;
+            // else if (center < 5)
+            //     return M_form_kickin_our_4213_formation;
             return M_kickin_our_formation;
         }
         else
         {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-                return M_form_setplay_opp_4123_formation;
-            else if (offense > center) 
-                return M_form_setplay_opp_442_formation;
-            else if (center >= 5)
-                return M_form_setplay_opp_541_formation;
-            else if (center < 5)
-                return M_form_setplay_opp_4213_formation;
+            // if ((defense == 4) && (center == 3) && (offense == 3)) 
+            //     return M_form_setplay_opp_4123_formation;
+            // else if (offense > center) 
+            //     return M_form_setplay_opp_442_formation;
+            // else if (center >= 5)
+            //     return M_form_setplay_opp_541_formation;
+            // else if (center < 5)
+            //     return M_form_setplay_opp_4213_formation;
             return M_setplay_opp_formation;
         }
     }
@@ -1694,14 +1707,14 @@ Strategy::getFormation( const WorldModel & wm ) const
                 oppFormationFile.close();
             }
         }
-        if ((defense == 4) && (center == 3) && (offense == 3)) 
-            return M_form_indirect_freekick_our_4123_formation;
-        else if (offense > center) 
-            return M_form_indirect_freekick_our_442_formation;
-        else if (center >= 5)
-            return M_form_indirect_freekick_our_541_formation;
-        else if (center < 5)
-            return M_form_indirect_freekick_our_4213_formation;
+        // if ((defense == 4) && (center == 3) && (offense == 3)) 
+        //     return M_form_indirect_freekick_our_4123_formation;
+        // else if (offense > center) 
+        //     return M_form_indirect_freekick_our_442_formation;
+        // else if (center >= 5)
+        //     return M_form_indirect_freekick_our_541_formation;
+        // else if (center < 5)
+        //     return M_form_indirect_freekick_our_4213_formation;
 
         return M_indirect_freekick_our_formation;
     }
@@ -1725,14 +1738,14 @@ Strategy::getFormation( const WorldModel & wm ) const
             }
         }
 
-        if ((defense == 4) && (center == 3) && (offense == 3)) 
-            return M_form_indirect_freekick_opp_4123_formation;
-        else if (offense > center) 
-            return M_form_indirect_freekick_opp_442_formation;
-        else if (center >= 5)
-            return M_form_indirect_freekick_opp_541_formation;
-        else if (center < 5)
-            return M_form_indirect_freekick_opp_4213_formation;
+        // if ((defense == 4) && (center == 3) && (offense == 3)) 
+        //     return M_form_indirect_freekick_opp_4123_formation;
+        // else if (offense > center) 
+        //     return M_form_indirect_freekick_opp_442_formation;
+        // else if (center >= 5)
+        //     return M_form_indirect_freekick_opp_541_formation;
+        // else if (center < 5)
+        //     return M_form_indirect_freekick_opp_4213_formation;
 
         return M_indirect_freekick_opp_formation;
     }
@@ -1762,26 +1775,26 @@ Strategy::getFormation( const WorldModel & wm ) const
             if ( wm.ball().pos().x < ServerParam::i().ourPenaltyAreaLineX() + 1.0
                  && wm.ball().pos().absY() < ServerParam::i().penaltyAreaHalfWidth() + 1.0 )
             {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                    return M_form_indirect_freekick_opp_4123_formation;
-                else if (offense > center) 
-                    return M_form_indirect_freekick_opp_442_formation;
-                else if (center >= 5)
-                    return M_form_indirect_freekick_opp_541_formation;
-                else if (center < 5)
-                    return M_form_indirect_freekick_opp_4213_formation;
+                // if ((defense == 4) && (center == 3) && (offense == 3)) 
+                //     return M_form_indirect_freekick_opp_4123_formation;
+                // else if (offense > center) 
+                //     return M_form_indirect_freekick_opp_442_formation;
+                // else if (center >= 5)
+                //     return M_form_indirect_freekick_opp_541_formation;
+                // else if (center < 5)
+                //     return M_form_indirect_freekick_opp_4213_formation;
                 return M_indirect_freekick_opp_formation;
             }
             else
             {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                    return M_form_setplay_opp_4123_formation;
-                else if (offense > center) 
-                    return M_form_setplay_opp_442_formation;
-                else if (center >= 5)
-                    return M_form_setplay_opp_541_formation;
-                else if (center < 5)
-                    return M_form_setplay_opp_4213_formation;
+                // if ((defense == 4) && (center == 3) && (offense == 3)) 
+                //     return M_form_setplay_opp_4123_formation;
+                // else if (offense > center) 
+                //     return M_form_setplay_opp_442_formation;
+                // else if (center >= 5)
+                //     return M_form_setplay_opp_541_formation;
+                // else if (center < 5)
+                //     return M_form_setplay_opp_4213_formation;
                 return M_setplay_opp_formation;
             }
         }
@@ -1793,26 +1806,26 @@ Strategy::getFormation( const WorldModel & wm ) const
             if ( wm.ball().pos().x > ServerParam::i().theirPenaltyAreaLineX()
                  && wm.ball().pos().absY() < ServerParam::i().penaltyAreaHalfWidth() )
             {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                    return M_form_indirect_freekick_our_4123_formation;
-                else if (offense > center) 
-                    return M_form_indirect_freekick_our_442_formation;
-                else if (center >= 5)
-                    return M_form_indirect_freekick_our_541_formation;
-                else if (center < 5)
-                    return M_form_indirect_freekick_our_4213_formation;
+                // if ((defense == 4) && (center == 3) && (offense == 3)) 
+                //     return M_form_indirect_freekick_our_4123_formation;
+                // else if (offense > center) 
+                //     return M_form_indirect_freekick_our_442_formation;
+                // else if (center >= 5)
+                //     return M_form_indirect_freekick_our_541_formation;
+                // else if (center < 5)
+                //     return M_form_indirect_freekick_our_4213_formation;
                 return M_indirect_freekick_our_formation;
             }
             else
             {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                    return M_form_setplay_our_4123_formation;
-                else if (offense > center) 
-                    return M_form_setplay_our_442_formation;
-                else if (center >= 5)
-                    return M_form_setplay_our_541_formation;
-                else if (center < 5)
-                    return M_form_setplay_our_4213_formation;
+                // if ((defense == 4) && (center == 3) && (offense == 3)) 
+                //     return M_form_setplay_our_4123_formation;
+                // else if (offense > center) 
+                //     return M_form_setplay_our_442_formation;
+                // else if (center >= 5)
+                //     return M_form_setplay_our_541_formation;
+                // else if (center < 5)
+                //     return M_form_setplay_our_4213_formation;
                 return M_setplay_our_formation;
             }
         }
@@ -1836,27 +1849,27 @@ Strategy::getFormation( const WorldModel & wm ) const
 
         if ( wm.gameMode().side() == wm.ourSide() )
         {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-                return M_form_goal_kick_our_4123_formation;
-            else if (offense > center) 
-                return M_form_goal_kick_our_442_formation;
-            else if (center >= 5)
-                return M_form_goal_kick_our_541_formation;
-            else if (center < 5)
-                return M_form_goal_kick_our_4213_formation;
+            // if ((defense == 4) && (center == 3) && (offense == 3)) 
+            //     return M_form_goal_kick_our_4123_formation;
+            // else if (offense > center) 
+            //     return M_form_goal_kick_our_442_formation;
+            // else if (center >= 5)
+            //     return M_form_goal_kick_our_541_formation;
+            // else if (center < 5)
+            //     return M_form_goal_kick_our_4213_formation;
 
             return M_goal_kick_our_formation;
         }
         else
         {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-                return M_form_goal_kick_opp_4123_formation;
-            else if (offense > center) 
-                return M_form_goal_kick_opp_442_formation;
-            else if (center >= 5)
-                return M_form_goal_kick_opp_541_formation;
-            else if (center < 5)
-                return M_form_goal_kick_opp_4213_formation;
+            // if ((defense == 4) && (center == 3) && (offense == 3)) 
+            //     return M_form_goal_kick_opp_4123_formation;
+            // else if (offense > center) 
+            //     return M_form_goal_kick_opp_442_formation;
+            // else if (center >= 5)
+            //     return M_form_goal_kick_opp_541_formation;
+            // else if (center < 5)
+            //     return M_form_goal_kick_opp_4213_formation;
 
             return M_goal_kick_opp_formation;
         }
@@ -1881,27 +1894,27 @@ Strategy::getFormation( const WorldModel & wm ) const
 
         if ( wm.gameMode().side() == wm.ourSide() )
         {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-                return M_form_goalie_catch_our_4123_formation;
-            else if (offense > center) 
-                return M_form_goalie_catch_our_442_formation;
-            else if (center >= 5)
-                return M_form_goalie_catch_our_541_formation;
-            else if (center < 5)
-                return M_form_goalie_catch_our_4213_formation;
+            // if ((defense == 4) && (center == 3) && (offense == 3)) 
+            //     return M_form_goalie_catch_our_4123_formation;
+            // else if (offense > center) 
+            //     return M_form_goalie_catch_our_442_formation;
+            // else if (center >= 5)
+            //     return M_form_goalie_catch_our_541_formation;
+            // else if (center < 5)
+            //     return M_form_goalie_catch_our_4213_formation;
 
             return M_goalie_catch_our_formation;
         }
         else
         {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-                return M_form_goalie_catch_opp_4123_formation;
-            else if (offense > center) 
-                return M_form_goalie_catch_opp_442_formation;
-            else if (center >= 5)
-                return M_form_goalie_catch_opp_541_formation;
-            else if (center < 5)
-                return M_form_goalie_catch_opp_4213_formation;
+            // if ((defense == 4) && (center == 3) && (offense == 3)) 
+            //     return M_form_goalie_catch_opp_4123_formation;
+            // else if (offense > center) 
+            //     return M_form_goalie_catch_opp_442_formation;
+            // else if (center >= 5)
+            //     return M_form_goalie_catch_opp_541_formation;
+            // else if (center < 5)
+            //     return M_form_goalie_catch_opp_4213_formation;
             return M_goalie_catch_opp_formation;
         }
     }
@@ -1924,14 +1937,14 @@ Strategy::getFormation( const WorldModel & wm ) const
             }
         }
 
-        if ((defense == 4) && (center == 3) && (offense == 3)) 
-            return M_form_BKO_4123_formation;
-        else if (offense > center) 
-            return M_form_BKO_442_formation;
-        else if (center >= 5)
-            return M_form_BKO_541_formation;
-        else if (center < 5)
-            return M_form_BKO_4213_formation;
+        // if ((defense == 4) && (center == 3) && (offense == 3)) 
+        //     return M_form_BKO_4123_formation;
+        // else if (offense > center) 
+        //     return M_form_BKO_442_formation;
+        // else if (center >= 5)
+        //     return M_form_BKO_541_formation;
+        // else if (center < 5)
+        //     return M_form_BKO_4213_formation;
 
         return M_before_kick_off_formation;
 
@@ -1963,14 +1976,14 @@ Strategy::getFormation( const WorldModel & wm ) const
             }
         }
 
-        if ((defense == 4) && (center == 3) && (offense == 3)) 
-            return M_form_setplay_our_4123_formation;
-        else if (offense > center) 
-            return M_form_setplay_our_442_formation;
-        else if (center >= 5)
-            return M_form_setplay_our_541_formation;
-        else if (center < 5)
-            return M_form_setplay_our_4213_formation;
+        // if ((defense == 4) && (center == 3) && (offense == 3)) 
+        //     return M_form_setplay_our_4123_formation;
+        // else if (offense > center) 
+        //     return M_form_setplay_our_442_formation;
+        // else if (center >= 5)
+        //     return M_form_setplay_our_541_formation;
+        // else if (center < 5)
+        //     return M_form_setplay_our_4213_formation;
 
         return M_setplay_our_formation;
     }
@@ -1989,14 +2002,14 @@ Strategy::getFormation( const WorldModel & wm ) const
             }
         }
 
-        if ((defense == 4) && (center == 3) && (offense == 3)) 
-            return M_form_setplay_opp_4123_formation;
-        else if (offense > center) 
-            return M_form_setplay_opp_442_formation;
-        else if (center >= 5)
-            return M_form_setplay_opp_541_formation;
-        else if (center < 5)
-            return M_form_setplay_opp_4213_formation;
+        // if ((defense == 4) && (center == 3) && (offense == 3)) 
+        //     return M_form_setplay_opp_4123_formation;
+        // else if (offense > center) 
+        //     return M_form_setplay_opp_442_formation;
+        // else if (center >= 5)
+        //     return M_form_setplay_opp_541_formation;
+        // else if (center < 5)
+        //     return M_form_setplay_opp_4213_formation;
 
         return M_setplay_opp_formation;
     }
@@ -2004,87 +2017,97 @@ Strategy::getFormation( const WorldModel & wm ) const
     //
     // unknown
     //
+    // switch ( M_current_situation ) {
+    //     case Defense_Situation:
+    //         if (wm.time().cycle() >= 4200) {
+    //             if (our_score <= opp_score) {
+    //                 if (opp_score - our_score < 2) 
+    //                     return M_form_def_433_formation;
+    //                 else if (opp_score - our_score >= 2)
+    //                     return M_form_def_442_formation;
+    //             }
+    //             else if (our_score > opp_score) {
+    //                 if (offense > center) 
+    //                     return M_form_def_541_formation;
+    //                 else 
+    //                     return M_form_def_442_formation;
+    //             }
+    //         }
+    //         else {
+    //             if ((defense == 4) && (center == 3) && (offense == 3)) 
+    //                return M_form_def_4123_formation;
+    //             else if (offense > center) 
+    //                return M_form_def_442_formation;
+    //             else if (center >= 5) 
+    //                return M_form_def_541_formation;
+    //             else if (center < 5) 
+    //                return M_form_def_4213_formation;
+    //         }
+    //         return M_defense_formation;
+    //     case Offense_Situation:
+    //         if (wm.time().cycle() >= 4200) {
+    //             if (our_score <= opp_score) {
+    //                 if (opp_score - our_score < 2) 
+    //                     return M_form_off_433_formation;
+    //                 else if (opp_score - our_score >= 2)
+    //                     return M_form_off_442_formation;
+    //             }
+    //             else if (our_score > opp_score) {
+    //                 if (offense > center) 
+    //                     return M_form_off_541_formation;
+    //                 else 
+    //                     return M_form_off_442_formation;
+    //             }
+    //         }
+    //         else {
+    //             if ((defense == 4) && (center == 3) && (offense == 3)) 
+    //                return M_form_off_4123_formation;
+    //             else if (offense > center) 
+    //                return M_form_off_442_formation;
+    //             else if (center >= 5) 
+    //                return M_form_off_541_formation;
+    //             else if (center < 5) 
+    //                return M_form_off_4213_formation;
+    //         }
+    //         return M_offense_formation;
+    //     default:
+    //         break;
+    //     }
+    //     if (wm.time().cycle() >= 4200) {
+    //         if (our_score <= opp_score) {
+    //             if (opp_score - our_score < 2) 
+    //                 return M_form_norm_433_formation;
+    //             else if (opp_score - our_score >= 2)
+    //                 return M_form_norm_442_formation;
+    //         }
+    //         else if (our_score > opp_score) {
+    //             if (offense > center) 
+    //                 return M_form_norm_541_formation;
+    //             else 
+    //                 return M_form_norm_442_formation;
+    //         }
+    //     }
+    //     else {
+    //         if ((defense == 4) && (center == 3) && (offense == 3)) 
+    //            return M_form_norm_4123_formation;
+    //         else if (offense > center) 
+    //            return M_form_off_442_formation;
+    //         else if (center >= 5) 
+    //            return M_form_norm_541_formation;
+    //         else if (center < 5) 
+    //            return M_form_norm_4213_formation;
+    //     }
+    //     return M_normal_formation;
+
     switch ( M_current_situation ) {
         case Defense_Situation:
-            if (wm.time().cycle() >= 4200) {
-                if (our_score <= opp_score) {
-                    if (opp_score - our_score < 2) 
-                        return M_form_def_433_formation;
-                    else if (opp_score - our_score >= 2)
-                        return M_form_def_442_formation;
-                }
-                else if (our_score > opp_score) {
-                    if (offense > center) 
-                        return M_form_def_541_formation;
-                    else 
-                        return M_form_def_442_formation;
-                }
-            }
-            else {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                   return M_form_def_4123_formation;
-                else if (offense > center) 
-                   return M_form_def_442_formation;
-                else if (center >= 5) 
-                   return M_form_def_541_formation;
-                else if (center < 5) 
-                   return M_form_def_4213_formation;
-            }
             return M_defense_formation;
         case Offense_Situation:
-            if (wm.time().cycle() >= 4200) {
-                if (our_score <= opp_score) {
-                    if (opp_score - our_score < 2) 
-                        return M_form_off_433_formation;
-                    else if (opp_score - our_score >= 2)
-                        return M_form_off_442_formation;
-                }
-                else if (our_score > opp_score) {
-                    if (offense > center) 
-                        return M_form_off_541_formation;
-                    else 
-                        return M_form_off_442_formation;
-                }
-            }
-            else {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                   return M_form_off_4123_formation;
-                else if (offense > center) 
-                   return M_form_off_442_formation;
-                else if (center >= 5) 
-                   return M_form_off_541_formation;
-                else if (center < 5) 
-                   return M_form_off_4213_formation;
-            }
             return M_offense_formation;
         default:
             break;
-        }
-        if (wm.time().cycle() >= 4200) {
-            if (our_score <= opp_score) {
-                if (opp_score - our_score < 2) 
-                    return M_form_norm_433_formation;
-                else if (opp_score - our_score >= 2)
-                    return M_form_norm_442_formation;
-            }
-            else if (our_score > opp_score) {
-                if (offense > center) 
-                    return M_form_norm_541_formation;
-                else 
-                    return M_form_norm_442_formation;
-            }
-        }
-        else {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-               return M_form_norm_4123_formation;
-            else if (offense > center) 
-               return M_form_off_442_formation;
-            else if (center >= 5) 
-               return M_form_norm_541_formation;
-            else if (center < 5) 
-               return M_form_norm_4213_formation;
-        }
-        return M_normal_formation;
+    }
+    return M_normal_formation;
 }
 
 /*-------------------------------------------------------------------*/
