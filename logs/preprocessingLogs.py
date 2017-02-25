@@ -560,29 +560,29 @@ if __name__ == "__main__":
 					##---- Add the action and the values to the output file ----##
 					auxOwner = ownerOld.split()
 
-					#if (auxOwner[0] == ourSide):
-					ownerX = oldOwner_X
-					ownerY = oldOwner_Y
+					if (auxOwner[0] == ourSide):
+						ownerX = oldOwner_X
+						ownerY = oldOwner_Y
 
-					if (auxOwner[0] == "l"):
-						teammates = list(zip(left_pPosX0,left_pPosY0))
-						opponents = list(zip(right_pPosX0,right_pPosY0))
-						
-					else:
-						teammates = list(zip(right_pPosX0, right_pPosY0))
-						opponents = list(zip(left_pPosX0, left_pPosY0))
+						if (auxOwner[0] == "l"):
+							teammates = list(zip(left_pPosX0,left_pPosY0))
+							opponents = list(zip(right_pPosX0,right_pPosY0))
+							
+						else:
+							teammates = list(zip(right_pPosX0, right_pPosY0))
+							opponents = list(zip(left_pPosX0, left_pPosY0))
 
-					outputFile.write(str(ball_posXOld) + " " + str(ball_posYOld) + " ") # First ball position
-					outputFile.write(str(ball_posX) + " " + str(ball_posY) + " ") # Last ball position
+						outputFile.write(str(ball_posXOld) + " " + str(ball_posYOld) + " ") # First ball position
+						outputFile.write(str(ball_posX) + " " + str(ball_posY) + " ") # Last ball position
 
-					for player in teammates:
-						outputFile.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
+						for player in teammates:
+							outputFile.write(str(player[0]) + " " + str(player[1]) + " ") # X,Y position of the teammate
 
-					for player in opponents:
-						outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
+						for player in opponents:
+							outputFile.write(str(player[0]) + " " + str(player[1]) + " ")
 
-					outputFile.write(str(firstVel[0]) + " " + str(firstVel[1]) + " ")
-					outputFile.write(action + "\n")
+						outputFile.write(str(firstVel[0]) + " " + str(firstVel[1]) + " ")
+						outputFile.write(action + "\n")
 
 					isInitialPos = True		# Restart the init values of the next action
 
@@ -596,7 +596,8 @@ if __name__ == "__main__":
 			elif (line[0] == "(player_type"):
 				kick_rand.append(extractKickTypeInfo(line))
 		
-			elif (line[0] == "(playmode" and (line[2] == "goal_l)" or line[2]=="goal_r)")) : # Check if a goal happened
+			elif (line[0] == "(playmode" and (line[2] == "goal_l)" or line[2]=="goal_r)") and (ourSide == line[2][5])) : # Check if a goal happened
+			#elif (line[0] == "(playmode" and (line[2] == "goal_l)" or line[2]=="goal_r)")) : # Check if a goal happened
 				##---- Add the action and the values to the output file ----##
 				auxOwner = ownerOld.split()
 
@@ -621,6 +622,12 @@ if __name__ == "__main__":
 				outputFile.write("GOAL" + "\n")
 
 				isInitialPos = True		# Restart the init values of the next action
+
+			elif ((line[0] == "(team") and (line[1] == "1")):
+				if ((line[2] == "JEMV") or (line[2] == "HELIOS_BASE") or (line[2] == "HELIOS_base")):
+					ourSide = "l"
+				else:
+					ourSide = "r"
 
 		file.close()
 			
