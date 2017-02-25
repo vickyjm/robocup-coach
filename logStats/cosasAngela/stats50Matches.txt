@@ -1,0 +1,17 @@
+Equipo base (Control)
+
+Promedio de posesion : 0.4379
+Total de diferencia de goles : -192
+Nuestros goles : 47
+Goles oponentes : 239
+
+
+
+Equipo experimental (exp1)
+
+Promedio de posesion : 0.42852
+Total de diferencia de goles : -124
+Nuestros goles : 52
+Goles oponentes : 176
+
+

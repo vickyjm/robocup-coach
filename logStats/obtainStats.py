@@ -10,14 +10,14 @@ if __name__ == "__main__":
 
 	fileName = sys.argv[1]
 
-	controlTotal = 50;
+	controlTotal = 20;
 	controlGoalDif = 0;
 	controlOurPos = 0;
 	controlPosProm = 0;
 	controlOurGoals = 0;
 	controlOppGoals = 0;
 
-	exp1Total = 50;
+	exp1Total = 20;
 	exp1OurPos = 0;
 	exp1GoalDif = 0;
 	exp1PosProm = 0;

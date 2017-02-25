@@ -72,6 +72,54 @@
 #include <cstdio>
 #include <string>
 
+int ourFormationChange = 0;
+int ourFormationMode = 0;
+namespace patch
+{
+    template < typename T > std::string to_string( const T& n )
+    {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
+
+void writeToFormChangeFile(int unum,int form,int mode) {
+    std::ofstream formationChangeFile;
+    formationChangeFile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/formationChanges/changes.txt",std::ios::app);
+    if (unum == 8) {
+        if (formationChangeFile.is_open()) {
+            if (ourFormationChange != form) {
+                ourFormationChange = form;
+                ourFormationMode = mode;
+            }
+            else {
+                formationChangeFile.clear();
+                formationChangeFile.close();  
+                return;
+            }
+            if (form == -1) // our goal
+                formationChangeFile << "OurGoal";
+            if (form == -2) // their goal
+                formationChangeFile << "TheirGoal";
+            else
+                formationChangeFile << form;
+            formationChangeFile << " ";
+            if (mode == 0)
+                formationChangeFile << "N";
+            if (mode == 1)
+                formationChangeFile << "D";
+            if (mode == 2)
+                formationChangeFile << "O";
+            formationChangeFile << std::endl;
+            formationChangeFile.flush();
+        }
+    }
+    formationChangeFile.clear();
+    formationChangeFile.close();
+    return;
+}
+
 using namespace rcsc;
 
 const std::string Strategy::BEFORE_KICK_OFF_CONF = "before-kick-off.conf";
@@ -97,10 +145,20 @@ const std::string Strategy::OFFENSE_433_CONF = "offense-433.conf";
 
 // Our formations
 const std::string Strategy::FORM_352_CONF = "3-5-2.conf";
+const std::string Strategy::FORM_352_OFF_CONF = "3-5-2-offense.conf";
+const std::string Strategy::FORM_352_DEF_CONF = "3-5-2-defense.conf";
 const std::string Strategy::FORM_4231_CONF = "4-2-3-1.conf";
+const std::string Strategy::FORM_4231_OFF_CONF = "4-2-3-1-offense.conf";
+const std::string Strategy::FORM_4231_DEF_CONF = "4-2-3-1-defense.conf";
 const std::string Strategy::FORM_433_CONF = "4-3-3.conf";
+const std::string Strategy::FORM_433_OFF_CONF = "4-3-3-offense.conf";
+const std::string Strategy::FORM_433_DEF_CONF = "4-3-3-defense.conf";
 const std::string Strategy::FORM_442_CONF = "4-4-2.conf";
+const std::string Strategy::FORM_442_OFF_CONF = "4-4-2-offense.conf";
+const std::string Strategy::FORM_442_DEF_CONF = "4-4-2-defense.conf";
 const std::string Strategy::FORM_451_CONF = "4-5-1.conf";
+const std::string Strategy::FORM_451_OFF_CONF = "4-5-1-offense.conf";
+const std::string Strategy::FORM_451_DEF_CONF = "4-5-1-defense.conf";
 const std::string Strategy::FORM_532_CONF = "5-3-2.conf";
 
 const std::string Strategy::FORM_BK_352_CONF = "BK-3-5-2.conf";
@@ -182,6 +240,12 @@ const std::string Strategy::INDIRECT_FREEKICK_OUR_FORM_4213_CONF = "F-4213-indir
 const std::string Strategy::KICKIN_OUR_FORM_4213_CONF = "F-4213-kickin-our-formation.conf";
 const std::string Strategy::SETPLAY_OPP_FORM_4213_CONF = "F-4213-setplay-opp-formation.conf";
 const std::string Strategy::SETPLAY_OUR_FORM_4213_CONF = "F-4213-setplay-our-formation.conf";
+
+// Formaciones nuevas
+const std::string Strategy::DEF_FORM_532_CONF = "F-532-defense-formation.conf";
+const std::string Strategy::OFF_FORM_532_CONF = "F-532-offense-formation.conf";
+const std::string Strategy::NORM_FORM_532_CONF = "F-532-normal-formation.conf";
+const std::string Strategy::BK_FORM_532_CONF = "F-532-before-kick-off.conf";
 
 
 /*-------------------------------------------------------------------*/
@@ -312,6 +376,21 @@ Strategy::read( const std::string & formation_dir )
         return false;
     }
 
+    M_form_352_off_formation = readFormation( configpath + FORM_352_OFF_CONF);
+    if (! M_form_352_off_formation)
+    {
+        std::cerr << "Failed to read 352_off formation" << std::endl;
+        return false;
+    }
+
+    M_form_352_def_formation = readFormation( configpath + FORM_352_DEF_CONF);
+    if (! M_form_352_def_formation)
+    {
+        std::cerr << "Failed to read 352_def formation" << std::endl;
+        return false;
+    }
+
+
     M_form_4231_formation = readFormation( configpath + FORM_4231_CONF);
     if (! M_form_4231_formation)
     {
@@ -319,10 +398,39 @@ Strategy::read( const std::string & formation_dir )
         return false;
     }
 
+    M_form_4231_off_formation = readFormation( configpath + FORM_4231_OFF_CONF);
+    if (! M_form_4231_off_formation)
+    {
+        std::cerr << "Failed to read 4231_off formation" << std::endl;
+        return false;
+    }
+
+    M_form_4231_def_formation = readFormation( configpath + FORM_4231_DEF_CONF);
+    if (! M_form_4231_def_formation)
+    {
+        std::cerr << "Failed to read 4231_def formation" << std::endl;
+        return false;
+    }
+
+
     M_form_433_formation = readFormation( configpath + FORM_433_CONF);
     if (! M_form_433_formation)
     {
         std::cerr << "Failed to read 433 formation" << std::endl;
+        return false;
+    }
+
+    M_form_433_off_formation = readFormation( configpath + FORM_433_OFF_CONF);
+    if (! M_form_433_off_formation)
+    {
+        std::cerr << "Failed to read 433_off formation" << std::endl;
+        return false;
+    }
+
+    M_form_433_def_formation = readFormation( configpath + FORM_433_DEF_CONF);
+    if (! M_form_433_def_formation)
+    {
+        std::cerr << "Failed to read 433_def formation" << std::endl;
         return false;
     }
 
@@ -333,10 +441,39 @@ Strategy::read( const std::string & formation_dir )
         return false;
     }
 
+    M_form_442_off_formation = readFormation( configpath + FORM_442_OFF_CONF);
+    if (! M_form_442_off_formation)
+    {
+        std::cerr << "Failed to read 442_off formation" << std::endl;
+        return false;
+    }
+
+    M_form_442_def_formation = readFormation( configpath + FORM_442_DEF_CONF);
+    if (! M_form_442_def_formation)
+    {
+        std::cerr << "Failed to read 442_def formation" << std::endl;
+        return false;
+    }
+
+
     M_form_451_formation = readFormation( configpath + FORM_451_CONF);
     if (! M_form_451_formation)
     {
         std::cerr << "Failed to read 451 formation" << std::endl;
+        return false;
+    }
+
+    M_form_451_off_formation = readFormation( configpath + FORM_451_OFF_CONF);
+    if (! M_form_451_off_formation)
+    {
+        std::cerr << "Failed to read 451_off formation" << std::endl;
+        return false;
+    }
+
+    M_form_451_def_formation = readFormation( configpath + FORM_451_DEF_CONF);
+    if (! M_form_451_def_formation)
+    {
+        std::cerr << "Failed to read 451_def formation" << std::endl;
         return false;
     }
 
@@ -946,6 +1083,34 @@ Strategy::read( const std::string & formation_dir )
         return false;
     }
 
+    // Nuevas formaciones
+    M_form_def_532_formation = readFormation( configpath + DEF_FORM_532_CONF);
+    if (! M_form_def_532_formation)
+    {
+        std::cerr << "Failed to read M_form_def_532 formation" << std::endl;
+        return false;       
+    }
+
+    M_form_off_532_formation = readFormation( configpath + OFF_FORM_532_CONF);
+    if (! M_form_off_532_formation)
+    {
+        std::cerr << "Failed to read M_form_off_532 formation" << std::endl;
+        return false;       
+    }
+
+    M_form_norm_532_formation = readFormation( configpath + NORM_FORM_532_CONF);
+    if (! M_form_norm_532_formation)
+    {
+        std::cerr << "Failed to read M_form_norm_532 formation" << std::endl;
+        return false;       
+    }
+
+    M_form_BKO_532_formation = readFormation( configpath + BK_FORM_532_CONF);
+    if (! M_form_BKO_532_formation)
+    {
+        std::cerr << "Failed to read  M_form_BKO_532 formation" << std::endl;
+        return false;       
+    }
 
     s_initialized = true;
     return true;
@@ -1446,6 +1611,7 @@ Strategy::getPosition( const int unum ) const
     }
 }
 
+
 /*-------------------------------------------------------------------*/
 /*!
 
@@ -1455,12 +1621,13 @@ Strategy::getFormation( const WorldModel & wm ) const
 {
     std::string line;
     std::string opponentName = wm.opponentTeamName();
-    std::string fileName = "./enemyFormations/formation" + opponentName + ".txt";
+    // std::string fileName = "./enemyFormations/formation" + opponentName + ".txt";
+    std::string fileName = "/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
     std::ifstream oppFormationFile(fileName.c_str());
     int offense = 0;
     int defense = 0;
     int center = 0;
-
+    // writeToFormChangeFile(wm.self().unum(),stuff);
    // M_role_number[10]  role_number es solo eso, los numeros.
    // M_position_types.at(1) Esto indica si es un tipo simetrico o no.
    // M_positions es literal un x y y donde estan los jugadores segun la formacion si no me equivoco.
@@ -1480,156 +1647,313 @@ Strategy::getFormation( const WorldModel & wm ) const
     int opp_score = ( wm.ourSide() == LEFT
                       ? wm.gameMode().scoreRight()
                       : wm.gameMode().scoreLeft() );
+
+
+    // Read the formation file and obtain the number of defense, centers and offense players.
+    if (oppFormationFile.is_open()) {
+        while (getline(oppFormationFile,line)) {
+            defense = line[0] - '0';
+            center = line[1] - '0';
+            offense = line[2] - '0';
+        }
+        oppFormationFile.close();
+    }
+
+    if (defense == 0) {
+        if (center >  1) 
+            center = center - 1;
+        else 
+            offense = offense - 1;
+        defense = defense + 1;
+    }
+    if (offense == 0) {
+        if (center > 1)
+            center = center - 1;
+        else 
+            defense = defense - 1;
+        offense = offense + 1;
+    }
+    if (center == 0) {
+        if (defense >= offense) 
+            defense = defense - 1;
+        else 
+            offense = offense - 1;
+        center = center + 1;
+    }
+
+    // Done reading formation
+
+    // Define our formation :
+    int ourFormation = 0;
+
+    // Condiciones Vicky
+    // if (wm.time().cycle() >= 4200) {
+    //         if (our_score <= opp_score) {
+    //             if (opp_score - our_score < 2) {
+    //                 ourFormation = 433;
+    //             }
+    //             else if (opp_score - our_score >= 2) {
+    //                 ourFormation = 4123;
+    //             }
+    //         }
+    //         else if (our_score > opp_score) {
+    //             ourFormation = 541;
+    //         }
+    // }
+    // else {
+    //     if ((defense == 4) && (center == 3) && (offense == 3)) {
+    //         ourFormation = 433;
+    //     }
+    //     else if ((offense > center) || (center >= 5)) {
+    //         ourFormation = 541;
+    //     }
+    //     else {
+    //        ourFormation = 442;
+    //     }
+    // }
+
+    // Condiciones mias :
+    if (wm.time().cycle() >= 4200) {
+            if (our_score <= opp_score) {
+                if (opp_score - our_score < 2) {
+                    ourFormation = 433;
+                }
+                else if (opp_score - our_score >= 2) {
+                    ourFormation = 442;
+                }
+            }
+            else if (our_score > opp_score) {
+                if (offense > center)
+                    ourFormation = 541;
+                else
+                    ourFormation = 442;
+            }
+    }
+    else {
+        if ((defense == 4) && (center == 3) && (offense == 3)) {
+            ourFormation = 4123;
+        }
+        else if ((offense > center)) {
+            ourFormation = 442;
+        }
+        else if (center >= 5) {
+            ourFormation = 541;
+        }
+        else if (center < 5){
+           ourFormation = 4213;
+        }
+    }
+
+    // Condiciones mias con las formaciones NUEVAS de nuestro equipo
+    // if (wm.time().cycle() >= 4200) {
+    //     if (our_score <= opp_score) {
+    //         if (opp_score - our_score < 2) {
+    //             ourFormation = 433;
+    //         }
+    //         else if (opp_score - our_score >= 2) {
+    //             ourFormation = 442;
+    //         }
+    //     }
+    //     else if (our_score > opp_score) {
+    //         if (offense > center)
+    //             ourFormation = 532;
+    //         else
+    //             ourFormation = 451;
+    //     }
+    // }
+    // else {
+    //     if ((defense == 4) && (center == 3) && (offense == 3)) {
+    //         ourFormation = 4231;
+    //     }
+    //     else if ((offense > center)) {
+    //         ourFormation = 442;
+    //     }
+    //     else if (center >= 5) {
+    //         ourFormation = 532;
+    //     }
+    //     else if (center < 5){
+    //        ourFormation = 451;
+    //     }
+    // }
+
+    // Condiciones mias con 532 y 451
+    // if (wm.time().cycle() >= 4200) {
+    //         if (our_score <= opp_score) {
+    //             if (opp_score - our_score < 2) {
+    //                 ourFormation = 433;
+    //             }
+    //             else if (opp_score - our_score >= 2) {
+    //                 ourFormation = 442;
+    //             }
+    //         }
+    //         else if (our_score > opp_score) {
+    //             if (offense > center)
+    //                 ourFormation = 541;
+    //             else
+    //                 ourFormation = 532;
+    //         }
+    // }
+    // else {
+    //     if ((defense == 4) && (center == 3) && (offense == 3)) {
+    //         ourFormation = 4231;
+    //     }
+    //     else if ((offense > center)) {
+    //         ourFormation = 442;
+    //     }
+    //     else if (center >= 5) {
+    //         ourFormation = 532;
+    //     }
+    //     else if (center < 5){
+    //        ourFormation = 451;
+    //     }
+    // }
+    
     //
     // play on
     //
     if ( wm.gameMode().type() == GameMode::PlayOn )
     {
-        // Read the formation file and obtain the number of defense, centers and offense players.
-        if (oppFormationFile.is_open()) {
-            while (getline(oppFormationFile,line)) {
-                defense = line[0] - '0';
-                center = line[1] - '0';
-                offense = line[2] - '0';
-            }
-            oppFormationFile.close();
-        }
-
-        if (defense == 0) {
-            if (center >  1) 
-                center = center - 1;
-            else 
-                offense = offense - 1;
-            defense = defense + 1;
-        }
-        if (offense == 0) {
-            if (center > 1)
-                center = center - 1;
-            else 
-                defense = defense - 1;
-            offense = offense + 1;
-        }
-        if (center == 0) {
-            if (defense >= offense) 
-                defense = defense - 1;
-            else 
-                offense = offense - 1;
-            center = center + 1;
-        }
-
-
-        // Our Formations during the game  (COMMENT IF NEEDED) //
-
-        // if (wm.time().cycle() >= 4200) {
-        //     if (our_score <= opp_score) {
-        //             if (opp_score - our_score < 2) 
-        //                 return M_form_433_formation;
-        //             else if (opp_score - our_score >= 2)
-        //                 return M_form_352_formation;
-        //     }
-        //     else if (our_score > opp_score) {
-        //         if (offense > center) 
-        //             return M_form_451_formation;
-        //         else 
-        //             return M_form_532_formation;
-        //     }
-        // }
-        // else {
-        //         if ((defense == 4) && (center == 3) && (offense == 3)) 
-        //            return M_form_4231_formation;
-        //         else if (offense > center) 
-        //            return M_form_532_formation;
-        //         else if (center >= 5) 
-        //            return M_form_451_formation;
-        //         else if (center < 5) 
-        //            return M_form_4231_formation;
-        // }
-
-        // This is where our formations during the game end (COMMENT ABOVE IF NEEDED) //
-
-        // Formaciones durante le juego basicas del equipo
 
         switch ( M_current_situation ) {
         case Defense_Situation:
-            if (wm.time().cycle() >= 4200) {
-                if (our_score <= opp_score) {
-                    if (opp_score - our_score < 2) 
-                        return M_form_def_433_formation;
-                    else if (opp_score - our_score >= 2)
-                        return M_form_def_442_formation;
-                }
-                else if (our_score > opp_score) {
-                    if (offense > center) 
-                        return M_form_def_541_formation;
-                    else 
-                        return M_form_def_442_formation;
-                }
+            if (ourFormation == 433) {
+                writeToFormChangeFile(wm.self().unum(),433,1);
+                return M_form_def_433_formation;
+                // return M_form_433_def_formation; // Nuestra
             }
-            else {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                   return M_form_def_4123_formation;
-                else if (offense > center) 
-                   return M_form_def_442_formation;
-                else if (center >= 5) 
-                   return M_form_def_541_formation;
-                else if (center < 5) 
-                   return M_form_def_4213_formation;
+            else if (ourFormation == 442) {
+                writeToFormChangeFile(wm.self().unum(),442,1);
+                return M_form_def_442_formation;
+                // return M_form_442_def_formation; // Nuestra
+            }
+            else if (ourFormation == 541) {
+                writeToFormChangeFile(wm.self().unum(),541,1);
+                return M_form_def_541_formation;
+            }
+            else if (ourFormation == 4123){
+                writeToFormChangeFile(wm.self().unum(),4123,1);
+                return M_form_def_4123_formation;
+            }
+            else if (ourFormation == 4213){
+                writeToFormChangeFile(wm.self().unum(),4213,1);
+                return M_form_def_4213_formation;
+            }
+            else if (ourFormation == 532) {
+                writeToFormChangeFile(wm.self().unum(),532,1);
+                return M_form_def_532_formation;            
+            }
+            else if (ourFormation == 4231) {
+                writeToFormChangeFile(wm.self().unum(),4231,1);
+                return M_form_4231_def_formation;
+            }   
+            else if (ourFormation == 352) {
+                writeToFormChangeFile(wm.self().unum(),352,1);
+                return M_form_352_def_formation;
+            }
+            else if (ourFormation == 451) {
+                writeToFormChangeFile(wm.self().unum(),451,1);
+                return M_form_451_def_formation;
             }
             return M_defense_formation;
         case Offense_Situation:
-            if (wm.time().cycle() >= 4200) {
-                if (our_score <= opp_score) {
-                    if (opp_score - our_score < 2) 
-                        return M_form_off_433_formation;
-                    else if (opp_score - our_score >= 2)
-                        return M_form_off_442_formation;
-                }
-                else if (our_score > opp_score) {
-                    if (offense > center) 
-                        return M_form_off_541_formation;
-                    else 
-                        return M_form_off_442_formation;
-                }
+            if (ourFormation == 433) {
+                writeToFormChangeFile(wm.self().unum(),433,2);
+                return M_form_off_433_formation;
+                // return M_form_433_off_formation; // Nuestra
             }
-            else {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                   return M_form_off_4123_formation;
-                else if (offense > center) 
-                   return M_form_off_442_formation;
-                else if (center >= 5) 
-                   return M_form_off_541_formation;
-                else if (center < 5) 
-                   return M_form_off_4213_formation;
+            else if (ourFormation == 442) {
+                writeToFormChangeFile(wm.self().unum(),442,2);
+                return M_form_off_442_formation;
+                // return M_form_442_off_formation; // Nuestra
+            }
+            else if (ourFormation == 541) {
+                writeToFormChangeFile(wm.self().unum(),541,2);
+                return M_form_off_541_formation;
+            }
+            else if (ourFormation == 4123){
+                writeToFormChangeFile(wm.self().unum(),4123,2);
+                return M_form_off_4123_formation;
+            }
+            else if (ourFormation == 4213){
+                writeToFormChangeFile(wm.self().unum(),4213,2);
+                return M_form_off_4213_formation;
+            }
+            else if (ourFormation == 532){
+                writeToFormChangeFile(wm.self().unum(),532,2);
+                return M_form_off_532_formation;
+            }
+            else if (ourFormation == 4231) {
+                writeToFormChangeFile(wm.self().unum(),4231,2);
+                return M_form_4231_off_formation;
+            } 
+            else if (ourFormation == 352) {
+                writeToFormChangeFile(wm.self().unum(),352,2);
+                return M_form_352_off_formation;
+            }
+            else if (ourFormation == 451) {
+                writeToFormChangeFile(wm.self().unum(),451,2);
+                return M_form_451_off_formation;
             }
             return M_offense_formation;
         default:
             break;
         }
-        if (wm.time().cycle() >= 4200) {
-            if (our_score <= opp_score) {
-                if (opp_score - our_score < 2) 
-                    return M_form_norm_433_formation;
-                else if (opp_score - our_score >= 2)
-                    return M_form_norm_442_formation;
-            }
-            else if (our_score > opp_score) {
-                if (offense > center) 
-                    return M_form_norm_541_formation;
-                else 
-                    return M_form_norm_442_formation;
-            }
+        if (ourFormation == 433) {
+            writeToFormChangeFile(wm.self().unum(),433,0);
+            return M_form_norm_433_formation;
+            // return M_form_433_formation; // Nuestra
         }
-        else {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-               return M_form_norm_4123_formation;
-            else if (offense > center) 
-               return M_form_off_442_formation;
-            else if (center >= 5) 
-               return M_form_norm_541_formation;
-            else if (center < 5) 
-               return M_form_norm_4213_formation;
+        else if (ourFormation == 442) {
+            writeToFormChangeFile(wm.self().unum(),442,0);
+            // return M_form_norm_442_formation;
+            return M_form_442_formation; // Nuestra
+        }
+        else if (ourFormation == 541) {
+            writeToFormChangeFile(wm.self().unum(),541,0);
+            return M_form_norm_541_formation;
+        }
+        else if (ourFormation == 4123){
+            writeToFormChangeFile(wm.self().unum(),4123,0);
+            return M_form_norm_4123_formation;
+        }
+        else if (ourFormation == 4213){
+            writeToFormChangeFile(wm.self().unum(),4213,0);
+            return M_form_norm_4213_formation;
+        }
+        else if (ourFormation == 532){
+            writeToFormChangeFile(wm.self().unum(),532,0);
+            return M_form_norm_532_formation;
+        }
+        else if (ourFormation == 4231) {
+            writeToFormChangeFile(wm.self().unum(),4231,0);
+            return M_form_4231_formation;
+        } 
+        else if (ourFormation == 352) {
+            writeToFormChangeFile(wm.self().unum(),352,0);
+            return M_form_352_formation;
+        }
+        else if (ourFormation == 451) {
+            writeToFormChangeFile(wm.self().unum(),451,0);
+            return M_form_451_formation;
         }
         return M_normal_formation;
+    }
+    else {
+        if (!( wm.gameMode().type() == GameMode::BeforeKickOff
+                 || wm.gameMode().type() == GameMode::AfterGoal_ )) {
+            if (ourFormation == 532) {
+                ourFormation = 541;
+            }
+            if (ourFormation == 352) {
+                ourFormation = 442;
+            }
+            if (ourFormation == 4231) {
+                ourFormation = 4123;
+            }
+            if (ourFormation == 451) {
+                ourFormation = 541;
+            }
+        }
     }
 
     //
@@ -1638,39 +1962,35 @@ Strategy::getFormation( const WorldModel & wm ) const
     if ( wm.gameMode().type() == GameMode::KickIn_
          || wm.gameMode().type() == GameMode::CornerKick_ )
     {
-        if ((defense == 0) && (center == 0) && (offense == 0)) {
-            if (oppFormationFile.is_open()) {
-                while (getline(oppFormationFile,line)) {
-                    defense = line[0] - '0';
-                    center = line[1] - '0';
-                    offense = line[2] - '0';
-                }
-                oppFormationFile.close();
-            }
-        }
 
         if ( wm.ourSide() == wm.gameMode().side() )
         {
             // our kick-in or corner-kick
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-                return M_form_kickin_our_4123_formation;
-            else if (offense > center) 
+            if (ourFormation == 433) 
+                return M_form_kickin_our_433_formation;
+            else if (ourFormation == 442) 
                 return M_form_kickin_our_442_formation;
-            else if (center >= 5)
+            else if (ourFormation == 541) 
                 return M_form_kickin_our_541_formation;
-            else if (center < 5)
+            else if (ourFormation == 4123)
+                return M_form_kickin_our_4123_formation;
+            else if (ourFormation == 4213)
                 return M_form_kickin_our_4213_formation;
             return M_kickin_our_formation;
+
+
         }
         else
         {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-                return M_form_setplay_opp_4123_formation;
-            else if (offense > center) 
+            if (ourFormation == 433) 
+                return M_form_setplay_opp_433_formation;
+            else if (ourFormation == 442) 
                 return M_form_setplay_opp_442_formation;
-            else if (center >= 5)
+            else if (ourFormation == 541) 
                 return M_form_setplay_opp_541_formation;
-            else if (center < 5)
+            else if (ourFormation == 4123)
+                return M_form_setplay_opp_4123_formation;
+            else if (ourFormation == 4213)
                 return M_form_setplay_opp_4213_formation;
             return M_setplay_opp_formation;
         }
@@ -1684,25 +2004,16 @@ Strategy::getFormation( const WorldModel & wm ) const
          || ( wm.gameMode().type() == GameMode::IndFreeKick_
               && wm.gameMode().side() == wm.ourSide() ) )
     {
-        if ((defense == 0) && (center == 0) && (offense == 0)) {
-            if (oppFormationFile.is_open()) {
-                while (getline(oppFormationFile,line)) {
-                    defense = line[0] - '0';
-                    center = line[1] - '0';
-                    offense = line[2] - '0';
-                }
-                oppFormationFile.close();
-            }
-        }
-        if ((defense == 4) && (center == 3) && (offense == 3)) 
-            return M_form_indirect_freekick_our_4123_formation;
-        else if (offense > center) 
+        if (ourFormation == 433) 
+            return M_form_indirect_freekick_our_433_formation;
+        else if (ourFormation == 442) 
             return M_form_indirect_freekick_our_442_formation;
-        else if (center >= 5)
+        else if (ourFormation == 541) 
             return M_form_indirect_freekick_our_541_formation;
-        else if (center < 5)
+        else if (ourFormation == 4123)
+            return M_form_indirect_freekick_our_4123_formation;
+        else if (ourFormation == 4213)
             return M_form_indirect_freekick_our_4213_formation;
-
         return M_indirect_freekick_our_formation;
     }
 
@@ -1714,24 +2025,16 @@ Strategy::getFormation( const WorldModel & wm ) const
          || ( wm.gameMode().type() == GameMode::IndFreeKick_
               && wm.gameMode().side() == wm.theirSide() ) )
     {
-        if ((defense == 0) && (center == 0) && (offense == 0)) {
-            if (oppFormationFile.is_open()) {
-                while (getline(oppFormationFile,line)) {
-                    defense = line[0] - '0';
-                    center = line[1] - '0';
-                    offense = line[2] - '0';
-                }
-                oppFormationFile.close();
-            }
-        }
 
-        if ((defense == 4) && (center == 3) && (offense == 3)) 
-            return M_form_indirect_freekick_opp_4123_formation;
-        else if (offense > center) 
+        if (ourFormation == 433) 
+            return M_form_indirect_freekick_opp_433_formation;
+        else if (ourFormation == 442) 
             return M_form_indirect_freekick_opp_442_formation;
-        else if (center >= 5)
+        else if (ourFormation == 541) 
             return M_form_indirect_freekick_opp_541_formation;
-        else if (center < 5)
+        else if (ourFormation == 4123)
+            return M_form_indirect_freekick_opp_4123_formation;
+        else if (ourFormation == 4213)
             return M_form_indirect_freekick_opp_4213_formation;
 
         return M_indirect_freekick_opp_formation;
@@ -1743,16 +2046,6 @@ Strategy::getFormation( const WorldModel & wm ) const
     if ( wm.gameMode().type() == GameMode::FoulCharge_
          || wm.gameMode().type() == GameMode::FoulPush_ )
     {
-        if ((defense == 0) && (center == 0) && (offense == 0)) {
-            if (oppFormationFile.is_open()) {
-                while (getline(oppFormationFile,line)) {
-                    defense = line[0] - '0';
-                    center = line[1] - '0';
-                    offense = line[2] - '0';
-                }
-                oppFormationFile.close();
-            }
-        }
 
         if ( wm.gameMode().side() == wm.ourSide() )
         {
@@ -1762,25 +2055,29 @@ Strategy::getFormation( const WorldModel & wm ) const
             if ( wm.ball().pos().x < ServerParam::i().ourPenaltyAreaLineX() + 1.0
                  && wm.ball().pos().absY() < ServerParam::i().penaltyAreaHalfWidth() + 1.0 )
             {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                    return M_form_indirect_freekick_opp_4123_formation;
-                else if (offense > center) 
+                if (ourFormation == 433) 
+                    return M_form_indirect_freekick_opp_433_formation;
+                else if (ourFormation == 442) 
                     return M_form_indirect_freekick_opp_442_formation;
-                else if (center >= 5)
+                else if (ourFormation == 541) 
                     return M_form_indirect_freekick_opp_541_formation;
-                else if (center < 5)
+                else if (ourFormation == 4123)
+                    return M_form_indirect_freekick_opp_4123_formation;
+                else if (ourFormation == 4213)
                     return M_form_indirect_freekick_opp_4213_formation;
                 return M_indirect_freekick_opp_formation;
             }
             else
             {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                    return M_form_setplay_opp_4123_formation;
-                else if (offense > center) 
+                if (ourFormation == 433) 
+                    return M_form_setplay_opp_433_formation;
+                else if (ourFormation == 442) 
                     return M_form_setplay_opp_442_formation;
-                else if (center >= 5)
+                else if (ourFormation == 541) 
                     return M_form_setplay_opp_541_formation;
-                else if (center < 5)
+                else if (ourFormation == 4123)
+                    return M_form_setplay_opp_4123_formation;
+                else if (ourFormation == 4213)
                     return M_form_setplay_opp_4213_formation;
                 return M_setplay_opp_formation;
             }
@@ -1793,25 +2090,29 @@ Strategy::getFormation( const WorldModel & wm ) const
             if ( wm.ball().pos().x > ServerParam::i().theirPenaltyAreaLineX()
                  && wm.ball().pos().absY() < ServerParam::i().penaltyAreaHalfWidth() )
             {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                    return M_form_indirect_freekick_our_4123_formation;
-                else if (offense > center) 
+                if (ourFormation == 433) 
+                    return M_form_indirect_freekick_our_433_formation;
+                else if (ourFormation == 442) 
                     return M_form_indirect_freekick_our_442_formation;
-                else if (center >= 5)
+                else if (ourFormation == 541) 
                     return M_form_indirect_freekick_our_541_formation;
-                else if (center < 5)
+                else if (ourFormation == 4123)
+                    return M_form_indirect_freekick_our_4123_formation;
+                else if (ourFormation == 4213)
                     return M_form_indirect_freekick_our_4213_formation;
                 return M_indirect_freekick_our_formation;
             }
             else
             {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                    return M_form_setplay_our_4123_formation;
-                else if (offense > center) 
+                if (ourFormation == 433) 
+                    return M_form_setplay_our_433_formation;
+                else if (ourFormation == 442) 
                     return M_form_setplay_our_442_formation;
-                else if (center >= 5)
+                else if (ourFormation == 541) 
                     return M_form_setplay_our_541_formation;
-                else if (center < 5)
+                else if (ourFormation == 4123)
+                    return M_form_setplay_our_4123_formation;
+                else if (ourFormation == 4213)
                     return M_form_setplay_our_4213_formation;
                 return M_setplay_our_formation;
             }
@@ -1823,39 +2124,33 @@ Strategy::getFormation( const WorldModel & wm ) const
     //
     if ( wm.gameMode().type() == GameMode::GoalKick_ )
     {
-        if ((defense == 0) && (center == 0) && (offense == 0)) {
-            if (oppFormationFile.is_open()) {
-                while (getline(oppFormationFile,line)) {
-                    defense = line[0] - '0';
-                    center = line[1] - '0';
-                    offense = line[2] - '0';
-                }
-                oppFormationFile.close();
-            }
-        }
 
         if ( wm.gameMode().side() == wm.ourSide() )
-        {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-                return M_form_goal_kick_our_4123_formation;
-            else if (offense > center) 
+        {  
+            if (ourFormation == 433) 
+                return M_form_goal_kick_our_433_formation;
+            else if (ourFormation == 442) 
                 return M_form_goal_kick_our_442_formation;
-            else if (center >= 5)
+            else if (ourFormation == 541) 
                 return M_form_goal_kick_our_541_formation;
-            else if (center < 5)
+            else if (ourFormation == 4123)
+                return M_form_goal_kick_our_4123_formation;
+            else if (ourFormation == 4213)
                 return M_form_goal_kick_our_4213_formation;
 
             return M_goal_kick_our_formation;
         }
         else
         {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-                return M_form_goal_kick_opp_4123_formation;
-            else if (offense > center) 
+            if (ourFormation == 433) 
+                return M_form_goal_kick_opp_433_formation;
+            else if (ourFormation == 442) 
                 return M_form_goal_kick_opp_442_formation;
-            else if (center >= 5)
+            else if (ourFormation == 541) 
                 return M_form_goal_kick_opp_541_formation;
-            else if (center < 5)
+            else if (ourFormation == 4123)
+                return M_form_goal_kick_opp_4123_formation;
+            else if (ourFormation == 4213)
                 return M_form_goal_kick_opp_4213_formation;
 
             return M_goal_kick_opp_formation;
@@ -1867,40 +2162,33 @@ Strategy::getFormation( const WorldModel & wm ) const
     //
     if ( wm.gameMode().type() == GameMode::GoalieCatch_ )
     {
-                // Read the formation file and obtain the number of defense, centers and offense players.
-        if ((defense == 0) && (center == 0) && (offense == 0)) {
-            if (oppFormationFile.is_open()) {
-                while (getline(oppFormationFile,line)) {
-                    defense = line[0] - '0';
-                    center = line[1] - '0';
-                    offense = line[2] - '0';
-                }
-                oppFormationFile.close();
-            }
-        }
 
         if ( wm.gameMode().side() == wm.ourSide() )
         {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-                return M_form_goalie_catch_our_4123_formation;
-            else if (offense > center) 
+            if (ourFormation == 433) 
+                return M_form_goalie_catch_our_433_formation;
+            else if (ourFormation == 442) 
                 return M_form_goalie_catch_our_442_formation;
-            else if (center >= 5)
+            else if (ourFormation == 541) 
                 return M_form_goalie_catch_our_541_formation;
-            else if (center < 5)
+            else if (ourFormation == 4123)
+                return M_form_goalie_catch_our_4123_formation;
+            else if (ourFormation == 4213)
                 return M_form_goalie_catch_our_4213_formation;
 
             return M_goalie_catch_our_formation;
         }
         else
         {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-                return M_form_goalie_catch_opp_4123_formation;
-            else if (offense > center) 
+            if (ourFormation == 433) 
+                return M_form_goalie_catch_opp_433_formation;
+            else if (ourFormation == 442) 
                 return M_form_goalie_catch_opp_442_formation;
-            else if (center >= 5)
+            else if (ourFormation == 541) 
                 return M_form_goalie_catch_opp_541_formation;
-            else if (center < 5)
+            else if (ourFormation == 4123)
+                return M_form_goalie_catch_opp_4123_formation;
+            else if (ourFormation == 4213)
                 return M_form_goalie_catch_opp_4213_formation;
             return M_goalie_catch_opp_formation;
         }
@@ -1912,26 +2200,34 @@ Strategy::getFormation( const WorldModel & wm ) const
     if ( wm.gameMode().type() == GameMode::BeforeKickOff
          || wm.gameMode().type() == GameMode::AfterGoal_ )
     {
-        // Read the formation file and obtain the number of defense, centers and offense players.
-        if ((defense == 0) && (center == 0) && (offense == 0)) {
-            if (oppFormationFile.is_open()) {
-                while (getline(oppFormationFile,line)) {
-                    defense = line[0] - '0';
-                    center = line[1] - '0';
-                    offense = line[2] - '0';
-                }
-                oppFormationFile.close();
+
+        if (wm.gameMode().type() == GameMode::AfterGoal_) { 
+            if (wm.gameMode().side() == wm.ourSide()) {
+                writeToFormChangeFile(wm.self().unum(),-1,5);
+            }
+            else {
+                writeToFormChangeFile(wm.self().unum(),-2,5);
             }
         }
 
-        if ((defense == 4) && (center == 3) && (offense == 3)) 
-            return M_form_BKO_4123_formation;
-        else if (offense > center) 
+        if (ourFormation == 433) 
+            return M_form_BKO_433_formation;
+        else if (ourFormation == 442) 
             return M_form_BKO_442_formation;
-        else if (center >= 5)
+        else if (ourFormation == 541) 
             return M_form_BKO_541_formation;
-        else if (center < 5)
+        else if (ourFormation == 4123)
+            return M_form_BKO_4123_formation;
+        else if (ourFormation == 4213)
             return M_form_BKO_4213_formation;
+        else if (ourFormation == 532)
+            return M_form_BKO_532_formation;
+        else if (ourFormation == 352) 
+            return M_form_BK_352_formation;
+        else if (ourFormation == 4231) 
+            return M_form_BK_4231_formation;
+        else if (ourFormation == 451) 
+            return M_form_BK_451_formation;
 
         return M_before_kick_off_formation;
 
@@ -1951,25 +2247,16 @@ Strategy::getFormation( const WorldModel & wm ) const
     //
     if ( wm.gameMode().isOurSetPlay( wm.ourSide() ) )
     {
-        // Read the formation file and obtain the number of defense, centers and offense players.
-        if ((defense == 0) && (center == 0) && (offense == 0)) {
-            if (oppFormationFile.is_open()) {
-                while (getline(oppFormationFile,line)) {
-                    defense = line[0] - '0';
-                    center = line[1] - '0';
-                    offense = line[2] - '0';
-                }
-                oppFormationFile.close();
-            }
-        }
 
-        if ((defense == 4) && (center == 3) && (offense == 3)) 
-            return M_form_setplay_our_4123_formation;
-        else if (offense > center) 
+        if (ourFormation == 433) 
+            return M_form_setplay_our_433_formation;
+        else if (ourFormation == 442) 
             return M_form_setplay_our_442_formation;
-        else if (center >= 5)
+        else if (ourFormation == 541) 
             return M_form_setplay_our_541_formation;
-        else if (center < 5)
+        else if (ourFormation == 4123)
+            return M_form_setplay_our_4123_formation;
+        else if (ourFormation == 4213)
             return M_form_setplay_our_4213_formation;
 
         return M_setplay_our_formation;
@@ -1977,25 +2264,16 @@ Strategy::getFormation( const WorldModel & wm ) const
 
     if ( wm.gameMode().type() != GameMode::PlayOn )
     {
-        // Read the formation file and obtain the number of defense, centers and offense players.
-        if ((defense == 0) && (center == 0) && (offense == 0)) {
-            if (oppFormationFile.is_open()) {
-                while (getline(oppFormationFile,line)) {
-                    defense = line[0] - '0';
-                    center = line[1] - '0';
-                    offense = line[2] - '0';
-                }
-                oppFormationFile.close();
-            }
-        }
 
-        if ((defense == 4) && (center == 3) && (offense == 3)) 
-            return M_form_setplay_opp_4123_formation;
-        else if (offense > center) 
+        if (ourFormation == 433) 
+            return M_form_setplay_opp_433_formation;
+        else if (ourFormation == 442) 
             return M_form_setplay_opp_442_formation;
-        else if (center >= 5)
+        else if (ourFormation == 541) 
             return M_form_setplay_opp_541_formation;
-        else if (center < 5)
+        else if (ourFormation == 4123)
+            return M_form_setplay_opp_4123_formation;
+        else if (ourFormation == 4213)
             return M_form_setplay_opp_4213_formation;
 
         return M_setplay_opp_formation;
@@ -2006,85 +2284,85 @@ Strategy::getFormation( const WorldModel & wm ) const
     //
     switch ( M_current_situation ) {
         case Defense_Situation:
-            if (wm.time().cycle() >= 4200) {
-                if (our_score <= opp_score) {
-                    if (opp_score - our_score < 2) 
-                        return M_form_def_433_formation;
-                    else if (opp_score - our_score >= 2)
-                        return M_form_def_442_formation;
-                }
-                else if (our_score > opp_score) {
-                    if (offense > center) 
-                        return M_form_def_541_formation;
-                    else 
-                        return M_form_def_442_formation;
-                }
+            if (ourFormation == 433) {
+                writeToFormChangeFile(wm.self().unum(),433,1);
+                return M_form_def_433_formation;
             }
-            else {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                   return M_form_def_4123_formation;
-                else if (offense > center) 
-                   return M_form_def_442_formation;
-                else if (center >= 5) 
-                   return M_form_def_541_formation;
-                else if (center < 5) 
-                   return M_form_def_4213_formation;
+            else if (ourFormation == 442) {
+                writeToFormChangeFile(wm.self().unum(),442,1);
+                return M_form_def_442_formation;
+            }
+            else if (ourFormation == 541) {
+                writeToFormChangeFile(wm.self().unum(),541,1);
+                return M_form_def_541_formation;
+            }
+            else if (ourFormation == 4123){
+                writeToFormChangeFile(wm.self().unum(),4123,1);
+                return M_form_def_4123_formation;
+            }
+            else if (ourFormation == 4213){
+                writeToFormChangeFile(wm.self().unum(),4213,1);
+                return M_form_def_4213_formation;
+            }
+            else if (ourFormation == 532){
+                writeToFormChangeFile(wm.self().unum(),532,1);
+                return M_form_def_532_formation;
             }
             return M_defense_formation;
         case Offense_Situation:
-            if (wm.time().cycle() >= 4200) {
-                if (our_score <= opp_score) {
-                    if (opp_score - our_score < 2) 
-                        return M_form_off_433_formation;
-                    else if (opp_score - our_score >= 2)
-                        return M_form_off_442_formation;
-                }
-                else if (our_score > opp_score) {
-                    if (offense > center) 
-                        return M_form_off_541_formation;
-                    else 
-                        return M_form_off_442_formation;
-                }
+            if (ourFormation == 433) {
+                writeToFormChangeFile(wm.self().unum(),433,2);
+                return M_form_off_433_formation;
             }
-            else {
-                if ((defense == 4) && (center == 3) && (offense == 3)) 
-                   return M_form_off_4123_formation;
-                else if (offense > center) 
-                   return M_form_off_442_formation;
-                else if (center >= 5) 
-                   return M_form_off_541_formation;
-                else if (center < 5) 
-                   return M_form_off_4213_formation;
+            else if (ourFormation == 442) {
+                writeToFormChangeFile(wm.self().unum(),442,2);
+                return M_form_off_442_formation;
+            }
+            else if (ourFormation == 541) {
+                writeToFormChangeFile(wm.self().unum(),541,2);
+                return M_form_off_541_formation;
+            }
+            else if (ourFormation == 4123){
+                writeToFormChangeFile(wm.self().unum(),4123,2);
+                return M_form_off_4123_formation;
+            }
+            else if (ourFormation == 4213){
+                writeToFormChangeFile(wm.self().unum(),4213,2);
+                return M_form_off_4213_formation;
+            }
+            else if (ourFormation == 532){
+                writeToFormChangeFile(wm.self().unum(),532,2);
+                return M_form_off_532_formation;
             }
             return M_offense_formation;
         default:
             break;
-        }
-        if (wm.time().cycle() >= 4200) {
-            if (our_score <= opp_score) {
-                if (opp_score - our_score < 2) 
-                    return M_form_norm_433_formation;
-                else if (opp_score - our_score >= 2)
-                    return M_form_norm_442_formation;
-            }
-            else if (our_score > opp_score) {
-                if (offense > center) 
-                    return M_form_norm_541_formation;
-                else 
-                    return M_form_norm_442_formation;
-            }
-        }
-        else {
-            if ((defense == 4) && (center == 3) && (offense == 3)) 
-               return M_form_norm_4123_formation;
-            else if (offense > center) 
-               return M_form_off_442_formation;
-            else if (center >= 5) 
-               return M_form_norm_541_formation;
-            else if (center < 5) 
-               return M_form_norm_4213_formation;
-        }
-        return M_normal_formation;
+    }
+    if (ourFormation == 433) {
+        writeToFormChangeFile(wm.self().unum(),433,0);
+        return M_form_norm_433_formation;
+    }
+    else if (ourFormation == 442) {
+        writeToFormChangeFile(wm.self().unum(),442,0);
+        return M_form_norm_442_formation;
+    }
+    else if (ourFormation == 541) {
+        writeToFormChangeFile(wm.self().unum(),541,0);
+        return M_form_norm_541_formation;
+    }
+    else if (ourFormation == 4123){
+        writeToFormChangeFile(wm.self().unum(),4123,0);
+        return M_form_norm_4123_formation;
+    }
+    else if (ourFormation == 4213){
+        writeToFormChangeFile(wm.self().unum(),4213,0);
+        return M_form_norm_4213_formation;
+    }
+    else if (ourFormation == 532){
+        writeToFormChangeFile(wm.self().unum(),532,0);
+        return M_form_norm_532_formation;
+    }
+    return M_normal_formation;
 }
 
 /*-------------------------------------------------------------------*/

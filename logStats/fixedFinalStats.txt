@@ -1,0 +1,145 @@
+Todas las pruebas con 20 partidos (5 de cada equipo)
+
+######################################
+
+./newTxts/baseOnly.txt
+
+Equipo Base
+
+Promedio de posesion : 0.4508
+Total de diferencia de goles : -73
+Nuestros goles : 26
+Goles oponentes : 99
+
+######################################
+realNewForms.txt
+
+Con las formaciones funcioneando y todo bien. 
+
+Promedio de posesion : 0.3913
+Total de diferencia de goles : -28
+Nuestros goles : 22
+Goles oponentes : 50
+
+#####################################
+realNewFormsNoRecalc.txt
+
+Sin recalcular la formacion del oponente.
+
+Promedio de posesion : 0.38785
+Total de diferencia de goles : -24
+Nuestros goles : 27
+Goles oponentes : 51
+
+
+#####################################
+newCondsVicky.txt
+
+Condiciones planteadas por vicky.
+
+Promedio de posesion : 0.40759999999999985
+Total de diferencia de goles : -76
+Nuestros goles : 11
+Goles oponentes : 87
+
+######################################
+
+condsJorge.txt
+
+Condiciones planteadas por mi
+
+Promedio de posesion : 0.3892
+Total de diferencia de goles : -24
+Nuestros goles : 26
+Goles oponentes : 50
+
+#######################################
+
+testingConds.txt
+
+Usando solo las formaciones 433, 442 y 541 metidas entre los condicionales de Vicky.
+
+Promedio de posesion : 0.39315000000000005
+Total de diferencia de goles : -59
+Nuestros goles : 10
+Goles oponentes : 69
+
+#######################################
+
+
+condsVickyCon4123.txt
+
+Cambiando la condicion de 433 de Vicky por 4123.
+
+Promedio de posesion : 0.38415
+Total de diferencia de goles : -46
+Nuestros goles : 20
+Goles oponentes : 66
+
+########################################
+
+retryingMyConds.txt
+
+Chequeando que no haya nada raro con lo mio
+
+Promedio de posesion : 0.39459999999999995
+Total de diferencia de goles : -28
+Nuestros goles : 20
+Goles oponentes : 48
+
+##########################################
+
+changingVickyConds.txt
+
+Cambiando la condicion de 4123 por 442 y la de 433 por 4123
+
+Promedio de posesion : 0.37184999999999985
+Total de diferencia de goles : -58
+Nuestros goles : 8
+Goles oponentes : 66
+
+#########################################
+
+myCondsWith532.txt
+
+Mis condiciones pero cambiando dos de ellas para usar 532 en vez de 442 y 541.
+
+Promedio de posesion : 0.389
+Total de diferencia de goles : -29
+Nuestros goles : 22
+Goles oponentes : 51
+
+##########################################
+
+ourForms.txt
+
+Con las formaciones nuestras arregladas (con normal,offense y defense)
+
+Promedio de posesion : 0.4354
+Total de diferencia de goles : -207
+Nuestros goles : 21
+Goles oponentes : 228
+
+###########################################
+
+trying2Forms.txt
+
+Usando 451 y 532 nuestras y el resto de Genius.
+
+Promedio de posesion : 0.39039999999999997
+Total de diferencia de goles : -34
+Nuestros goles : 19
+Goles oponentes : 53
+
+###########################################
+
+trying3Forms.txt
+
+Usando 451, 532 y 4231 y el resto de Genius.
+
+Promedio de posesion : 0.42879999999999996
+Total de diferencia de goles : -66
+Nuestros goles : 17
+Goles oponentes : 83
+
+

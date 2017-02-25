@@ -655,7 +655,8 @@ void calculateFormation(float field[10][34][35],const std::string& opponentName)
 
   //std::cout << "FORMATION : " << defense << " " << center << " " << offense << std::endl;
   std::ofstream formationOutFile;
-  std::string fileName = "../../agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
+  // std::string fileName = "../../agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
+  std::string fileName = "/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
   formationOutFile.open(fileName.c_str());
 
   // formationOutFile.open("../../agent2d-3.1.1/src/enemyFormations/formationJaeger.txt");
@@ -1244,7 +1245,7 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
 
     // Formation Stuff
     //if ((world().gameMode().type() == GameMode::AfterGoal_)){
-    if ((old_opp_score + 1 == opp_score) && (world().time().cycle() > 1750)) {
+    if ((old_opp_score + 1 == opp_score) && (world().time().cycle() > 1500)) {
       if (!(checkField(field))) {
         std::cout << "Reseteando y normalizando!" << std::endl;
         normalizeField(field);

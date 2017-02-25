@@ -90,10 +90,20 @@ public:
 
     // Our formations
     static const std::string FORM_352_CONF;
+    static const std::string FORM_352_OFF_CONF;
+    static const std::string FORM_352_DEF_CONF;
     static const std::string FORM_4231_CONF;
+    static const std::string FORM_4231_OFF_CONF;
+    static const std::string FORM_4231_DEF_CONF;
     static const std::string FORM_433_CONF;
+    static const std::string FORM_433_OFF_CONF;
+    static const std::string FORM_433_DEF_CONF;
     static const std::string FORM_442_CONF;
+    static const std::string FORM_442_OFF_CONF;
+    static const std::string FORM_442_DEF_CONF;
     static const std::string FORM_451_CONF;
+    static const std::string FORM_451_OFF_CONF;
+    static const std::string FORM_451_DEF_CONF;
     static const std::string FORM_532_CONF;
 
     static const std::string FORM_BK_352_CONF;
@@ -176,6 +186,12 @@ public:
     static const std::string SETPLAY_OPP_FORM_4213_CONF;
     static const std::string SETPLAY_OUR_FORM_4213_CONF;
 
+    // Formaciones nuevas 
+    static const std::string DEF_FORM_532_CONF;
+    static const std::string OFF_FORM_532_CONF;
+    static const std::string NORM_FORM_532_CONF;
+    static const std::string BK_FORM_532_CONF;
+
 
 
 
@@ -225,10 +241,20 @@ private:
 
     // Our formations
     rcsc::Formation::Ptr M_form_352_formation;
+    rcsc::Formation::Ptr M_form_352_off_formation;
+    rcsc::Formation::Ptr M_form_352_def_formation;
     rcsc::Formation::Ptr M_form_4231_formation;
+    rcsc::Formation::Ptr M_form_4231_off_formation;
+    rcsc::Formation::Ptr M_form_4231_def_formation;
     rcsc::Formation::Ptr M_form_433_formation;
+    rcsc::Formation::Ptr M_form_433_off_formation;
+    rcsc::Formation::Ptr M_form_433_def_formation;
     rcsc::Formation::Ptr M_form_442_formation;
+    rcsc::Formation::Ptr M_form_442_off_formation;
+    rcsc::Formation::Ptr M_form_442_def_formation;
     rcsc::Formation::Ptr M_form_451_formation;
+    rcsc::Formation::Ptr M_form_451_off_formation;
+    rcsc::Formation::Ptr M_form_451_def_formation;
     rcsc::Formation::Ptr M_form_532_formation;
 
     rcsc::Formation::Ptr M_form_BK_352_formation;
@@ -310,6 +336,12 @@ private:
     rcsc::Formation::Ptr M_form_kickin_our_4213_formation;
     rcsc::Formation::Ptr M_form_setplay_opp_4213_formation;
     rcsc::Formation::Ptr M_form_setplay_our_4213_formation;
+
+    // Formaciones nuevas
+    rcsc::Formation::Ptr M_form_def_532_formation;
+    rcsc::Formation::Ptr M_form_off_532_formation;
+    rcsc::Formation::Ptr M_form_norm_532_formation; 
+    rcsc::Formation::Ptr M_form_BKO_532_formation;
 
     int M_goalie_unum;
 

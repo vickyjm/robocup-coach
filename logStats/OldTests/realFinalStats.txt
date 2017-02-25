@@ -1,0 +1,146 @@
+Todas las pruebas con 20 partidos (5 de cada equipo)
+
+######################################
+
+./newTxts/baseOnly.txt
+
+Equipo Base
+
+Promedio de posesion : 0.4508
+Total de diferencia de goles : -73
+Nuestros goles : 26
+Goles oponentes : 99
+
+######################################
+
+./newTxts/formTeam.txt
+
+Equipo con formaciones nuevas, cambio de tipo y todo. 
+
+Promedio de posesion : 0.42175
+Total de diferencia de goles : -286
+Nuestros goles : 10
+Goles oponentes : 296
+
+######################################
+
+./newTxts/oldFormTeam.txt
+
+Equipo como lo habia hecho yo sin los chequeos, pero con cambio de tipo y formaciones 
+before kickoff chequeadas.
+
+Promedio de posesion : 0.4206
+Total de diferencia de goles : -301
+Nuestros goles : 12
+Goles oponentes : 313
+
+######################################
+
+./newTxts/oldFormTeamNoTypeChange.txt
+
+Equipo como lo habia hecho yo sin chequeos, sin cambio de tipo, con formaciones before kickoff
+chequeadas.
+
+Promedio de posesion : 0.4255
+Total de diferencia de goles : -266
+Nuestros goles : 15
+Goles oponentes : 281
+
+######################################
+
+./newTxts/formTeamOnlyBK.txt
+
+Usando condiciones y formaciones del equipo base excepto por before kickoff que 
+son los nuestras chequeadas. Con cambio de tipo.
+
+Promedio de posesion : 0.44395000000000007
+Total de diferencia de goles : -83
+Nuestros goles : 23
+Goles oponentes : 106
+
+######################################
+
+./newTxts/formTeamOldFormConds.txt
+
+Usando nuestras formaciones pero con las condiciones del equipo base. Con cambio de tipo y formaciones
+before kickoff chequeadas.
+
+Promedio de posesion : 0.4196
+Total de diferencia de goles : -310
+Nuestros goles : 13
+Goles oponentes : 323
+
+######################################
+
+./newTxts/formTeamOldFormsNewConds.txt
+
+Formaciones del equipo base pero con nuestras condiciones de cambio de formacion.
+Con formaciones before kickoff chequeadas y cambio de tipo de jugador.
+
+Promedio de posesion : 0.4365
+Total de diferencia de goles : -89
+Nuestros goles : 22
+Goles oponentes : 111
+
+######################################
+
+./newTxts/newForms.txt
+
+Con las formaciones de Genius y usando las condiciones del equipo base Y las nuestras.
+Con nuestras before kickoff chequeadas y nuestros cambios de tipo.
+
+Promedio de posesion : 0.3969000000000001
+Total de diferencia de goles : -44
+Nuestros goles : 22
+Goles oponentes : 66
+
+######################################
+
+./newTxts/newFormsOldConds.txt
+
+Formaciones de Genius solo con nuestras condiciones (sin las del equipo base). Con nuestras
+before kickoff chequeadas y nuestros cambios de tipo.
+
+Promedio de posesion : 0.4261000000000001
+Total de diferencia de goles : -120
+Nuestros goles : 22
+Goles oponentes : 142
+
+######################################
+
+./newTxts/fullNewForms.txt
+
+Usando TODAS las formaciones de Genius (incluidas before kickoff, corner, etc). Con nuestros cambios
+de tipo de jugador y con las condiciones del equipo base Y las nuestras.
+
+Promedio de posesion : 0.40800000000000003
+Total de diferencia de goles : -29
+Nuestros goles : 21
+Goles oponentes : 50
+
+######################################
+
+fullNewFormsLastReset.txt
+Equipo con formaciones de Genius y cambio de tipo de Genius. Pero chequeando para no resettear la formacion
+del oponente a menos que hayan pasado al menos 1000 ciclos.
+
+Promedio de posesion : 0.4218
+Total de diferencia de goles : -46
+Nuestros goles : 14
+Goles oponentes : 60
+
+#####################################
+
+fullNewFormsNewTypeChange.txt
+
+Usando todas las formaciones de Genius, pero con los cambios de tipo en base a dichas formaciones. 
+(Un solo cambio por la manera en la que Genius pone a sus jugadores). 
+
+Promedio de posesion : 0.409
+Total de diferencia de goles : -20
+Nuestros goles : 18
+Goles oponentes : 38
+
+#####################################
+
+
