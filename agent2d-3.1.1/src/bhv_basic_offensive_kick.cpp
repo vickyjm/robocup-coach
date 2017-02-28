@@ -53,60 +53,60 @@ using namespace cv;
 using namespace rcsc;
 
 
-double distFromLine(Vector2D p0, Vector2D p1, Vector2D p2){
-  float a,b,c;
-  float num, denom;
+// double distFromLine(Vector2D p0, Vector2D p1, Vector2D p2){
+//   float a,b,c;
+//   float num, denom;
 
-  if (p0.x != p1.x){
-    a = -(p1.y - p0.y)/(p1.x - p0.x);
-    c = (((p1.y - p0.y)*p0.x)/(p1.x - p0.x)) - p0.y;
-    b = 1;
-  } else {
-    a = 1;
-    b = 0;
-    c = p0.x;
-  }
+//   if (p0.x != p1.x){
+//     a = -(p1.y - p0.y)/(p1.x - p0.x);
+//     c = (((p1.y - p0.y)*p0.x)/(p1.x - p0.x)) - p0.y;
+//     b = 1;
+//   } else {
+//     a = 1;
+//     b = 0;
+//     c = p0.x;
+//   }
 
-  num = abs(a*p2.x + p2.y + c);
-  denom = sqrt(pow(a,2) + b);
+//   num = abs(a*p2.x + p2.y + c);
+//   denom = sqrt(pow(a,2) + b);
 
-  return num/denom;
+//   return num/denom;
 
-}
+// }
 
-cv::Mat 
-extractFeaturesKick(PlayerAgent* agent, Vector2D targetPoint){
-    PlayerCont allOpps;
-    PlayerCont allTeammts;
-    PlayerCont::iterator iter;
-    Mat features(1,24);
+// cv::Mat 
+// extractFeaturesKick(PlayerAgent* agent, Vector2D targetPoint){
+//     PlayerCont allOpps;
+//     PlayerCont allTeammts;
+//     PlayerCont::iterator iter;
+//     Mat features(1,24);
 
-    // Ball position
-    Vector2D ballPos = agent->world().ball().pos();
+//     // Ball position
+//     Vector2D ballPos = agent->world().ball().pos();
 
-    features.push_back(ballPos.x/5);
-    features.push_back(ballPos.y/5);
+//     features.push_back(ballPos.x/5);
+//     features.push_back(ballPos.y/5);
 
-    // Calculating Teammates.
-    allTeammts = agent->world().teammates();
-    for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
-      features.push_back(distFromLine(ballPos, targetPoint, iter->pos()));
+//     // Calculating Teammates.
+//     allTeammts = agent->world().teammates();
+//     for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
+//       features.push_back(distFromLine(ballPos, targetPoint, iter->pos()));
         
-    }
+//     }
 
-    // Calculating Opponents.
-    allOpps = agent->world().opponents();
-    for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
-      features.push_back(distFromLine(ballPos, targetPoint, iter->pos()));
-    }
+//     // Calculating Opponents.
+//     allOpps = agent->world().opponents();
+//     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
+//       features.push_back(distFromLine(ballPos, targetPoint, iter->pos()));
+//     }
 
 
-    //ballPos.assign(ballPos.x/5, ballPos.y/5);
+//     //ballPos.assign(ballPos.x/5, ballPos.y/5);
 
-    //Mat features = (Mat_<float>(1,10) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
+//     //Mat features = (Mat_<float>(1,10) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
     
-    return features;
-}
+//     return features;
+// }
 
 
 /*-------------------------------------------------------------------*/
@@ -333,7 +333,7 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     // opp is near
 
     //if (getBestPass){
-      cv::Mat bestPass(extractFeaturesKick(agent, pass_point));
+      // cv::Mat bestPass(extractFeaturesKick(agent, pass_point));
       // It will be a successful pass
       //if (passTree.predict(bestPass)->value >= 0.5){
       // can pass
