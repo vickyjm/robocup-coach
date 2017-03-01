@@ -262,7 +262,7 @@ if __name__ == "__main__":
 	outputFile = open(sys.argv[4],"a")
 
 	if (os.stat(sys.argv[4]).st_size == 0) :
-		outputFile.write("# OurTeam OppTeam Type OurPos OppPos GoalDiff OurGoals OppGoals \n")
+		outputFile.write("OurTeam,OppTeam,Type,OurPos,OppPos,GoalDiff,OurGoals,OppGoals \n")
 
 	for filename in glob.glob(folderPath+'*.rcg') :
 		nameSplit = filename.split("vs")
@@ -344,30 +344,30 @@ if __name__ == "__main__":
 						opponentGoals += 1
 
 		finalString = ""
-		finalString += "1 "
+		finalString += "1,"
 		if (opponentTeam == "HELIOS2015") :
-			finalString += "2 "
+			finalString += "2,"
 		elif (opponentTeam == "HERMES") :
-			finalString += "3 "
+			finalString += "3,"
 		elif (opponentTeam == "Genius2015") :
-			finalString += "4 "
+			finalString += "4,"
 		elif (opponentTeam == "WrightEagle") :
-			finalString += "5 "
+			finalString += "5,"
 		elif (opponentTeam == "Jaeger") :
-			finalString += "6 "
+			finalString += "6,"
 
-		finalString += ourTeamType+" "
-		finalString += str("{0:.3f}".format(ourPos / cycleTotal)) + " "
-		finalString += str("{0:.3f}".format(opponentPos / cycleTotal)) + " "
+		finalString += ourTeamType+","
+		finalString += str("{0:.3f}".format(ourPos / cycleTotal)) + ","
+		finalString += str("{0:.3f}".format(opponentPos / cycleTotal)) + ","
 		# if (opponentTeam == "Jaeger") :
 		# 	finalString += str(-1*(ourGoals - opponentGoals)) + " "
 		# else :
-		finalString += str(ourGoals - opponentGoals) + " "
+		finalString += str(ourGoals - opponentGoals) + ","
 
 		# if (opponentTeam == "Jaeger") :
 		# 	finalString += str(opponentGoals) + " " + str(ourGoals) + "\n"
 		# else :
-		finalString += str(ourGoals) + " " + str(opponentGoals) + "\n"
+		finalString += str(ourGoals) + "," + str(opponentGoals) + "\n"
 
 		outputFile.write(finalString)
 		print("listo")

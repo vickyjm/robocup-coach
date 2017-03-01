@@ -1,4 +1,4 @@
-# OurTeam OppTeam Type OurPos OppPos GoalDiff OurGoals OppGoals 
+OurTeam OppTeam Type OurPos OppPos GoalDiff OurGoals OppGoals 
 1 6 exp1 0.502 0.498 -2 1 3
 1 6 exp1 0.456 0.544 1 2 1
 1 6 exp1 0.742 0.258 -1 0 1
