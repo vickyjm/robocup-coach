@@ -52,58 +52,55 @@
 using namespace cv;
 using namespace rcsc;
 
-// double distFromLineShoot(Vector2D p0, Vector2D p1, Vector2D p2){
-//   float a,b,c;
-//   float num, denom;
+double distFromLineShoot(Vector2D p0, Vector2D p1, Vector2D p2){
+  float a,b,c;
+  float num, denom;
 
-//   if (p0.x != p1.x){
-//     a = -(p1.y - p0.y)/(p1.x - p0.x);
-//     c = (((p1.y - p0.y)*p0.x)/(p1.x - p0.x)) - p0.y;
-//     b = 1;
-//   } else {
-//     a = 1;
-//     b = 0;
-//     c = p0.x;
-//   }
+  if (p0.x != p1.x){
+    a = -(p1.y - p0.y)/(p1.x - p0.x);
+    c = (((p1.y - p0.y)*p0.x)/(p1.x - p0.x)) - p0.y;
+    b = 1;
+  } else {
+    a = 1;
+    b = 0;
+    c = p0.x;
+  }
 
-//   num = abs(a*p2.x + p2.y + c);
-//   denom = sqrt(pow(a,2) + b);
+  num = abs(a*p2.x + p2.y + c);
+  denom = sqrt(pow(a,2) + b);
 
-//   return num/denom;
+  return num/denom;
 
-// }
+}
 
-// cv::Mat
-// extractFeaturesShoot(PlayerAgent* agent, Vector2D targetPoint){
-//     PlayerCont allOpps;
-//     PlayerCont allTeammts;
-//     PlayerCont::iterator iter;
-//     Mat features(1,24);
+cv::Mat
+extractFeaturesShoot(PlayerAgent* agent, Vector2D targetPoint){
+    PlayerCont allOpps;
+    PlayerCont allTeammts;
+    PlayerCont::iterator iter;
+    Mat1f features(1,24);
 
-//     // Ball position
-//     Vector2D ballPos = agent->world().ball().pos();
+    // Ball position
+    Vector2D ballPos = agent->world().ball().pos();
 
-//     features.push_back(ballPos.x/5);
-//     features.push_back(ballPos.y/5);
+    features.push_back(ballPos.x/5);
+    features.push_back(ballPos.y/5);
 
-//     // Calculating Teammate2.
-//     allTeammts = agent->world().teammates();
-//     for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
-//         features.push_back(distFromLineShoot(ballPos, targetPoint, iter->pos()));
-//     }
-
-
-//     // Calculating Opponent1.
-//     allOpps = agent->world().opponents();
-//     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
-//         features.push_back(distFromLineShoot(ballPos, targetPoint, iter->pos()));
-//     }
+    // Calculating Teammate2.
+    allTeammts = agent->world().teammates();
+    for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
+        features.push_back(distFromLineShoot(ballPos, targetPoint, iter->pos()));
+    }
 
 
-//    // Mat features = (Mat_<float>(1,10) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
+    // Calculating Opponent1.
+    allOpps = agent->world().opponents();
+    for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
+        features.push_back(distFromLineShoot(ballPos, targetPoint, iter->pos()));
+    }
     
-//     return features;
-// }
+    return features;
+}
 
 
 /*-------------------------------------------------------------------*/
@@ -166,15 +163,17 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
                   best_shoot->first_ball_speed_,
                   one_step_speed );
 
-    /*CvDTree shootTree;
-    shootTree.load("trainedTrees/Genius/shootTree.yml");
+    /*CvANN_MLP shotMLP;
+    shotMLP.load("trainedTrees/Genius/shotMLP.yml");
+    cv::Mat predAux(1, 1, CV_32FC1);
 
     cv::Mat testSample(extractFeaturesShoot(agent, best_shoot->target_point_));*/
 
     if ( one_step_speed > best_shoot->first_ball_speed_ * 0.99 )
     { 
         // It will be a successful shoot.
-        //if (shootTree.predict(testSample)->value >= 0.5){
+        //shotMLP.predict(testSample, predAux);
+          //if (predAux.at<float>(0,0) >= 0){
           if ( Body_SmartKick( best_shoot->target_point_,
                                one_step_speed,
                                one_step_speed * 0.99 - 0.0001,
@@ -189,7 +188,8 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
     }
 
     // It will be a successful shoot.
-    //if (shootTree.predict(testSample)->value >= 0.5){
+    //shotMLP.predict(testSample, predAux);
+      //if (predAux.at<float>(0,0) >= 0){
       if ( Body_SmartKick( best_shoot->target_point_,
                            best_shoot->first_ball_speed_,
                            best_shoot->first_ball_speed_ * 0.99,

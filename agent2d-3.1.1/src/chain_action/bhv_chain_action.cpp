@@ -65,56 +65,56 @@
 using namespace cv;
 using namespace rcsc;
 
-// double distFromLine(Vector2D p0, Vector2D p1, Vector2D p2){
-//   float a,b,c;
-//   float num, denom;
+double distFromLine(Vector2D p0, Vector2D p1, Vector2D p2){
+  float a,b,c;
+  float num, denom;
 
-//   if (p0.x != p1.x){
-//     a = -(p1.y - p0.y)/(p1.x - p0.x);
-//     c = (((p1.y - p0.y)*p0.x)/(p1.x - p0.x)) - p0.y;
-//     b = 1;
-//   } else {
-//     a = 1;
-//     b = 0;
-//     c = p0.x;
-//   }
+  if (p0.x != p1.x){
+    a = -(p1.y - p0.y)/(p1.x - p0.x);
+    c = (((p1.y - p0.y)*p0.x)/(p1.x - p0.x)) - p0.y;
+    b = 1;
+  } else {
+    a = 1;
+    b = 0;
+    c = p0.x;
+  }
 
-//   num = abs(a*p2.x + p2.y + c);
-//   denom = sqrt(pow(a,2) + b);
+  num = abs(a*p2.x + p2.y + c);
+  denom = sqrt(pow(a,2) + b);
 
-//   return num/denom;
+  return num/denom;
 
-// }
+}
 
-// cv::Mat
-// extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
-//     PlayerCont allOpps;
-//     PlayerCont allTeammts;
-//     PlayerCont::iterator iter;
-//     Mat features(1,24);
+cv::Mat
+extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
+    PlayerCont allOpps;
+    PlayerCont allTeammts;
+    PlayerCont::iterator iter;
+    Mat1f features(1,24);
 
-//     // Ball position
-//     Vector2D ballPos = agent->world().ball().pos();
+    // Ball position
+    Vector2D ballPos = agent->world().ball().pos();
 
-//     features.push_back(ballPos.x/5);
-//     features.push_back(ballPos.y/5);
+    features.push_back(ballPos.x/5);
+    features.push_back(ballPos.y/5);
 
-//     // Calculating Teammates
-//     allTeammts = agent->world().teammates();
-//     for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
-//         features.push_back(distFromLine(ballPos, action.targetPoint(), iter->pos()));
-//     }
+    // Calculating Teammates
+    allTeammts = agent->world().teammates();
+    for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
+        features.push_back(distFromLine(ballPos, action.targetPoint(), iter->pos()));
+    }
 
-//     // Calculating Opponents.
-//     allOpps = agent->world().opponents();
-//     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
-//         features.push_back(distFromLine(ballPos, action.targetPoint(), iter->pos()));
-//     }
+    // Calculating Opponents.
+    allOpps = agent->world().opponents();
+    for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
+        features.push_back(distFromLine(ballPos, action.targetPoint(), iter->pos()));
+    }
 
-//     //Mat features = (Mat_<float>(1,10) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
+    //Mat features = (Mat_<float>(1,10) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
     
-//     return features;
-// }
+    return features;
+}
 
 namespace {
 
@@ -285,13 +285,15 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) shoot" );
 
-            /*CvDTree shootTree;
-            shootTree.load("trainedTrees/Genius/shootTree.yml");
+            /*CvANN_MLP shotMLP;
+            shotMLP.load("trainedTrees/Genius/shotMLP.yml");
+            cv::Mat predAux(1, 1, CV_32FC1);
 
             cv::Mat testSample(extractFeatures(agent, first_action));    
 
             // It will be a successful shoot.
-            if (shootTree.predict(testSample)->value >= 0.5){*/
+            shotMLP.predict(testSample, predAux);
+            if (predAux.at<float>(0,0) >= 0){*/
                 if ( Body_ForceShoot().execute( agent ) )
                 {
                     agent->setNeckAction( new Neck_TurnToGoalieOrScan() );
@@ -332,13 +334,15 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
                 neck = NeckAction::Ptr( new Neck_TurnToGoalieOrScan( count_thr ) );
             }
 
-            /*CvDTree dribbleTree;
-            dribbleTree.load("trainedTrees/Genius/dribbleTree.yml");
+            /*CvANN_MLP dribbleMLP;
+            dribbleMLP.load("trainedTrees/Genius/dribbleMLP.yml");
+            cv::Mat predAux(1, 1, CV_32FC1);
 
             cv::Mat testSample(extractFeatures(agent, first_action));
             
             // It will be a successful dribble
-            if (dribbleTree.predict(testSample)->value >= 0.5){*/
+            dribbleMLP.predict(testSample, predAux);
+            if (predAux.at<float>(0,0) >= 0){*/
                 if ( Bhv_NormalDribble( first_action, neck ).execute( agent ) ){
                     //std::cout << "Dribble " << agent->world().self().unum() << std::endl;
                     return true;
@@ -386,13 +390,15 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) pass" );
 
-            /*CvDTree passTree;
-            passTree.load("trainedTrees/Genius/passTree.yml");
+            /*CvANN_MLP passMLP;
+            passMLP.load("trainedTrees/Genius/passMLP.yml");
+            cv::Mat predAux(1, 1, CV_32FC1);
 
             cv::Mat testSample(extractFeatures(agent, first_action));
 
             // It will be a successful pass
-            if (passTree.predict(testSample)->value >= 0.5){*/
+            passMLP.predict(testSample, predAux);
+            if (predAux.at<float>(0,0) >= 0){*/
                 if (Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent )) {
                    // std::cout << "Pass " << agent->world().self().unum() << std::endl;
                     return true;
