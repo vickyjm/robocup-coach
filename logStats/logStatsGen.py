@@ -344,17 +344,17 @@ if __name__ == "__main__":
 						opponentGoals += 1
 
 		finalString = ""
-		finalString += "1,"
+		finalString += "jaeger,"
 		if (opponentTeam == "HELIOS2015") :
-			finalString += "2,"
+			finalString += "helios,"
 		elif (opponentTeam == "HERMES") :
-			finalString += "3,"
+			finalString += "hermes,"
 		elif (opponentTeam == "Genius2015") :
-			finalString += "4,"
+			finalString += "genius,"
 		elif (opponentTeam == "WrightEagle") :
-			finalString += "5,"
+			finalString += "we,"
 		elif (opponentTeam == "Jaeger") :
-			finalString += "6,"
+			finalString += "jaeger,"
 
 		finalString += ourTeamType+","
 		finalString += str("{0:.3f}".format(ourPos / cycleTotal)) + ","
