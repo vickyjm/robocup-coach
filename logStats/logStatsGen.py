@@ -344,7 +344,7 @@ if __name__ == "__main__":
 						opponentGoals += 1
 
 		finalString = ""
-		finalString += "jaeger,"
+		finalString += "jemv,"
 		if (opponentTeam == "HELIOS2015") :
 			finalString += "helios,"
 		elif (opponentTeam == "HERMES") :
