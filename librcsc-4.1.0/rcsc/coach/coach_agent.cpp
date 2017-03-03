@@ -656,6 +656,8 @@ void calculateFormation(float field[10][34][35],const std::string& opponentName)
   //std::cout << "FORMATION : " << defense << " " << center << " " << offense << std::endl;
   std::ofstream formationOutFile;
   // std::string fileName = "../../agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
+  // std::string fileName = "/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
+  // VICKY : Ponle el path completo antes de robocup-coach segun tu computadora
   std::string fileName = "/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
   formationOutFile.open(fileName.c_str());
 

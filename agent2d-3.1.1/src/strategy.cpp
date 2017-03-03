@@ -1622,6 +1622,8 @@ Strategy::getFormation( const WorldModel & wm ) const
     std::string line;
     std::string opponentName = wm.opponentTeamName();
     // std::string fileName = "./enemyFormations/formation" + opponentName + ".txt";
+    // VICKY : Ponle el path completo antes de robocup-coach segun tu computadora
+    // std::string fileName = "/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
     std::string fileName = "/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
     std::ifstream oppFormationFile(fileName.c_str());
     int offense = 0;
@@ -1687,36 +1689,36 @@ Strategy::getFormation( const WorldModel & wm ) const
     int ourFormation = 0;
 
     // Condiciones mias :
-    // if (wm.time().cycle() >= 4200) {
-    //         if (our_score <= opp_score) {
-    //             if (opp_score - our_score < 2) {
-    //                 ourFormation = 433;
-    //             }
-    //             else if (opp_score - our_score >= 2) {
-    //                 ourFormation = 442;
-    //             }
-    //         }
-    //         else if (our_score > opp_score) {
-    //             if (offense > center)
-    //                 ourFormation = 541;
-    //             else
-    //                 ourFormation = 442;
-    //         }
-    // }
-    // else {
-    //     if ((defense == 4) && (center == 3) && (offense == 3)) {
-    //         ourFormation = 4123;
-    //     }
-    //     else if ((offense > center)) {
-    //         ourFormation = 442;
-    //     }
-    //     else if (center >= 5) {
-    //         ourFormation = 541;
-    //     }
-    //     else if (center < 5){
-    //        ourFormation = 4213;
-    //     }
-    // }
+    if (wm.time().cycle() >= 4200) {
+            if (our_score <= opp_score) {
+                if (opp_score - our_score < 2) {
+                    ourFormation = 433;
+                }
+                else if (opp_score - our_score >= 2) {
+                    ourFormation = 442;
+                }
+            }
+            else if (our_score > opp_score) {
+                if (offense > center)
+                    ourFormation = 541;
+                else
+                    ourFormation = 442;
+            }
+    }
+    else {
+        if ((defense == 4) && (center == 3) && (offense == 3)) {
+            ourFormation = 4123;
+        }
+        else if ((offense > center)) {
+            ourFormation = 442;
+        }
+        else if (center >= 5) {
+            ourFormation = 541;
+        }
+        else if (center < 5){
+           ourFormation = 4213;
+        }
+    }
 
 
 
