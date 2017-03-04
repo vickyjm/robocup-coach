@@ -535,20 +535,20 @@ SampleCoach::doFirstSubstitute()
 // else {
 //     // wing player has priority
   // FORMACIONES PARA EL EQUIPO BASE
-  // ordered_unum.push_back( 11 ); // center forward
-  // ordered_unum.push_back( 2 );  // center back
-  // ordered_unum.push_back( 3 );  // center back
-  // ordered_unum.push_back( 10 ); // side half
-  // ordered_unum.push_back( 9 );  // side half
-  // ordered_unum.push_back( 6 );  // center half
-  // ordered_unum.push_back( 4 );  // side back
-  // ordered_unum.push_back( 5 );  // side back
-  // ordered_unum.push_back( 7 );  // defensive half
-  // ordered_unum.push_back( 8 );  // defensive half
+   ordered_unum.push_back( 11 ); // center forward
+   ordered_unum.push_back( 2 );  // center back
+   ordered_unum.push_back( 3 );  // center back
+   ordered_unum.push_back( 10 ); // side half
+   ordered_unum.push_back( 9 );  // side half
+   ordered_unum.push_back( 6 );  // center half
+   ordered_unum.push_back( 4 );  // side back
+   ordered_unum.push_back( 5 );  // side back
+   ordered_unum.push_back( 7 );  // defensive half
+   ordered_unum.push_back( 8 );  // defensive half
 // }
 
   // FORMACIONES PARA EL EQUIPO CON FORMACIONES DE GENIUS
-  ordered_unum.push_back( 11 ); // center forward
+  /*ordered_unum.push_back( 11 ); // center forward
   ordered_unum.push_back( 4 );  // side back
   ordered_unum.push_back( 5 );  // side back
   ordered_unum.push_back( 9 ); // side forward
@@ -557,7 +557,7 @@ SampleCoach::doFirstSubstitute()
   ordered_unum.push_back( 3 );  // center back
   ordered_unum.push_back( 6 );  // offensive half
   ordered_unum.push_back( 7 );  // defensive half
-  ordered_unum.push_back( 8 );  // defensive half
+  ordered_unum.push_back( 8 );  // defensive half*/
 
 
     //
