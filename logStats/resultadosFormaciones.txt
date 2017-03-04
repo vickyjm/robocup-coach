@@ -1,0 +1,310 @@
+Resultados de pruebas del equipo base comparado con el equipo con la funcionalidad de formaciones.
+
+Resultados de pruebas con GoalDiff  entre control y experimental :
+
+	Suma de la diferencia de goles en los partidos de control = -1204
+	Suma de la diferencia de goles en los partidos experimentales = -593
+
+	T-TEST (usando t.test(x,y)) :
+		Welch Two Sample t-test
+
+		data:  goalDiffControl and goalDiffExp1
+		t = -8.6064, df = 439.518, p-value < 2.2e-16
+		alternative hypothesis: true difference in means is not equal to 0
+		95 percent confidence interval:
+		 -3.002117 -1.885883
+		sample estimates:
+		mean of x mean of y 
+		   -4.816    -2.372 
+
+
+	PRUEBA DE VARIANZA (con var.test(x,y)) :
+		F test to compare two variances
+
+		data:  goalDiffControl and goalDiffExp1
+		F = 2.1485, num df = 249, denom df = 249, p-value = 2.573e-09
+		alternative hypothesis: true ratio of variances is not equal to 1
+		95 percent confidence interval:
+		 1.674933 2.755897
+		sample estimates:
+		ratio of variances 
+		          2.148474 
+
+	PRUEBA DE NORMALIDAD (con shapiro.test(x) y shapiro.test(y)) :
+		Para datos de control :
+			Shapiro-Wilk normality test
+
+			data:  goalDiffControl
+			W = 0.9548, p-value = 4.931e-07
+
+		Para datos experimentales :
+			Shapiro-Wilk normality test
+
+			data:  goalDiffExp1
+			W = 0.9597, p-value = 1.839e-06
+
+	PRUEBA ANOVA (con aov(GoalDiff ~ Type)) : (OJO, NO CUMPLE LAS CONDICIONES, PERO JUST IN CASE) 
+
+		Terms:
+		                    Type Residuals
+		Sum of Squares   746.642  5019.940
+		Deg. of Freedom        1       498
+
+		Residual standard error: 3.174933
+		Estimated effects may be unbalanced
+
+		Summary :
+		             Df Sum Sq Mean Sq F value Pr(>F)    
+		Type          1    747   746.6   74.07 <2e-16 ***
+		Residuals   498   5020    10.1                   
+		---
+		Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+	PRUEBA ANOVA DE DOS FACTORES (TIPO * EQUIPO) : (OJO, NO CUMPLE LAS CONDICIONES PERO JUST IN CASE)
+
+		Terms:
+		                    Type  OppTeam Type:OppTeam Residuals
+		Sum of Squares   746.642 2074.852      308.788  2636.300
+		Deg. of Freedom        1        4            4       490
+
+		Residual standard error: 2.319527
+		Estimated effects may be unbalanced
+
+		Summary :
+		              Df Sum Sq Mean Sq F value   Pr(>F)    
+		Type           1  746.6   746.6  138.78  < 2e-16 ***
+		OppTeam        4 2074.9   518.7   96.41  < 2e-16 ***
+		Type:OppTeam   4  308.8    77.2   14.35 4.37e-11 ***
+		Residuals    490 2636.3     5.4 
+
+
+		$Type
+		              diff     lwr     upr p adj
+		exp1-control 2.444 2.03637 2.85163     0
+
+		$`Type:OppTeam`
+		                               diff         lwr         upr     p adj
+		exp1:genius-control:genius     1.06 -0.41447021  2.53447021 0.4006999	no hay diferencia significativa
+		exp1:helios-control:helios     5.48  4.00552979  6.95447021 0.0000000	hay diferencia significativa
+		exp1:hermes-control:hermes     2.10  0.62552979  3.57447021 0.0003197	hay diferencia significativa
+		exp1:jaeger-control:jaeger     2.14  0.66552979  3.61447021 0.0002170	hay diferencia significativa 
+		exp1:we-control:we             1.44 -0.03447021  2.91447021 0.0620872	no hay diferencia significativa
+  
+
+
+###############################################################################################################
+###############################################################################################################
+###############################################################################################################
+
+
+Resultados con OurPos entre control y experimental :
+	
+	T-TEST (usando t.test(x,y)) :
+		Welch Two Sample t-test
+
+		data:  ourPosControl and ourPosExp1
+		t = 4.0876, df = 447.104, p-value = 5.168e-05
+		alternative hypothesis: true difference in means is not equal to 0
+		95 percent confidence interval:
+		 0.01581503 0.04510497
+		sample estimates:
+		mean of x mean of y 
+		 0.440116  0.409656 
+
+	PRUEBA DE VARIANZA (con var.test(x,y)) :
+
+		F test to compare two variances
+
+		data:  ourPosControl and ourPosExp1
+		F = 0.4954, num df = 249, denom df = 249, p-value = 4.249e-08
+		alternative hypothesis: true ratio of variances is not equal to 1
+		95 percent confidence interval:
+		 0.3862446 0.6355182
+		sample estimates:
+		ratio of variances 
+		         0.4954447 
+
+	PRUEBA DE NORMALIDAD (con shapiro.test(x) y shapiro.test(y)) :
+		Para datos de control :
+			Shapiro-Wilk normality test
+
+			data:  ourPosControl
+			W = 0.9496, p-value = 1.311e-07
+
+		Para datos experimentales :
+			Shapiro-Wilk normality test
+
+			data:  ourPosExp1
+			W = 0.9523, p-value = 2.58e-07
+
+	PRUEBA ANOVA (con aov(OurPos ~ Type)) : (OJO, NO CUMPLE LAS CONDICIONES, PERO JUST IN CASE) 
+
+		Terms:
+		                    Type Residuals
+		Sum of Squares  0.115976  3.456730
+		Deg. of Freedom        1       498
+
+		Residual standard error: 0.08331401
+		Estimated effects may be unbalanced
+
+		Summary :
+		             Df Sum Sq Mean Sq F value   Pr(>F)    
+		Type          1  0.116 0.11598   16.71 5.08e-05 ***
+		Residuals   498  3.457 0.00694                     
+		---
+		Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+###############################################################################################################
+###############################################################################################################
+###############################################################################################################
+
+Resultados con OurGoals entre control y experimental :
+
+	T-TEST (con t.test(x,y)) :
+		Welch Two Sample t-test
+
+		data:  ourGoalsControl and ourGoalsExp1
+		t = 0.8137, df = 497.131, p-value = 0.4162
+		alternative hypothesis: true difference in means is not equal to 0
+		95 percent confidence interval:
+		 -0.1075051  0.2595051
+		sample estimates:
+		mean of x mean of y 
+		    0.888     0.812 
+
+	PRUEBA DE VARIANZA (con var.test(x,y)) :
+		F test to compare two variances
+
+		data:  ourGoalsControl and ourGoalsExp1
+		F = 1.0873, num df = 249, denom df = 249, p-value = 0.5097
+		alternative hypothesis: true ratio of variances is not equal to 1
+		95 percent confidence interval:
+		 0.8476131 1.3946438
+		sample estimates:
+		ratio of variances 
+		          1.087253 
+
+	PRUEBA DE NORMALIDAD (con shapiro.test(x) y shapiro.test(y)) :
+		Para datos de control :
+			Shapiro-Wilk normality test
+
+			data:  ourGoalsControl
+			W = 0.7774, p-value < 2.2e-16
+
+		Para datos experimentales :
+			Shapiro-Wilk normality test
+
+			data:  ourGoalsExp1
+			W = 0.7699, p-value < 2.2e-16
+
+
+	PRUEBA ANOVA (con aov(OurGoals ~ Type)) : (OJO, NO CUMPLE LAS CONDICIONES, PERO JUST IN CASE) 
+
+		Terms:
+		                   Type Residuals
+		Sum of Squares    0.722   543.028
+		Deg. of Freedom       1       498
+
+		Residual standard error: 1.044231
+		Estimated effects may be unbalanced
+
+		Summary :
+		             Df Sum Sq Mean Sq F value Pr(>F)
+		Type          1    0.7   0.722   0.662  0.416
+		Residuals   498  543.0   1.090  
+
+
+###############################################################################################################
+###############################################################################################################
+###############################################################################################################
+
+Resultados con OppGoals entre control y experimental :
+
+	T-TEST (con t.test(x,y)) :
+
+		Welch Two Sample t-test
+
+		data:  oppGoalsControl and oppGoalsExp1
+		t = 10.3763, df = 416.467, p-value < 2.2e-16
+		alternative hypothesis: true difference in means is not equal to 0
+		95 percent confidence interval:
+		 2.042612 2.997388
+		sample estimates:
+		mean of x mean of y 
+		    5.704     3.184 
+
+	PRUEBA DE VARIANZA (con var.test(x,y)) :
+
+		F test to compare two variances
+
+		data:  oppGoalsControl and oppGoalsExp1
+		F = 2.5872, num df = 249, denom df = 249, p-value = 1.863e-13
+		alternative hypothesis: true ratio of variances is not equal to 1
+		95 percent confidence interval:
+		 2.016962 3.318665
+		sample estimates:
+		ratio of variances 
+		          2.587204 
+
+	PRUEBA DE NORMALIDAD (con shapiro.test(x) y shapiro.test(y)) :
+
+		Para datos de cotrol :
+			Shapiro-Wilk normality test
+
+			data:  oppGoalsControl
+			W = 0.9272, p-value = 9.713e-10
+
+		Para datos experimentales :
+			Shapiro-Wilk normality test
+
+			data:  oppGoalsExp1
+			W = 0.9264, p-value = 8.245e-10
+
+	PRUEBA ANOVA (con aov(OppGoals ~ Type)) : (OJO, NO CUMPLE LAS CONDICIONES, PERO JUST IN CASE)  :
+
+		Terms:
+		                    Type Residuals
+		Sum of Squares   793.800  3671.632
+		Deg. of Freedom        1       498
+
+		Residual standard error: 2.715282
+		Estimated effects may be unbalanced
+
+		Summary :
+		             Df Sum Sq Mean Sq F value Pr(>F)    
+		Type          1    794   793.8   107.7 <2e-16 ***
+		Residuals   498   3672     7.4                   
+		---
+		Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
