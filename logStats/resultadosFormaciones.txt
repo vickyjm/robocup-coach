@@ -161,6 +161,12 @@ Resultados con OurPos entre control y experimental :
 
 Resultados con OurGoals entre control y experimental :
 
+	Totales :  
+	[1] "Total ourGoals de control"
+	[1] 222
+	[1] "Total ourGoals experimentales"
+	[1] 203
+
 	T-TEST (con t.test(x,y)) :
 		Welch Two Sample t-test
 
@@ -220,6 +226,12 @@ Resultados con OurGoals entre control y experimental :
 ###############################################################################################################
 
 Resultados con OppGoals entre control y experimental :
+
+	Totales : 
+	[1] "Total oppGoals de control"
+	[1] 1426
+	[1] "Total oppGoals experimentales"
+	[1] 796
 
 	T-TEST (con t.test(x,y)) :
 

@@ -40,6 +40,10 @@ ourGoalsStats <- function(name,exp) {
 	datosExp = grupos$exp
 	ourGoalsControl = datosControl[["OurGoals"]]
 	ourGoalsExp = datosExp[["OurGoals"]]
+	print("Total ourGoals de control")
+	print(sum(ourGoalsControl))
+	print("Total ourGoals experimentales")
+	print(sum(ourGoalsExp))
 	print(t.test(ourGoalsControl,ourGoalsExp))
 	print(shapiro.test(ourGoalsControl))
 	print(shapiro.test(ourGoalsExp))
@@ -57,6 +61,10 @@ oppGoalsStats <- function(name,exp) {
 	datosExp = grupos$exp
 	oppGoalsControl = datosControl[["OppGoals"]]
 	oppGoalsExp = datosExp[["OppGoals"]]
+	print("Total oppGoals de control")
+	print(sum(oppGoalsControl))
+	print("Total oppGoals experimentales")
+	print(sum(oppGoalsExp))
 	print(t.test(oppGoalsControl,oppGoalsExp))
 	print(shapiro.test(oppGoalsControl))
 	print(shapiro.test(oppGoalsExp))
