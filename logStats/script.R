@@ -6,6 +6,10 @@ goalDiffStats <- function(name,exp) {
 	datosExp = grupos$exp
 	goalDiffControl = datosControl[["GoalDiff"]]
 	goalDiffExp = datosExp[["GoalDiff"]]
+	print("Total goalDiff de control")
+	print(sum(goalDiffControl))
+	print("Total goalDiff experimentales")
+	print(sum(goalDiffExp))
 	print(t.test(goalDiffControl,goalDiffExp))
 	print(shapiro.test(goalDiffControl))
 	print(shapiro.test(goalDiffExp))
