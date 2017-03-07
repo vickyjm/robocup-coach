@@ -86,7 +86,8 @@ namespace patch
 
 void writeToFormChangeFile(int unum,int form,int mode) {
     std::ofstream formationChangeFile;
-    formationChangeFile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/formationChanges/changes.txt",std::ios::app);
+    // formationChangeFile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/formationChanges/changes.txt",std::ios::app);
+    formationChangeFile.open("/home/jemd/Documents/USB/Tesi/robocup-coach/formationChanges/changes.txt",std::ios::app);
     if (unum == 8) {
         if (formationChangeFile.is_open()) {
             if (ourFormationChange != form) {
