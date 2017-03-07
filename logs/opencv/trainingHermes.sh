@@ -13,88 +13,88 @@ D=9310
 P=8370
 T=420
 
-echo "DRIBBLE  10-200: " >> HermesSigmoidal.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E1 $FEAT 1 >> HermesSigmoidal.txt
-mv dribbleMLP.yml ../Hermes/MLP/10-200/dribbleSigmoidal.yml
+# echo "DRIBBLE  10-200: " >> HermesSigmoidal.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E1 $FEAT 1 >> HermesSigmoidal.txt
+# mv dribbleMLP.yml ../Hermes/MLP/10-200/dribbleSigmoidal.yml
 
-echo "DRIBBLE  10-500: " >> HermesSigmoidal.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E2 $FEAT 1 >> HermesSigmoidal.txt
-mv dribbleMLP.yml ../Hermes/MLP/10-500/dribbleSigmoidal.yml
+# echo "DRIBBLE  10-500: " >> HermesSigmoidal.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E2 $FEAT 1 >> HermesSigmoidal.txt
+# mv dribbleMLP.yml ../Hermes/MLP/10-500/dribbleSigmoidal.yml
 
-echo "DRIBBLE  20-200: " >> HermesSigmoidal.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E1 $FEAT 1 >> HermesSigmoidal.txt
-mv dribbleMLP.yml ../Hermes/MLP/20-200/dribbleSigmoidal.yml
+# echo "DRIBBLE  20-200: " >> HermesSigmoidal.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E1 $FEAT 1 >> HermesSigmoidal.txt
+# mv dribbleMLP.yml ../Hermes/MLP/20-200/dribbleSigmoidal.yml
 
-echo "DRIBBLE  20-500: " >> HermesSigmoidal.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E2 $FEAT 1 >> HermesSigmoidal.txt
-mv dribbleMLP.yml ../Hermes/MLP/20-500/dribbleSigmoidal.yml
+# echo "DRIBBLE  20-500: " >> HermesSigmoidal.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E2 $FEAT 1 >> HermesSigmoidal.txt
+# mv dribbleMLP.yml ../Hermes/MLP/20-500/dribbleSigmoidal.yml
 
-echo "DRIBBLE  30-200: " >> HermesSigmoidal.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E1 $FEAT 1 >> HermesSigmoidal.txt
-mv dribbleMLP.yml ../Hermes/MLP/30-200/dribbleSigmoidal.yml
+# echo "DRIBBLE  30-200: " >> HermesSigmoidal.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E1 $FEAT 1 >> HermesSigmoidal.txt
+# mv dribbleMLP.yml ../Hermes/MLP/30-200/dribbleSigmoidal.yml
 
-echo "DRIBBLE  30-500: " >> HermesSigmoidal.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E2 $FEAT 1 >> HermesSigmoidal.txt
-mv dribbleMLP.yml ../Hermes/MLP/30-500/dribbleSigmoidal.yml
+# echo "DRIBBLE  30-500: " >> HermesSigmoidal.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E2 $FEAT 1 >> HermesSigmoidal.txt
+# mv dribbleMLP.yml ../Hermes/MLP/30-500/dribbleSigmoidal.yml
 
-echo "DRIBBLE  50-500: " >> HermesSigmoidal.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E2 $FEAT 1 >> HermesSigmoidal.txt
-mv dribbleMLP.yml ../Hermes/MLP/50-500/dribbleSigmoidal.yml
+# echo "DRIBBLE  50-500: " >> HermesSigmoidal.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E2 $FEAT 1 >> HermesSigmoidal.txt
+# mv dribbleMLP.yml ../Hermes/MLP/50-500/dribbleSigmoidal.yml
 
-echo "DRIBBLE  50-800: " >> HermesSigmoidal.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E3 $FEAT 1 >> HermesSigmoidal.txt
-mv dribbleMLP.yml ../Hermes/MLP/50-800/dribbleSigmoidal.yml
+# echo "DRIBBLE  50-800: " >> HermesSigmoidal.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E3 $FEAT 1 >> HermesSigmoidal.txt
+# mv dribbleMLP.yml ../Hermes/MLP/50-800/dribbleSigmoidal.yml
 
-echo "DRIBBLE  80-500: " >> HermesSigmoidal.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E2 $FEAT 1 >> HermesSigmoidal.txt
-mv dribbleMLP.yml ../Hermes/MLP/80-500/dribbleSigmoidal.yml
+# echo "DRIBBLE  80-500: " >> HermesSigmoidal.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E2 $FEAT 1 >> HermesSigmoidal.txt
+# mv dribbleMLP.yml ../Hermes/MLP/80-500/dribbleSigmoidal.yml
 
-echo "DRIBBLE  80-800: " >> HermesSigmoidal.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E3 $FEAT 1 >> HermesSigmoidal.txt
-mv dribbleMLP.yml ../Hermes/MLP/80-800/dribbleSigmoidal.yml
+# echo "DRIBBLE  80-800: " >> HermesSigmoidal.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E3 $FEAT 1 >> HermesSigmoidal.txt
+# mv dribbleMLP.yml ../Hermes/MLP/80-800/dribbleSigmoidal.yml
 
 
-echo "DRIBBLE  10-200: " >> HermesGaussiana.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E1 $FEAT 0 >> HermesGaussiana.txt
-mv dribbleMLP.yml ../Hermes/MLP/10-200/dribbleGaussian.yml
+# echo "DRIBBLE  10-200: " >> HermesGaussiana.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E1 $FEAT 0 >> HermesGaussiana.txt
+# mv dribbleMLP.yml ../Hermes/MLP/10-200/dribbleGaussian.yml
 
-echo "DRIBBLE  10-500: " >> HermesGaussiana.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E2 $FEAT 0 >> HermesGaussiana.txt
-mv dribbleMLP.yml ../Hermes/MLP/10-500/dribbleGaussian.yml
+# echo "DRIBBLE  10-500: " >> HermesGaussiana.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E2 $FEAT 0 >> HermesGaussiana.txt
+# mv dribbleMLP.yml ../Hermes/MLP/10-500/dribbleGaussian.yml
 
-echo "DRIBBLE  20-200: " >> HermesGaussiana.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E1 $FEAT 0 >> HermesGaussiana.txt
-mv dribbleMLP.yml ../Hermes/MLP/20-200/dribbleGaussian.yml
+# echo "DRIBBLE  20-200: " >> HermesGaussiana.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E1 $FEAT 0 >> HermesGaussiana.txt
+# mv dribbleMLP.yml ../Hermes/MLP/20-200/dribbleGaussian.yml
 
-echo "DRIBBLE  20-500: " >> HermesGaussiana.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E2 $FEAT 0 >> HermesGaussiana.txt
-mv dribbleMLP.yml ../Hermes/MLP/20-500/dribbleGaussian.yml
+# echo "DRIBBLE  20-500: " >> HermesGaussiana.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E2 $FEAT 0 >> HermesGaussiana.txt
+# mv dribbleMLP.yml ../Hermes/MLP/20-500/dribbleGaussian.yml
 
-echo "DRIBBLE  30-200: " >> HermesGaussiana.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E1 $FEAT 0 >> HermesGaussiana.txt
-mv dribbleMLP.yml ../Hermes/MLP/30-200/dribbleGaussian.yml
+# echo "DRIBBLE  30-200: " >> HermesGaussiana.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E1 $FEAT 0 >> HermesGaussiana.txt
+# mv dribbleMLP.yml ../Hermes/MLP/30-200/dribbleGaussian.yml
 
-echo "DRIBBLE  30-500: " >> HermesGaussiana.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E2 $FEAT 0 >> HermesGaussiana.txt
-mv dribbleMLP.yml ../Hermes/MLP/30-500/dribbleGaussian.yml
+# echo "DRIBBLE  30-500: " >> HermesGaussiana.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E2 $FEAT 0 >> HermesGaussiana.txt
+# mv dribbleMLP.yml ../Hermes/MLP/30-500/dribbleGaussian.yml
 
-echo "DRIBBLE  50-500: " >> HermesGaussiana.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E2 $FEAT 0 >> HermesGaussiana.txt
-mv dribbleMLP.yml ../Hermes/MLP/50-500/dribbleGaussian.yml
+# echo "DRIBBLE  50-500: " >> HermesGaussiana.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E2 $FEAT 0 >> HermesGaussiana.txt
+# mv dribbleMLP.yml ../Hermes/MLP/50-500/dribbleGaussian.yml
 
-echo "DRIBBLE  50-800: " >> HermesGaussiana.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E3 $FEAT 0 >> HermesGaussiana.txt
-mv dribbleMLP.yml ../Hermes/MLP/50-800/dribbleGaussian.yml
+# echo "DRIBBLE  50-800: " >> HermesGaussiana.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E3 $FEAT 0 >> HermesGaussiana.txt
+# mv dribbleMLP.yml ../Hermes/MLP/50-800/dribbleGaussian.yml
 
-echo "DRIBBLE  80-500: " >> HermesGaussiana.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E2 $FEAT 0 >> HermesGaussiana.txt
-mv dribbleMLP.yml ../Hermes/MLP/80-500/dribbleGaussian.yml
+# echo "DRIBBLE  80-500: " >> HermesGaussiana.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E2 $FEAT 0 >> HermesGaussiana.txt
+# mv dribbleMLP.yml ../Hermes/MLP/80-500/dribbleGaussian.yml
 
-echo "DRIBBLE  80-800: " >> HermesGaussiana.txt
-./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E3 $FEAT 0 >> HermesGaussiana.txt
-mv dribbleMLP.yml ../Hermes/MLP/80-800/dribbleGaussian.yml
-echo "============================" >> HermesSigmoidal.txt
-echo "============================" >> HermesGaussiana.txt
+# echo "DRIBBLE  80-800: " >> HermesGaussiana.txt
+# ./mlp -d ../Hermes/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E3 $FEAT 0 >> HermesGaussiana.txt
+# mv dribbleMLP.yml ../Hermes/MLP/80-800/dribbleGaussian.yml
+# echo "============================" >> HermesSigmoidal.txt
+# echo "============================" >> HermesGaussiana.txt
 
 echo "pass  10-200: " >> HermesSigmoidal.txt
 ./mlp -p ../Hermes/dats/OnlyJEMV/Normalizados/passFile.dat 5 $P $N1 $E1 $FEAT 1 >> HermesSigmoidal.txt

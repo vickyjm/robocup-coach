@@ -13,88 +13,88 @@ D=13400
 P=9640
 T=1200
 
-echo "DRIBBLE  10-200: " >> JaegerSigmoidal.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E1 $FEAT 1 >> JaegerSigmoidal.txt
-mv dribbleMLP.yml ../Jaeger/MLP/10-200/dribbleSigmoidal.yml
+# echo "DRIBBLE  10-200: " >> JaegerSigmoidal.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E1 $FEAT 1 >> JaegerSigmoidal.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/10-200/dribbleSigmoidal.yml
 
-echo "DRIBBLE  10-500: " >> JaegerSigmoidal.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E2 $FEAT 1 >> JaegerSigmoidal.txt
-mv dribbleMLP.yml ../Jaeger/MLP/10-500/dribbleSigmoidal.yml
+# echo "DRIBBLE  10-500: " >> JaegerSigmoidal.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E2 $FEAT 1 >> JaegerSigmoidal.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/10-500/dribbleSigmoidal.yml
 
-echo "DRIBBLE  20-200: " >> JaegerSigmoidal.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E1 $FEAT 1 >> JaegerSigmoidal.txt
-mv dribbleMLP.yml ../Jaeger/MLP/20-200/dribbleSigmoidal.yml
+# echo "DRIBBLE  20-200: " >> JaegerSigmoidal.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E1 $FEAT 1 >> JaegerSigmoidal.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/20-200/dribbleSigmoidal.yml
 
-echo "DRIBBLE  20-500: " >> JaegerSigmoidal.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E2 $FEAT 1 >> JaegerSigmoidal.txt
-mv dribbleMLP.yml ../Jaeger/MLP/20-500/dribbleSigmoidal.yml
+# echo "DRIBBLE  20-500: " >> JaegerSigmoidal.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E2 $FEAT 1 >> JaegerSigmoidal.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/20-500/dribbleSigmoidal.yml
 
-echo "DRIBBLE  30-200: " >> JaegerSigmoidal.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E1 $FEAT 1 >> JaegerSigmoidal.txt
-mv dribbleMLP.yml ../Jaeger/MLP/30-200/dribbleSigmoidal.yml
+# echo "DRIBBLE  30-200: " >> JaegerSigmoidal.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E1 $FEAT 1 >> JaegerSigmoidal.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/30-200/dribbleSigmoidal.yml
 
-echo "DRIBBLE  30-500: " >> JaegerSigmoidal.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E2 $FEAT 1 >> JaegerSigmoidal.txt
-mv dribbleMLP.yml ../Jaeger/MLP/30-500/dribbleSigmoidal.yml
+# echo "DRIBBLE  30-500: " >> JaegerSigmoidal.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E2 $FEAT 1 >> JaegerSigmoidal.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/30-500/dribbleSigmoidal.yml
 
-echo "DRIBBLE  50-500: " >> JaegerSigmoidal.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E2 $FEAT 1 >> JaegerSigmoidal.txt
-mv dribbleMLP.yml ../Jaeger/MLP/50-500/dribbleSigmoidal.yml
+# echo "DRIBBLE  50-500: " >> JaegerSigmoidal.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E2 $FEAT 1 >> JaegerSigmoidal.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/50-500/dribbleSigmoidal.yml
 
-echo "DRIBBLE  50-800: " >> JaegerSigmoidal.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E3 $FEAT 1 >> JaegerSigmoidal.txt
-mv dribbleMLP.yml ../Jaeger/MLP/50-800/dribbleSigmoidal.yml
+# echo "DRIBBLE  50-800: " >> JaegerSigmoidal.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E3 $FEAT 1 >> JaegerSigmoidal.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/50-800/dribbleSigmoidal.yml
 
-echo "DRIBBLE  80-500: " >> JaegerSigmoidal.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E2 $FEAT 1 >> JaegerSigmoidal.txt
-mv dribbleMLP.yml ../Jaeger/MLP/80-500/dribbleSigmoidal.yml
+# echo "DRIBBLE  80-500: " >> JaegerSigmoidal.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E2 $FEAT 1 >> JaegerSigmoidal.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/80-500/dribbleSigmoidal.yml
 
-echo "DRIBBLE  80-800: " >> JaegerSigmoidal.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E3 $FEAT 1 >> JaegerSigmoidal.txt
-mv dribbleMLP.yml ../Jaeger/MLP/80-800/dribbleSigmoidal.yml
+# echo "DRIBBLE  80-800: " >> JaegerSigmoidal.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E3 $FEAT 1 >> JaegerSigmoidal.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/80-800/dribbleSigmoidal.yml
 
 
-echo "DRIBBLE  10-200: " >> JaegerGaussiana.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E1 $FEAT 0 >> JaegerGaussiana.txt
-mv dribbleMLP.yml ../Jaeger/MLP/10-200/dribbleGaussian.yml
+# echo "DRIBBLE  10-200: " >> JaegerGaussiana.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E1 $FEAT 0 >> JaegerGaussiana.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/10-200/dribbleGaussian.yml
 
-echo "DRIBBLE  10-500: " >> JaegerGaussiana.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E2 $FEAT 0 >> JaegerGaussiana.txt
-mv dribbleMLP.yml ../Jaeger/MLP/10-500/dribbleGaussian.yml
+# echo "DRIBBLE  10-500: " >> JaegerGaussiana.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N1 $E2 $FEAT 0 >> JaegerGaussiana.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/10-500/dribbleGaussian.yml
 
-echo "DRIBBLE  20-200: " >> JaegerGaussiana.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E1 $FEAT 0 >> JaegerGaussiana.txt
-mv dribbleMLP.yml ../Jaeger/MLP/20-200/dribbleGaussian.yml
+# echo "DRIBBLE  20-200: " >> JaegerGaussiana.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E1 $FEAT 0 >> JaegerGaussiana.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/20-200/dribbleGaussian.yml
 
-echo "DRIBBLE  20-500: " >> JaegerGaussiana.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E2 $FEAT 0 >> JaegerGaussiana.txt
-mv dribbleMLP.yml ../Jaeger/MLP/20-500/dribbleGaussian.yml
+# echo "DRIBBLE  20-500: " >> JaegerGaussiana.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N2 $E2 $FEAT 0 >> JaegerGaussiana.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/20-500/dribbleGaussian.yml
 
-echo "DRIBBLE  30-200: " >> JaegerGaussiana.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E1 $FEAT 0 >> JaegerGaussiana.txt
-mv dribbleMLP.yml ../Jaeger/MLP/30-200/dribbleGaussian.yml
+# echo "DRIBBLE  30-200: " >> JaegerGaussiana.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E1 $FEAT 0 >> JaegerGaussiana.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/30-200/dribbleGaussian.yml
 
-echo "DRIBBLE  30-500: " >> JaegerGaussiana.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E2 $FEAT 0 >> JaegerGaussiana.txt
-mv dribbleMLP.yml ../Jaeger/MLP/30-500/dribbleGaussian.yml
+# echo "DRIBBLE  30-500: " >> JaegerGaussiana.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N3 $E2 $FEAT 0 >> JaegerGaussiana.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/30-500/dribbleGaussian.yml
 
-echo "DRIBBLE  50-500: " >> JaegerGaussiana.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E2 $FEAT 0 >> JaegerGaussiana.txt
-mv dribbleMLP.yml ../Jaeger/MLP/50-500/dribbleGaussian.yml
+# echo "DRIBBLE  50-500: " >> JaegerGaussiana.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E2 $FEAT 0 >> JaegerGaussiana.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/50-500/dribbleGaussian.yml
 
-echo "DRIBBLE  50-800: " >> JaegerGaussiana.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E3 $FEAT 0 >> JaegerGaussiana.txt
-mv dribbleMLP.yml ../Jaeger/MLP/50-800/dribbleGaussian.yml
+# echo "DRIBBLE  50-800: " >> JaegerGaussiana.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N4 $E3 $FEAT 0 >> JaegerGaussiana.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/50-800/dribbleGaussian.yml
 
-echo "DRIBBLE  80-500: " >> JaegerGaussiana.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E2 $FEAT 0 >> JaegerGaussiana.txt
-mv dribbleMLP.yml ../Jaeger/MLP/80-500/dribbleGaussian.yml
+# echo "DRIBBLE  80-500: " >> JaegerGaussiana.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E2 $FEAT 0 >> JaegerGaussiana.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/80-500/dribbleGaussian.yml
 
-echo "DRIBBLE  80-800: " >> JaegerGaussiana.txt
-./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E3 $FEAT 0 >> JaegerGaussiana.txt
-mv dribbleMLP.yml ../Jaeger/MLP/80-800/dribbleGaussian.yml
-echo "============================" >> JaegerSigmoidal.txt
-echo "============================" >> JaegerGaussiana.txt
+# echo "DRIBBLE  80-800: " >> JaegerGaussiana.txt
+# ./mlp -d ../Jaeger/dats/OnlyJEMV/Normalizados/dribbleFile.dat 5 $D $N5 $E3 $FEAT 0 >> JaegerGaussiana.txt
+# mv dribbleMLP.yml ../Jaeger/MLP/80-800/dribbleGaussian.yml
+# echo "============================" >> JaegerSigmoidal.txt
+# echo "============================" >> JaegerGaussiana.txt
 
 echo "pass  10-200: " >> JaegerSigmoidal.txt
 ./mlp -p ../Jaeger/dats/OnlyJEMV/Normalizados/passFile.dat 5 $P $N1 $E1 $FEAT 1 >> JaegerSigmoidal.txt

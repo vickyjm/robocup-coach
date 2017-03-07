@@ -1,0 +1,265 @@
+DRIBBLE  10-200: 
+----------*-------------
+True positives : 3308
+True negatives : 3651
+False positives : 1004
+False negatives : 1347
+Total true : 6959 - 74.7476%
+Total false : 2351 - 25.2524%
+DRIBBLE  10-500: 
+----------*-------------
+True positives : 3666
+True negatives : 2960
+False positives : 1695
+False negatives : 989
+Total true : 6626 - 71.1708%
+Total false : 2684 - 28.8292%
+DRIBBLE  20-200: 
+----------*-------------
+True positives : 3648
+True negatives : 2913
+False positives : 1742
+False negatives : 1007
+Total true : 6561 - 70.4726%
+Total false : 2749 - 29.5274%
+DRIBBLE  20-500: 
+----------*-------------
+True positives : 3909
+True negatives : 2226
+False positives : 2429
+False negatives : 746
+Total true : 6135 - 65.8969%
+Total false : 3175 - 34.1031%
+DRIBBLE  30-200: 
+----------*-------------
+True positives : 4063
+True negatives : 2106
+False positives : 2549
+False negatives : 592
+Total true : 6169 - 66.2621%
+Total false : 3141 - 33.7379%
+DRIBBLE  30-500: 
+----------*-------------
+True positives : 4378
+True negatives : 810
+False positives : 3845
+False negatives : 277
+Total true : 5188 - 55.725%
+Total false : 4122 - 44.275%
+DRIBBLE  50-500: 
+----------*-------------
+True positives : 4100
+True negatives : 1882
+False positives : 2773
+False negatives : 555
+Total true : 5982 - 64.2535%
+Total false : 3328 - 35.7465%
+DRIBBLE  50-800: 
+----------*-------------
+True positives : 4022
+True negatives : 922
+False positives : 3733
+False negatives : 633
+Total true : 4944 - 53.1042%
+Total false : 4366 - 46.8958%
+DRIBBLE  80-500: 
+----------*-------------
+True positives : 4039
+True negatives : 2330
+False positives : 2325
+False negatives : 616
+Total true : 6369 - 68.4103%
+Total false : 2941 - 31.5897%
+DRIBBLE  80-800: 
+----------*-------------
+True positives : 4043
+True negatives : 2201
+False positives : 2454
+False negatives : 612
+Total true : 6244 - 67.0677%
+Total false : 3066 - 32.9323%
+============================
+pass  10-200: 
+pass  10-500: 
+pass  20-200: 
+pass  20-500: 
+pass  30-200: 
+pass  30-500: 
+pass  50-500: 
+pass  50-800: 
+pass  80-500: 
+pass  80-800: 
+============================
+shot  10-200: 
+shot  10-500: 
+shot  20-200: 
+shot  20-500: 
+shot  30-200: 
+shot  30-500: 
+shot  50-500: 
+shot  50-800: 
+shot  80-500: 
+shot  80-800: 
+==== 
+pass  10-200: 
+----------*-------------
+True positives : 3253
+True negatives : 3085
+False positives : 1100
+False negatives : 932
+Total true : 6338 - 75.7228%
+Total false : 2032 - 24.2772%
+pass  10-500: 
+----------*-------------
+True positives : 3710
+True negatives : 1786
+False positives : 2399
+False negatives : 475
+Total true : 5496 - 65.6631%
+Total false : 2874 - 34.3369%
+pass  20-200: 
+----------*-------------
+True positives : 3349
+True negatives : 2972
+False positives : 1213
+False negatives : 836
+Total true : 6321 - 75.5197%
+Total false : 2049 - 24.4803%
+pass  20-500: 
+----------*-------------
+True positives : 3353
+True negatives : 3040
+False positives : 1145
+False negatives : 832
+Total true : 6393 - 76.3799%
+Total false : 1977 - 23.6201%
+pass  30-200: 
+----------*-------------
+True positives : 3255
+True negatives : 3120
+False positives : 1065
+False negatives : 930
+Total true : 6375 - 76.1649%
+Total false : 1995 - 23.8351%
+pass  30-500: 
+----------*-------------
+True positives : 3021
+True negatives : 3297
+False positives : 888
+False negatives : 1164
+Total true : 6318 - 75.4839%
+Total false : 2052 - 24.5161%
+pass  50-500: 
+----------*-------------
+True positives : 3049
+True negatives : 3178
+False positives : 1007
+False negatives : 1136
+Total true : 6227 - 74.3967%
+Total false : 2143 - 25.6033%
+pass  50-800: 
+----------*-------------
+True positives : 3435
+True negatives : 2217
+False positives : 1968
+False negatives : 750
+Total true : 5652 - 67.5269%
+Total false : 2718 - 32.4731%
+pass  80-500: 
+----------*-------------
+True positives : 3329
+True negatives : 3041
+False positives : 1144
+False negatives : 856
+Total true : 6370 - 76.1051%
+Total false : 2000 - 23.8949%
+pass  80-800: 
+----------*-------------
+True positives : 3115
+True negatives : 3416
+False positives : 769
+False negatives : 1070
+Total true : 6531 - 78.0287%
+Total false : 1839 - 21.9713%
+============================
+shot  10-200: 
+----------*-------------
+True positives : 163
+True negatives : 149
+False positives : 61
+False negatives : 47
+Total true : 312 - 74.2857%
+Total false : 108 - 25.7143%
+shot  10-500: 
+----------*-------------
+True positives : 185
+True negatives : 175
+False positives : 35
+False negatives : 25
+Total true : 360 - 85.7143%
+Total false : 60 - 14.2857%
+shot  20-200: 
+----------*-------------
+True positives : 150
+True negatives : 158
+False positives : 52
+False negatives : 60
+Total true : 308 - 73.3333%
+Total false : 112 - 26.6667%
+shot  20-500: 
+----------*-------------
+True positives : 185
+True negatives : 180
+False positives : 30
+False negatives : 25
+Total true : 365 - 86.9048%
+Total false : 55 - 13.0952%
+shot  30-200: 
+----------*-------------
+True positives : 177
+True negatives : 143
+False positives : 67
+False negatives : 33
+Total true : 320 - 76.1905%
+Total false : 100 - 23.8095%
+shot  30-500: 
+----------*-------------
+True positives : 188
+True negatives : 164
+False positives : 46
+False negatives : 22
+Total true : 352 - 83.8095%
+Total false : 68 - 16.1905%
+shot  50-500: 
+----------*-------------
+True positives : 180
+True negatives : 175
+False positives : 35
+False negatives : 30
+Total true : 355 - 84.5238%
+Total false : 65 - 15.4762%
+shot  50-800: 
+----------*-------------
+True positives : 180
+True negatives : 171
+False positives : 39
+False negatives : 30
+Total true : 351 - 83.5714%
+Total false : 69 - 16.4286%
+shot  80-500: 
+----------*-------------
+True positives : 169
+True negatives : 168
+False positives : 42
+False negatives : 41
+Total true : 337 - 80.2381%
+Total false : 83 - 19.7619%
+shot  80-800: 
+----------*-------------
+True positives : 157
+True negatives : 173
+False positives : 37
+False negatives : 53
+Total true : 330 - 78.5714%
+Total false : 90 - 21.4286%
+==== 

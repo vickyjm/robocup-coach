@@ -93,8 +93,8 @@ int main(int argc, char* argv[]) {
     cvml.set_response_idx (24);*/
     /*cvml.change_var_type(17, CV_VAR_CATEGORICAL);    // The output is categorical
     cvml.set_response_idx (17);*/
-    cvml.change_var_type(23, CV_VAR_CATEGORICAL);    // The output is categorical
-    cvml.set_response_idx (23);
+    cvml.change_var_type(24, CV_VAR_CATEGORICAL);    // The output is categorical
+    cvml.set_response_idx (24);
     /*cvml.change_var_type(11, CV_VAR_CATEGORICAL);    // The output is categorical
     cvml.set_response_idx (11);*/
     /*cvml.change_var_type(7, CV_VAR_CATEGORICAL);    // The output is categorical
@@ -105,7 +105,7 @@ int main(int argc, char* argv[]) {
     const Mat aux(cvml.get_values(),true);
     //const Mat values = aux(Range::all(), Range(0,9));
     //const Mat values = aux(Range::all(), Range(0,24));
-    const Mat values = aux(Range::all(), Range(0,23));
+    const Mat values = aux(Range::all(), Range(0,24));
     //const Mat values = aux(Range::all(), Range(0,26));
     //const Mat values = aux(Range::all(), Range(0,11));
     //const Mat values = aux(Range::all(), Range(0,7));
@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
     CvMat* var_type;
     
     //var_type = cvCreateMat( 25, 1, CV_8U );
-    var_type = cvCreateMat( 24, 1, CV_8U );
+    var_type = cvCreateMat( 25, 1, CV_8U );
     //var_type = cvCreateMat( 27, 1, CV_8U );
     //var_type = cvCreateMat( 10, 1, CV_8U );
     //var_type = cvCreateMat( 12, 1, CV_8U );
@@ -124,7 +124,7 @@ int main(int argc, char* argv[]) {
     cvSet(var_type, cvScalarAll(CV_VAR_ORDERED));
     //cvSetReal1D(var_type, 9, CV_VAR_CATEGORICAL);
     //cvSetReal1D(var_type, 24, CV_VAR_CATEGORICAL);
-    cvSetReal1D(var_type, 23, CV_VAR_CATEGORICAL);
+    cvSetReal1D(var_type, 24, CV_VAR_CATEGORICAL);
     //cvSetReal1D(var_type, 26, CV_VAR_CATEGORICAL);
     //cvSetReal1D(var_type, 11, CV_VAR_CATEGORICAL);
     //cvSetReal1D(var_type, 7, CV_VAR_CATEGORICAL);

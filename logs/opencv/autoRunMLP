@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# ./autoRunMLP (path de carpeta con los .dat) (num de features) (maximo de neuronas en la hidden layer)
+PATH=$1 # Path a la carpeta con los .dat
+
+FEATURES=$2 # numero de features
+
+MAXHIDDENLAYER=$3 # maximo numero de neuronas en la capa oculta.
+
+HIDDENLAYER=10
+
+while [ $HIDDENLAYER -le $MAXHIDDENLAYER ]	
+do
+
+	HIDDENLAYER=$[$HIDDENLAYER+1]
+done
+
+
+
+
