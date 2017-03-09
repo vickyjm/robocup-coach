@@ -165,15 +165,20 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
 
     /*CvANN_MLP shotMLP;
     shotMLP.load("trainedTrees/Genius/shotMLP.yml");
-    cv::Mat predAux(1, 1, CV_32FC1);
+    cv::Mat predAux(1, 1, CV_32FC1);*/
 
-    cv::Mat testSample(extractFeaturesShoot(agent, best_shoot->target_point_));*/
+    CvDTree shootTree;
+    //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
+    shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shootTree.yml");
+
+    cv::Mat testSample(extractFeaturesShoot(agent, best_shoot->target_point_));
 
     if ( one_step_speed > best_shoot->first_ball_speed_ * 0.99 )
     { 
         // It will be a successful shoot.
         //shotMLP.predict(testSample, predAux);
           //if (predAux.at<float>(0,0) >= 0){
+      if (shootTree.predict(testSample)->value == 1){
           if ( Body_SmartKick( best_shoot->target_point_,
                                one_step_speed,
                                one_step_speed * 0.99 - 0.0001,
@@ -184,12 +189,13 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
                //std::cout << "Shoot " << std::endl;
                return true;
           }
-        //}
+        }
     }
 
     // It will be a successful shoot.
     //shotMLP.predict(testSample, predAux);
       //if (predAux.at<float>(0,0) >= 0){
+    if (shootTree.predict(testSample)->value == 1){
       if ( Body_SmartKick( best_shoot->target_point_,
                            best_shoot->first_ball_speed_,
                            best_shoot->first_ball_speed_ * 0.99,
@@ -202,7 +208,7 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
           //std::cout << "Shoot " << std::endl;
           return true;
       }
-   // }
+    }
 
     dlog.addText( Logger::SHOOT,
                   __FILE__": failed" );

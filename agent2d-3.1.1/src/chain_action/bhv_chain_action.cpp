@@ -287,19 +287,25 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
             /*CvANN_MLP shotMLP;
             shotMLP.load("trainedTrees/Genius/shotMLP.yml");
-            cv::Mat predAux(1, 1, CV_32FC1);
+            cv::Mat predAux(1, 1, CV_32FC1);   
 
-            cv::Mat testSample(extractFeatures(agent, first_action));    
-
-            // It will be a successful shoot.
+            
             shotMLP.predict(testSample, predAux);
             if (predAux.at<float>(0,0) >= 0){*/
+
+            CvDTree shootTree;
+            shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shootTree.yml");    //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
+
+            cv::Mat testSample(extractFeatures(agent, first_action));
+
+            // It will be a successful shoot.
+            if (shootTree.predict(testSample)->value == 1){ 
                 if ( Body_ForceShoot().execute( agent ) )
                 {
                     agent->setNeckAction( new Neck_TurnToGoalieOrScan() );
                     return true;
                 }
-            //}
+            }
 
             break;
         }
@@ -337,18 +343,23 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             /*CvANN_MLP dribbleMLP;
             dribbleMLP.load("trainedTrees/Genius/dribbleMLP.yml");
             cv::Mat predAux(1, 1, CV_32FC1);
-
-            cv::Mat testSample(extractFeatures(agent, first_action));
             
-            // It will be a successful dribble
             dribbleMLP.predict(testSample, predAux);
             if (predAux.at<float>(0,0) >= 0){*/
+
+            CvDTree dribbleTree;
+            dribbleTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml"); //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
+
+            cv::Mat testSample(extractFeatures(agent, first_action));
+
+            // It will be a successful dribble
+            if (dribbleTree.predict(testSample)->value == 1){
                 if ( Bhv_NormalDribble( first_action, neck ).execute( agent ) ){
                     //std::cout << "Dribble " << agent->world().self().unum() << std::endl;
                     return true;
                 }
 
-           // }
+            }
             break;
         }
 
@@ -394,16 +405,22 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             passMLP.load("trainedTrees/Genius/passMLP.yml");
             cv::Mat predAux(1, 1, CV_32FC1);
 
-            cv::Mat testSample(extractFeatures(agent, first_action));
-
             // It will be a successful pass
             passMLP.predict(testSample, predAux);
             if (predAux.at<float>(0,0) >= 0){*/
+
+            CvDTree passTree;
+            passTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml"); //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
+
+            cv::Mat testSample(extractFeatures(agent, first_action));
+
+
+            if (passTree.predict(testSample)->value == 1){
                 if (Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent )) {
                    // std::cout << "Pass " << agent->world().self().unum() << std::endl;
                     return true;
                 }
-            //}
+            }
             break;
         }
 

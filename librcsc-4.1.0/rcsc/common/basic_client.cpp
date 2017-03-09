@@ -186,7 +186,6 @@ BasicClient::runOnline( SoccerAgent * agent )
             waited_msec = 0;
             timeout_count = 0;
             agent->handleMessage(&firstAction,&lastAction,field);
-            // agent->handleMessage(&firstAction,&lastAction);
         }
     }
 }
