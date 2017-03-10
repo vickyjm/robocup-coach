@@ -64,6 +64,7 @@
 #include "cv.h"
 #include "ml.h"
 
+using namespace cv;
 
 int opp_score = 0;
 int old_opp_score = 0;
@@ -71,9 +72,30 @@ int our_score = 0;
 int lastReset = 0;
 
 //Values obtained from the normalization before the games
-float maxBxDribble = 10.50302, maxByDribble = 6.81262, maxDribble = 1, minBxDribble = 2, minByDribble = 3;
-float maxBxPass = 1, maxByPass = 7, maxPass = 6, minBxPass = 5, minByPass = 4;
-float maxBxShot = 2, maxByShot = 4, maxShot = 5, minBxShot = 6, minByShot = 1;
+//Genius
+float maxBxDribble = 10.50302, maxByDribble = 6.81262, minBxDribble = -10.52726, minByDribble = -6.73452, maxDribble = 136.0912;
+float maxBxPass = 10.51674, maxByPass = 6.81434, minBxPass = -11.05596, minByPass = -6.81646, maxPass = 127.3224;
+float maxBxShot = 10.68678, maxByShot = 5.35688, minBxShot = -4.23784, minByShot = -5.4228, maxShot = 123.6549;
+
+//Helios
+/*float maxBxDribble = 10.48934, maxByDribble = 6.80904, minBxDribble = -10.42648, minByDribble = -6.79716, maxDribble = 134.2811;
+float maxBxPass = 10.63988, maxByPass = 6.81484, minBxPass = -10.74836, minByPass = -6.80434, maxPass = 117.5729;
+float maxBxShot = 10.60262, maxByShot = 4.33662, minBxShot = -10.39796, minByShot = -4.68052, maxShot = 120.5484;*/
+
+//Hermes
+/*float maxBxDribble = 10.50934, maxByDribble = 6.79544, minBxDribble = -10.21012, minByDribble = -6.80346, maxDribble = 134.9107;
+float maxBxPass = 10.51576, maxByPass = 6.8, minBxPass = -10.63878, minByPass = -6.8141, maxPass = 135.6462;
+float maxBxShot = 10.55944, maxByShot = 6.73782, minBxShot = -2.76568, minByShot = -6.42094, maxShot = 126.6197;*/
+
+//Jaeger
+/*float maxBxDribble = 10.5067, maxByDribble = 6.8, minBxDribble = -10.54852, minByDribble = -6.81356, maxDribble = 137.1277;
+float maxBxPass = 10.57736, maxByPass = 6.813, minBxPass = -10.7262, minByPass = -6.81652, maxPass = 124.1222;
+float maxBxShot = 10.67964, maxByShot = 6.65094, minBxShot = 0.84936, minByShot = -6.11404, maxShot = 128.5996;*/
+
+//WrightEagle
+/*float maxBxDribble = 10.51572, maxByDribble = 6.80018, minBxDribble = -10.47292 minByDribble = -6.8, maxDribble = 135.3868;
+float maxBxPass = 10.66324, maxByPass = 6.81448, minBxPass = -10.76028, minByPass = -6.81686, maxPass = 135.8845;
+float maxBxShot = 10.6253, maxByShot = 6.8, minBxShot = -10.53776, minByShot = -6.6, maxShot = 128.045;*/
 
 namespace patch
 {
@@ -116,6 +138,18 @@ void trainTrees(){
   passData.set_response_idx (24);
   passData.change_var_type(24, CV_VAR_CATEGORICAL);    // The output is categorical
 
+  const Mat auxS(shotData.get_values(),true);
+  const Mat auxP(passData.get_values(),true);
+  const Mat auxD(dribbleData.get_values(),true);
+  const Mat shotValues = auxS(Range::all(), Range(0,24));
+  const Mat passValues = auxP(Range::all(), Range(0,24));
+  const Mat dribbleValues = auxD(Range::all(), Range(0,24));
+  const Mat responsesShot(shotData.get_responses(),true);
+  const Mat responsesPass(passData.get_responses(),true);
+  const Mat responsesDribble(dribbleData.get_responses(),true);
+  //const Mat responsesT(responses.t());
+
+
   //Change the type of the features. All are numerics, except for the class label
   CvMat* var_type;
     
@@ -125,12 +159,12 @@ void trainTrees(){
   cvSetReal1D(var_type, 24, CV_VAR_CATEGORICAL);
 
   // Create the new decision trees for every type of action
-  CvDTree* shotTree = new CvDTree();
-  CvDTree* dribbleTree = new CvDTree();
-  CvDTree* passTree = new CvDTree();
+  CvDTree shotTree;
+  CvDTree dribbleTree;
+  CvDTree passTree;
 
   // Train the new trees with the old logs and the actions from the current game
-  CvDTreeParams params = CvDTreeParams( INT_MAX, // max depth
+  CvDTreeParams params = CvDTreeParams( 25, // max depth
                                  10, // min sample count
                                  0, // regression accuracy: N/A here
                                  false, // compute surrogate split, as we have missing data
@@ -143,17 +177,25 @@ void trainTrees(){
                                         // (a mushroom will be judjed to be poisonous with bigger chance)
                                  );
 
-  shotTree->train(&shotData,params);
+  const Mat varIdx = Mat();
+  const Mat missing = Mat();
+  const Mat training = Mat();
+
+  /*shotTree->train(&shotData,params);
   dribbleTree->train(&dribbleData,params);
-  passTree->train(&passData,params);
+  passTree->train(&passData,params);*/
+
+  shotTree.train(shotValues, CV_ROW_SAMPLE, responsesShot.t(), varIdx, training, var_type, missing, params);
+  passTree.train(passValues, CV_ROW_SAMPLE, responsesPass.t(), varIdx, training, var_type, missing, params);
+  dribbleTree.train(dribbleValues, CV_ROW_SAMPLE, responsesDribble.t(), varIdx, training, var_type, missing, params);
 
   // Save the new trees
   // NOTE: These paths MUST be changed every time you play with a different team
   // If the logs are separated by teams you should put here the tree that you trained
   // for the current opponent team.
-  shotTree->save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shootTree.yml");
-  dribbleTree->save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
-  passTree->save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
+  shotTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
+  dribbleTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
+  passTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
 
 }
 
@@ -350,7 +392,7 @@ std::string CoachAgent::actionClassifier(actionInfo oldAction, actionInfo curren
     if (((oldAction.ownerUnum != currentAction.ownerUnum) || (oldAction.isTeammate!=currentAction.isTeammate)) && (currentAction.ownerUnum != -1) && (oldAction.ownerUnum != -1)){
       // Both players are from our team
       if (oldAction.isTeammate && currentAction.isTeammate){  
-        std::cout << "PASS" << std::endl;
+        //std::cout << "PASS" << std::endl;
         return "PASS";
       }
       // The ball changed teams
@@ -359,22 +401,22 @@ std::string CoachAgent::actionClassifier(actionInfo oldAction, actionInfo curren
         if (oldAction.isTeammate){
           // We're playing on the left side of the field
           if ((world().ourSide() == LEFT) && (currentAction.ballPos.x >= 42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x > 0)){
-            std::cout << "UNSUCCESFULSHOOT" << std::endl;
+            //std::cout << "UNSUCCESFULSHOOT" << std::endl;
             return "UNSUCCESFULSHOOT";
           } 
           // We're playing on the right side of the field
           else if ((world().ourSide() == RIGHT ) && (currentAction.ballPos.x <= -42.5) && (currentAction.ballPos.y > -10) && (currentAction.ballPos.y < 10) && (oldAction.ballVel.x < 0)){
-            std::cout << "UNSUCCESFULSHOOT" << std::endl;
+            //std::cout << "UNSUCCESFULSHOOT" << std::endl;
             return "UNSUCCESFULSHOOT";
           }
         }
   
         if ((distance < 30) && (oldAction.isTeammate)){
-          std::cout << "UNSUCCESFULDRIBBLE" << std::endl;
+          //std::cout << "UNSUCCESFULDRIBBLE" << std::endl;
           return "UNSUCCESFULDRIBBLE";
         }
         if ((distance >= 30) && (oldAction.isTeammate)){
-          std::cout << "UNSUCCESFULPASS" << std::endl;
+          //std::cout << "UNSUCCESFULPASS" << std::endl;
           return "UNSUCCESFULPASS";
         }
       }
@@ -382,7 +424,7 @@ std::string CoachAgent::actionClassifier(actionInfo oldAction, actionInfo curren
     else if ((oldAction.ownerUnum == currentAction.ownerUnum) && (oldAction.isTeammate && currentAction.isTeammate)
                   && (oldAction.ownerUnum != -1) && (owner != -1)){
       if (distance > 0.5){
-        std::cout << "DRIBBLE" << std::endl;
+        //std::cout << "DRIBBLE" << std::endl;
         return "DRIBBLE";
       }
     }
@@ -1170,36 +1212,83 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
                       : world().gameMode().scoreLeft() );
 
     //The first time that this function is called
-    if (firstAction->ownerUnum == -1){
-      const std::vector<const GlobalPlayerObject*> myPlayers = world().teammates();
-      const std::vector<const GlobalPlayerObject*> myOpponents = world().opponents();
+    if (world().gameMode().type() == GameMode::PlayOn){
+      if (firstAction->ownerUnum == -1){
+      const std::vector<const GlobalPlayerObject*> myPlays = world().teammates();
+      const std::vector<const GlobalPlayerObject*> myOpps = world().opponents();
 
-      for (unsigned i = 0; i < 11; i++){
-          firstAction->playersPos[i] = myPlayers[i]->pos();  
-      }
+        for (unsigned i = 0; i < 11; i++){
+            firstAction->playersPos[i] = myPlays[i]->pos();  
+        }
 
-      for (unsigned i = 0; i < 11; i++){
-          firstAction->playersPos[i] = myOpponents[i]->pos();
+        for (unsigned i = 0; i < 11; i++){
+            firstAction->playersPos[i+11] = myOpps[i]->pos();
+        }
+      
       }
       
+      actionInfo newAction = ownerPlayer();
+
+      if (newAction.ownerUnum != -1){
+        lastAction->ownerUnum = newAction.ownerUnum;
+        lastAction->isTeammate = newAction.isTeammate;
+        lastAction->ownerPos = newAction.ownerPos;
+      }
+
+      lastAction->ballPos = newAction.ballPos;
+      lastAction->ballVel = newAction.ballVel;
+
+      std::string currentAction = actionClassifier(*firstAction, *lastAction, newAction.ownerUnum);
+
+      if (currentAction != ""){
+        extractFeatures(*firstAction, *lastAction, currentAction);
+
+        const std::vector<const GlobalPlayerObject*> myPlays = world().teammates();
+        const std::vector<const GlobalPlayerObject*> myOpps = world().opponents();
+
+        for (unsigned i = 0; i < 11; i++){
+            firstAction->playersPos[i] = myPlays[i]->pos();  
+        }
+
+        for (unsigned i = 0; i < 11; i++){
+            firstAction->playersPos[i+11] = myOpps[i]->pos();
+        }
+      }
+
+      firstAction->ownerUnum = lastAction->ownerUnum;
+      firstAction->isTeammate = lastAction->isTeammate;
+      firstAction->ownerPos = lastAction->ownerPos;
+      firstAction->ballPos = lastAction->ballPos;
+      firstAction->ballVel = lastAction->ballVel;
+
+      firstAction->retrain = 1;
     }
+
     
-    actionInfo newAction = ownerPlayer();
 
-    if (newAction.ownerUnum != -1){
-      lastAction->ownerUnum = newAction.ownerUnum;
-      lastAction->isTeammate = newAction.isTeammate;
-      lastAction->ownerPos = newAction.ownerPos;
-    }
-
-    lastAction->ballPos = newAction.ballPos;
-    lastAction->ballVel = newAction.ballVel;
-
-    std::string currentAction = actionClassifier(*firstAction, *lastAction, newAction.ownerUnum);
-
-    if ((world().gameMode().type() == GameMode::AfterGoal_) && (firstAction->goalChecked == false)){
+    if ((world().gameMode().type() == GameMode::AfterGoal_) && (firstAction->goalChecked == false) && (old_opp_score == opp_score)){
       std::cout << "GOAL" << std::endl;
-      currentAction = "GOAL";
+
+      extractFeatures(*firstAction, *lastAction, "GOAL");
+
+      const std::vector<const GlobalPlayerObject*> myPlays = world().teammates();
+      const std::vector<const GlobalPlayerObject*> myOpps = world().opponents();
+
+      for (unsigned i = 0; i < 11; i++){
+          firstAction->playersPos[i] = myPlays[i]->pos();  
+      }
+
+      for (unsigned i = 0; i < 11; i++){
+          firstAction->playersPos[i+11] = myOpps[i]->pos();
+      }
+      
+
+      firstAction->ownerUnum = lastAction->ownerUnum;
+      firstAction->isTeammate = lastAction->isTeammate;
+      firstAction->ownerPos = lastAction->ownerPos;
+      firstAction->ballPos = lastAction->ballPos;
+      firstAction->ballVel = lastAction->ballVel;
+
       firstAction->goalChecked = true;
     }
 
@@ -1207,31 +1296,12 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
       firstAction->goalChecked = false;
     }
 
-    if (currentAction != ""){
-      std::cout << currentAction << std::endl;
-      extractFeatures(*firstAction, *lastAction, currentAction);
+    
 
-      const std::vector<const GlobalPlayerObject*> myPlayers = world().teammates();
-      const std::vector<const GlobalPlayerObject*> myOpponents = world().opponents();
-
-      for (unsigned i = 0; i < 11; i++){
-          firstAction->playersPos[i] = myPlayers[i]->pos();  
-      }
-
-      for (unsigned i = 0; i < 11; i++){
-          firstAction->playersPos[i] = myOpponents[i]->pos();
-      }
-    }
-
-    firstAction->ownerUnum = lastAction->ownerUnum;
-    firstAction->isTeammate = lastAction->isTeammate;
-    firstAction->ownerPos = lastAction->ownerPos;
-    firstAction->ballPos = lastAction->ballPos;
-    firstAction->ballVel = lastAction->ballVel;
-
-    if (world().gameMode().type() == GameMode::KickIn_){
+    if ((world().gameMode().type() == GameMode::KickIn_) && (firstAction->retrain == 1)){
       std::cout << "Estoy reentrenando" << std::endl;
       trainTrees();
+      firstAction->retrain = -1;
     }
 
 

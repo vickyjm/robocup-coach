@@ -65,6 +65,32 @@
 using namespace cv;
 using namespace rcsc;
 
+//Values obtained from the normalization before the games
+//Genius
+float maxBxDribble = 10.50302, maxByDribble = 6.81262, minBxDribble = -10.52726, minByDribble = -6.73452, maxDribble = 136.0912;
+float maxBxPass = 10.51674, maxByPass = 6.81434, minBxPass = -11.05596, minByPass = -6.81646, maxPass = 127.3224;
+float maxBxShot = 10.68678, maxByShot = 5.35688, minBxShot = -4.23784, minByShot = -5.4228, maxShot = 123.6549;
+
+//Helios
+/*float maxBxDribble = 10.48934, maxByDribble = 6.80904, minBxDribble = -10.42648, minByDribble = -6.79716, maxDribble = 134.2811;
+float maxBxPass = 10.63988, maxByPass = 6.81484, minBxPass = -10.74836, minByPass = -6.80434, maxPass = 117.5729;
+float maxBxShot = 10.60262, maxByShot = 4.33662, minBxShot = -10.39796, minByShot = -4.68052, maxShot = 120.5484;*/
+
+//Hermes
+/*float maxBxDribble = 10.50934, maxByDribble = 6.79544, minBxDribble = -10.21012, minByDribble = -6.80346, maxDribble = 134.9107;
+float maxBxPass = 10.51576, maxByPass = 6.8, minBxPass = -10.63878, minByPass = -6.8141, maxPass = 135.6462;
+float maxBxShot = 10.55944, maxByShot = 6.73782, minBxShot = -2.76568, minByShot = -6.42094, maxShot = 126.6197;*/
+
+//Jaeger
+/*float maxBxDribble = 10.5067, maxByDribble = 6.8, minBxDribble = -10.54852, minByDribble = -6.81356, maxDribble = 137.1277;
+float maxBxPass = 10.57736, maxByPass = 6.813, minBxPass = -10.7262, minByPass = -6.81652, maxPass = 124.1222;
+float maxBxShot = 10.67964, maxByShot = 6.65094, minBxShot = 0.84936, minByShot = -6.11404, maxShot = 128.5996;*/
+
+//WrightEagle
+/*float maxBxDribble = 10.51572, maxByDribble = 6.80018, minBxDribble = -10.47292 minByDribble = -6.8, maxDribble = 135.3868;
+float maxBxPass = 10.66324, maxByPass = 6.81448, minBxPass = -10.76028, minByPass = -6.81686, maxPass = 135.8845;
+float maxBxShot = 10.6253, maxByShot = 6.8, minBxShot = -10.53776, minByShot = -6.6, maxShot = 128.045;*/
+
 double distFromLine(Vector2D p0, Vector2D p1, Vector2D p2){
   float a,b,c;
   float num, denom;
@@ -87,35 +113,59 @@ double distFromLine(Vector2D p0, Vector2D p1, Vector2D p2){
 }
 
 cv::Mat
-extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
+extractFeatures(PlayerAgent* agent, const CooperativeAction & action, int val){
     PlayerCont allOpps;
     PlayerCont allTeammts;
     PlayerCont::iterator iter;
-    Mat features = Mat::zeros(1, 24, CV_32F);
+    Mat features = Mat::zeros(1, 24, CV_32FC1);
+    float maxBx, maxBy, minBx, minBy, maxPlays;
 
     // Ball position
     Vector2D ballPos = agent->world().ball().pos();
 
-    features.at<float>(0,0) = ballPos.x/5;
-    features.at<float>(0,1) = ballPos.y/5;
+    if (val == 1){
+        maxBx = maxBxShot;
+        minBx = minBxShot;
+        maxBy = maxByShot;
+        minBy = minByShot;
+        maxPlays = maxShot;
+    } else if (val == 2){
+        maxBx = maxBxPass; 
+        minBx = minBxPass;
+        maxBy = maxByPass;
+        minBy = minByPass;
+        maxPlays = maxPass;
+    } else {
+        maxBx = maxBxDribble;
+        minBx = minBxDribble;
+        maxBy = maxByDribble;
+        minBy = minByDribble;
+        maxPlays = maxDribble;
+    }
+
+    features.at<float>(0,0) = ((ballPos.x/5)-minBx)/(maxBx-minBx);
+    features.at<float>(0,1) = ((ballPos.y/5)-minBy)/(maxBy-minBy);
+
+    //Owner
+    features.at<float>(0,agent->world().self().unum()+2) = distFromLine(ballPos, action.targetPoint(), agent->world().self().pos())/maxPlays;
 
     // Calculating Teammates
     int i = 2;
     allTeammts = agent->world().teammates();
     for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
-        features.at<float>(0,i) = distFromLine(ballPos, action.targetPoint(), iter->pos());
+        if (i == agent->world().self().unum()){
+            i++;
+        }
+        features.at<float>(0,i) = distFromLine(ballPos, action.targetPoint(), iter->pos())/maxPlays;
         i++;
     }
 
     // Calculating Opponents.
     allOpps = agent->world().opponents();
     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
-        features.at<float>(0,i) = distFromLine(ballPos, action.targetPoint(), iter->pos());
+        features.at<float>(0,i) = distFromLine(ballPos, action.targetPoint(), iter->pos())/maxPlays;
         i++;
     }
-
-    
-    //Mat features = (Mat_<float>(1,10) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
     
     return features;
 }
@@ -290,9 +340,9 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
                           __FILE__" (Bhv_ChainAction) shoot" );
 
             CvDTree shootTree;
-            shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shootTree.yml");    //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
+            shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");    //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
 
-            cv::Mat testSample(extractFeatures(agent, first_action));
+            cv::Mat testSample(extractFeatures(agent, first_action, 1));
 
             // It will be a successful shoot.
             if (shootTree.predict(testSample)->value == 1){ 
@@ -339,7 +389,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             CvDTree dribbleTree;
             dribbleTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml"); //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
 
-            cv::Mat testSample(extractFeatures(agent, first_action));
+            cv::Mat testSample(extractFeatures(agent, first_action,3));
 
             // It will be a successful dribble
             if (dribbleTree.predict(testSample)->value == 1){
@@ -392,9 +442,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
             CvDTree passTree;
             passTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml"); //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
-
-            cv::Mat testSample(extractFeatures(agent, first_action));
-
+            const cv::Mat testSample(extractFeatures(agent, first_action,2));
 
             if (passTree.predict(testSample)->value == 1){
                 if (Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent )) {

@@ -52,6 +52,31 @@
 using namespace cv;
 using namespace rcsc;
 
+//Values obtained from the normalization before the games
+//Genius
+float maxBxDribbleO = 10.50302, maxByDribbleO = 6.81262, minBxDribbleO = -10.52726, minByDribbleO = -6.73452, maxDribbleO = 136.0912;
+float maxBxPassO = 10.51674, maxByPassO = 6.81434, minBxPassO = -11.05596, minByPassO = -6.81646, maxPassO = 127.3224;
+
+//Helios
+/*float maxBxDribbleO = 10.48934, maxByDribbleO = 6.80904, minBxDribbleO = -10.42648, minByDribbleO = -6.79716, maxDribbleO = 134.2811;
+float maxBxPassO = 10.63988, maxByPassO = 6.81484, minBxPassO = -10.74836, minByPassO = -6.80434, maxPassO = 117.5729;
+*/
+
+//Hermes
+/*float maxBxDribbleO = 10.50934, maxByDribbleO = 6.79544, minBxDribbleO = -10.21012, minByDribbleO = -6.80346, maxDribbleO = 134.9107;
+float maxBxPassO = 10.51576, maxByPassO = 6.8, minBxPassO = -10.63878, minByPassO = -6.8141, maxPassO = 135.6462;
+*/
+
+//Jaeger
+/*float maxBxDribbleO = 10.5067, maxByDribbleO = 6.8, minBxDribbleO = -10.54852, minByDribbleO = -6.81356, maxDribbleO = 137.1277;
+float maxBxPassO = 10.57736, maxByPassO = 6.813, minBxPassO = -10.7262, minByPassO = -6.81652, maxPassO = 124.1222;
+*/
+
+//WrightEagle
+/*float maxBxDribbleO = 10.51572, maxByDribbleO = 6.80018, minBxDribbleO = -10.47292 minByDribbleO = -6.8, maxDribbleO = 135.3868;
+float maxBxPassO = 10.66324, maxByPassO = 6.81448, minBxPassO = -10.76028, minByPassO = -6.81686, maxPassO = 135.8845;
+*/
+
 
 double distFromLineKick(Vector2D p0, Vector2D p1, Vector2D p2){
   float a,b,c;
@@ -75,30 +100,47 @@ double distFromLineKick(Vector2D p0, Vector2D p1, Vector2D p2){
 }
 
 cv::Mat 
-extractFeaturesKick(PlayerAgent* agent, Vector2D targetPoint){
+extractFeaturesKick(PlayerAgent* agent, Vector2D targetPoint, int isPass){
     PlayerCont allOpps;
     PlayerCont allTeammts;
     PlayerCont::iterator iter;
     Mat features = Mat::zeros(1, 24, CV_32F);
+    float maxBx, maxBy, minBx, minBy, maxPlays;
+
+    if (isPass == 1){
+      maxBx = maxBxPassO, maxBy = maxByPassO;
+      minBx = minBxPassO, minBy = minByPassO;
+      maxPlays = maxPassO;
+    } else {
+      maxBx = maxBxDribbleO, maxBy = maxByDribbleO;
+      minBx = minBxDribbleO, minBy = minByDribbleO;
+      maxPlays = maxDribbleO;
+    }
 
     // Ball position
     Vector2D ballPos = agent->world().ball().pos();
 
-    features.at<float>(0,0) = ballPos.x/5;
-    features.at<float>(0,1) = ballPos.y/5;
+    features.at<float>(0,0) = ((ballPos.x/5)-minBx)/(maxBx-minBx);
+    features.at<float>(0,1) = ((ballPos.y/5)-minBy)/(maxBy-minBy);
+
+    //Owner
+    features.at<float>(0,agent->world().self().unum()+2) = distFromLineKick(ballPos, targetPoint, agent->world().self().pos())/maxPlays;
 
     // Calculating Teammates
     int i = 2;
     allTeammts = agent->world().teammates();
     for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
-        features.at<float>(0,i) = distFromLineKick(ballPos, targetPoint, iter->pos());
+        if (i == agent->world().self().unum()){
+            i++;
+        }
+        features.at<float>(0,i) = distFromLineKick(ballPos, targetPoint, iter->pos())/maxPlays;
         i++;
     }
 
     // Calculating Opponents.
     allOpps = agent->world().opponents();
     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
-        features.at<float>(0,i) = distFromLineKick(ballPos, targetPoint, iter->pos());
+        features.at<float>(0,i) = distFromLineKick(ballPos, targetPoint, iter->pos())/maxPlays;
         i++;
     }
     
@@ -150,7 +192,7 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     if ( Body_Pass::get_best_pass( wm, &pass_point, NULL, NULL ) )
     {
         getBestPass = true;
-        cv::Mat bestPass(extractFeaturesKick(agent, pass_point));
+        cv::Mat bestPass(extractFeaturesKick(agent, pass_point,1));
 
         // If the X coordinate of the pass point is greater than
         // the X coordinate of the player.
@@ -227,7 +269,7 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                                    wm.self().body() - 30.0,
                                    wm.self().body() + 30.0 );
 
-            cv::Mat dribbleSample1(extractFeaturesKick(agent, body_dir_drib_target));
+            cv::Mat dribbleSample1(extractFeaturesKick(agent, body_dir_drib_target, 0));
 
             // opponent check with goalie
             if (dribbleTree.predict(dribbleSample1)->value == 1){
@@ -254,7 +296,7 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     if ( wm.self().pos().y < 0.0 ) drib_target.y *= -1.0;
     const AngleDeg drib_angle = ( drib_target - wm.self().pos() ).th();
 
-    cv::Mat dribbleSample(extractFeaturesKick(agent, drib_target));
+    cv::Mat dribbleSample(extractFeaturesKick(agent, drib_target, 0));
 
     // opponent is behind of me
     if ( nearest_opp_pos.x < wm.self().pos().x + 1.0 )
@@ -303,7 +345,7 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                             ServerParam::i().maxDashPower(),
                             2
                             ).execute( agent );
-            }
+          }
 
         }
         agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
@@ -332,7 +374,7 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     // opp is near
 
     if (getBestPass){
-      cv::Mat bestPass(extractFeaturesKick(agent, pass_point));
+      cv::Mat bestPass(extractFeaturesKick(agent, pass_point, 0));
       // It will be a successful pass
       if (passTree.predict(bestPass)->value == 1){
       // can pass

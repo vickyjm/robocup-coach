@@ -19,6 +19,8 @@ TEAM_R=$2
 count=0
 while [ $count -lt 10 ]
 do
+  cp ../logs/$TEAM_R/dats/OnlyJEMV/Normalizados/*.dat ../agent2d-3.1.1/src/
+  cp ../logs/$TEAM_R/dats/OnlyJEMV/Normalizados/*.yml ../agent2d-3.1.1/src/trainedTrees/$TEAM_R/
   count=$((count + 1))
   rcssserver server::auto_mode=on \
     server::team_l_start=$TEAM_L server::team_r_start=$TEAM_R \
