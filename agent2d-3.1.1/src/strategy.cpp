@@ -1687,62 +1687,62 @@ Strategy::getFormation( const WorldModel & wm ) const
     int ourFormation = 0;
 
     // Condiciones Vicky
-    // if (wm.time().cycle() >= 4200) {
-    //         if (our_score <= opp_score) {
-    //             if (opp_score - our_score < 2) {
-    //                 ourFormation = 433;
-    //             }
-    //             else if (opp_score - our_score >= 2) {
-    //                 ourFormation = 4123;
-    //             }
-    //         }
-    //         else if (our_score > opp_score) {
-    //             ourFormation = 541;
-    //         }
-    // }
-    // else {
-    //     if ((defense == 4) && (center == 3) && (offense == 3)) {
-    //         ourFormation = 433;
-    //     }
-    //     else if ((offense > center) || (center >= 5)) {
-    //         ourFormation = 541;
-    //     }
-    //     else {
-    //        ourFormation = 442;
-    //     }
-    // }
-
-    // Condiciones mias :
     if (wm.time().cycle() >= 4200) {
             if (our_score <= opp_score) {
                 if (opp_score - our_score < 2) {
                     ourFormation = 433;
                 }
                 else if (opp_score - our_score >= 2) {
-                    ourFormation = 442;
+                    ourFormation = 4123;
                 }
             }
             else if (our_score > opp_score) {
-                if (offense > center)
-                    ourFormation = 541;
-                else
-                    ourFormation = 442;
+                ourFormation = 541;
             }
     }
     else {
         if ((defense == 4) && (center == 3) && (offense == 3)) {
-            ourFormation = 4123;
+            ourFormation = 433;
         }
-        else if ((offense > center)) {
-            ourFormation = 442;
-        }
-        else if (center >= 5) {
+        else if ((offense > center) || (center >= 5)) {
             ourFormation = 541;
         }
-        else if (center < 5){
-           ourFormation = 4213;
+        else {
+           ourFormation = 442;
         }
     }
+
+    // Condiciones mias :
+    // if (wm.time().cycle() >= 4200) {
+    //         if (our_score <= opp_score) {
+    //             if (opp_score - our_score < 2) {
+    //                 ourFormation = 433;
+    //             }
+    //             else if (opp_score - our_score >= 2) {
+    //                 ourFormation = 442;
+    //             }
+    //         }
+    //         else if (our_score > opp_score) {
+    //             if (offense > center)
+    //                 ourFormation = 541;
+    //             else
+    //                 ourFormation = 442;
+    //         }
+    // }
+    // else {
+    //     if ((defense == 4) && (center == 3) && (offense == 3)) {
+    //         ourFormation = 4123;
+    //     }
+    //     else if ((offense > center)) {
+    //         ourFormation = 442;
+    //     }
+    //     else if (center >= 5) {
+    //         ourFormation = 541;
+    //     }
+    //     else if (center < 5){
+    //        ourFormation = 4213;
+    //     }
+    // }
 
     // Condiciones mias con las formaciones NUEVAS de nuestro equipo
     // if (wm.time().cycle() >= 4200) {
