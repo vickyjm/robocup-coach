@@ -79,25 +79,27 @@ extractFeaturesKick(PlayerAgent* agent, Vector2D targetPoint){
     PlayerCont allOpps;
     PlayerCont allTeammts;
     PlayerCont::iterator iter;
-    Mat1f features(1,24);
+    Mat features = Mat::zeros(1, 24, CV_32F);
 
     // Ball position
     Vector2D ballPos = agent->world().ball().pos();
 
-    features.push_back(ballPos.x/5);
-    features.push_back(ballPos.y/5);
+    features.at<float>(0,0) = ballPos.x/5;
+    features.at<float>(0,1) = ballPos.y/5;
 
-    // Calculating Teammates.
+    // Calculating Teammates
+    int i = 2;
     allTeammts = agent->world().teammates();
     for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
-      features.push_back(distFromLineKick(ballPos, targetPoint, iter->pos()));
-        
+        features.at<float>(0,i) = distFromLineKick(ballPos, targetPoint, iter->pos());
+        i++;
     }
 
     // Calculating Opponents.
     allOpps = agent->world().opponents();
     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
-      features.push_back(distFromLineKick(ballPos, targetPoint, iter->pos()));
+        features.at<float>(0,i) = distFromLineKick(ballPos, targetPoint, iter->pos());
+        i++;
     }
     
     return features;
@@ -111,11 +113,6 @@ extractFeaturesKick(PlayerAgent* agent, Vector2D targetPoint){
 bool
 Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
 {
-    /*CvANN_MLP dribbleMLP;
-    dribbleMLP.load("trainedTrees/Genius/dribbleMLP.yml");
-
-    CvANN_MLP passMLP;
-    passMLP.load("trainedTrees/Genius/passMLP.yml");*/
 
     //CAMBIAR POR EL PATH DE LOS ARBOLES DEL EQUIPO CORRESPONDIENTE
     CvDTree dribbleTree;
@@ -176,8 +173,6 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
             if ( safety )
             {
                 // It will be a successful pass
-                //passMLP.predict(bestPass, predAux);
-                //if (predAux.at<float>(0,0) >= 0){
                 if (passTree.predict(bestPass)->value == 1){
                   dlog.addText( Logger::TEAM,
                                 __FILE__": (execute) do best pass" );
@@ -193,8 +188,6 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
         if ( nearest_opp_dist < 7.0 )
         {
             // It will be a successful pass
-            //passMLP.predict(bestPass, predAux);
-            //if (predAux.at<float>(0,0) >= 0){
             if (passTree.predict(bestPass)->value == 1){
               // If the pass is executed.
               if ( Body_Pass().execute( agent ) )
@@ -237,8 +230,6 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
             cv::Mat dribbleSample1(extractFeaturesKick(agent, body_dir_drib_target));
 
             // opponent check with goalie
-          //dribbleMLP.predict(dribbleSample1, predAux);
-            //if (predAux.at<float>(0,0) >= 0){
             if (dribbleTree.predict(dribbleSample1)->value == 1){
               if ( ! wm.existOpponentIn( sector, 10, true ) )
               {
@@ -286,8 +277,6 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
             }
 
             // It will be a successful dribble
-            //dribbleMLP.predict(dribbleSample, predAux);
-            //if (predAux.at<float>(0,0) >= 0){
             if (dribbleTree.predict(dribbleSample)->value == 1){
               dlog.addText( Logger::TEAM,
                             __FILE__": (execute) fast dribble to (%.1f, %.1f) max_step=%d",
@@ -304,8 +293,6 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
         else
         {
             // It will be a successful dribble
-            //dribbleMLP.predict(dribbleSample, predAux);
-            //if (predAux.at<float>(0,0) >= 0){
           if (dribbleTree.predict(dribbleSample)->value == 1){
               dlog.addText( Logger::TEAM,
                             __FILE__": (execute) slow dribble to (%.1f, %.1f)",
@@ -327,8 +314,6 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     if ( nearest_opp_dist > 5.0 )
     {
         // It will be a successful dribble
-        //dribbleMLP.predict(dribbleSample, predAux);
-          //if (predAux.at<float>(0,0) >= 0){
       if (dribbleTree.predict(dribbleSample)->value == 1){
           dlog.addText( Logger::TEAM,
                         __FILE__": opp far. dribble(%.1f, %.1f)",
@@ -341,7 +326,7 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                         ).execute( agent );
           agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
           return true;
-        }
+      }
     }
 
     // opp is near
@@ -349,8 +334,6 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     if (getBestPass){
       cv::Mat bestPass(extractFeaturesKick(agent, pass_point));
       // It will be a successful pass
-      //passMLP.predict(bestPass, predAux);
-        //if (predAux.at<float>(0,0) >= 0){
       if (passTree.predict(bestPass)->value == 1){
       // can pass
         if ( Body_Pass().execute( agent ) )
@@ -369,8 +352,6 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     if ( nearest_opp_dist > 3.0 )
     { 
         // It will be a successful dribble
-        //dribbleMLP.predict(dribbleSample, predAux);
-        //if (predAux.at<float>(0,0) >= 0){
       if (dribbleTree.predict(dribbleSample)->value == 1){
           dlog.addText( Logger::TEAM,
                         __FILE__": (execute) opp far. dribble(%f, %f)",
@@ -383,7 +364,7 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                         ).execute( agent );
           agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
           return true;
-        }
+      }
     }
 
     // Hold the ball if the nearest opponent is between 2,5 and 3.0 distance.

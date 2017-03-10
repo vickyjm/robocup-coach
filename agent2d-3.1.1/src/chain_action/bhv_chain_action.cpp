@@ -91,26 +91,30 @@ extractFeatures(PlayerAgent* agent, const CooperativeAction & action){
     PlayerCont allOpps;
     PlayerCont allTeammts;
     PlayerCont::iterator iter;
-    Mat1f features(1,24);
+    Mat features = Mat::zeros(1, 24, CV_32F);
 
     // Ball position
     Vector2D ballPos = agent->world().ball().pos();
 
-    features.push_back(ballPos.x/5);
-    features.push_back(ballPos.y/5);
+    features.at<float>(0,0) = ballPos.x/5;
+    features.at<float>(0,1) = ballPos.y/5;
 
     // Calculating Teammates
+    int i = 2;
     allTeammts = agent->world().teammates();
     for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
-        features.push_back(distFromLine(ballPos, action.targetPoint(), iter->pos()));
+        features.at<float>(0,i) = distFromLine(ballPos, action.targetPoint(), iter->pos());
+        i++;
     }
 
     // Calculating Opponents.
     allOpps = agent->world().opponents();
     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
-        features.push_back(distFromLine(ballPos, action.targetPoint(), iter->pos()));
+        features.at<float>(0,i) = distFromLine(ballPos, action.targetPoint(), iter->pos());
+        i++;
     }
 
+    
     //Mat features = (Mat_<float>(1,10) << ballPos.x, ballPos.y, distT1, distT2, distT3, distO1, distO2, distO3, distO4);
     
     return features;
@@ -285,14 +289,6 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) shoot" );
 
-            /*CvANN_MLP shotMLP;
-            shotMLP.load("trainedTrees/Genius/shotMLP.yml");
-            cv::Mat predAux(1, 1, CV_32FC1);   
-
-            
-            shotMLP.predict(testSample, predAux);
-            if (predAux.at<float>(0,0) >= 0){*/
-
             CvDTree shootTree;
             shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shootTree.yml");    //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
 
@@ -339,13 +335,6 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
                 agent->debugClient().addMessage( "ChainDribble:LookGoalie" );
                 neck = NeckAction::Ptr( new Neck_TurnToGoalieOrScan( count_thr ) );
             }
-
-            /*CvANN_MLP dribbleMLP;
-            dribbleMLP.load("trainedTrees/Genius/dribbleMLP.yml");
-            cv::Mat predAux(1, 1, CV_32FC1);
-            
-            dribbleMLP.predict(testSample, predAux);
-            if (predAux.at<float>(0,0) >= 0){*/
 
             CvDTree dribbleTree;
             dribbleTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml"); //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
@@ -401,14 +390,6 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) pass" );
 
-            /*CvANN_MLP passMLP;
-            passMLP.load("trainedTrees/Genius/passMLP.yml");
-            cv::Mat predAux(1, 1, CV_32FC1);
-
-            // It will be a successful pass
-            passMLP.predict(testSample, predAux);
-            if (predAux.at<float>(0,0) >= 0){*/
-
             CvDTree passTree;
             passTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml"); //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
 
@@ -417,7 +398,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
             if (passTree.predict(testSample)->value == 1){
                 if (Bhv_PassKickFindReceiver( M_chain_graph ).execute( agent )) {
-                   // std::cout << "Pass " << agent->world().self().unum() << std::endl;
+                    //std::cout << "Pass " << agent->world().self().unum() << std::endl;
                     return true;
                 }
             }

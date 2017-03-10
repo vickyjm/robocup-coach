@@ -213,7 +213,7 @@ public:
     
     actionInfo ownerPlayer();
 
-    std::string actionClassifier(actionInfo oldAction, actionInfo currentAction);
+    std::string actionClassifier(actionInfo oldAction, actionInfo currentAction, int owner);
 
     void extractFeatures(actionInfo firstAction, actionInfo lastAction, std::string action);
 

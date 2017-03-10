@@ -49,6 +49,8 @@
 #include <sys/time.h> // select()
 #include <sys/types.h> // select()
 
+#include <algorithm> //fill_n
+
 namespace rcsc {
 
 /*-------------------------------------------------------------------*/
@@ -138,6 +140,7 @@ BasicClient::runOnline( SoccerAgent * agent )
     firstAction.ballPos = Vector2D(0.0, 0.0);
     firstAction.ballVel = Vector2D(0.0, 0.0);
     firstAction.goalChecked = false;
+    std::fill_n(firstAction.playersPos, 22, Vector2D(0.0,0.0));
 
     lastAction.isTeammate = true;
     lastAction.ownerUnum = -1;

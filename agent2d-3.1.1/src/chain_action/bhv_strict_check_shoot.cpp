@@ -78,27 +78,29 @@ extractFeaturesShoot(PlayerAgent* agent, Vector2D targetPoint){
     PlayerCont allOpps;
     PlayerCont allTeammts;
     PlayerCont::iterator iter;
-    Mat1f features(1,24);
+    Mat features = Mat::zeros(1, 24, CV_32F);
 
     // Ball position
     Vector2D ballPos = agent->world().ball().pos();
 
-    features.push_back(ballPos.x/5);
-    features.push_back(ballPos.y/5);
+    features.at<float>(0,0) = ballPos.x/5;
+    features.at<float>(0,1) = ballPos.y/5;
 
-    // Calculating Teammate2.
+    // Calculating Teammates
+    int i = 2;
     allTeammts = agent->world().teammates();
     for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
-        features.push_back(distFromLineShoot(ballPos, targetPoint, iter->pos()));
+        features.at<float>(0,i) = distFromLineShoot(ballPos, targetPoint, iter->pos());
+        i++;
     }
 
-
-    // Calculating Opponent1.
+    // Calculating Opponents.
     allOpps = agent->world().opponents();
     for (iter = allOpps.begin(); iter != allOpps.end(); iter++) {
-        features.push_back(distFromLineShoot(ballPos, targetPoint, iter->pos()));
+        features.at<float>(0,i) = distFromLineShoot(ballPos, targetPoint, iter->pos());
+        i++;
     }
-    
+
     return features;
 }
 
@@ -163,10 +165,6 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
                   best_shoot->first_ball_speed_,
                   one_step_speed );
 
-    /*CvANN_MLP shotMLP;
-    shotMLP.load("trainedTrees/Genius/shotMLP.yml");
-    cv::Mat predAux(1, 1, CV_32FC1);*/
-
     CvDTree shootTree;
     //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
     shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shootTree.yml");
@@ -176,8 +174,6 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
     if ( one_step_speed > best_shoot->first_ball_speed_ * 0.99 )
     { 
         // It will be a successful shoot.
-        //shotMLP.predict(testSample, predAux);
-          //if (predAux.at<float>(0,0) >= 0){
       if (shootTree.predict(testSample)->value == 1){
           if ( Body_SmartKick( best_shoot->target_point_,
                                one_step_speed,
@@ -189,12 +185,10 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
                //std::cout << "Shoot " << std::endl;
                return true;
           }
-        }
+      }
     }
 
     // It will be a successful shoot.
-    //shotMLP.predict(testSample, predAux);
-      //if (predAux.at<float>(0,0) >= 0){
     if (shootTree.predict(testSample)->value == 1){
       if ( Body_SmartKick( best_shoot->target_point_,
                            best_shoot->first_ball_speed_,
