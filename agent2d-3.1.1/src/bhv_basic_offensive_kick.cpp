@@ -158,9 +158,11 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
 
     //CAMBIAR POR EL PATH DE LOS ARBOLES DEL EQUIPO CORRESPONDIENTE
     CvDTree dribbleTree;
-    dribbleTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
     CvDTree passTree;
+    dribbleTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
     passTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
+    // dribbleTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
+    // passTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
 
 
     dlog.addText( Logger::TEAM,

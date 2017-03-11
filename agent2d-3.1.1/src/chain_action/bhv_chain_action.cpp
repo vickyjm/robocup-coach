@@ -341,7 +341,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
             CvDTree shootTree;
             shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");    //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
-
+            // shootTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
             cv::Mat testSample(extractFeatures(agent, first_action, 1));
 
             // It will be a successful shoot.
@@ -388,7 +388,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
             CvDTree dribbleTree;
             dribbleTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml"); //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
-
+            // dribbleTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
             cv::Mat testSample(extractFeatures(agent, first_action,3));
 
             // It will be a successful dribble
@@ -442,6 +442,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
 
             CvDTree passTree;
             passTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml"); //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
+            // passTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
             const cv::Mat testSample(extractFeatures(agent, first_action,2));
 
             if (passTree.predict(testSample)->value == 1){

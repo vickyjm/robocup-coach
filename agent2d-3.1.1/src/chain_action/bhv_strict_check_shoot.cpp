@@ -191,7 +191,8 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
     CvDTree shootTree;
     //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
     shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
-
+    // shootTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
+    
     cv::Mat testSample(extractFeaturesShoot(agent, best_shoot->target_point_));
 
     if ( one_step_speed > best_shoot->first_ball_speed_ * 0.99 )

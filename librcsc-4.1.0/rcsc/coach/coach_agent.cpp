@@ -129,6 +129,9 @@ void trainTrees(){
   shotData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
   dribbleData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
   passData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/passFile.dat");
+  // shotData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
+  // dribbleData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
+  // passData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/passFile.dat");
 
   // Indicate which column is the response
   shotData.set_response_idx (24);
@@ -196,6 +199,9 @@ void trainTrees(){
   shotTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
   dribbleTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
   passTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
+  // shotTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
+  // dribbleTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
+  // passTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
 
 }
 
