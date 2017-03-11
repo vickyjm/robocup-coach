@@ -69,6 +69,7 @@ using namespace cv;
 int opp_score = 0;
 int old_opp_score = 0;
 int our_score = 0;
+int old_our_score = 0;
 int lastReset = 0;
 
 //Values obtained from the normalization before the games
@@ -126,12 +127,12 @@ void trainTrees(){
   CvMLData passData;
 
   // Read the files with the current info
-  shotData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
-  dribbleData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
-  passData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/passFile.dat");
-  // shotData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
-  // dribbleData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
-  // passData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/passFile.dat");
+  // shotData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
+  // dribbleData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
+  // passData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/passFile.dat");
+  shotData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
+  dribbleData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
+  passData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/passFile.dat");
 
   // Indicate which column is the response
   shotData.set_response_idx (24);
@@ -196,12 +197,12 @@ void trainTrees(){
   // NOTE: These paths MUST be changed every time you play with a different team
   // If the logs are separated by teams you should put here the tree that you trained
   // for the current opponent team.
-  shotTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
-  dribbleTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
-  passTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
-  // shotTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
-  // dribbleTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
-  // passTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
+  // shotTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
+  // dribbleTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
+  // passTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
+  shotTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
+  dribbleTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
+  passTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
 
 }
 
@@ -1210,6 +1211,7 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
     GameTime start_time = M_impl->current_time_;
 
     old_opp_score = opp_score;
+    old_our_score = our_score;
     our_score = ( world().ourSide() == LEFT
                       ? world().gameMode().scoreLeft()
                       : world().gameMode().scoreRight() );
@@ -1272,7 +1274,7 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
 
     
 
-    if ((world().gameMode().type() == GameMode::AfterGoal_) && (firstAction->goalChecked == false) && (old_opp_score == opp_score)){
+    if ((world().gameMode().type() == GameMode::AfterGoal_) && (firstAction->goalChecked == false) && (old_our_score + 1 == our_score)){
       std::cout << "GOAL" << std::endl;
 
       extractFeatures(*firstAction, *lastAction, "GOAL");
