@@ -1306,11 +1306,11 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
 
     
 
-    if ((world().gameMode().type() == GameMode::KickIn_) && (firstAction->retrain == 1)){
-      std::cout << "Estoy reentrenando" << std::endl;
-      trainTrees();
-      firstAction->retrain = -1;
-    }
+    // if ((world().gameMode().type() == GameMode::KickIn_) && (firstAction->retrain == 1)){
+    //   std::cout << "Estoy reentrenando" << std::endl;
+    //   trainTrees();
+    //   firstAction->retrain = -1;
+    // }
 
 
     // Formation Stuff
@@ -1322,6 +1322,14 @@ CoachAgent::handleMessage(actionInfo* firstAction, actionInfo* lastAction,float 
         calculateFormation(field,M_worldmodel.theirTeamName());
         resetField(field);
         lastReset = world().time().cycle();
+      }
+    }
+
+    if (old_opp_score + 1 == opp_score) {
+      if ((firstAction->retrain == 1)) {
+        std::cout << "Estoy reentrenando" << std::endl;
+        trainTrees();
+        firstAction->retrain = -1;    
       }
     }
 

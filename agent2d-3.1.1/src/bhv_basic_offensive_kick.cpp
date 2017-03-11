@@ -124,13 +124,13 @@ extractFeaturesKick(PlayerAgent* agent, Vector2D targetPoint, int isPass){
     features.at<float>(0,1) = ((ballPos.y/5)-minBy)/(maxBy-minBy);
 
     //Owner
-    features.at<float>(0,agent->world().self().unum()+2) = distFromLineKick(ballPos, targetPoint, agent->world().self().pos())/maxPlays;
+    features.at<float>(0,agent->world().self().unum()+1) = distFromLineKick(ballPos, targetPoint, agent->world().self().pos())/maxPlays;
 
     // Calculating Teammates
     int i = 2;
     allTeammts = agent->world().teammates();
     for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
-        if (i == agent->world().self().unum()){
+        if (i-1 == agent->world().self().unum()){
             i++;
         }
         features.at<float>(0,i) = distFromLineKick(ballPos, targetPoint, iter->pos())/maxPlays;
@@ -159,10 +159,10 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     //CAMBIAR POR EL PATH DE LOS ARBOLES DEL EQUIPO CORRESPONDIENTE
     CvDTree dribbleTree;
     CvDTree passTree;
-    dribbleTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
-    passTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
-    // dribbleTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
-    // passTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
+    // dribbleTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
+    // passTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
+    dribbleTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
+    passTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
 
 
     dlog.addText( Logger::TEAM,
