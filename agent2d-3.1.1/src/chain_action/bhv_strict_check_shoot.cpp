@@ -105,7 +105,7 @@ extractFeaturesShoot(PlayerAgent* agent, Vector2D targetPoint){
     // Calculating Teammates
     int i = 2;
 
-    features.at<float>(0,agent->world().self().unum()+1) = distFromLineShoot(ballPos, targetPoint, iter->pos())/maxShotS;
+    features.at<float>(0,agent->world().self().unum()+1) = distFromLineShoot(ballPos, targetPoint, agent->world().self().pos())/maxShotS;
 
     allTeammts = agent->world().teammates();
     for (iter = allTeammts.begin(); iter != allTeammts.end(); iter++) {
@@ -190,7 +190,7 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
 
     CvDTree shootTree;
     //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
-    // shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
+    //shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
     shootTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
 
     cv::Mat testSample(extractFeaturesShoot(agent, best_shoot->target_point_));
@@ -213,7 +213,7 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
     }
 
     // It will be a successful shoot.
-    //if (shootTree.predict(testSample)->value == 1){
+    if (shootTree.predict(testSample)->value == 1){
       if ( Body_SmartKick( best_shoot->target_point_,
                            best_shoot->first_ball_speed_,
                            best_shoot->first_ball_speed_ * 0.99,
@@ -226,7 +226,7 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
           //std::cout << "Shoot " << std::endl;
           return true;
       }
-    //}
+    }
 
     dlog.addText( Logger::SHOOT,
                   __FILE__": failed" );

@@ -127,9 +127,9 @@ void trainTrees(){
   CvMLData passData;
 
   // Read the files with the current info
-  // shotData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
-  // dribbleData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
-  // passData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/passFile.dat");
+  //shotData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
+  //dribbleData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
+  //passData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/passFile.dat");
   shotData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
   dribbleData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
   passData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/passFile.dat");
@@ -151,7 +151,6 @@ void trainTrees(){
   const Mat responsesShot(shotData.get_responses(),true);
   const Mat responsesPass(passData.get_responses(),true);
   const Mat responsesDribble(dribbleData.get_responses(),true);
-  //const Mat responsesT(responses.t());
 
 
   //Change the type of the features. All are numerics, except for the class label
@@ -197,9 +196,9 @@ void trainTrees(){
   // NOTE: These paths MUST be changed every time you play with a different team
   // If the logs are separated by teams you should put here the tree that you trained
   // for the current opponent team.
-  // shotTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
-  // dribbleTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
-  // passTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
+  //shotTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
+  //dribbleTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
+  //passTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
   shotTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
   dribbleTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
   passTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
