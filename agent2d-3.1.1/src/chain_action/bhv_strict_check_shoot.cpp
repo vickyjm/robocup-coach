@@ -63,7 +63,7 @@ using namespace rcsc;
 // float maxBxShotS = 10.55944, maxByShotS = 6.73782, minBxShotS = -2.76568, minByShotS = -6.42094, maxShotS = 126.6197;
 
 //Jaeger
-//float maxBxShotS = 10.67964, maxByShotS = 6.65094, minBxShotS = 0.84936, minByShotS = -6.11404, maxShotS = 128.5996;
+float maxBxShotS = 10.67964, maxByShotS = 6.65094, minBxShotS = 0.84936, minByShotS = -6.11404, maxShotS = 128.5996;
 
 //WrightEagle
 float maxBxShotS = 10.6253, maxByShotS = 6.8, minBxShotS = -10.53776, minByShotS = -6.6, maxShotS = 128.045;
