@@ -58,8 +58,8 @@ using namespace rcsc;
 // float maxBxPassO = 10.51674, maxByPassO = 6.81434, minBxPassO = -11.05596, minByPassO = -6.81646, maxPassO = 127.3224;
 
 //Helios
-float maxBxDribbleO = 10.48934, maxByDribbleO = 6.80904, minBxDribbleO = -10.42648, minByDribbleO = -6.79716, maxDribbleO = 134.2811;
-float maxBxPassO = 10.63988, maxByPassO = 6.81484, minBxPassO = -10.74836, minByPassO = -6.80434, maxPassO = 117.5729;
+// float maxBxDribbleO = 10.48934, maxByDribbleO = 6.80904, minBxDribbleO = -10.42648, minByDribbleO = -6.79716, maxDribbleO = 134.2811;
+// float maxBxPassO = 10.63988, maxByPassO = 6.81484, minBxPassO = -10.74836, minByPassO = -6.80434, maxPassO = 117.5729;
 
 
 //Hermes
@@ -68,8 +68,8 @@ float maxBxPassO = 10.63988, maxByPassO = 6.81484, minBxPassO = -10.74836, minBy
 
 
 //Jaeger
-// float maxBxDribbleO = 10.5067, maxByDribbleO = 6.8, minBxDribbleO = -10.54852, minByDribbleO = -6.81356, maxDribbleO = 137.1277;
-// float maxBxPassO = 10.57736, maxByPassO = 6.813, minBxPassO = -10.7262, minByPassO = -6.81652, maxPassO = 124.1222;
+float maxBxDribbleO = 10.5067, maxByDribbleO = 6.8, minBxDribbleO = -10.54852, minByDribbleO = -6.81356, maxDribbleO = 137.1277;
+float maxBxPassO = 10.57736, maxByPassO = 6.813, minBxPassO = -10.7262, minByPassO = -6.81652, maxPassO = 124.1222;
 
 
 //WrightEagle
@@ -226,6 +226,13 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                   agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
                   return true;
                 }
+                else {
+                  if (Body_HoldBall().execute( agent )) {
+                      //std::cout << "Hold " << agent->world().self().unum() << std::endl;
+                      agent->setNeckAction( new Neck_ScanField() );
+                      return true;
+                  }
+                }
             }
         }
         // If the distance to the nearest opponent is less than 7.0
@@ -240,6 +247,13 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                                 __FILE__": (execute) do best pass" );
                   agent->debugClient().addMessage( "OffKickPass(2)" );
                   agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
+                  return true;
+              }
+            }
+            else {
+              if (Body_HoldBall().execute( agent )) {
+                  //std::cout << "Hold " << agent->world().self().unum() << std::endl;
+                  agent->setNeckAction( new Neck_ScanField() );
                   return true;
               }
             }
@@ -289,6 +303,13 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                   return true;
               }
             }
+            else {
+                if (Body_HoldBall().execute( agent )) {
+                    //std::cout << "Hold " << agent->world().self().unum() << std::endl;
+                    agent->setNeckAction( new Neck_ScanField() );
+                    return true;
+                }
+            }
         }
     }
 
@@ -333,6 +354,13 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                             std::min( 5, max_dash_step )
                             ).execute( agent );
             }
+            else {
+              if (Body_HoldBall().execute( agent )) {
+                  //std::cout << "Hold " << agent->world().self().unum() << std::endl;
+                  agent->setNeckAction( new Neck_ScanField() );
+                  return true;
+              }
+            }
         }
         else
         {
@@ -347,6 +375,13 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                             ServerParam::i().maxDashPower(),
                             2
                             ).execute( agent );
+          }
+          else {
+            if (Body_HoldBall().execute( agent )) {
+                //std::cout << "Hold " << agent->world().self().unum() << std::endl;
+                agent->setNeckAction( new Neck_ScanField() );
+                return true;
+            }
           }
 
         }
@@ -371,6 +406,13 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
           agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
           return true;
       }
+      else {
+        if (Body_HoldBall().execute( agent )) {
+            //std::cout << "Hold " << agent->world().self().unum() << std::endl;
+            agent->setNeckAction( new Neck_ScanField() );
+            return true;
+        }
+      }
     }
 
     // opp is near
@@ -387,6 +429,13 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                           __LINE__ );
             agent->debugClient().addMessage( "OffKickPass(3)" );
             agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
+            return true;
+        }
+      }
+      else {
+        if (Body_HoldBall().execute( agent )) {
+            //std::cout << "Hold " << agent->world().self().unum() << std::endl;
+            agent->setNeckAction( new Neck_ScanField() );
             return true;
         }
       }
@@ -408,6 +457,13 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
                         ).execute( agent );
           agent->setNeckAction( new Neck_TurnToLowConfTeammate() );
           return true;
+      }
+      else {
+        if (Body_HoldBall().execute( agent )) {
+            //std::cout << "Hold " << agent->world().self().unum() << std::endl;
+            agent->setNeckAction( new Neck_ScanField() );
+            return true;
+        }
       }
     }
 
