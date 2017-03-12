@@ -72,9 +72,9 @@ using namespace rcsc;
 // float maxBxShot = 10.68678, maxByShot = 5.35688, minBxShot = -4.23784, minByShot = -5.4228, maxShot = 123.6549;
 
 //Helios
-// float maxBxDribble = 10.48934, maxByDribble = 6.80904, minBxDribble = -10.42648, minByDribble = -6.79716, maxDribble = 134.2811;
-// float maxBxPass = 10.63988, maxByPass = 6.81484, minBxPass = -10.74836, minByPass = -6.80434, maxPass = 117.5729;
-// float maxBxShot = 10.60262, maxByShot = 4.33662, minBxShot = -10.39796, minByShot = -4.68052, maxShot = 120.5484;
+float maxBxDribble = 10.48934, maxByDribble = 6.80904, minBxDribble = -10.42648, minByDribble = -6.79716, maxDribble = 134.2811;
+float maxBxPass = 10.63988, maxByPass = 6.81484, minBxPass = -10.74836, minByPass = -6.80434, maxPass = 117.5729;
+float maxBxShot = 10.60262, maxByShot = 4.33662, minBxShot = -10.39796, minByShot = -4.68052, maxShot = 120.5484;
 
 //Hermes
 // float maxBxDribble = 10.50934, maxByDribble = 6.79544, minBxDribble = -10.21012, minByDribble = -6.80346, maxDribble = 134.9107;
@@ -87,9 +87,9 @@ using namespace rcsc;
 // float maxBxShot = 10.67964, maxByShot = 6.65094, minBxShot = 0.84936, minByShot = -6.11404, maxShot = 128.5996;
 
 //WrightEagle
-float maxBxDribble = 10.51572, maxByDribble = 6.80018, minBxDribble = -10.47292, minByDribble = -6.8, maxDribble = 135.3868;
+/*float maxBxDribble = 10.51572, maxByDribble = 6.80018, minBxDribble = -10.47292, minByDribble = -6.8, maxDribble = 135.3868;
 float maxBxPass = 10.66324, maxByPass = 6.81448, minBxPass = -10.76028, minByPass = -6.81686, maxPass = 135.8845;
-float maxBxShot = 10.6253, maxByShot = 6.8, minBxShot = -10.53776, minByShot = -6.6, maxShot = 128.045;
+float maxBxShot = 10.6253, maxByShot = 6.8, minBxShot = -10.53776, minByShot = -6.6, maxShot = 128.045;*/
 
 double distFromLine(Vector2D p0, Vector2D p1, Vector2D p2){
   float a,b,c;
@@ -339,19 +339,19 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             dlog.addText( Logger::TEAM,
                           __FILE__" (Bhv_ChainAction) shoot" );
 
-            CvDTree shootTree;
-            shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/WrightEagle/shotTree.yml");    //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
+            /*CvDTree shootTree;
+            shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Helios/shotTree.yml");    //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
             // shootTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Jaeger/shotTree.yml");
-            cv::Mat testSample(extractFeatures(agent, first_action, 1));
+            cv::Mat testSample(extractFeatures(agent, first_action, 1));*/
 
             // It will be a successful shoot.
-            if (shootTree.predict(testSample)->value == 1){ 
+            //if (shootTree.predict(testSample)->value == 1){ 
                 if ( Body_ForceShoot().execute( agent ) )
                 {
                     agent->setNeckAction( new Neck_TurnToGoalieOrScan() );
                     return true;
                 }
-            }
+            //}
 
             break;
         }
@@ -387,7 +387,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
             }
 
             CvDTree dribbleTree;
-            dribbleTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/WrightEagle/dribbleTree.yml"); //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
+            dribbleTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Helios/dribbleTree.yml"); //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
             // dribbleTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Jaeger/dribbleTree.yml");
             cv::Mat testSample(extractFeatures(agent, first_action,3));
 
@@ -441,7 +441,7 @@ Bhv_ChainAction::execute( PlayerAgent * agent )
                           __FILE__" (Bhv_ChainAction) pass" );
 
             CvDTree passTree;
-            passTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/WrightEagle/passTree.yml"); //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
+            passTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Helios/passTree.yml"); //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
             // passTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Jaeger/passTree.yml");
             const cv::Mat testSample(extractFeatures(agent, first_action,2));
 
