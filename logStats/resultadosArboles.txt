@@ -1,0 +1,245 @@
+Resultados de pruebas del equipo base comparado con el equipo con la funcionalidad de árboles.
+
+Resultados de pruebas con GoalDiff  entre control y experimental:
+
+  Total goalDiff de control: -1204
+  Total goalDiff experimentales: -1735
+
+  Desviacion Standard goalDiff de control: 3.709066
+  Desviacion Standard goalDiff experimentales: 3.909673
+
+  Welch Two Sample t-test
+
+  data:  goalDiffControl and goalDiffExp
+  t = 6.2317, df = 496.62, p-value = 9.857e-10
+  alternative hypothesis: true difference in means is not equal to 0
+  95 percent confidence interval:
+   1.454337 2.793663
+  sample estimates:
+  mean of x mean of y 
+     -4.816    -6.940 
+
+
+  Shapiro-Wilk normality test
+
+  data:  goalDiffControl
+  W = 0.95481, p-value = 4.931e-07
+
+
+    Shapiro-Wilk normality test
+
+  data:  goalDiffExp
+  W = 0.94714, p-value = 7.244e-08
+
+
+    F test to compare two variances
+
+  data:  goalDiffControl and goalDiffExp
+  F = 0.90001, num df = 249, denom df = 249, p-value = 0.4065
+  alternative hypothesis: true ratio of variances is not equal to 1
+  95 percent confidence interval:
+   0.7016419 1.1544660
+  sample estimates:
+  ratio of variances 
+           0.9000121 
+
+  Call:
+     aov(formula = GoalDiff ~ Type)
+
+  Terms:
+                      Type Residuals
+  Sum of Squares   563.922  7231.636
+  Deg. of Freedom        1       498
+
+  Residual standard error: 3.81069
+  Estimated effects may be unbalanced
+               Df Sum Sq Mean Sq F value   Pr(>F)    
+  Type          1    564   563.9   38.83 9.84e-10 ***
+  Residuals   498   7232    14.5                     
+  ---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+###############################################################################################################
+###############################################################################################################
+###############################################################################################################
+
+
+Resultados con OurPos entre control y experimental :
+
+  Desviacion Standard ourPos de control: 0.06781808
+  Desviacion Standard ourPos experimentales: 0.07543086
+
+  Welch Two Sample t-test
+
+  data:  ourPosControl and ourPosExp
+  t = 1.2296, df = 492.47, p-value = 0.2195
+  alternative hypothesis: true difference in means is not equal to 0
+  95 percent confidence interval:
+   -0.004716789  0.020492789
+  sample estimates:
+  mean of x mean of y 
+   0.440116  0.432228 
+
+
+  Shapiro-Wilk normality test
+
+  data:  ourPosControl
+  W = 0.94959, p-value = 1.311e-07
+
+
+  Shapiro-Wilk normality test
+
+  data:  ourPosExp
+  W = 0.96728, p-value = 1.713e-05
+
+
+  F test to compare two variances
+
+  data:  ourPosControl and ourPosExp
+  F = 0.80834, num df = 249, denom df = 249, p-value = 0.09383
+  alternative hypothesis: true ratio of variances is not equal to 1
+  95 percent confidence interval:
+   0.6301733 1.0368731
+  sample estimates:
+  ratio of variances 
+           0.8083376 
+
+  Call:
+     aov(formula = OurPos ~ Type)
+
+  Terms:
+                       Type Residuals
+  Sum of Squares  0.0077776 2.5619876
+  Deg. of Freedom         1       498
+
+  Residual standard error: 0.07172554
+  Estimated effects may be unbalanced
+               Df Sum Sq  Mean Sq F value Pr(>F)
+  Type          1 0.0078 0.007778   1.512  0.219
+  Residuals   498 2.5620 0.005145 
+
+###############################################################################################################
+###############################################################################################################
+###############################################################################################################
+
+Resultados con OurGoals entre control y experimental :
+
+  Total ourGoals de control: 222
+  Total ourGoals experimentales: 24
+  Desviacion Standard ourGoals de control: 1.065833
+  Desviacion Standard ourGoals experimentales: 0.33351
+
+  Welch Two Sample t-test
+
+  data:  ourGoalsControl and ourGoalsExp
+  t = 11.213, df = 297.3, p-value < 2.2e-16
+  alternative hypothesis: true difference in means is not equal to 0
+  95 percent confidence interval:
+   0.6529975 0.9310025
+  sample estimates:
+  mean of x mean of y 
+      0.888     0.096 
+
+
+  Shapiro-Wilk normality test
+
+  data:  ourGoalsControl
+  W = 0.77743, p-value < 2.2e-16
+
+
+  Shapiro-Wilk normality test
+
+  data:  ourGoalsExp
+  W = 0.30532, p-value < 2.2e-16
+
+
+  F test to compare two variances
+
+  data:  ourGoalsControl and ourGoalsExp
+  F = 10.213, num df = 249, denom df = 249, p-value < 2.2e-16
+  alternative hypothesis: true ratio of variances is not equal to 1
+  95 percent confidence interval:
+    7.962103 13.100668
+  sample estimates:
+  ratio of variances 
+            10.21317 
+
+  Call:
+     aov(formula = OurGoals ~ Type)
+
+  Terms:
+                     Type Residuals
+  Sum of Squares   78.408   310.560
+  Deg. of Freedom       1       498
+
+  Residual standard error: 0.7896926
+  Estimated effects may be unbalanced
+               Df Sum Sq Mean Sq F value Pr(>F)    
+  Type          1  78.41   78.41   125.7 <2e-16 ***
+  Residuals   498 310.56    0.62                   
+  ---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+###############################################################################################################
+###############################################################################################################
+###############################################################################################################
+
+Resultados con OppGoals entre control y experimental :
+
+  Total oppGoals de control: 1426
+  Total oppGoals experimentales: 1759
+
+  Desviacion Standard oppGoals de control: 3.261123
+  Desviacion Standard oppGoals experimentales: 3.870741
+
+  Welch Two Sample t-test
+
+  data:  oppGoalsControl and oppGoalsExp
+  t = -4.1611, df = 484.06, p-value = 3.749e-05
+  alternative hypothesis: true difference in means is not equal to 0
+  95 percent confidence interval:
+   -1.9609762 -0.7030238
+  sample estimates:
+  mean of x mean of y 
+      5.704     7.036 
+
+
+  Shapiro-Wilk normality test
+
+  data:  oppGoalsControl
+  W = 0.92724, p-value = 9.713e-10
+
+
+  Shapiro-Wilk normality test
+
+  data:  oppGoalsExp
+  W = 0.94424, p-value = 3.652e-08
+
+
+  F test to compare two variances
+
+  data:  oppGoalsControl and oppGoalsExp
+  F = 0.70982, num df = 249, denom df = 249, p-value = 0.00704
+  alternative hypothesis: true ratio of variances is not equal to 1
+  95 percent confidence interval:
+   0.5533672 0.9104980
+  sample estimates:
+  ratio of variances 
+           0.7098167 
+
+  Call:
+     aov(formula = OppGoals ~ Type)
+
+  Terms:
+                      Type Residuals
+  Sum of Squares   221.778  6378.772
+  Deg. of Freedom        1       498
+
+  Residual standard error: 3.578935
+  Estimated effects may be unbalanced
+               Df Sum Sq Mean Sq F value   Pr(>F)    
+  Type          1    222  221.78   17.32 3.73e-05 ***
+  Residuals   498   6379   12.81                     
+  ---
+  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
