@@ -54,28 +54,28 @@ using namespace rcsc;
 
 //Values obtained from the normalization before the games
 //Genius
-float maxBxDribbleO = 10.50302, maxByDribbleO = 6.81262, minBxDribbleO = -10.52726, minByDribbleO = -6.73452, maxDribbleO = 136.0912;
-float maxBxPassO = 10.51674, maxByPassO = 6.81434, minBxPassO = -11.05596, minByPassO = -6.81646, maxPassO = 127.3224;
+// float maxBxDribbleO = 10.50302, maxByDribbleO = 6.81262, minBxDribbleO = -10.52726, minByDribbleO = -6.73452, maxDribbleO = 136.0912;
+// float maxBxPassO = 10.51674, maxByPassO = 6.81434, minBxPassO = -11.05596, minByPassO = -6.81646, maxPassO = 127.3224;
 
 //Helios
-/*float maxBxDribbleO = 10.48934, maxByDribbleO = 6.80904, minBxDribbleO = -10.42648, minByDribbleO = -6.79716, maxDribbleO = 134.2811;
-float maxBxPassO = 10.63988, maxByPassO = 6.81484, minBxPassO = -10.74836, minByPassO = -6.80434, maxPassO = 117.5729;
-*/
+// float maxBxDribbleO = 10.48934, maxByDribbleO = 6.80904, minBxDribbleO = -10.42648, minByDribbleO = -6.79716, maxDribbleO = 134.2811;
+// float maxBxPassO = 10.63988, maxByPassO = 6.81484, minBxPassO = -10.74836, minByPassO = -6.80434, maxPassO = 117.5729;
+
 
 //Hermes
-/*float maxBxDribbleO = 10.50934, maxByDribbleO = 6.79544, minBxDribbleO = -10.21012, minByDribbleO = -6.80346, maxDribbleO = 134.9107;
-float maxBxPassO = 10.51576, maxByPassO = 6.8, minBxPassO = -10.63878, minByPassO = -6.8141, maxPassO = 135.6462;
-*/
+// float maxBxDribbleO = 10.50934, maxByDribbleO = 6.79544, minBxDribbleO = -10.21012, minByDribbleO = -6.80346, maxDribbleO = 134.9107;
+// float maxBxPassO = 10.51576, maxByPassO = 6.8, minBxPassO = -10.63878, minByPassO = -6.8141, maxPassO = 135.6462;
+
 
 //Jaeger
-/*float maxBxDribbleO = 10.5067, maxByDribbleO = 6.8, minBxDribbleO = -10.54852, minByDribbleO = -6.81356, maxDribbleO = 137.1277;
-float maxBxPassO = 10.57736, maxByPassO = 6.813, minBxPassO = -10.7262, minByPassO = -6.81652, maxPassO = 124.1222;
-*/
+// float maxBxDribbleO = 10.5067, maxByDribbleO = 6.8, minBxDribbleO = -10.54852, minByDribbleO = -6.81356, maxDribbleO = 137.1277;
+// float maxBxPassO = 10.57736, maxByPassO = 6.813, minBxPassO = -10.7262, minByPassO = -6.81652, maxPassO = 124.1222;
+
 
 //WrightEagle
-/*float maxBxDribbleO = 10.51572, maxByDribbleO = 6.80018, minBxDribbleO = -10.47292 minByDribbleO = -6.8, maxDribbleO = 135.3868;
+float maxBxDribbleO = 10.51572, maxByDribbleO = 6.80018, minBxDribbleO = -10.47292 minByDribbleO = -6.8, maxDribbleO = 135.3868;
 float maxBxPassO = 10.66324, maxByPassO = 6.81448, minBxPassO = -10.76028, minByPassO = -6.81686, maxPassO = 135.8845;
-*/
+
 
 
 double distFromLineKick(Vector2D p0, Vector2D p1, Vector2D p2){
@@ -159,10 +159,10 @@ Bhv_BasicOffensiveKick::execute( PlayerAgent * agent )
     //CAMBIAR POR EL PATH DE LOS ARBOLES DEL EQUIPO CORRESPONDIENTE
     CvDTree dribbleTree;
     CvDTree passTree;
-    //dribbleTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
-    //passTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
-    dribbleTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
-    passTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
+    dribbleTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
+    passTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
+    // dribbleTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Jaeger/dribbleTree.yml");
+    // passTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Jaeger/passTree.yml");
 
 
     dlog.addText( Logger::TEAM,

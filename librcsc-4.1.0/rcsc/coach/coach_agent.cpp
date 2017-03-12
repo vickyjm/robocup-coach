@@ -74,29 +74,29 @@ int lastReset = 0;
 
 //Values obtained from the normalization before the games
 //Genius
-float maxBxDribble = 10.50302, maxByDribble = 6.81262, minBxDribble = -10.52726, minByDribble = -6.73452, maxDribble = 136.0912;
-float maxBxPass = 10.51674, maxByPass = 6.81434, minBxPass = -11.05596, minByPass = -6.81646, maxPass = 127.3224;
-float maxBxShot = 10.68678, maxByShot = 5.35688, minBxShot = -4.23784, minByShot = -5.4228, maxShot = 123.6549;
+// float maxBxDribble = 10.50302, maxByDribble = 6.81262, minBxDribble = -10.52726, minByDribble = -6.73452, maxDribble = 136.0912;
+// float maxBxPass = 10.51674, maxByPass = 6.81434, minBxPass = -11.05596, minByPass = -6.81646, maxPass = 127.3224;
+// float maxBxShot = 10.68678, maxByShot = 5.35688, minBxShot = -4.23784, minByShot = -5.4228, maxShot = 123.6549;
 
 //Helios
-/*float maxBxDribble = 10.48934, maxByDribble = 6.80904, minBxDribble = -10.42648, minByDribble = -6.79716, maxDribble = 134.2811;
-float maxBxPass = 10.63988, maxByPass = 6.81484, minBxPass = -10.74836, minByPass = -6.80434, maxPass = 117.5729;
-float maxBxShot = 10.60262, maxByShot = 4.33662, minBxShot = -10.39796, minByShot = -4.68052, maxShot = 120.5484;*/
+// float maxBxDribble = 10.48934, maxByDribble = 6.80904, minBxDribble = -10.42648, minByDribble = -6.79716, maxDribble = 134.2811;
+// float maxBxPass = 10.63988, maxByPass = 6.81484, minBxPass = -10.74836, minByPass = -6.80434, maxPass = 117.5729;
+// float maxBxShot = 10.60262, maxByShot = 4.33662, minBxShot = -10.39796, minByShot = -4.68052, maxShot = 120.5484;
 
 //Hermes
-/*float maxBxDribble = 10.50934, maxByDribble = 6.79544, minBxDribble = -10.21012, minByDribble = -6.80346, maxDribble = 134.9107;
-float maxBxPass = 10.51576, maxByPass = 6.8, minBxPass = -10.63878, minByPass = -6.8141, maxPass = 135.6462;
-float maxBxShot = 10.55944, maxByShot = 6.73782, minBxShot = -2.76568, minByShot = -6.42094, maxShot = 126.6197;*/
+// float maxBxDribble = 10.50934, maxByDribble = 6.79544, minBxDribble = -10.21012, minByDribble = -6.80346, maxDribble = 134.9107;
+// float maxBxPass = 10.51576, maxByPass = 6.8, minBxPass = -10.63878, minByPass = -6.8141, maxPass = 135.6462;
+// float maxBxShot = 10.55944, maxByShot = 6.73782, minBxShot = -2.76568, minByShot = -6.42094, maxShot = 126.6197;
 
 //Jaeger
-/*float maxBxDribble = 10.5067, maxByDribble = 6.8, minBxDribble = -10.54852, minByDribble = -6.81356, maxDribble = 137.1277;
-float maxBxPass = 10.57736, maxByPass = 6.813, minBxPass = -10.7262, minByPass = -6.81652, maxPass = 124.1222;
-float maxBxShot = 10.67964, maxByShot = 6.65094, minBxShot = 0.84936, minByShot = -6.11404, maxShot = 128.5996;*/
+// float maxBxDribble = 10.5067, maxByDribble = 6.8, minBxDribble = -10.54852, minByDribble = -6.81356, maxDribble = 137.1277;
+// float maxBxPass = 10.57736, maxByPass = 6.813, minBxPass = -10.7262, minByPass = -6.81652, maxPass = 124.1222;
+// float maxBxShot = 10.67964, maxByShot = 6.65094, minBxShot = 0.84936, minByShot = -6.11404, maxShot = 128.5996;
 
 //WrightEagle
-/*float maxBxDribble = 10.51572, maxByDribble = 6.80018, minBxDribble = -10.47292 minByDribble = -6.8, maxDribble = 135.3868;
+float maxBxDribble = 10.51572, maxByDribble = 6.80018, minBxDribble = -10.47292 minByDribble = -6.8, maxDribble = 135.3868;
 float maxBxPass = 10.66324, maxByPass = 6.81448, minBxPass = -10.76028, minByPass = -6.81686, maxPass = 135.8845;
-float maxBxShot = 10.6253, maxByShot = 6.8, minBxShot = -10.53776, minByShot = -6.6, maxShot = 128.045;*/
+float maxBxShot = 10.6253, maxByShot = 6.8, minBxShot = -10.53776, minByShot = -6.6, maxShot = 128.045;
 
 namespace patch
 {
@@ -127,12 +127,12 @@ void trainTrees(){
   CvMLData passData;
 
   // Read the files with the current info
-  //shotData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
-  //dribbleData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
-  //passData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/passFile.dat");
-  shotData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
-  dribbleData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
-  passData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/passFile.dat");
+  shotData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
+  dribbleData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
+  passData.read_csv ("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/passFile.dat");
+  // shotData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/shotFile.dat");
+  // dribbleData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat");
+  // passData.read_csv ("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/passFile.dat");
 
   // Indicate which column is the response
   shotData.set_response_idx (24);
@@ -196,12 +196,12 @@ void trainTrees(){
   // NOTE: These paths MUST be changed every time you play with a different team
   // If the logs are separated by teams you should put here the tree that you trained
   // for the current opponent team.
-  //shotTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
-  //dribbleTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
-  //passTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
-  shotTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
-  dribbleTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
-  passTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
+  shotTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
+  dribbleTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/dribbleTree.yml");
+  passTree.save("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/passTree.yml");
+  // shotTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Jaeger/shotTree.yml");
+  // dribbleTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Jaeger/dribbleTree.yml");
+  // passTree.save("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Jaeger/passTree.yml");
 
 }
 
@@ -258,7 +258,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
 
   // The output file depends on the type of the action.
   if (currentAction == "PASS"){
-    outfile.open("passFile.dat", std::ios_base::app);
+    outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/passFile.dat", std::ios_base::app);
 
     maxBx = maxBxPass, minBx = minBxPass;
     maxBy = maxByPass, minBy = minByPass;
@@ -266,7 +266,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
 
     valAction = 1;
   } else if (currentAction == "UNSUCCESFULPASS"){
-    outfile.open("passFile.dat", std::ios_base::app);
+    outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/passFile.dat", std::ios_base::app);
     
     maxBx = maxBxPass, minBx = minBxPass;
     maxBy = maxByPass, minBy = minByPass;
@@ -274,7 +274,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
 
     valAction = -1;
   } else if (currentAction == "DRIBBLE"){
-    outfile.open("dribbleFile.dat", std::ios_base::app);
+    outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat", std::ios_base::app);
     
     maxBx = maxBxDribble, minBx = minBxDribble;
     maxBy = maxByDribble, minBy = minByDribble;
@@ -282,7 +282,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
     
     valAction = 1;
   } else if (currentAction == "UNSUCCESFULDRIBBLE"){
-    outfile.open("dribbleFile.dat", std::ios_base::app);
+    outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat", std::ios_base::app);
     
     maxBx = maxBxDribble, minBx = minBxDribble;
     maxBy = maxByDribble, minBy = minByDribble;
@@ -290,7 +290,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
 
     valAction = -1;
   } else if (currentAction == "GOAL"){
-    outfile.open("shotFile.dat", std::ios_base::app);
+    outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/shotFile.dat", std::ios_base::app);
     
     maxBx = maxBxShot, minBx = minBxShot;
     maxBy = maxByShot, minBy = minByShot;
@@ -298,7 +298,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
     
     valAction = 1;
   } else if (currentAction == "UNSUCCESFULSHOOT"){
-    outfile.open("shotFile.dat", std::ios_base::app);
+    outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/shotFile.dat", std::ios_base::app);
     
     maxBx = maxBxShot, minBx = minBxShot;
     maxBy = maxByShot, minBy = minByShot;
@@ -669,9 +669,9 @@ void calculateFormation(float field[10][34][35],const std::string& opponentName)
   std::ofstream formationOutFile;
   // std::string fileName = "../../agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
   // std::string fileName = "/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
-  std::string fileName = "/home/jemd/Documents/USB/Tesi/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
+  // std::string fileName = "/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
   // VICKY : Ponle el path completo antes de robocup-coach segun tu computadora
-  //std::string fileName = "/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
+  std::string fileName = "/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
   formationOutFile.open(fileName.c_str());
 
   // formationOutFile.open("../../agent2d-3.1.1/src/enemyFormations/formationJaeger.txt");

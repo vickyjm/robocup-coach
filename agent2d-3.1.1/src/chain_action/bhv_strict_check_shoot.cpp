@@ -54,16 +54,16 @@ using namespace rcsc;
 
 //Values obtained from the normalization before the games
 //Genius
-float maxBxShotS = 10.68678, maxByShotS = 5.35688, minBxShotS = -4.23784, minByShotS = -5.4228, maxShotS = 123.6549;
+// float maxBxShotS = 10.68678, maxByShotS = 5.35688, minBxShotS = -4.23784, minByShotS = -5.4228, maxShotS = 123.6549;
 
 //Helios
-//float maxBxShotS = 10.60262, maxByShotS = 4.33662, minBxShotS = -10.39796, minByShotS = -4.68052, maxShotS = 120.5484;
+// float maxBxShotS = 10.60262, maxByShotS = 4.33662, minBxShotS = -10.39796, minByShotS = -4.68052, maxShotS = 120.5484;
 
 //Hermes
-//float maxBxShotS = 10.55944, maxByShotS = 6.73782, minBxShotS = -2.76568, minByShotS = -6.42094, maxShotS = 126.6197;
+// float maxBxShotS = 10.55944, maxByShotS = 6.73782, minBxShotS = -2.76568, minByShotS = -6.42094, maxShotS = 126.6197;
 
 //Jaeger
-//float maxBxShotS = 10.67964, maxByShotS = 6.65094, minBxShotS = 0.84936, minByShotS = -6.11404, maxShotS = 128.5996;
+float maxBxShotS = 10.67964, maxByShotS = 6.65094, minBxShotS = 0.84936, minByShotS = -6.11404, maxShotS = 128.5996;
 
 //WrightEagle
 //float maxBxShotS = 10.6253, maxByShotS = 6.8, minBxShotS = -10.53776, minByShotS = -6.6, maxShotS = 128.045;
@@ -190,8 +190,8 @@ Bhv_StrictCheckShoot::execute( PlayerAgent * agent )
 
     CvDTree shootTree;
     //CAMBIAR POR EL PATH DEL ARBOL DEL EQUIPO CORRESPONDIENTE
-    //shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
-    shootTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
+    shootTree.load("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/trainedTrees/Genius/shotTree.yml");
+    // shootTree.load("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/trainedTrees/Jaeger/shotTree.yml");
 
     cv::Mat testSample(extractFeaturesShoot(agent, best_shoot->target_point_));
     

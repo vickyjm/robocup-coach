@@ -87,7 +87,7 @@ namespace patch
 void writeToFormChangeFile(int unum,int form,int mode) {
     std::ofstream formationChangeFile;
     // formationChangeFile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/formationChanges/changes.txt",std::ios::app);
-    formationChangeFile.open("/home/jemd/Documents/USB/Tesi/robocup-coach/formationChanges/changes.txt",std::ios::app);
+    formationChangeFile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/formationChanges/changes.txt",std::ios::app);
     if (unum == 8) {
         if (formationChangeFile.is_open()) {
             if (ourFormationChange != form) {
@@ -1624,8 +1624,8 @@ Strategy::getFormation( const WorldModel & wm ) const
     std::string opponentName = wm.opponentTeamName();
     // std::string fileName = "./enemyFormations/formation" + opponentName + ".txt";
     // VICKY : Ponle el path completo antes de robocup-coach segun tu computadora
-    std::string fileName = "/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
-    //std::string fileName = "/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
+    // std::string fileName = "/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
+    std::string fileName = "/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/enemyFormations/formation" + opponentName + ".txt";
     std::ifstream oppFormationFile(fileName.c_str());
     int offense = 0;
     int defense = 0;
@@ -1690,7 +1690,7 @@ Strategy::getFormation( const WorldModel & wm ) const
     int ourFormation = 0;
 
     // Condiciones mias :
-    /*if (wm.time().cycle() >= 4200) {
+    if (wm.time().cycle() >= 4200) {
             if (our_score <= opp_score) {
                 if (opp_score - our_score < 2) {
                     ourFormation = 433;
@@ -1719,7 +1719,7 @@ Strategy::getFormation( const WorldModel & wm ) const
         else if (center < 5){
            ourFormation = 4213;
         }
-    }*/
+    }
 
 
 
