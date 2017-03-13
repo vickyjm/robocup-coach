@@ -89,14 +89,14 @@ int lastReset = 0;
 // float maxBxShot = 10.55944, maxByShot = 6.73782, minBxShot = -2.76568, minByShot = -6.42094, maxShot = 126.6197;
 
 //Jaeger
-// float maxBxDribble = 10.5067, maxByDribble = 6.8, minBxDribble = -10.54852, minByDribble = -6.81356, maxDribble = 137.1277;
-// float maxBxPass = 10.57736, maxByPass = 6.813, minBxPass = -10.7262, minByPass = -6.81652, maxPass = 124.1222;
-// float maxBxShot = 10.67964, maxByShot = 6.65094, minBxShot = 0.84936, minByShot = -6.11404, maxShot = 128.5996;
+float maxBxDribble = 10.5067, maxByDribble = 6.8, minBxDribble = -10.54852, minByDribble = -6.81356, maxDribble = 137.1277;
+float maxBxPass = 10.57736, maxByPass = 6.813, minBxPass = -10.7262, minByPass = -6.81652, maxPass = 124.1222;
+float maxBxShot = 10.67964, maxByShot = 6.65094, minBxShot = 0.84936, minByShot = -6.11404, maxShot = 128.5996;
 
 //WrightEagle
-float maxBxDribble = 10.51572, maxByDribble = 6.80018, minBxDribble = -10.47292, minByDribble = -6.8, maxDribble = 135.3868;
-float maxBxPass = 10.66324, maxByPass = 6.81448, minBxPass = -10.76028, minByPass = -6.81686, maxPass = 135.8845;
-float maxBxShot = 10.6253, maxByShot = 6.8, minBxShot = -10.53776, minByShot = -6.6, maxShot = 128.045;
+// float maxBxDribble = 10.51572, maxByDribble = 6.80018, minBxDribble = -10.47292, minByDribble = -6.8, maxDribble = 135.3868;
+// float maxBxPass = 10.66324, maxByPass = 6.81448, minBxPass = -10.76028, minByPass = -6.81686, maxPass = 135.8845;
+// float maxBxShot = 10.6253, maxByShot = 6.8, minBxShot = -10.53776, minByShot = -6.6, maxShot = 128.045;
 
 namespace patch
 {
@@ -258,7 +258,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
 
   // The output file depends on the type of the action.
   if (currentAction == "PASS"){
-    //outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/passFile.dat", std::ios_base::app);
+    // outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/passFile.dat", std::ios_base::app);
     outfile.open("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/passFile.dat", std::ios_base::app);
 
     maxBx = maxBxPass, minBx = minBxPass;
@@ -267,7 +267,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
 
     valAction = 1;
   } else if (currentAction == "UNSUCCESFULPASS"){
-    //outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/passFile.dat", std::ios_base::app);
+    // outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/passFile.dat", std::ios_base::app);
     outfile.open("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/passFile.dat", std::ios_base::app);
     
     maxBx = maxBxPass, minBx = minBxPass;
@@ -276,7 +276,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
 
     valAction = -1;
   } else if (currentAction == "DRIBBLE"){
-    //outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat", std::ios_base::app);
+    // outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat", std::ios_base::app);
     outfile.open("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat", std::ios_base::app);
     
     maxBx = maxBxDribble, minBx = minBxDribble;
@@ -285,7 +285,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
     
     valAction = 1;
   } else if (currentAction == "UNSUCCESFULDRIBBLE"){
-    //outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat", std::ios_base::app);
+    // outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat", std::ios_base::app);
     outfile.open("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/dribbleFile.dat", std::ios_base::app);
     
     maxBx = maxBxDribble, minBx = minBxDribble;
@@ -294,7 +294,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
 
     valAction = -1;
   } else if (currentAction == "GOAL"){
-    //outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/shotFile.dat", std::ios_base::app);
+    // outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/shotFile.dat", std::ios_base::app);
     outfile.open("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/shotFile.dat", std::ios_base::app);
     
     maxBx = maxBxShot, minBx = minBxShot;
@@ -303,7 +303,7 @@ void CoachAgent::extractFeatures(actionInfo firstAction, actionInfo lastAction, 
     
     valAction = 1;
   } else if (currentAction == "UNSUCCESFULSHOOT"){
-    //outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/shotFile.dat", std::ios_base::app);
+    // outfile.open("/home/jemd/Documents/USB/Tesis/robocup-coach/agent2d-3.1.1/src/shotFile.dat", std::ios_base::app);
     outfile.open("/home/vicky/Documents/Repositorio/robocup-coach/agent2d-3.1.1/src/shotFile.dat", std::ios_base::app);
     
     maxBx = maxBxShot, minBx = minBxShot;
