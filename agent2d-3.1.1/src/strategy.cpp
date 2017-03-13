@@ -1687,62 +1687,62 @@ Strategy::getFormation( const WorldModel & wm ) const
     int ourFormation = 0;
 
     // Condiciones Vicky
-    if (wm.time().cycle() >= 4200) {
-            if (our_score <= opp_score) {
-                if (opp_score - our_score < 2) {
-                    ourFormation = 433;
-                }
-                else if (opp_score - our_score >= 2) {
-                    ourFormation = 4123;
-                }
-            }
-            else if (our_score > opp_score) {
-                ourFormation = 541;
-            }
-    }
-    else {
-        if ((defense == 4) && (center == 3) && (offense == 3)) {
-            ourFormation = 433;
-        }
-        else if ((offense > center) || (center >= 5)) {
-            ourFormation = 541;
-        }
-        else {
-           ourFormation = 442;
-        }
-    }
-
-    // Condiciones mias :
     // if (wm.time().cycle() >= 4200) {
     //         if (our_score <= opp_score) {
     //             if (opp_score - our_score < 2) {
     //                 ourFormation = 433;
     //             }
     //             else if (opp_score - our_score >= 2) {
-    //                 ourFormation = 442;
+    //                 ourFormation = 4123;
     //             }
     //         }
     //         else if (our_score > opp_score) {
-    //             if (offense > center)
-    //                 ourFormation = 541;
-    //             else
-    //                 ourFormation = 442;
+    //             ourFormation = 541;
     //         }
     // }
     // else {
     //     if ((defense == 4) && (center == 3) && (offense == 3)) {
-    //         ourFormation = 4123;
+    //         ourFormation = 433;
     //     }
-    //     else if ((offense > center)) {
-    //         ourFormation = 442;
-    //     }
-    //     else if (center >= 5) {
+    //     else if ((offense > center) || (center >= 5)) {
     //         ourFormation = 541;
     //     }
-    //     else if (center < 5){
-    //        ourFormation = 4213;
+    //     else {
+    //        ourFormation = 442;
     //     }
     // }
+
+    // Condiciones mias :
+    if (wm.time().cycle() >= 4200) {
+            if (our_score <= opp_score) {
+                if (opp_score - our_score < 2) {
+                    ourFormation = 433;
+                }
+                else if (opp_score - our_score >= 2) {
+                    ourFormation = 442;
+                }
+            }
+            else if (our_score > opp_score) {
+                if (offense > center)
+                    ourFormation = 541;
+                else
+                    ourFormation = 442;
+            }
+    }
+    else {
+        if ((defense == 4) && (center == 3) && (offense == 3)) {
+            ourFormation = 4123;
+        }
+        else if ((offense > center)) {
+            ourFormation = 442;
+        }
+        else if (center >= 5) {
+            ourFormation = 541;
+        }
+        else if (center < 5){
+           ourFormation = 4213;
+        }
+    }
 
     // Condiciones mias con las formaciones NUEVAS de nuestro equipo
     // if (wm.time().cycle() >= 4200) {
@@ -1818,13 +1818,13 @@ Strategy::getFormation( const WorldModel & wm ) const
         case Defense_Situation:
             if (ourFormation == 433) {
                 writeToFormChangeFile(wm.self().unum(),433,1);
-                return M_form_def_433_formation;
-                // return M_form_433_def_formation; // Nuestra
+                // return M_form_def_433_formation;
+                return M_form_433_def_formation; // Nuestra
             }
             else if (ourFormation == 442) {
                 writeToFormChangeFile(wm.self().unum(),442,1);
-                return M_form_def_442_formation;
-                // return M_form_442_def_formation; // Nuestra
+                // return M_form_def_442_formation;
+                return M_form_442_def_formation; // Nuestra
             }
             else if (ourFormation == 541) {
                 writeToFormChangeFile(wm.self().unum(),541,1);
@@ -1858,13 +1858,13 @@ Strategy::getFormation( const WorldModel & wm ) const
         case Offense_Situation:
             if (ourFormation == 433) {
                 writeToFormChangeFile(wm.self().unum(),433,2);
-                return M_form_off_433_formation;
-                // return M_form_433_off_formation; // Nuestra
+                // return M_form_off_433_formation;
+                return M_form_433_off_formation; // Nuestra
             }
             else if (ourFormation == 442) {
                 writeToFormChangeFile(wm.self().unum(),442,2);
-                return M_form_off_442_formation;
-                // return M_form_442_off_formation; // Nuestra
+                // return M_form_off_442_formation;
+                return M_form_442_off_formation; // Nuestra
             }
             else if (ourFormation == 541) {
                 writeToFormChangeFile(wm.self().unum(),541,2);
@@ -1900,8 +1900,8 @@ Strategy::getFormation( const WorldModel & wm ) const
         }
         if (ourFormation == 433) {
             writeToFormChangeFile(wm.self().unum(),433,0);
-            return M_form_norm_433_formation;
-            // return M_form_433_formation; // Nuestra
+            // return M_form_norm_433_formation;
+            return M_form_433_formation; // Nuestra
         }
         else if (ourFormation == 442) {
             writeToFormChangeFile(wm.self().unum(),442,0);
